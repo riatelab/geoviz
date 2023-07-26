@@ -1,7 +1,7 @@
 // Utils
-export { init } from "./utils/init";
 export { render } from "./utils/render";
 export { tooltip } from "./utils/tooltip";
+export { container } from "./utils/container";
 
 // Layers
 export { simple } from "./layers/simple";

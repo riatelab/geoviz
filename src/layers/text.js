@@ -1,5 +1,5 @@
 export function text({
-  svg,
+  container,
   text = "My text here",
   pos = [10, 10],
   id = null,
@@ -17,7 +17,7 @@ export function text({
 }) {
   let txt = text.split("\n");
 
-  svg
+  container
     .append("g")
     .attr("id", id)
     .selectAll("text")

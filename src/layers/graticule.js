@@ -2,7 +2,7 @@ import { geoGraticule, geoPath } from "d3-geo";
 const d3 = Object.assign({}, { geoPath, geoGraticule });
 
 export function graticule({
-  svg,
+  container,
   step = 10,
   stroke = "red",
   strokeWidth = 0.8,
@@ -13,11 +13,11 @@ export function graticule({
 }) {
   step = Array.isArray(step) ? step : [step, step];
 
-  svg
+  container
     .append("g")
     .append("path")
     .datum(d3.geoGraticule().step(step))
-    .attr("d", d3.geoPath(svg.projection))
+    .attr("d", d3.geoPath(container.projection))
     .style("fill", "none")
     .style("stroke", stroke)
     .style("stroke-width", strokeWidth)

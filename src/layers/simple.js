@@ -2,19 +2,19 @@ import { geoPath } from "d3-geo";
 const d3 = Object.assign({}, { geoPath });
 
 export function simple({
-  svg,
+  container,
   id = null,
-  geom,
+  data,
   fill = "#e87daf",
   fillOpacity = 1,
 }) {
-  svg
+  container
     .append("g")
     .attr("id", id)
     .selectAll("path")
-    .data(geom.features)
+    .data(data.features)
     .join("path")
-    .attr("d", d3.geoPath(svg.projection))
+    .attr("d", d3.geoPath(container.projection))
     .attr("fill", fill)
     .attr("fill-opacity", fillOpacity);
 }
