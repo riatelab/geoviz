@@ -15,7 +15,8 @@
     "dist"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rollup --config",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
   },
   "homepage": "https://github.com/neocarto/geoviz#readme",
   "dependencies": {
+    "d3-geo": "^3.1.0",
     "d3-selection": "^3.0.0"
   },
   "devDependencies": {
@@ -40,8 +42,5 @@
     "@rollup/plugin-commonjs": "^25.0.3",
     "@rollup/plugin-node-resolve": "^15.1.0",
     "@rollup/plugin-terser": "^0.4.3"
-  }, "scripts": {
-    "build": "rollup --config",
-    "prepare": "npm run build"
   }
 }
