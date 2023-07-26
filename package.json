@@ -1,0 +1,47 @@
+{
+  "name": "geoviz",
+  "version": "0.0.1",
+  "description": "d3-based javascript library for thematic maps",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "jsdelivr": "dist/index.min.js",
+  "unpkg": "dist/index.min.js",
+  "exports": {
+    "umd": "./dist/index.min.js",
+    "default": "./src/index.js"
+  },
+  "files": [
+    "src",
+    "dist"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neocarto/geoviz.git"
+  },
+  "keywords": [
+    "maps",
+    "cartography",
+    "d3"
+  ],
+  "author": "Nicolas Lambert",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/neocarto/geoviz/issues"
+  },
+  "homepage": "https://github.com/neocarto/geoviz#readme",
+  "dependencies": {
+    "d3-selection": "^3.0.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^25.0.3",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-terser": "^0.4.3"
+  }, "scripts": {
+    "build": "rollup --config",
+    "prepare": "npm run build"
+  }
+}
