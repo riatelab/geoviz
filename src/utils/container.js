@@ -15,7 +15,7 @@ export function container({
   width = 1000,
   height = null,
   margin = [0, 0, 0, 0],
-}) {
+} = {}) {
   let info;
   if (height !== null) {
     info = { width, height };
@@ -41,7 +41,6 @@ export function container({
   }
 
   if (parent == null) {
-    console.log(height);
     let svg = d3
       .create("svg")
       .attr("width", width)
