@@ -1,4 +1,5 @@
 import { geoPath } from "d3-geo";
+import { tooltip } from "../helpers/tooltip";
 const d3 = Object.assign({}, { geoPath });
 
 export function simple(
@@ -11,21 +12,11 @@ export function simple(
     stroke = "black",
     strokeWidth = 1,
     strokeOpacity = 1,
+    tip,
+    tip_style,
   } = {}
 ) {
-  // svg
-  //   .append("g")
-  //   .attr("id", id)
-  //   .append("path")
-  //   .datum(data)
-  //   .attr("d", d3.geoPath(svg.projection))
-  //   .attr("fill", fill)
-  //   .attr("fill-opacity", fillOpacity)
-  //   .attr("stroke", stroke)
-  //   .attr("stroke-width", strokeWidth)
-  //   .attr("stroke-opacity", strokeOpacity);
-
-  svg
+  let layer = svg
     .append("g")
     .attr("fill", fill)
     .attr("fill-opacity", fillOpacity)
@@ -36,4 +27,8 @@ export function simple(
     .data(data.features)
     .join("path")
     .attr("d", d3.geoPath(svg.projection));
+
+  if (tip) {
+    tooltip(layer, svg, tip, tip_style);
+  }
 }

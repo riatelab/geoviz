@@ -48,7 +48,7 @@ export function container({
       .attr("viewBox", [0, 0, width, height])
       .style("background-color", background);
 
-    svg.append("g").attr("id", "_geoviztooltip");
+    svg.append("g").attr("id", "_geoviztooltip").raise();
 
     return Object.assign(svg, info);
   } else {

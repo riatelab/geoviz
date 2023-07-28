@@ -17,6 +17,8 @@ export function text({
 }) {
   let txt = text.split("\n");
 
+  // AJOUTER HALO
+
   container
     .append("g")
     .attr("id", id)
