@@ -1,22 +1,28 @@
 import { select, pointers } from "d3-selection";
 const d3 = Object.assign({}, { select, pointers });
 
-export function tooltip(layer, container, tip, tip_style) {
+export function tooltip(layer, container, tip, tip_style = {}) {
   let style = {
     fontSize: 15,
     fill: "#4d4545",
     background: "#fcf7e6",
     stroke: "#4a4d4b",
     strokeWidth: 1,
+    fontFamily: "Roboto",
+    fontWeight: "normal",
+    fontStyle: "normal",
+    textDecoration: "none",
   };
+
   Object.keys(tip_style).forEach((d) => {
     style[d] = tip_style[d];
   });
 
-  layer.style("visiblility", "hidden");
+  //layer.style("visiblility", "hidden");
+  const geoviztooltip = container.select("#_geoviztooltip");
+  geoviztooltip.attr("pointer-events", "none");
 
-  const path = container
-    .select("#_geoviztooltip")
+  const path = geoviztooltip
     .append("g")
     .attr("fill", style.background)
     .attr("stroke", style.stroke)
@@ -24,20 +30,20 @@ export function tooltip(layer, container, tip, tip_style) {
     .selectAll("path")
     .data([null])
     .join("path");
-  const text = container
-    .select("#_geoviztooltip")
+  const text = geoviztooltip
     .append("g")
     .attr("font-size", `${style.fontSize}px`)
-    .attr("fill", style.fill);
-  // .selectAll("text")
-  // .data([null])
-  // .join("text");
+    .attr("fill", style.fill)
+    .attr("font-family", style.fontFamily)
+    .attr("font-weight", style.fontWeight)
+    .attr("font-style", style.fontStyle)
+    .attr("text-decoration", style.textDecoration);
 
   layer
     .on("touchmove mousemove", function (event, d) {
-      layer.style("visiblility", "visible");
+      geoviztooltip.style("visibility", "visible");
       const xy = d3.pointers(event, this)[0];
-      // d3.select(this).attr("fill-opacity", 0.5);
+      d3.select(this).attr("fill-opacity", 0.5);
       text
         .selectAll("text")
         .data(eval(tip.toString().split("=>")[1]).split("\n"))
@@ -122,7 +128,8 @@ export function tooltip(layer, container, tip, tip_style) {
         );
       }
     })
-    .on("touchend mouseleave", function () {
-      layer.style("visiblility", "hidden");
+    .on("touchend mouseleave", function (event, d) {
+      d3.select(this).attr("fill-opacity", 1);
+      geoviztooltip.style("visibility", "hidden");
     });
 }
