@@ -4,6 +4,7 @@ const d3 = Object.assign({}, { geoPath, geoGraticule });
 export function graticule(
   svg,
   {
+    id = null,
     step = 10,
     stroke = "red",
     strokeWidth = 0.8,
@@ -17,6 +18,7 @@ export function graticule(
 
   svg
     .append("g")
+    .attr("id", id)
     .append("path")
     .datum(d3.geoGraticule().step(step))
     .attr("d", d3.geoPath(svg.projection))

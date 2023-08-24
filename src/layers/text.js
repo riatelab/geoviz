@@ -25,8 +25,6 @@ export function text({
     .selectAll("text")
     .data(txt)
     .join("text")
-    // .attr("x", x + margin_x)
-    // .attr("y", y - +delta + margin_y)
     .attr("x", pos[0])
     .attr("y", pos[1])
     .attr("font-size", `${fontSize}px`)

@@ -1,8 +1,12 @@
-export function render(svg) {
+export function render(svg, { order = [] } = {}) {
+  order.forEach((d) => {
+    svg.select(`#${d}`).raise();
+  });
+
   // raise tooltips and legends
   svg.selectAll(".legend").raise();
   svg.select("#_geoviztooltip").raise();
-  // Add metadat
+  // Add metadata
   Object.assign(svg.node(), {
     metadata: "Map designed with https://github.com/neocarto/geoviz",
   });
