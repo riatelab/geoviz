@@ -7,6 +7,9 @@ export function simple(
   svg,
   { id = null, data, tip, tip_style, fill = "#e87daf", stroke = "white" } = {}
 ) {
+  // remove
+  svg.select(`g.${id}`).remove();
+
   // init layer
   let layer = svg
     .append("g")

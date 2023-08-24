@@ -1,6 +1,5 @@
 - Faire fonction dorning qui crée un geojson points à partir d'un geojson points. Comme ça, on pourra mettre des labels dessus. 
 - Faire fonctions show, hide, remove
-- Modifier fonction simple pour permettre l'ajout d'attributs svg non prevus. Pour tous les paramètres non prévus dans la liste, ajouter l'attr. Faire une fonction qui convertisse fillOpacity en fill-opacity
 
 - fiare un fonction de render png
 

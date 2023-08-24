@@ -1,5 +1,6 @@
 import { geoGraticule, geoPath } from "d3-geo";
 const d3 = Object.assign({}, { geoPath, geoGraticule });
+import { addattr } from "../helpers/addattr";
 
 export function graticule(
   svg,
@@ -16,17 +17,26 @@ export function graticule(
 ) {
   step = Array.isArray(step) ? step : [step, step];
 
-  svg
+  let layer = svg
     .append("g")
     .attr("id", id)
+    .attr("fill", "none")
+    .attr("stroke", stroke)
+    .attr("stroke-width", strokeWidth)
+    .attr("stroke-opacity", strokeOpacity)
+    .attr("stroke-linecap", strokeLinecap)
+    .attr("stroke-linejoin", strokeLinejoin)
+    .attr("stroke-dasharray", strokeDasharray);
+
+  // ...styles
+  addattr({
+    layer,
+    args: arguments[1],
+    exclude: [],
+  });
+
+  layer
     .append("path")
     .datum(d3.geoGraticule().step(step))
-    .attr("d", d3.geoPath(svg.projection))
-    .style("fill", "none")
-    .style("stroke", stroke)
-    .style("stroke-width", strokeWidth)
-    .style("stroke-opacity", strokeOpacity)
-    .style("stroke-linecap", strokeLinecap)
-    .style("stroke-linejoin", strokeLinejoin)
-    .style("stroke-dasharray", strokeDasharray);
+    .attr("d", d3.geoPath(svg.projection));
 }

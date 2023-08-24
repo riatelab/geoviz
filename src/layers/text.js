@@ -1,41 +1,43 @@
-export function text({
-  container,
-  text = "My text here",
-  pos = [10, 10],
-  id = null,
-  fill = "#e87daf",
-  stroke = "none",
-  fontSize = 15,
-  fontFamily = "Roboto",
-  margin = 0,
-  fontWeight = "normal",
-  fontStyle = "normal",
-  textDecoration = "none",
-  textAnchor = "start",
-  dominantBaseline = "hanging",
-  fillOpacity = 1,
-}) {
-  let txt = text.split("\n");
+import { addattr } from "../helpers/addattr";
 
-  // AJOUTER HALO
+export function text(
+  svg,
+  {
+    text = "My text here",
+    pos = [10, 10],
+    id = null,
+    fill = "#e87daf",
+    fontSize = 15,
+  } = {}
+) {
+  // remove
+  let layer = svg.select(`g.${id}`).empty()
+    ? svg.append("g")
+    : svg.select(`g.${id}`);
 
-  container
-    .append("g")
-    .attr("id", id)
+  layer.attr("id", id).attr("font-size", `${fontSize}px`).attr("fill", fill);
+
+  // let layer = svg
+  //   .append("g")
+  //   .attr("id", id)
+  //   .attr("font-size", `${fontSize}px`)
+  //   .attr("fill", fill);
+
+  // ...styles
+  addattr({
+    layer,
+    args: arguments[1],
+    exclude: ["fontSize", "fill"],
+  });
+
+  layer
     .selectAll("text")
-    .data(txt)
+    .data(text.split("\n"))
     .join("text")
     .attr("x", pos[0])
     .attr("y", pos[1])
-    .attr("font-size", `${fontSize}px`)
-    .attr("font-style", fontStyle)
-    .attr("text-decoration", textDecoration)
-    .attr("font-weight", fontWeight)
-    .attr("font-family", fontFamily)
     .attr("dy", (d, i) => i * fontSize)
-    .attr("text-anchor", textAnchor)
-    .attr("dominant-baseline", dominantBaseline)
-    .attr("fill", fill)
-    .attr("stroke", stroke)
     .text((d) => d);
+
+  return id ? `#${id}` : "text layer";
 }
