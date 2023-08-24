@@ -7,15 +7,14 @@ export function simple(
   svg,
   { id = null, data, tip, tip_style, fill = "#e87daf", stroke = "white" } = {}
 ) {
-  // remove
-  svg.select(`g.${id}`).remove();
-
   // init layer
-  let layer = svg
-    .append("g")
-    .attr("id", id)
-    .attr("fill", fill)
-    .attr("stroke", stroke);
+  let layer = svg.selectAll(`#${id}`).empty()
+    ? svg.append("g").attr("id", id)
+    : svg.select(`#${id}`);
+  layer.selectAll("*").remove();
+
+  // Styles with specific default values
+  layer.attr("fill", fill).attr("stroke", stroke);
 
   // ...styles
   addattr({

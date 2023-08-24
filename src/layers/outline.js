@@ -12,9 +12,14 @@ export function outline(
     strokeWidth = 0,
   } = {}
 ) {
-  let layer = svg
-    .append("g")
-    .attr("id", id)
+  // init layer
+  let layer = svg.selectAll(`#${id}`).empty()
+    ? svg.append("g").attr("id", id)
+    : svg.select(`#${id}`);
+  layer.selectAll("*").remove();
+
+  // Styles with specific default values
+  layer
     .attr("fill", fill)
     .attr("fill-opacity", fillOpacity)
     .attr("stroke", stroke)

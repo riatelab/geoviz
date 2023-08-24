@@ -10,18 +10,14 @@ export function text(
     fontSize = 15,
   } = {}
 ) {
-  // remove
-  let layer = svg.select(`g.${id}`).empty()
-    ? svg.append("g")
-    : svg.select(`g.${id}`);
+  // init layer
+  let layer = svg.selectAll(`#${id}`).empty()
+    ? svg.append("g").attr("id", id)
+    : svg.select(`#${id}`);
+  layer.selectAll("*").remove();
 
-  layer.attr("id", id).attr("font-size", `${fontSize}px`).attr("fill", fill);
-
-  // let layer = svg
-  //   .append("g")
-  //   .attr("id", id)
-  //   .attr("font-size", `${fontSize}px`)
-  //   .attr("fill", fill);
+  // Styles with specific default values
+  layer.attr("font-size", `${fontSize}px`).attr("fill", fill);
 
   // ...styles
   addattr({

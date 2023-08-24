@@ -17,9 +17,14 @@ export function graticule(
 ) {
   step = Array.isArray(step) ? step : [step, step];
 
-  let layer = svg
-    .append("g")
-    .attr("id", id)
+  // init layer
+  let layer = svg.selectAll(`#${id}`).empty()
+    ? svg.append("g").attr("id", id)
+    : svg.select(`#${id}`);
+  layer.selectAll("*").remove();
+
+  // Styles with specific default values
+  layer
     .attr("fill", "none")
     .attr("stroke", stroke)
     .attr("stroke-width", strokeWidth)
