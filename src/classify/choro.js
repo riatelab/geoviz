@@ -21,7 +21,7 @@ export function choro(
       nb,
     });
 
-  const cols = colors || getColors("Algae", bks.length - 1);
+  const cols = colors || getColors(palette, bks.length - 1);
   const colorize = d3.scaleThreshold(bks.slice(1, -1), cols).unknown(missing);
   return { breaks: bks, colors: cols, missing, colorize };
 }
