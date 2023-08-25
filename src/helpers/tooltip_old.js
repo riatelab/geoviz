@@ -92,7 +92,7 @@ export function tooltip(layer, container, tip, tip_style = {}) {
         path.attr("d", `M0,0v${-h - 5 - 20}h${-w - 20}v${h + 20}h${w + 15}z`);
       }
       // top
-      else if (xy[1] > container.height - y_margin) {
+      else if (xy[0] > container.height - y_margin) {
         text.attr(
           "transform",
           `translate(${xy[0] - w / 2},${xy[1] - 15 - y - h})`
@@ -102,7 +102,6 @@ export function tooltip(layer, container, tip, tip_style = {}) {
           `M${-w / 2 - 10},-5H-5l5,5l5,-5H${w / 2 + 10}v${-h - 20}h-${w + 20}z`
         );
       }
-
       // right
       else if (xy[0] < x_margin) {
         text.attr("transform", `translate(${xy[0] + 15},${xy[1] - y - h / 2})`);

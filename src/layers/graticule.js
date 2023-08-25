@@ -1,11 +1,12 @@
 import { geoGraticule, geoPath } from "d3-geo";
 const d3 = Object.assign({}, { geoPath, geoGraticule });
 import { addattr } from "../helpers/addattr";
+import { unique } from "../helpers/unique";
 
 export function graticule(
   svg,
   {
-    id = null,
+    id = unique(),
     step = 10,
     stroke = "red",
     strokeWidth = 0.8,
@@ -23,7 +24,7 @@ export function graticule(
     : svg.select(`#${id}`);
   layer.selectAll("*").remove();
 
-  // Styles with specific default values
+  // Attr with specific default values
   layer
     .attr("fill", "none")
     .attr("stroke", stroke)
@@ -33,7 +34,7 @@ export function graticule(
     .attr("stroke-linejoin", strokeLinejoin)
     .attr("stroke-dasharray", strokeDasharray);
 
-  // ...styles
+  // ...attr
   addattr({
     layer,
     args: arguments[1],
@@ -44,4 +45,6 @@ export function graticule(
     .append("path")
     .datum(d3.geoGraticule().step(step))
     .attr("d", d3.geoPath(svg.projection));
+
+  return `#${id}`;
 }

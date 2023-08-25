@@ -1,27 +1,36 @@
 import { tooltip } from "../helpers/tooltip";
+import { addattr } from "../helpers/addattr";
+import { randomcolor } from "../helpers/randomcolor";
+import { unique } from "../helpers/unique";
 
 export function bubble(
   svg,
   {
-    id = null,
+    id = unique(),
     data,
-    fill = "red",
-    fillOpacity = 1,
-    stroke = "black",
-    strokeWidth = 1,
-    strokeOpacity = 1,
+    fill = randomcolor(),
+    stroke = "white",
     tip,
     tip_style,
   } = {}
 ) {
-  let layer = svg
-    .append("g")
-    .attr("id", id)
-    .attr("fill", fill)
-    .attr("fill-opacity", fillOpacity)
-    .attr("stroke", stroke)
-    .attr("stroke-width", strokeWidth)
-    .attr("stroke-opacity", strokeOpacity)
+  // init layer
+  let layer = svg.selectAll(`#${id}`).empty()
+    ? svg.append("g").attr("id", id)
+    : svg.select(`#${id}`);
+  layer.selectAll("*").remove();
+
+  // Attr with specific default values
+  layer.attr("fill", fill).attr("stroke", stroke);
+
+  // ...attr
+  addattr({
+    layer,
+    args: arguments[1],
+    exclude: ["fill", "stroke"],
+  });
+
+  layer
     .selectAll("circle")
     .data(data.features)
     .join("circle")
@@ -32,4 +41,6 @@ export function bubble(
   if (tip) {
     tooltip(layer, svg, tip, tip_style);
   }
+
+  return `#${id}`;
 }

@@ -1,11 +1,12 @@
 import { addattr } from "../helpers/addattr";
+import { unique } from "../helpers/unique";
 
 export function text(
   svg,
   {
     text = "My text here",
     pos = [10, 10],
-    id = null,
+    id = unique(),
     fill = "#e87daf",
     fontSize = 15,
   } = {}
@@ -16,10 +17,10 @@ export function text(
     : svg.select(`#${id}`);
   layer.selectAll("*").remove();
 
-  // Styles with specific default values
+  // Attr with specific default values
   layer.attr("font-size", `${fontSize}px`).attr("fill", fill);
 
-  // ...styles
+  // ...attr
   addattr({
     layer,
     args: arguments[1],
@@ -35,5 +36,5 @@ export function text(
     .attr("dy", (d, i) => i * fontSize)
     .text((d) => d);
 
-  return id ? `#${id}` : "text layer";
+  return `#${id}`;
 }

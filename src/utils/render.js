@@ -1,10 +1,9 @@
 export function render(svg, { order = [] } = {}) {
   order.forEach((d) => {
-    svg.select(`#${d}`).raise();
+    svg.select(`${d}`).raise();
   });
 
-  // raise tooltips and legends
-  svg.selectAll(".legend").raise();
+  // raise tooltips
   svg.select("#_geoviztooltip").raise();
   // Add metadata
   Object.assign(svg.node(), {
