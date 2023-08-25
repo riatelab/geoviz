@@ -48,7 +48,12 @@ export function container({
       .attr("viewBox", [0, 0, width, height])
       .style("background-color", background);
 
-    svg.append("g").attr("id", "_geoviztooltip").raise();
+    // tooltip container
+    // if (svg.select("#_geoviztooltip").empty()) {
+    //   svg.append("g").attr("id", "_geoviztooltip");
+    // }
+
+    //svg.append("g").attr("id", "_geoviztooltip");
 
     return Object.assign(svg, info);
   } else {

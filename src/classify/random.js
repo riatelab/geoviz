@@ -1,4 +1,4 @@
-export function randomcolor() {
+export function random() {
   const cols = [
     "#B2DF8A",
     "#33A02C",

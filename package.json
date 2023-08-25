@@ -35,7 +35,9 @@
   "homepage": "https://github.com/neocarto/geoviz#readme",
   "dependencies": {
     "d3-geo": "^3.1.0",
-    "d3-selection": "^3.0.0"
+    "d3-selection": "^3.0.0",
+    "dicopal": "^0.4.0",
+    "statsbreaks": "^1.0.3"
   },
   "devDependencies": {
     "@rollup/plugin-babel": "^6.0.3",

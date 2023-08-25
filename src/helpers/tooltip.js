@@ -14,6 +14,10 @@ export function tooltip(layer, container, tip, tip_style = {}) {
     textDecoration: "none",
   };
 
+  if (container.selectAll("#_geoviztooltip").empty()) {
+    container.append("g").attr("id", "_geoviztooltip");
+  }
+
   Object.keys(tip_style).forEach((d) => {
     style[d] = tip_style[d];
   });
