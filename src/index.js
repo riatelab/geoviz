@@ -6,12 +6,20 @@ export { render } from "./utils/render";
 import { rewind } from "./utils/rewind";
 import { featurecollection } from "./utils/featurecollection";
 import { merge } from "./utils/merge";
-import { centroid } from "./utils/centroid";
+
 export let tools = {
   rewind,
   featurecollection,
   merge,
   centroid,
+};
+
+// Tranform
+import { centroid } from "./transform/centroid";
+import { project } from "./transform/project";
+export let transform = {
+  centroid,
+  project,
 };
 
 // Classify

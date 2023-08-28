@@ -1,5 +1,9 @@
 export function implantation(x) {
-  let types = Array.from(new Set(x.features.map((d) => d.geometry.type)));
+  let types = Array.from(
+    new Set(
+      x.features.filter((d) => d.geometry !== null).map((d) => d.geometry.type)
+    )
+  );
   let tmp = [];
 
   if (types.indexOf("Polygon") !== -1 || types.indexOf("MultiPolygon") !== -1) {

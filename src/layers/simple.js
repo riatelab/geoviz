@@ -10,6 +10,7 @@ export function simple(
   svg,
   {
     id = unique(),
+    project = true,
     data,
     tip,
     tip_style,
@@ -31,11 +32,13 @@ export function simple(
   });
 
   // draw
+  const projection = project ? svg.projection : null;
+
   layer
     .selectAll("path")
-    .data(data.features)
+    .data(data.features.filter((d) => d.geometry !== null))
     .join("path")
-    .attr("d", d3.geoPath(svg.projection))
+    .attr("d", d3.geoPath(projection))
     .attr("fill", fill)
     .attr("stroke", stroke);
 
