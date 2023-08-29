@@ -16,7 +16,8 @@
   ],
   "scripts": {
     "build": "rollup --config",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "jsdoc": "jsdoc -a all -c jsdoc.json -r -R README.md index.js -d docs/jsdoc && jsdoc2md --files index.js > docs/API.md"
   },
   "repository": {
     "type": "git",
@@ -44,6 +45,9 @@
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-commonjs": "^25.0.3",
     "@rollup/plugin-node-resolve": "^15.1.0",
-    "@rollup/plugin-terser": "^0.4.3"
+    "@rollup/plugin-terser": "^0.4.3",
+    "docdash": "^2.0.1",
+    "jsdoc": "^3.6.11",
+    "jsdoc-to-markdown": "^6.0.1"
   }
 }

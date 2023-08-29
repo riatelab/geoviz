@@ -1,17 +1,20 @@
-// xxx
-export { container } from "./utils/container";
-export { render } from "./utils/render";
+// Container
+import { init } from "./container/init";
+import { render } from "./container/render";
+export let container = {
+  init,
+  render,
+};
 
-// Tools
-import { rewind } from "./utils/rewind";
-import { featurecollection } from "./utils/featurecollection";
-import { merge } from "./utils/merge";
+// Tool
+import { rewind } from "./tool/rewind";
+import { featurecollection } from "./tool/featurecollection";
+import { merge } from "./tool/merge";
 
-export let tools = {
+export let tool = {
   rewind,
   featurecollection,
   merge,
-  centroid,
 };
 
 // Tranform
@@ -24,22 +27,24 @@ export let transform = {
 
 // Classify
 import { choro } from "./classify/choro";
+import { typo } from "./classify/typo";
 import { random } from "./classify/random";
 export let classify = {
   choro,
+  typo,
   random,
 };
 
 // Layers
-import { simple } from "./layers/simple";
-import { outline } from "./layers/outline";
-import { graticule } from "./layers/graticule";
-import { text } from "./layers/text";
-import { bubble } from "./layers/bubble";
-import { datum } from "./layers/datum";
-export let layers = {
+import { geo } from "./layer/geo";
+import { outline } from "./layer/outline";
+import { graticule } from "./layer/graticule";
+import { text } from "./layer/text";
+import { bubble } from "./layer/bubble";
+import { datum } from "./layer/datum";
+export let layer = {
   datum,
-  simple,
+  geo,
   outline,
   graticule,
   text,
@@ -48,3 +53,6 @@ export let layers = {
 
 // Legend
 export let legends = {};
+
+// test
+export { toto } from "./toto";

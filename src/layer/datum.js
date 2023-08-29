@@ -3,7 +3,7 @@ import { unique } from "../helpers/unique";
 import { geoPath } from "d3-geo";
 const d3 = Object.assign({}, { geoPath });
 
-export function datum(svg, { id = unique(), data } = {}) {
+export function datum(svg, { id = unique(), data, geocoords = true } = {}) {
   // init layer
   let layer = svg.selectAll(`#${id}`).empty()
     ? svg.append("g").attr("id", id)
@@ -18,7 +18,8 @@ export function datum(svg, { id = unique(), data } = {}) {
   });
 
   // draw
-  layer.append("path").datum(data).attr("d", d3.geoPath(svg.projection));
+  const projection = geocoords ? svg.projection : null;
+  layer.append("path").datum(data).attr("d", d3.geoPath(projection));
 
   return `#${id}`;
 }

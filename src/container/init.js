@@ -6,8 +6,15 @@ const d3 = Object.assign(
   { create, geoPath, geoBounds, geoEquirectangular }
 );
 
-export function container({
-  parent = null,
+/**
+ * Description de la fonction
+ * bla bla bla
+ *
+ * @param {{projection: function, }} options
+ * @returns
+ */
+
+export function init({
   projection = d3.geoEquirectangular(),
   domain,
   pos = [0, 0],
@@ -15,6 +22,7 @@ export function container({
   width = 1000,
   height = null,
   margin = [0, 0, 0, 0],
+  parent = null,
 } = {}) {
   let info;
   if (height !== null) {

@@ -1,3 +1,4 @@
+import { isNumber } from "../helpers/isnuber";
 import * as discr from "statsbreaks";
 import { getColors } from "dicopal";
 import { scaleThreshold } from "d3-scale";
@@ -16,10 +17,13 @@ export function choro(
 ) {
   const bks =
     breaks ||
-    discr.breaks(arr, {
-      method,
-      nb,
-    });
+    discr.breaks(
+      arr.filter((d) => isNumber(d)),
+      {
+        method,
+        nb,
+      }
+    );
 
   const cols = colors || getColors(palette, bks.length - 1);
   const colorize = d3.scaleThreshold(bks.slice(1, -1), cols).unknown(missing);

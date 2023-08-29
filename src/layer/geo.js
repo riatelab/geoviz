@@ -6,11 +6,11 @@ import { unique } from "../helpers/unique";
 import { geoPath } from "d3-geo";
 const d3 = Object.assign({}, { geoPath });
 
-export function simple(
+export function geo(
   svg,
   {
     id = unique(),
-    project = true,
+    geocoords = true,
     data,
     tip,
     tip_style,
@@ -32,7 +32,7 @@ export function simple(
   });
 
   // draw
-  const projection = project ? svg.projection : null;
+  const projection = geocoords ? svg.projection : null;
 
   layer
     .selectAll("path")
