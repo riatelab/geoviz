@@ -20,9 +20,11 @@ export let tool = {
 // Tranform
 import { centroid } from "./transform/centroid";
 import { project } from "./transform/project";
+import { dodge } from "./transform/dodge";
 export let transform = {
   centroid,
   project,
+  dodge,
 };
 
 // Classify
