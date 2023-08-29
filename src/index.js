@@ -55,6 +55,3 @@ export let layer = {
 
 // Legend
 export let legends = {};
-
-// test
-export { toto } from "./toto";
