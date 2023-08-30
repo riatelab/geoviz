@@ -1,3 +1,10 @@
+/**
+ * The `render` function returns the svg document
+ *
+ * @param {} - svg
+ * @returns {SVGSVGElement} - A pretty map in SVG format :-)
+
+ */
 export function render(svg, { order = [] } = {}) {
   order.forEach((d) => {
     svg.select(`${d}`).raise();

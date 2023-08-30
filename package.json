@@ -17,7 +17,7 @@
   "scripts": {
     "build": "rollup --config",
     "prepare": "npm run build",
-    "jsdoc": "jsdoc -a all -c jsdoc.json -r -R README.md index.js -d docs/jsdoc && jsdoc2md --files index.js > docs/API.md"
+    "docs": "documentation build src/** -f html --github -o docs --config documentation.yml"
   },
   "repository": {
     "type": "git",

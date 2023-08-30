@@ -3,6 +3,9 @@ import { unique } from "../helpers/unique";
 import { geoPath } from "d3-geo";
 const d3 = Object.assign({}, { geoPath });
 
+/**
+ * Generate a layer with geometries (datum)
+ */
 export function datum(svg, { id = unique(), data, geocoords = true } = {}) {
   // init layer
   let layer = svg.selectAll(`#${id}`).empty()

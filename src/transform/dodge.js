@@ -6,6 +6,10 @@ const d3 = Object.assign(
   { forceX, forceY, forceCollide, forceSimulation, max, scaleSqrt }
 );
 
+/**
+ * Dodge....
+ */
+
 export function dodge(
   data,
   {

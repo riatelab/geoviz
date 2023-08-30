@@ -3,6 +3,9 @@ import { addattr } from "../helpers/addattr";
 import { unique } from "../helpers/unique";
 const d3 = Object.assign({}, { geoPath });
 
+/**
+ * Generate a layer with the outline
+ */
 export function outline(
   svg,
   {

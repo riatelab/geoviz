@@ -6,6 +6,9 @@ import { scaleSqrt } from "d3-scale";
 import { max, descending } from "d3-array";
 const d3 = Object.assign({}, { scaleSqrt, max, descending });
 
+/**
+ * Generate a layer with circles
+ */
 export function bubble(
   svg,
   {

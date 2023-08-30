@@ -1,0 +1,38 @@
+toc:
+  - name: container
+    description : |
+      Bla bla bla container
+    children:
+      - init
+      - render  
+  - name: layer
+    description: |
+      Bla bla bla les layers
+    children:
+      - bubble
+      - datum
+      - geo
+      - graticule
+      - outline
+      - text
+  - name: transform
+    description: |
+      Bla bla bla les transformations
+    children:
+      - centroid
+      - dodge
+      - project
+  - name: classify
+    description: |
+      Bla bla bla les classify
+    children:
+      - choro
+      - typo
+      - random
+  - name: tool
+    description: |
+      Bla bla bla les tool
+    children:
+      - featurecollection
+      - merge
+      - rewind

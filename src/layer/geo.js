@@ -6,6 +6,9 @@ import { unique } from "../helpers/unique";
 import { geoPath } from "d3-geo";
 const d3 = Object.assign({}, { geoPath });
 
+/**
+ * Generate a layer with geometries (data)
+ */
 export function geo(
   svg,
   {

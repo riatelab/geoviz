@@ -3,6 +3,9 @@ const d3 = Object.assign({}, { geoPath, geoGraticule });
 import { addattr } from "../helpers/addattr";
 import { unique } from "../helpers/unique";
 
+/**
+ * Generate a layer with lat/long lines
+ */
 export function graticule(
   svg,
   {
