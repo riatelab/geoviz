@@ -7,8 +7,20 @@ import { max, descending } from "d3-array";
 const d3 = Object.assign({}, { scaleSqrt, max, descending });
 
 /**
- * Generate a layer with circles
+ * The `bubble` function allows to draw circles from a geoJSON
+ *
+ * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
+ * @param {object} param0 - Options
+ * @param {object} param0.data - GeoJSON FeatureCollection (points)
+ * @param {string} param0.id - An svg group id
+ * @param {number|function} param0.r - a number or a functuon defining the radius of the circles
+ *  
+
+ * @example
+ * let main = container.init({width: 500, background: "lightblue"})
+ * @returns {object} - The function returns a svg container + some information about this container:`projection`, `margin`, `width`, `height` and `bbox`
  */
+
 export function bubble(
   svg,
   {

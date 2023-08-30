@@ -21,7 +21,7 @@ const d3 = Object.assign(
  * @param {object} param0.parent - Name of parent container into which this child container is to be included. In this case, the param0.pos parameter is also used.
  * @example
  * let main = container.init({width: 500, background: "lightblue"})
- * @returns {object} - The function returns a svg container + some information about this container:`projection`, `margin`, `width`, `height` and `bbox`
+ * @returns {SVGSVGElement} - The function returns a svg container + some information about this container:`projection`, `margin`, `width`, `height` and `bbox`
  */
 
 export function init({

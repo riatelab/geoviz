@@ -1,19 +1,11 @@
-# geoviz
+geoviz is a d3-based javascript library for thematic maps. `geoviz` provides a set of d3-compatible functions to simplify map design.
 
-d3-based javascript library for thematic maps. `geoviz` provides a set of d3-compatible functions to simplify map design.
+### Usage
 
-## Create and render a map
+ssss
 
-xxx
+### jlskjlsk
 
-## Layers
 
-xxx
+sss
 
-## Legend
-
-xxx
-
-## Utils
-
-xxx
