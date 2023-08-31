@@ -1,9 +1,6 @@
 import { addattr } from "../helpers/addattr";
 import { unique } from "../helpers/unique";
 
-/**
- * Generate a layer with a text
- */
 export function text(
   svg,
   {

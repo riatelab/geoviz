@@ -4,17 +4,23 @@ import { unique } from "../helpers/unique";
 const d3 = Object.assign({}, { geoPath });
 
 /**
- * Generate a layer with the outline
+ * The `outline` function allows to create a layer with the limits of the earth area in the given projection
+ *
+ * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
+ * @param {object} param1 - Options
+ * @param {string} param1.id - id of the layer
+ * @param {number|number[]} param1.step - Gap between graticules. The value can be a number or an array of two values
+ * @param {string} param1.stroke - Stroke color
+ * @param {string} param1.fill - Fill color
+ * @param {string} param1.strokeWidth - Stroke width
+ * @param {*} param1.foo - *Other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ * @example
+ * let outline = layer.outline(main, { fillOpacity: 0.5 })
+ * @returns {SVGSVGElement|string} - The function adds a layer with the outline to the SVG container and returns the layer identifier.
  */
 export function outline(
   svg,
-  {
-    id = unique(),
-    fill = "#B5DFFD",
-    fillOpacity = 1,
-    stroke = 0,
-    strokeWidth = 0,
-  } = {}
+  { id = unique(), fill = "#B5DFFD", stroke = 0, strokeWidth = 0 } = {}
 ) {
   // init layer
   let layer = svg.selectAll(`#${id}`).empty()
@@ -25,7 +31,6 @@ export function outline(
   // Attr with specific default values
   layer
     .attr("fill", fill)
-    .attr("fill-opacity", fillOpacity)
     .attr("stroke", stroke)
     .attr("stroke-width", strokeWidth);
 
@@ -33,7 +38,7 @@ export function outline(
   addattr({
     layer,
     args: arguments[1],
-    exclude: ["fill", "fillOpacity", "stroke", "strokeWidth"],
+    exclude: ["fill", "stroke", "strokeWidth"],
   });
 
   layer

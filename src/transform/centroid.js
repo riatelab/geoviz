@@ -5,26 +5,20 @@ import { geoArea, geoCentroid, geoIdentity, geoPath } from "d3-geo";
 const d3 = Object.assign({}, { geoArea, geoCentroid, geoIdentity, geoPath });
 
 /**
- * Calculate the centroid of all the geometries given in a
- * GeoJSON FeatureCollection / array of Features / array of Geometries.
+ * Calculate the centroid of all the geometries given in a GeoJSON FeatureCollection
  *
- * By default, the centroid is placed in the largest polygon of each geometry.
- * This can be changed by setting the <code>options.largest</code> parameter
- * to <code>false</code>.
- *
- * Example: {@link https://observablehq.com/@neocartocnrs/centroid?collection=@neocartocnrs/geotoolbox Observable notebook}
- *
- * @param {object|array} geojson - The GeoJSON FeatureCollection / array of Features / array of Geometries
- * @param {object} options - Optional parameters
- * @param {boolean} [options.largest=true] - Place the centroid in the largest polygon.
- * @param {boolean} [options.geocoords=false] - Use geographic coordinates.
- * @returns {{features: {geometry: {}, type: string, properties: {}}[], type: string}} - The resulting GeoJSON FeatureCollection
- *
+ * @param {object} data - A GeoJSON FeatureCollection
+ * @param {object} param1 - Options
+ * @param {boolean} param1.largest - Place the centroid in the largest polygon.
+ * @param {boolean} param1.geocoords - Use `true` if input coordinates are in latitude ans longitude. Use `false` if the coordinates are already defined in the page plan
+ * @example
+ * let dots = transform.centroid(world, { largest: true })
+ * @returns {object} - A GeoJSON FeatureCollection (points)
  */
-export function centroid(geojson, { largest = true, geocoords = true } = {}) {
+export function centroid(data, { largest = true, geocoords = true } = {}) {
   let path = d3.geoPath(d3.geoIdentity());
 
-  geojson = JSON.parse(JSON.stringify(geojson));
+  let geojson = JSON.parse(JSON.stringify(data));
   const largestPolygon = function (d) {
     var best = {};
     var bestArea = 0;

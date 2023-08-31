@@ -4,7 +4,22 @@ import { addattr } from "../helpers/addattr";
 import { unique } from "../helpers/unique";
 
 /**
- * Generate a layer with lat/long lines
+ * The `graticule` function allows to create a layer with lat/long lines
+ *
+ * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
+ * @param {object} param1 - Options
+ * @param {string} param1.id - id of the layer
+ * @param {number|number[]} param1.step - Gap between graticules. The value can be a number or an array of two values
+ * @param {string} param1.stroke - Stroke color
+ * @param {string} param1.fill - Fill color
+ * @param {string} param1.strokeWidth - Stroke width
+ * @param {string} param1.strokeLinecap - stroke-inecap
+ * @param {string} param1.strokeLineJoin - stroke-Linejoin
+ * @param {string} param1.strokeDasharray - stroke-dasharray
+ * @param {*} param1.foo - *Other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ * @example
+ * let graticule = layer.graticule(main, { step: 2 })
+ * @returns {SVGSVGElement|string} - The function adds a layer with graticule lines to the SVG container and returns the layer identifier.
  */
 export function graticule(
   svg,
@@ -13,7 +28,6 @@ export function graticule(
     step = 10,
     stroke = "red",
     strokeWidth = 0.8,
-    strokeOpacity = 1,
     strokeLinecap = "square",
     strokeLinejoin = "round",
     strokeDasharray = 2,
@@ -32,7 +46,6 @@ export function graticule(
     .attr("fill", "none")
     .attr("stroke", stroke)
     .attr("stroke-width", strokeWidth)
-    .attr("stroke-opacity", strokeOpacity)
     .attr("stroke-linecap", strokeLinecap)
     .attr("stroke-linejoin", strokeLinejoin)
     .attr("stroke-dasharray", strokeDasharray);
