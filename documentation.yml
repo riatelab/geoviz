@@ -1,6 +1,4 @@
 toc:
-  - name: About geoviz
-    file: README.md
   - name: container
     description : |
       This section contains 2  functions for building and displaying SVG containers. Each map built with the `geoviz` library will start with the `init` function and end with the `render` function.
@@ -9,7 +7,7 @@ toc:
       - render  
   - name: layer
     description: |
-      Bla bla bla les layers
+      This section contains functions for designing layers to be added to the svg container. 
     children:
       - bubble
       - datum
@@ -19,21 +17,25 @@ toc:
       - text
   - name: transform
     description: |
-      Bla bla bla les transformations
+      This section contains functions for altering a geographic layer: changing its projection, calculating centroids, etc.
     children:
       - centroid
       - dodge
       - project
   - name: classify
     description: |
-      Bla bla bla les classify
+      This section contains classification operations that can be used, for example, to create choropleth maps or typologies. 
     children:
       - choro
       - typo
       - random
+  - name: legend
+    description: |
+      This section contains functions for designing legends to be added to the svg container.
+    children:
   - name: tool
     description: |
-      Bla bla bla les tool
+      This section contains useful geoJSON functions.
     children:
       - featurecollection
       - merge

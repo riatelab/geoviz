@@ -10,15 +10,23 @@ const d3 = Object.assign({}, { scaleSqrt, max, descending });
  * The `bubble` function allows to draw circles from a geoJSON
  *
  * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
- * @param {object} param0 - Options
- * @param {object} param0.data - GeoJSON FeatureCollection (points)
- * @param {string} param0.id - An svg group id
- * @param {number|function} param0.r - a number or a functuon defining the radius of the circles
- *  
+ * @param {object} param1 - Options
+ * @param {object} param1.data - GeoJSON FeatureCollection (points)
+ * @param {string} param1.id - An svg group id
+ * @param {number|string} param1.r - a number or the name of a property containing numerical values. 
+ * @param {number} param1.k - Radius of the largest circle (or corresponding to the value defined by `fixmax`) 
+ * @param {number} param1.fixmax - Value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
+ * @param {boolean} param1.geocoords - Use `true` if input coordinates are in latitude ans longitude. Use `false` if the coordinates are already defined in the page plan
+ * @param {string|function} param1.fill - Fill color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
+ * @param {string|function} param1.stroke - Stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
+ * @param {string|function} param1.tip - Tooltip content
+ * @param {object} param1.tipstyle - Tooltip style
+ * @param {*} param1.foo - *Other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+
 
  * @example
- * let main = container.init({width: 500, background: "lightblue"})
- * @returns {object} - The function returns a svg container + some information about this container:`projection`, `margin`, `width`, `height` and `bbox`
+ * let circles = layer.bubble(main, { data: cities, r: "population" })
+ * @returns {SVGSVGElement|string} - The function adds a layer with circles to the SVG container and returns the layer identifier.
  */
 
 export function bubble(
@@ -33,7 +41,7 @@ export function bubble(
     fill = random(),
     stroke = "white",
     tip,
-    tip_style,
+    tipstyle,
   } = {}
 ) {
   // init layer
@@ -91,7 +99,7 @@ export function bubble(
   }
 
   if (tip) {
-    tooltip(layer, svg, tip, tip_style);
+    tooltip(layer, svg, tip, tipstyle);
   }
 
   return `#${id}`;

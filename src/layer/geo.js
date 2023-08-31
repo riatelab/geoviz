@@ -16,7 +16,7 @@ export function geo(
     geocoords = true,
     data,
     tip,
-    tip_style,
+    tipstyle,
     fill = implantation(data) == 2 ? "none" : random(),
     stroke = implantation(data) == 2 ? random() : "white",
   } = {}
@@ -47,7 +47,7 @@ export function geo(
 
   // Tooltip
   if (tip) {
-    tooltip(layer, svg, tip, tip_style);
+    tooltip(layer, svg, tip, tipstyle);
   }
 
   return `#${id}`;
