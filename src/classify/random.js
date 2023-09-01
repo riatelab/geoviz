@@ -1,3 +1,8 @@
+/**
+ * This function this function returns a random color
+ *
+ * @return {string} A color
+ */
 export function random() {
   const cols = [
     "#B2DF8A",

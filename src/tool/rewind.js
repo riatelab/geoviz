@@ -3,17 +3,17 @@
  * Adapted from MapBox geojson-rewind code (https://github.com/mapbox/grojson-rewind) under ISC license
  *
  * @param {object} data - A GeoJSON FeatureCollection
- * @param {object} param0 - Optional parameters
- * @param {boolean} param0.outer - Rewind Rings Outer
- * @param {boolean} param0.mutate - Mutate the Input geoJSON
+ * @param {object} options - Optional parameters
+ * @param {boolean} options.outer - Rewind Rings Outer
+ * @param {boolean} options.mutate - Mutate the Input geoJSON
  * @returns {object} - A GeoJSON FeatureCollection
  *
  */
 
-export function rewind(x, options = {}) {
+export function rewind(data, options = {}) {
   let outer = options.outer === false ? false : true;
   let mutate = options.mutate === false ? false : true;
-  let geo = mutate === true ? x : JSON.parse(JSON.stringify(x));
+  let geo = mutate === true ? data : JSON.parse(JSON.stringify(x));
   for (let i = 0; i < geo.features.length; i++) {
     if (geo.features[i].geometry.type === "Polygon") {
       rewindRings(geo.features[i].geometry.coordinates, outer);

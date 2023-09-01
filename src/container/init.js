@@ -10,15 +10,15 @@ const d3 = Object.assign(
  * The `init` function is the first step in map construction.
  * It creates an svg container into which the various layers can be added.
  *
- * @param {object} param0 - An objet defining the container
- * @param {number} param0.height - Height of the container
- * @param {number} param0.width - Width of the container. This value is automatically calculated according to `domain`. But it can be forced by entering a value.
- * @param {object|object[]} param0.domain - The domain corresponds to the geographical area to be displayed. It is defined by a geoJSON or an array containing geoJSONs. By default, the entire world is represented.
- * @param {function} param0.projection - Projection definition. See [d3-geo](https://github.com/d3/d3-geo) & [d3-geo-projection](https://github.com/d3/d3-geo-projection)
- * @param {number[]} param0.pos - Position of the container (if contained in another svg container)
- * @param {string} param0.background - Background color
- * @param {number|number[]} param0.margin - Margins around the map. A number to set the same margin everywhere or an array [top, right, bottom, left] to set different margins.
- * @param {object} param0.parent - Name of parent container into which this child container is to be included. In this case, the param0.pos parameter is also used.
+ * @param {object} options - An objet defining the container
+ * @param {number} options.height - Height of the container
+ * @param {number} options.width - Width of the container. This value is automatically calculated according to `domain`. But it can be forced by entering a value.
+ * @param {object|object[]} options.domain - The domain corresponds to the geographical area to be displayed. It is defined by a geoJSON or an array containing geoJSONs. By default, the entire world is represented.
+ * @param {function} options.projection - Projection definition. See [d3-geo](https://github.com/d3/d3-geo) & [d3-geo-projection](https://github.com/d3/d3-geo-projection)
+ * @param {number[]} options.pos - Position of the container (if contained in another svg container)
+ * @param {string} options.background - Background color
+ * @param {number|number[]} options.margin - Margins around the map. A number to set the same margin everywhere or an array [top, right, bottom, left] to set different margins.
+ * @param {object} options.parent - Name of parent container into which this child container is to be included. In this case, the options.pos parameter is also used.
  * @example
  * let main = container.init({width: 500, background: "lightblue"})
  * @returns {SVGSVGElement} - The function returns a svg container + some information about this container:`projection`, `margin`, `width`, `height` and `bbox`

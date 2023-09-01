@@ -11,14 +11,14 @@ const d3 = Object.assign(
  * It returns the coordinates in the page map. It can be used to create a dorling cartogram
  *
  * @param {object} data - A GeoJSON FeatureCollection
- * @param {object} param1 - Options
- * @param {function} param1.projection - d3 projection function
- * @param {boolean} param1.geocoords - Use `true` if input coordinates are in latitude ans longitude. Use `false` if the coordinates are already defined in the page plan
- * @param {number|string} param1.r - a number or the name of a property containing numerical values.
- * @param {number} param1.k - Radius of the largest circle (or corresponding to the value defined by `fixmax`)
- * @param {number} param1.fixmax - Value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
- * @param {number} param1.iteration - Number of iterations
- * @param {number} param1.gap - Space between points/circles
+ * @param {object} options - Options
+ * @param {function} options.projection - d3 projection function
+ * @param {boolean} options.geocoords - Use `true` if input coordinates are in latitude ans longitude. Use `false` if the coordinates are already defined in the page plan
+ * @param {number|string} options.r - a number or the name of a property containing numerical values.
+ * @param {number} options.k - Radius of the largest circle (or corresponding to the value defined by `fixmax`)
+ * @param {number} options.fixmax - Value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
+ * @param {number} options.iteration - Number of iterations
+ * @param {number} options.gap - Space between points/circles
  * @example
  * let dots = transform.dodge(world, { projection: d3.geoOrthographic(), r: "population", k: 40 })
  * @returns {object} - A GeoJSON FeatureCollection (points) with coordinates in the page map.

@@ -2,8 +2,19 @@ import { whatisit } from "../helpers/whatisit";
 import { coords2geo } from "../helpers/coords2geo";
 import { bbox } from "../helpers/bbox";
 
-export function featurecollection(x, options = {}) {
-  x = JSON.parse(JSON.stringify(x));
+/**
+ * `featurecollection` is a function to create a valid GeoJSON FeatureCollection, from geometries, features or coordinates.
+ *
+ * @param {object|Array} data - A GeoJSON FeatureCollection, an array of GeoJSON features, a single feature, an array of geometries, a single geometry or a array defining a bbox. You can also use an array of properties containing latitude and longitude coordinates. In this case, you need to specify the field names in the options.
+ * @param {object} options - Options or parameters
+ * @param {string} options.latitude - Name of field containing latitudes. You can also use `lat`
+ * @param {string} options.longitude - Name of field containing longitudes. You can also use `lon`
+ * @param {string} options.coordinates - Name of field containing géographic coordinates. You can also use `coords`
+ * @returns {object} A GeoJSON FeatureCollection
+ */
+
+export function featurecollection(data, options = {}) {
+  let x = JSON.parse(JSON.stringify(data));
 
   if (whatisit(x) == "table" && checkOptions) {
     return coords2geo(x, options);

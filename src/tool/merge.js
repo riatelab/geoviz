@@ -3,12 +3,12 @@ import { columns } from "../helpers/columns";
 /**
  * `merge` is a function to join a geoJSON and a data file.
  *
- * @param {object} param0 - Parameters
- * @param {string} param0.geom - A GeoJSON FeatureCollection
- * @param {Array} param0.geom_id - geom id
- * @param {Array} param0.data - Array containg data
- * @param {string} param0.data_id - data id
- * @param {string} param0.id - id (same in data and geometries)
+ * @param {object} options - Parameters
+ * @param {string} options.geom - A GeoJSON FeatureCollection
+ * @param {Array} options.geom_id - geom id
+ * @param {Array} options.data - Array containg data
+ * @param {string} options.data_id - data id
+ * @param {string} options.id - id (same in data and geometries)
  * @returns {object} - A GeoJSON FeatureCollection
  */
 
