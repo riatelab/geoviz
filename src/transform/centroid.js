@@ -7,13 +7,13 @@ const d3 = Object.assign({}, { geoArea, geoCentroid, geoIdentity, geoPath });
 /**
  * Calculate the centroid of all the geometries given in a GeoJSON FeatureCollection
  *
- * @param {object} data - A GeoJSON FeatureCollection
- * @param {object} options - Options
- * @param {boolean} options.largest - Place the centroid in the largest polygon.
- * @param {boolean} options.geocoords - Use `true` if input coordinates are in latitude ans longitude. Use `false` if the coordinates are already defined in the page plan
+ * @param {object} data - a GeoJSON FeatureCollection
+ * @param {object} options - options and parameters
+ * @param {boolean} options.largest - place the centroid in the largest polygon.
+ * @param {boolean} options.geocoords - use `true` if input coordinates are in latitude ans longitude. Use `false` if the coordinates are already defined in the page plan
  * @example
  * let dots = transform.centroid(world, { largest: true })
- * @returns {object} - A GeoJSON FeatureCollection (points)
+ * @returns {object} - a GeoJSON FeatureCollection (points)
  */
 export function centroid(data, { largest = true, geocoords = true } = {}) {
   let path = d3.geoPath(d3.geoIdentity());

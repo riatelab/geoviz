@@ -10,18 +10,18 @@ const d3 = Object.assign(
  * This function use d3.forceSimulation to spread dots or circles of  given in a GeoJSON FeatureCollection (points).
  * It returns the coordinates in the page map. It can be used to create a dorling cartogram
  *
- * @param {object} data - A GeoJSON FeatureCollection
- * @param {object} options - Options
+ * @param {object} data - a GeoJSON FeatureCollection
+ * @param {object} options - options and parameters
  * @param {function} options.projection - d3 projection function
- * @param {boolean} options.geocoords - Use `true` if input coordinates are in latitude ans longitude. Use `false` if the coordinates are already defined in the page plan
+ * @param {boolean} options.geocoords - use `true` if input coordinates are in latitude ans longitude. Use `false` if the coordinates are already defined in the page plan
  * @param {number|string} options.r - a number or the name of a property containing numerical values.
- * @param {number} options.k - Radius of the largest circle (or corresponding to the value defined by `fixmax`)
- * @param {number} options.fixmax - Value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
- * @param {number} options.iteration - Number of iterations
- * @param {number} options.gap - Space between points/circles
+ * @param {number} options.k - radius of the largest circle (or corresponding to the value defined by `fixmax`)
+ * @param {number} options.fixmax - value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
+ * @param {number} options.iteration - number of iterations
+ * @param {number} options.gap - space between points/circles
  * @example
  * let dots = transform.dodge(world, { projection: d3.geoOrthographic(), r: "population", k: 40 })
- * @returns {object} - A GeoJSON FeatureCollection (points) with coordinates in the page map.
+ * @returns {object} - a GeoJSON FeatureCollection (points) with coordinates in the page map.
  */
 
 export function dodge(

@@ -2,11 +2,11 @@
  * The `render` function returns the svg document
  *
  * @param {SVGSVGElement} svg - SVG container to display. This can be generated using the `container.init` function.
- * @param {object} options - Options
- * @param {object[]} options.order - Array determining the order of layers. This option is only useful in Observable (because of its topological nature). 
+ * @param {object} options - options and parameters
+ * @param {object[]} options.order - array determining the order of layers. This option is only useful in Observable (because of its topological nature). 
  * @example
  * container.render(svg, {order: [basemap, roads, cities]})
- * @returns {SVGSVGElement} - A pretty map in SVG format :-)
+ * @returns {SVGSVGElement} - a pretty map in SVG format :-)
 
  */
 export function render(svg, { order = [] } = {}) {

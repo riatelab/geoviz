@@ -3,13 +3,13 @@ import { columns } from "../helpers/columns";
 /**
  * `merge` is a function to join a geoJSON and a data file.
  *
- * @param {object} options - Parameters
- * @param {string} options.geom - A GeoJSON FeatureCollection
+ * @param {object} options - options and parameters
+ * @param {string} options.geom - a GeoJSON FeatureCollection
  * @param {Array} options.geom_id - geom id
- * @param {Array} options.data - Array containg data
+ * @param {Array} options.data - array containg data
  * @param {string} options.data_id - data id
  * @param {string} options.id - id (same in data and geometries)
- * @returns {object} - A GeoJSON FeatureCollection
+ * @returns {object} - a GeoJSON FeatureCollection
  */
 
 export function merge({ geom, geom_id, data, data_id, id } = {}) {

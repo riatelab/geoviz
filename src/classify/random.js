@@ -1,7 +1,7 @@
 /**
  * This function this function returns a random color
  *
- * @return {string} A color
+ * @return {string} a color
  */
 export function random() {
   const cols = [

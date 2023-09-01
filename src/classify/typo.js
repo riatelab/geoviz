@@ -5,14 +5,14 @@ const d3 = Object.assign({}, { scaleOrdinal });
 /**
  * This function allows you to assign colors to qualitative data. It can be used to create typology maps.
  *
- * @param {number[]} data - An array of numerical values.
- * @param {object} options - Options and parameters
- * @param {string[]} options.colors - An array of ordored colors
- * @param {string[]} options.palette - Name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library)
- * @param {string} options.missing - A color for missings values
+ * @param {number[]} data - an array of numerical values.
+ * @param {object} options - options and parameters
+ * @param {string[]} options.colors - an array of ordored colors
+ * @param {string[]} options.palette - name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library)
+ * @param {string} options.missing - a color for missings values
  * @example
  * classify.typo(world.features.map((d) => d.properties.region), {palette: "Pastel"})
- * @return {object} An object containg types, colors, the color of the missing value and a function.
+ * @return {object} an object containg types, colors, the color of the missing value and a function.
  */
 
 export function typo(

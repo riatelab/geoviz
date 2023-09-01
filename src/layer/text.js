@@ -5,18 +5,18 @@ import { unique } from "../helpers/unique";
  * The `text` function allows to create a layer with a text somewhere on the map
  *
  * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
- * @param {object} options - Options and parameters
+ * @param {object} options - options and parameters
  * @param {string} options.id - id of the layer
- * @param {string} options.text - Text to display. Backticks are allowed for multiple line writing
- * @param {number[]} options.pos - Position [x,y] on the page
- * @param {string} options.stroke - Stroke color
- * @param {string} options.fill - Fill color
- * @param {string} options.strokeWidth - Stroke width
+ * @param {string} options.text - text to display. Backticks are allowed for multiple line writing
+ * @param {number[]} options.pos - position [x,y] on the page
+ * @param {string} options.stroke - stroke color
+ * @param {string} options.fill - fill color
+ * @param {string} options.strokeWidth - stroke width
  * @param {string} options.fontSize - font size
- * @param {*} options.foo - *Other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ * @param {*} options.foo - *other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @example
  * let outline = layer.outline(main, { fillOpacity: 0.5 })
- * @returns {SVGSVGElement|string} - The function adds a layer with the outline to the SVG container and returns the layer identifier.
+ * @returns {SVGSVGElement|string} - the function adds a layer with the outline to the SVG container and returns the layer identifier.
  */
 export function text(
   svg,
