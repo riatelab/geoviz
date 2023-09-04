@@ -1,3 +1,4 @@
+import { camelcasetodash } from "./camelcase";
 export function addattr({ layer, args = [], exclude = [] } = {}) {
   if (args) {
     let arr = exclude.concat(["id", "data", "tip", "tip_style"]);
@@ -7,11 +8,4 @@ export function addattr({ layer, args = [], exclude = [] } = {}) {
         layer.attr(camelcasetodash(d), args[d]);
       });
   }
-}
-
-function camelcasetodash(str) {
-  return str
-    .split(/(?=[A-Z])/)
-    .map((d) => d.toLowerCase())
-    .join("-");
 }

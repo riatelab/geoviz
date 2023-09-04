@@ -54,4 +54,8 @@ export let layer = {
 };
 
 // Legend
-export let legends = {};
+import { circles_nested } from "./legend/circles-nested";
+export let legend = { circles_nested };
+
+// test
+export { datatoradius } from "./helpers/datatoradius";
