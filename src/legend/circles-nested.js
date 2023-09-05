@@ -1,13 +1,24 @@
-import { scaleSqrt } from "d3-scale";
-import { min, max, descending } from "d3-array";
-const d3 = Object.assign({}, { min, max, scaleSqrt, descending });
 import { unique } from "../helpers/unique";
 import { legtitle } from "../helpers/legtitle";
-import { isNumber } from "../helpers/isnuber";
+import { datatoradius } from "../helpers/datatoradius";
+import { addattrlegend } from "../helpers/addattrlegend";
+import { formatLocale } from "d3-format";
+const d3 = Object.assign({}, { formatLocale });
 
 export function circles_nested(
   svg,
-  { data, pos = [10, 10], id = unique(), k = 50, fixmax = null, nb = 4 } = {}
+  {
+    data,
+    pos = [10, 10],
+    id = unique(),
+    k = 50,
+    fixmax = null,
+    nb = 4,
+    lineLength = 10,
+    values_round = 2,
+    values_decimal = ".",
+    values_thousands = " ",
+  } = {}
 ) {
   // init layer
   let layer = svg.selectAll(`#${id}`).empty()
@@ -15,7 +26,6 @@ export function circles_nested(
     : svg.select(`#${id}`);
   layer.selectAll("*").remove();
   layer.attr("transform", `translate(${pos})`);
-  layer.append("circle").attr("r", 4).attr("fill", "red");
 
   // Title
   let dy = legtitle(layer, arguments[1], "title", 0);
@@ -25,61 +35,71 @@ export function circles_nested(
 
   // Circles
   let span = 7;
-  let arr = data
-    .filter((d) => isNumber(d))
-    .map((d) => Math.abs(d))
-    .sort(d3.descending);
-  const valmax = fixmax != undefined ? fixmax : d3.max(arr);
-  let radius = d3.scaleSqrt([0, valmax], [0, k]);
-  let rmax = radius(d3.max(arr));
+  let arr = datatoradius(data, { nb, round: values_round, fixmax, k });
+  let rmax = arr[arr.length - 1][1];
 
-  if (nb) {
-    let newarr = [];
-    let rmin = radius(d3.min(arr));
-    let rmax = radius(d3.max(arr));
-    let rextent = rmax - rmin;
-    if (nb > 2) {
-      for (let i = 1; i <= nb - 2; i++) {
-        newarr.push(rmin + (i * rextent) / (nb - 1));
-      }
-    }
+  let nestedcircles = layer.append("g");
 
-    arr = [rmin, newarr, rmax].flat();
-  }
-  let values = arr.map((d) => radius.invert(d));
-
-  let nestedcircles = layer
-    .append("g")
-    .attr("fill", "none")
-    .attr("stroke", "red");
-
-  nestedcircles
+  // Circles
+  let circles = nestedcircles
     .selectAll("circle")
-    .data(arr)
+    .data(arr.reverse())
     .join("circle")
-    .attr("r", (d) => d)
+    .attr("r", (d) => d[1])
     .attr(
       "transform",
-      (d) => `translate(${rmax}, ${span + dy + rmax * 2 - d})`
-    );
+      (d) => `translate(${rmax}, ${span + dy + rmax * 2 - d[1]})`
+    )
+    .attr("fill", "none")
+    .attr("stroke", "#363636");
+  addattrlegend({
+    params: arguments[1],
+    layer: circles,
+    prefix: "circles",
+  });
 
-  nestedcircles
+  // Lines
+  let lines = nestedcircles
     .selectAll("line")
     .data(arr)
     .join("line")
     .attr("x1", rmax)
-    .attr("x2", rmax + rmax + 10)
-    .attr("y1", (d) => span + dy + rmax * 2 - d * 2)
-    .attr("y2", (d) => span + dy + rmax * 2 - d * 2);
+    .attr("x2", rmax + rmax + lineLength)
+    .attr("y1", (d) => span + dy + rmax * 2 - d[1] * 2)
+    .attr("y2", (d) => span + dy + rmax * 2 - d[1] * 2)
+    .attr("fill", "none")
+    .attr("stroke", "#363636")
+    .attr("stroke-dasharray", 2)
+    .attr("stroke-width", 0.7);
+  addattrlegend({
+    params: arguments[1],
+    layer: lines,
+    prefix: "lines",
+  });
 
-  nestedcircles
+  // Values
+  let locale = d3.formatLocale({
+    decimal: values_decimal,
+    thousands: values_thousands,
+    grouping: [3],
+  });
+
+  let values = nestedcircles
     .selectAll("text")
-    .data(values)
+    .data(arr)
     .join("text")
-    .attr("x", rmax + rmax + 15)
-    .attr("y", (d, i) => span + dy + rmax * 2 - arr[i] * 2)
-    .text((d) => d)
-    .attr("dominant-baseline", "middle");
+    .attr("x", rmax + rmax + lineLength + 5)
+    .attr("y", (d) => span + dy + rmax * 2 - d[1] * 2)
+    .text((d) => locale.format(",")(d[0]))
+    .attr("dominant-baseline", "middle")
+    .attr("font-size", 10)
+    .attr("fill", "#363636");
+  addattrlegend({
+    params: arguments[1],
+    layer: values,
+    prefix: "values",
+    text: true,
+  });
 
   // Note
   dy = legtitle(layer, arguments[1], "note", dy + rmax * 2 + span * 2);
