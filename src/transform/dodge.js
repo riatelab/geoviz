@@ -79,9 +79,10 @@ export function dodge(
     simulation.tick();
   }
 
-  data.features.map(
+  let rawfeatures = JSON.parse(JSON.stringify(data)).features;
+  rawfeatures.map(
     (d, i) => (d.geometry.coordinates = [features[i].x, features[i].y])
   );
 
-  return { type: "FeatureCollection", crs: null, features: data.features };
+  return { type: "FeatureCollection", crs: null, features: rawfeatures };
 }

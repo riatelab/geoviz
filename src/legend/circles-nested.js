@@ -4,7 +4,30 @@ import { datatoradius } from "../helpers/datatoradius";
 import { addattrlegend } from "../helpers/addattrlegend";
 import { formatLocale } from "d3-format";
 const d3 = Object.assign({}, { formatLocale });
-
+/**
+ * The `bubble` function allows to create a layer with circles from a geoJSON
+ *
+ * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
+ * @param {object} options - options and parameters
+ * @param {object} options.data - an array of numerical values.
+ * @param {string} options.id - id of the layer
+ * @param {number[]} options.pos - position of the legend
+ * @param {number} options.k - dadius of the largest circle (or corresponding to the value defined by `fixmax`)
+ * @param {number} options.fixmax - value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
+ * @param {number} options.nb - lumber of circles in legend
+ * @param {number|string} options.texts_foo - *svg attributes for all texts in the legend (texts_fill, texts_opacity...)*
+ * @param {number|string} options.title_foo - *svg attributes for the title of the legend (title_text, title_fontSize, title_textDecoration...)*
+ * @param {number|string} options.subtitle_foo - *svg attributes for the subtitle of the legend (subtitle_text, subtitle_fontSize, subtitle_textDecoration...)*
+ * @param {number|string} options.note_foo - *svg attributes for the note bellow the legend (note_text, note_fontSize, note_textDecoration...)*
+ * @param {number|string} options.values_foo - *svg attributes for the values of the legend (values_fontSize, values_textDecoration...)*
+ * @param {number} options.values_round - rounding of legend values
+ * @param {number} options.values_decimal - number of digits
+ * @param {string} options.values_thousands - thousands separator
+ * @param {number} options.lineLength - length of line connecting circles to values
+ * @example
+ * let legend = legend.circles_nested(main, { data: world.features.map((d) => +d.properties.pop), title_text: "Number of inhabitants", k: 70 })
+ * @returns {SVGSVGElement|string} - the function adds a layer with circles to the SVG container and returns the layer identifier.
+ */
 export function circles_nested(
   svg,
   {

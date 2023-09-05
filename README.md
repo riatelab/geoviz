@@ -1,6 +1,7 @@
 # Geoviz JavaScript library
 
 `geoviz` is a d3-based JavaScript library for designing thematic maps. The library provides a set of [d3](https://github.com/d3/d3) compatible functions that you can mix with the usual d3 syntax. In [Observable](https://observablehq.com/), this library allows you to split map layers into different cells.
+
 ## Installation
 
 In the browser

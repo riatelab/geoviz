@@ -33,6 +33,7 @@ toc:
     description: |
       This section contains functions for designing legends to be added to the svg container.
     children:
+      - circles_nested
   - name: tool
     description: |
       This section contains useful geoJSON functions.
