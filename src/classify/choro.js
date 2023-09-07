@@ -38,20 +38,28 @@ export function choro(
     missing = "white",
   } = {}
 ) {
+  let data2 = data.filter((d) => isNumber(d));
   const bks =
     breaks ||
-    discr.breaks(
-      data.filter((d) => isNumber(d)),
-      {
-        method,
-        nb,
-        k,
-        middle,
-        precision,
-      }
-    );
+    discr.breaks(data2, {
+      method,
+      nb,
+      k,
+      middle,
+      precision,
+    });
 
   const cols = colors || getColors(palette, bks.length - 1);
-  const colorize = d3.scaleThreshold(bks.slice(1, -1), cols).unknown(missing);
-  return { breaks: bks, colors: cols, missing, colorize };
+  const colorize = function (d) {
+    return d3.scaleThreshold(bks.slice(1, -1), cols).unknown(missing)(
+      parseFloat(d)
+    );
+  };
+  return {
+    breaks: bks,
+    colors: cols,
+    missing,
+    nodata: data.length - data2.length,
+    colorize,
+  };
 }

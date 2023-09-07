@@ -22,8 +22,12 @@ export function typo(
   let types = Array.from(new Set(data)).filter(
     (d) => d !== "" && d != null && d != undefined
   );
+
+  let nodata =
+    data.length -
+    data.filter((d) => d !== "" && d != null && d != undefined).length;
   let cols = colors || getColors(palette, types.length);
   let colorize = d3.scaleOrdinal().domain(types).range(cols).unknown(missing);
 
-  return { types, colors: cols, missing, colorize };
+  return { types, colors: cols, missing, nodata, colorize };
 }

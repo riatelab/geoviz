@@ -55,7 +55,12 @@ export let layer = {
 
 // Legend
 import { circles_nested } from "./legend/circles-nested";
-export let legend = { circles_nested };
-
-// test
-export { datatoradius } from "./helpers/datatoradius";
+import { choro_vertical } from "./legend/choro-vertical";
+import { choro_vertical2 } from "./legend/choro-vertical2";
+import { typo_vertical } from "./legend/typo-vertical";
+export let legend = {
+  circles_nested,
+  choro_vertical,
+  choro_vertical2,
+  typo_vertical,
+};

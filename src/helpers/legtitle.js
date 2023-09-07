@@ -1,11 +1,12 @@
 import { camelcasetodash } from "./camelcase";
-export function legtitle(layer, options, prefix, dy) {
-  if (options[prefix + "_text"]) {
+export function legtitle(layer, options, prefix, dy = 0) {
+  if (options?.[prefix + "_text"]) {
     const defaultvalues = {
       texts_fontSize: 14,
       texts_fill: "#363636",
     };
     const params = Object.assign(defaultvalues, options);
+
     let title = layer.append("g").attr("transform", `translate(0, ${dy})`);
     let h = params[prefix + "_fontSize"]
       ? params[prefix + "_fontSize"]
