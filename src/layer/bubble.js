@@ -7,7 +7,7 @@ import { max, descending } from "d3-array";
 const d3 = Object.assign({}, { scaleSqrt, max, descending });
 
 /**
- * The `bubble` function allows to create a layer with circles from a geoJSON
+ * The `bubble` function allows to create a layer with circles from a geoJSON (points)
  *
  * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
  * @param {object} options - options and parameters

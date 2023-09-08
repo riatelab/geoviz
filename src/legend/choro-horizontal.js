@@ -7,7 +7,7 @@ import { descending } from "d3-array";
 const d3 = Object.assign({}, { formatLocale, descending });
 
 /**
- * The `choro_vertical` function allows to create a legend with a color gradient (boxes)
+ * The `choro_horizontal` function allows to create a legend with a color gradient (boxes)
  *
  * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
  * @param {object} options - options and parameters
@@ -34,14 +34,14 @@ const d3 = Object.assign({}, { formatLocale, descending });
  * @param {number} options.values_round - rounding of legend values
  * @param {number} options.values_decimal - number of digits
  * @param {string} options.values_thousands - thousands separator
- * @param {number} options.values_dx - to move values to the right
+ * @param {number} options.values_dy - to move values up or down
  * @param {number} options.lineLength - length of line connecting circles to values
  * @param {number} options.gap - gap between texts and legend
  * @example
- * let legend = legend.choro_vertical(main, { breaks: [foo]), title_text: "GDP per capita", colors: [foo] })
+ * let legend = legend.choro_horizontal(main, { breaks: [foo]), title_text: "GDP per capita", colors: [foo] })
  * @returns {SVGSVGElement|string} - the function adds a layer with a legend and its id
  */
-export function choro_vertical(
+export function choro_horizontal(
   svg,
   {
     pos = [10, 10],
@@ -56,9 +56,9 @@ export function choro_vertical(
     values_thousands = " ",
     gap = 10,
     rect_gap = 0,
-    rect_width = 25,
-    rect_height = 17,
-    values_dx = 5,
+    rect_width = 45,
+    rect_height = 14,
+    values_dy = 5,
     reverse = false,
     rect_stroke = "white",
     rect_strokeWidth = 0.3,
@@ -78,24 +78,21 @@ export function choro_vertical(
   dy = legtitle(layer, arguments[1], "subtitle", dy);
 
   // Vertical boxes layer
-  let verticalchoro = layer.append("g");
+  let horizontalchoro = layer.append("g");
 
   // Rect
 
-  let rect = verticalchoro
+  let rect = horizontalchoro
     .append("g")
     .attr("stroke", rect_stroke)
     .attr("stroke-opacity", rect_strokeWidth);
 
   rect
     .selectAll("rect")
-    .data(reverse ? colors : colors.slice().reverse())
+    .data(reverse ? colors.slice().reverse() : colors)
     .join("rect")
-    .attr("x", 0)
-    .attr(
-      "y",
-      (d, i) => gap + dy + i * rect_height + rect_gap * i + rect_gap / 2
-    )
+    .attr("x", (d, i) => i * (rect_width + rect_gap))
+    .attr("y", gap + dy)
     .attr("width", rect_width)
     .attr("height", rect_height)
     .attr("fill", (d) => d);
@@ -103,11 +100,8 @@ export function choro_vertical(
   if (missing) {
     rect
       .append("rect")
-      .attr("x", 0)
-      .attr(
-        "y",
-        dy + gap + colors.length * (rect_height + rect_gap) + gap + rect_gap / 2
-      )
+      .attr("x", colors.length * (rect_width + rect_gap) + gap)
+      .attr("y", gap + dy)
       .attr("width", rect_width)
       .attr("height", rect_height)
       .attr("fill", missing_fill);
@@ -126,37 +120,31 @@ export function choro_vertical(
     grouping: [3],
   });
 
-  let values = verticalchoro
+  let values = horizontalchoro
     .append("g")
-    .attr("dominant-baseline", "middle")
+    .attr("text-anchor", "middle")
     .attr("font-size", 10)
     .attr("fill", "#363636");
   values
     .selectAll("text")
     .data(
       reverse
-        ? roundarray(breaks, values_round)
-        : roundarray(breaks.slice().reverse(), values_round)
+        ? roundarray(breaks.slice().reverse(), values_round)
+        : roundarray(breaks, values_round)
     )
     .join("text")
-    .attr("x", rect_width + values_dx)
-    .attr("y", (d, i) => gap + dy + i * rect_height + rect_gap * i)
-    .text((d) => locale.format(",")(d));
+    .attr("x", (d, i) => i * (rect_width + rect_gap) - rect_gap / 2)
+    .attr("y", gap + dy + rect_height + values_dy)
+    .text((d) => locale.format(",")(d))
+    .attr("dominant-baseline", "hanging");
 
   if (missing) {
     values
       .append("text")
-      .attr("x", rect_width + values_dx)
-      .attr(
-        "y",
-        dy +
-          gap +
-          colors.length * (rect_height + rect_gap) +
-          gap +
-          rect_gap / 2 +
-          rect_height / 2
-      )
-      .text(missing_text);
+      .attr("x", colors.length * (rect_width + rect_gap) + gap + rect_width / 2)
+      .attr("y", gap + dy + rect_height / 2)
+      .text(missing_text)
+      .attr("dominant-baseline", "central");
   }
 
   addattrlegend({
@@ -172,10 +160,9 @@ export function choro_vertical(
     "note",
     dy +
       gap +
-      colors.length * rect_height +
-      colors.length * rect_gap +
+      rect_height +
       gap +
-      (missing ? rect_height + rect_gap + gap : 0)
+      (arguments[1].values_fontSize ? arguments[1].values_fontSize : 10)
   );
   return `#${id}`;
 }

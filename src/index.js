@@ -44,6 +44,7 @@ import { graticule } from "./layer/graticule";
 import { text } from "./layer/text";
 import { bubble } from "./layer/bubble";
 import { datum } from "./layer/datum";
+import { label } from "./layer/label";
 export let layer = {
   datum,
   geo,
@@ -51,16 +52,23 @@ export let layer = {
   graticule,
   text,
   bubble,
+  label,
 };
 
 // Legend
 import { circles_nested } from "./legend/circles-nested";
+import { circles } from "./legend/circles";
 import { choro_vertical } from "./legend/choro-vertical";
-import { choro_vertical2 } from "./legend/choro-vertical2";
+import { choro_horizontal } from "./legend/choro-horizontal";
 import { typo_vertical } from "./legend/typo-vertical";
+import { typo_horizontal } from "./legend/typo-horizontal";
+import { box } from "./legend/box";
 export let legend = {
+  circles,
   circles_nested,
   choro_vertical,
-  choro_vertical2,
+  choro_horizontal,
   typo_vertical,
+  typo_horizontal,
+  box,
 };

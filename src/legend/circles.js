@@ -3,9 +3,10 @@ import { legtitle } from "../helpers/legtitle";
 import { datatoradius } from "../helpers/datatoradius";
 import { addattrlegend } from "../helpers/addattrlegend";
 import { formatLocale } from "d3-format";
-const d3 = Object.assign({}, { formatLocale });
+import { sum, cumsum } from "d3-array";
+const d3 = Object.assign({}, { formatLocale, sum, cumsum });
 /**
- * The `circles_nested` function allows to create a nested proportional circles legend
+ * The `circles` function allows to create a nested proportional circles legend
  *
  * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
  * @param {object} options - options and parameters
@@ -29,7 +30,7 @@ const d3 = Object.assign({}, { formatLocale });
  * let legend = legend.circles_nested(main, { data: world.features.map((d) => +d.properties.pop), title_text: "Number of inhabitants", k: 70 })
  * @returns {SVGSVGElement|string} - the function adds a layer with a legend and its id
  */
-export function circles_nested(
+export function circles(
   svg,
   {
     data,
@@ -43,7 +44,7 @@ export function circles_nested(
     values_decimal = ".",
     values_thousands = " ",
     values_dx = 3,
-    gap = 7,
+    gap = 5,
   } = {}
 ) {
   // init layer
@@ -60,20 +61,25 @@ export function circles_nested(
   dy = legtitle(layer, arguments[1], "subtitle", dy);
 
   // Circles
-  let arr = datatoradius(data, { nb, round: values_round, fixmax, k });
-  let rmax = arr[arr.length - 1][1];
+  let arr = datatoradius(data, { nb, round: values_round, fixmax, k })
+    .slice()
+    .reverse();
+  let rmax = arr[0][1];
 
   let nestedcircles = layer.append("g");
 
   // Circles
+
+  let cumdiam = d3.cumsum(arr.map((d) => d[1] * 2));
+
   let circles = nestedcircles
     .selectAll("circle")
-    .data(arr.reverse())
+    .data(arr)
     .join("circle")
     .attr("r", (d) => d[1])
     .attr(
       "transform",
-      (d) => `translate(${rmax}, ${gap + dy + rmax * 2 - d[1]})`
+      (d, i) => `translate(${rmax}, ${gap + dy - d[1] + cumdiam[i] + i * gap} )`
     )
     .attr("fill", "none")
     .attr("stroke", "#363636");
@@ -83,18 +89,18 @@ export function circles_nested(
     prefix: "circles",
   });
 
-  // Lines
+  // Lines;
   let lines = nestedcircles
     .selectAll("line")
     .data(arr)
     .join("line")
-    .attr("x1", rmax)
-    .attr("x2", rmax + rmax + lineLength)
-    .attr("y1", (d) => gap + dy + rmax * 2 - d[1] * 2)
-    .attr("y2", (d) => gap + dy + rmax * 2 - d[1] * 2)
+    .attr("x1", (d) => rmax + d[1])
+    .attr("x2", rmax * 2 + lineLength)
+    .attr("y1", (d, i) => gap + dy - d[1] + cumdiam[i] + i * gap)
+    .attr("y2", (d, i) => gap + dy - d[1] + cumdiam[i] + i * gap)
     .attr("fill", "none")
     .attr("stroke", "#363636")
-    .attr("stroke-dasharray", 2)
+    .attr("stroke-dasharray", 1)
     .attr("stroke-width", 0.7);
   addattrlegend({
     params: arguments[1],
@@ -102,7 +108,7 @@ export function circles_nested(
     prefix: "lines",
   });
 
-  // Values
+  //Values;
   let locale = d3.formatLocale({
     decimal: values_decimal,
     thousands: values_thousands,
@@ -113,8 +119,8 @@ export function circles_nested(
     .selectAll("text")
     .data(arr)
     .join("text")
-    .attr("x", rmax + rmax + lineLength + values_dx)
-    .attr("y", (d) => gap + dy + rmax * 2 - d[1] * 2)
+    .attr("x", rmax * 2 + lineLength + values_dx)
+    .attr("y", (d, i) => gap + dy - d[1] + cumdiam[i] + i * gap)
     .text((d) => locale.format(",")(d[0]))
     .attr("dominant-baseline", "middle")
     .attr("font-size", 10)
@@ -127,6 +133,11 @@ export function circles_nested(
   });
 
   // Note
-  dy = legtitle(layer, arguments[1], "note", dy + rmax * 2 + gap * 2);
+  dy = legtitle(
+    layer,
+    arguments[1],
+    "note",
+    gap + dy + cumdiam[cumdiam.length - 1] + cumdiam.length * gap
+  );
   return `#${id}`;
 }
