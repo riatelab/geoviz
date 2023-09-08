@@ -40,7 +40,7 @@ export function label(
     paintOrder = "stroke",
     strokeLinejoin = "round",
     strokeLinecap = "round",
-    dominantBaseline = "middle",
+    dominantBaseline = "central",
     textAnchor = "middle",
   } = {}
 ) {
