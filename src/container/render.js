@@ -1,3 +1,5 @@
+import { getDOMids } from "../helpers/getDOMids";
+
 /**
  * The `render` function returns the svg document
  *
@@ -10,10 +12,14 @@
 
  */
 export function render(svg, { order = [] } = {}) {
-  order.forEach((d) => {
-    svg.select(`${d}`).raise();
-  });
-
+  // Reorder layers
+  if (order.length > 0) {
+    if (getDOMids(svg).toString() !== order) {
+      order.forEach((d) => {
+        svg.select(`${d}`).raise();
+      });
+    }
+  }
   // raise tooltips
   svg.select("#_geoviztooltip").raise();
   // Add metadata
