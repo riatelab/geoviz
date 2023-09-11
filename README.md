@@ -21,49 +21,49 @@ viz = require("geoviz")
 1 - Simple map
 
 ~~~js
-let main = container.init({width: 500})
-let w = layer.datum(main, {
+let svg = container.create({width: 500})
+svg.layer.datum({
   data: world,
   fill: "#CCC",
 })
-return container.render(main);
+return svg.render();
 ~~~
 
 2 - Bubbles
 
 ~~~js
-let main = container.init({width: 500})
+let svg = container.create({width: 500})
 // basemap
-let w = layer.datum(main, {
+svg.layer.datum(main, {
   data: world,
   fill: "#CCC",
 })
 // bubbles
-let w = layer.bubble(main, {
+svg.layer.bubble(main, {
   data: transform.centroid(world, {largest: true}),
   r: "population",
   fill: "red",
 })
-return container.render(main);
+return svg.render();
 ~~~
 
 3 - Choropleth
 
 ~~~js
-let main = container.init({width: 500})
+let svg = container.create({width: 500})
 // classification
 let classif = classify.choro(world.features.map((d) => d.properties.population), {method: "jenks})
 // Choro layer
-let w = layer.geo(main, {
+svg.geo({
   data: world,
   fill: d => classif.colorize(d => d.properties.population),
 })
-return container.render(main);
+return svg.render();
 ~~~
 
-### Examples
+### Live Examples
 
-You can find several live examples of how to use the library on the observable platform - [observablehq.com/collection/@neocartocnrs/bertin](https://observablehq.com/collection/@neocartocnrs/bertin)
+You can find several live examples of how to use the library on the observable platform - [observablehq.com/collection/@neocartocnrs/geoviz](https://observablehq.com/collection/@neocartocnrs/bertin)
 
 ### Api documentation
 
