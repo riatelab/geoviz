@@ -5,8 +5,8 @@ export let container = {
   create,
   render,
 };
-export { create } from "./container/create.js";
-export { render } from "./container/render.js";
+// export { create } from "./container/create.js";
+// export { render } from "./container/render.js";
 
 // Tool
 import { rewind } from "./tool/rewind";

@@ -37,7 +37,7 @@ import { render as addrender } from "../container/render";
  * @param {number|number[]} options.margin - margins around the map. A number to set the same margin everywhere or an array [top, right, bottom, left] to set different margins.
  * @param {object} options.parent - name of parent container into which this child container is to be included. In this case, the options.pos parameter is also used.
  * @example
- * let main = container.init({width: 500, background: "lightblue"})
+ * let main = container.create({width: 500, background: "lightblue"})
  * @returns {SVGSVGElement} - the function returns a svg container + some information about this container:`projection`, `margin`, `width`, `height` and `bbox`
  */
 
