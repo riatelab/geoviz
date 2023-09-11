@@ -5,8 +5,6 @@ export let container = {
   create,
   render,
 };
-// export { create } from "./container/create.js";
-// export { render } from "./container/render.js";
 
 // Tool
 import { rewind } from "./tool/rewind";
@@ -19,7 +17,7 @@ export let tool = {
   merge,
 };
 
-// Tranform
+// Transform
 import { centroid } from "./transform/centroid";
 import { project } from "./transform/project";
 import { dodge } from "./transform/dodge";
