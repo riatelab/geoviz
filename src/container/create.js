@@ -1,13 +1,30 @@
 import { extent } from "../helpers/extent";
-import { create } from "d3-selection";
+import { create as create2 } from "d3-selection";
 import { geoPath, geoBounds, geoEquirectangular } from "d3-geo";
 const d3 = Object.assign(
   {},
-  { create, geoPath, geoBounds, geoEquirectangular }
+  { create2, geoPath, geoBounds, geoEquirectangular }
 );
 
+import { outline as addoutline } from "../layer/outline";
+import { geo as addgeo } from "../layer/geo";
+import { graticule as addgraticule } from "../layer/graticule";
+import { text as addtext } from "../layer/text";
+import { bubble as addbubble } from "../layer/bubble";
+import { datum as adddatum } from "../layer/datum";
+import { label as addlabel } from "../layer/label";
+
+import { circles_nested as addcircles_nested } from "../legend/circles-nested";
+import { circles as addcircles } from "../legend/circles";
+import { choro_vertical as addchoro_vertical } from "../legend/choro-vertical";
+import { choro_horizontal as addchoro_horizontal } from "../legend/choro-horizontal";
+import { typo_vertical as addtypo_vertical } from "../legend/typo-vertical";
+import { typo_horizontal as addtypo_horizontal } from "../legend/typo-horizontal";
+import { box as addbox } from "../legend/box";
+import { render as addrender } from "../container/render";
+
 /**
- * The `init` function is the first step in map construction.
+ * The `create` function is the first step in map construction.
  * It creates an svg container into which the various layers can be added.
  *
  * @param {object} options - options and parameters
@@ -24,7 +41,7 @@ const d3 = Object.assign(
  * @returns {SVGSVGElement} - the function returns a svg container + some information about this container:`projection`, `margin`, `width`, `height` and `bbox`
  */
 
-export function init({
+export function create({
   height = null,
   projection = d3.geoEquirectangular(),
   domain,
@@ -34,6 +51,7 @@ export function init({
   margin = [0, 0, 0, 0],
   parent = null,
 } = {}) {
+  let output;
   let info;
   if (height !== null) {
     info = { width, height };
@@ -60,18 +78,18 @@ export function init({
 
   if (parent == null) {
     let svg = d3
-      .create("svg")
+      .create2("svg")
       .attr("width", width)
       .attr("height", height)
       .attr("viewBox", [0, 0, width, height])
       .style("background-color", background);
 
-    return Object.assign(svg, info);
+    output = Object.assign(svg, info);
   } else {
-    let inset = parent
+    let svg = parent
       .append("g")
       .attr("transform", `translate(${pos[0]},${pos[1]})`);
-    inset
+    svg
       .append("rect")
       .attr("x", 0)
       .attr("y", 0)
@@ -79,6 +97,50 @@ export function init({
       .attr("height", height)
       .attr("fill", background);
 
-    return Object.assign(inset, info);
+    output = Object.assign(svg, info);
   }
+
+  // Add functions
+
+  let layer = {};
+  [
+    { id: "outline", func: addoutline },
+    { id: "geo", func: addgeo },
+    { id: "graticule", func: addgraticule },
+    { id: "bubble", func: addbubble },
+    { id: "datum", func: adddatum },
+    { id: "label", func: addlabel },
+    { id: "text", func: addtext },
+  ].forEach(
+    (d) =>
+      (layer[d.id] = function () {
+        d.func(output, arguments[0]);
+      })
+  );
+
+  let legend = {};
+  [
+    { id: "circles_nested", func: addcircles_nested },
+    { id: "circles", func: addcircles },
+    { id: "choro_vertical", func: addchoro_vertical },
+    { id: "choro_horizontal", func: addchoro_horizontal },
+    { id: "typo_vertical", func: addtypo_vertical },
+    { id: "typo_horizontal", func: addtypo_horizontal },
+    { id: "box", func: addbox },
+  ].forEach(
+    (d) =>
+      (legend[d.id] = function () {
+        d.func(output, arguments[0]);
+      })
+  );
+
+  // Output
+
+  return Object.assign(output, {
+    layer,
+    legend,
+    render: function () {
+      return addrender(output, arguments[0]);
+    },
+  });
 }

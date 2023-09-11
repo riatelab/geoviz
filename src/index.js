@@ -1,10 +1,12 @@
 // Container
-import { init } from "./container/init";
+import { create } from "./container/create";
 import { render } from "./container/render";
 export let container = {
-  init,
+  create,
   render,
 };
+export { create } from "./container/create.js";
+export { render } from "./container/render.js";
 
 // Tool
 import { rewind } from "./tool/rewind";
