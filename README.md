@@ -57,7 +57,7 @@ svg.layer.geo({data: data, fill: d =>  choro.colorize(d.properties.gdppc)})
 document.body.appendChild(svg.render())
 ~~~
 
-Demo: [choro.html](https://neocarto.github.io/geoviz/examples/choro.html)
+Demo: [choropleth.html](https://neocarto.github.io/geoviz/examples/choropleth.html)
 
 **4 - Typology**
 
