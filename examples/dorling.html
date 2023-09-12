@@ -1,0 +1,25 @@
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico">
+   </head>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="http://localhost:5500/dist/index.min.js" charset="utf-8"></script>
+
+<script>
+
+let geojson =   "./world.json"
+
+d3.json(geojson).then(data => {
+let svg = geoviz.container.create({ margin: [100, 100, -45, -100] })
+let centroids = geoviz.transform.centroid(data)
+let dots = geoviz.transform.dodge(centroids, { projection: svg.projection, r: "pop", k:100, iteration: 300 })
+svg.layer.bubble({data: dots, geocoords: false, r: "pop", fill: "black", k: 100})
+let scale = d3.scaleSqrt([0, d3.max(data.features.map((d) => +d.properties.pop))], [0, 100 * 0.6] )
+labels = svg.layer.label({ data: dots, geocoords: false, fill: "white", text: "ISO3", fontFamily: "Pacifico", fontSize: (d) => scale(d.properties.pop) })
+svg.layer.text({pos:[svg.width/2, 30], textAnchor: "middle", fontSize: 30, text: "A Dorling Cartogram World Map", fill: "black", fontWeight: "bold", fontFamily: "Tangerine"})
+document.body.appendChild(svg.render())
+})
+
+</script>

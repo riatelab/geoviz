@@ -1,0 +1,22 @@
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
+</head>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="http://localhost:5500/dist/index.min.js" charset="utf-8"></script>
+
+<script>
+
+let geojson =   "./world.json"
+
+d3.json(geojson).then(data => {
+let svg = geoviz.container.create({projection: d3.geoEqualEarth(), margin: [40,0,0,0]})
+svg.layer.outline({fill: "#267A8A"})
+svg.layer.graticule({stroke: "white", strokeWidth: 0.4})
+svg.layer.geo({data: data, fill: "#F8D993", stroke: "#ada9a6", strokeWidth:0.5, tip:d => d.properties.NAMEen})
+svg.layer.text({pos:[svg.width/2, 30], textAnchor: "middle", fontSize: 30, text: "A Simple World Map", fill: "#267A8A", fontWeight: "bold", fontFamily: "Tangerine"})
+document.body.appendChild(svg.render())
+})
+
+</script>
