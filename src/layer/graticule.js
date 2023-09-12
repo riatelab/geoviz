@@ -18,7 +18,7 @@ import { unique } from "../helpers/unique";
  * @param {string} options.strokeDasharray - stroke-dasharray
  * @param {*} options.foo - *other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @example
- * let graticule = layer.graticule(main, { step: 2 })
+ * let graticule = geoviz.layer.graticule(main, { step: 2 })
  * @returns {SVGSVGElement|string} - the function adds a layer with graticule lines to the SVG container and returns the layer identifier.
  */
 export function graticule(

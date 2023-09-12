@@ -7,7 +7,7 @@ const d3 = Object.assign({}, { geoProject });
  * @param {object} options - options and parameters
  * @param {function} options.projection - projection definition. See [d3-geo](https://github.com/d3/d3-geo) & [d3-geo-projection](https://github.com/d3/d3-geo-projection)
  * @example
- * let newGeoJSON = transform.project(world, { projection: d3.geoOrthographic()})
+ * let newGeoJSON = geoviz.transform.project(world, { projection: d3.geoOrthographic()})
  * @returns {object} - a GeoJSON FeatureCollection with coordinates in the page map.
  */
 export function project(data, { projection = null } = {}) {

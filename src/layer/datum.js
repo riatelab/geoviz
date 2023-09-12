@@ -13,7 +13,7 @@ const d3 = Object.assign({}, { geoPath });
  * @param {string} options.id - id of the layer
  * @param {*} options.foo - *other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @example
- * let basemap = layer.datum(main, { data: world, fill: "#CCC" })
+ * let basemap = geoviz.layer.datum(main, { data: world, fill: "#CCC" })
  * @returns {SVGSVGElement|string} - the function adds a layer with circles to the SVG container and returns the layer identifier.
  */
 

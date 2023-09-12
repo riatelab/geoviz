@@ -34,7 +34,7 @@ import { addattrlegend } from "../helpers/addattrlegend";
  * @param {number} options.lineLength - length of line connecting circles to values
  * @param {number} options.gap - gap between texts and legend
  * @example
- * let legend = legend.typo_vertical(main, { types: [foo]), title_text: "GDP per capita", colors: [foo] })
+ * let legend = geoviz.legend.typo_vertical(main, { types: [foo]), title_text: "GDP per capita", colors: [foo] })
  * @returns {SVGSVGElement|string} - the function adds a layer with a legend and its id
  */
 export function typo_vertical(

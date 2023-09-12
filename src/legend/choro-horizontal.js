@@ -38,7 +38,7 @@ const d3 = Object.assign({}, { formatLocale, descending });
  * @param {number} options.lineLength - length of line connecting circles to values
  * @param {number} options.gap - gap between texts and legend
  * @example
- * let legend = legend.choro_horizontal(main, { breaks: [foo]), title_text: "GDP per capita", colors: [foo] })
+ * let legend = geoviz.legend.choro_horizontal(main, { breaks: [foo]), title_text: "GDP per capita", colors: [foo] })
  * @returns {SVGSVGElement|string} - the function adds a layer with a legend and its id
  */
 export function choro_horizontal(

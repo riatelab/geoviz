@@ -27,7 +27,7 @@ const d3 = Object.assign({}, { formatLocale, sum, cumsum });
  * @param {number} options.lineLength - length of line connecting circles to values
  * @param {number} options.gap - Gap between texts and legend
  * @example
- * let legend = legend.circles_nested(main, { data: world.features.map((d) => +d.properties.pop), title_text: "Number of inhabitants", k: 70 })
+ * let legend = geoviz.legend.circles_nested(main, { data: world.features.map((d) => +d.properties.pop), title_text: "Number of inhabitants", k: 70 })
  * @returns {SVGSVGElement|string} - the function adds a layer with a legend and its id
  */
 export function circles(

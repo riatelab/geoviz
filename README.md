@@ -13,58 +13,70 @@ In the browser
 In Observable
 
 ~~~js
-viz = require("geoviz")
+geoviz = require("geoviz")
 ~~~
 
 ### Usage
 
-1 - Simple map
+**1 - Simple map**
 
 ~~~js
-let svg = geoviz.container.create({width: 500})
-svg.layer.datum({
-  data: world,
-  fill: "#CCC",
-})
-return svg.render();
+let geojson =   "./world.json"
+d3.json(geojson).then(data => {
+let svg = geoviz.container.create({projection: d3.geoEqualEarth())
+svg.layer.outline({fill: "#267A8A"})
+svg.layer.graticule({stroke: "white", strokeWidth: 0.4})
+svg.layer.geo({data: data, fill: "#F8D993", stroke: "#ada9a6", strokeWidth:0.5})
+document.body.appendChild(svg.render())
 ~~~
 
-2 - Bubbles
+Demo: [simple.html](https://neocarto.github.io/geoviz/examples/simple**.html)
+
+**2 - Bubbles**
 
 ~~~js
-let svg = geoviz.container.create({width: 500})
-// basemap
-svg.layer.datum(main, {
-  data: world,
-  fill: "#CCC",
-})
-// bubbles
-svg.layer.bubble(main, {
-  data: transform.centroid(world, {largest: true}),
-  r: "population",
-  fill: "red",
-})
-return svg.render();
+let geojson =   "./world.json"
+d3.json(geojson).then(data => {
+let svg = geoviz.container.create({projection: d3.geoEqualEarth()})
+svg.layer.datum({data: data, fill: "white", fillOpacity:0.4})
+let centroids = geoviz.transform.centroid(data)
+svg.layer.bubble({data: centroids, r: "pop", fill: "#f07d75"})
+document.body.appendChild(svg.render())
 ~~~
 
-3 - Choropleth
+Demo: [bubble.html](https://neocarto.github.io/geoviz/examples/bubble.html) & [dorling.html](https://neocarto.github.io/geoviz/examples/dorling.html)
+
+**3 - Choropleth**
 
 ~~~js
-let svg = geoviz.container.create({width: 500})
-// classification
-let classif = geoviz.classify.choro(world.features.map((d) => d.properties.population), {method: "jenks})
-// Choro layer
-svg.geo({
-  data: world,
-  fill: d => classif.colorize(d => d.properties.population),
-})
-return svg.render();
+let geojson =   "./world.json"
+d3.json(geojson).then(data => {
+let svg = geoviz.container.create({projection: d3.geoEqualEarth()})
+let choro = geoviz.classify.choro(data.features.map((d) => d.properties.gdppc))
+svg.layer.geo({data: data, fill: d =>  choro.colorize(d.properties.gdppc)})
+document.body.appendChild(svg.render())
 ~~~
+
+Demo: [choro.html](https://neocarto.github.io/geoviz/examples/choro.html)
+
+**4 - Typology**
+
+~~~js
+let geojson =   "./world.json"
+d3.json(geojson).then(data => {
+let svg = geoviz.container.create({projection: d3.geoEqualEarth())
+let typo = geoviz.classify.typo(data.features.map((d) => d.properties.region));
+svg.layer.geo({data: data, fill: (d) => typo.colorize(d.properties.region) })
+document.body.appendChild(svg.render())
+})
+~~~
+
+Demo: [typo.html](https://neocarto.github.io/geoviz/examples/typo.html)
 
 ### Live Examples
 
-You can find several live examples of how to use the library on the observable platform - [observablehq.com/collection/@neocartocnrs/geoviz](https://observablehq.com/collection/@neocartocnrs/bertin)
+You can find several live examples of how to use the library on the [observable platform](https://observablehq.com/collection/@neocartocnrs/bergeoviztin)
 
 ### Api documentation
 
-See https://neocarto.github.io/geoviz
+See [documentation](https://neocarto.github.io/geoviz/docs)

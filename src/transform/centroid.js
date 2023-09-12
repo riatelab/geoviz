@@ -12,7 +12,7 @@ const d3 = Object.assign({}, { geoArea, geoCentroid, geoIdentity, geoPath });
  * @param {boolean} options.largest - place the centroid in the largest polygon.
  * @param {boolean} options.geocoords - use `true` if input coordinates are in latitude ans longitude. Use `false` if the coordinates are already defined in the page plan
  * @example
- * let dots = transform.centroid(world, { largest: true })
+ * let dots = geoviz.transform.centroid(world, { largest: true })
  * @returns {object} - a GeoJSON FeatureCollection (points)
  */
 export function centroid(data, { largest = true, geocoords = true } = {}) {

@@ -11,7 +11,7 @@ const d3 = Object.assign({}, { scaleOrdinal });
  * @param {string[]} options.palette - name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library)
  * @param {string} options.missing - a color for missings values
  * @example
- * classify.typo(world.features.map((d) => d.properties.region), {palette: "Pastel"})
+ * .geoviz.classify.typo(world.features.map((d) => d.properties.region), {palette: "Pastel"})
  * @return {object} an object containg types, colors, the color of the missing value and a function.
  */
 

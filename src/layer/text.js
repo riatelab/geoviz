@@ -15,7 +15,7 @@ import { unique } from "../helpers/unique";
  * @param {string} options.fontSize - font size
  * @param {*} options.foo - *other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @example
- * let outline = layer.outline(main, { fillOpacity: 0.5 })
+ * let outline = geoviz.layer.outline(main, { fillOpacity: 0.5 })
  * @returns {SVGSVGElement|string} - the function adds a layer with the outline to the SVG container and returns the layer identifier.
  */
 export function text(

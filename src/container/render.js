@@ -7,7 +7,7 @@ import { getDOMids } from "../helpers/getDOMids";
  * @param {object} options - options and parameters
  * @param {object[]} options.order - array determining the order of layers. This option is only useful in Observable (because of its topological nature). 
  * @example
- * container.render(svg, {order: [basemap, roads, cities]})
+ * geoviz.container.render(svg, {order: [basemap, roads, cities]})
  * @returns {SVGSVGElement} - a pretty map in SVG format :-)
 
  */

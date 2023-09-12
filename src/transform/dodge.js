@@ -20,7 +20,7 @@ const d3 = Object.assign(
  * @param {number} options.iteration - number of iterations
  * @param {number} options.gap - space between points/circles
  * @example
- * let dots = transform.dodge(world, { projection: d3.geoOrthographic(), r: "population", k: 40 })
+ * let dots = geoviz.transform.dodge(world, { projection: d3.geoOrthographic(), r: "population", k: 40 })
  * @returns {object} - a GeoJSON FeatureCollection (points) with coordinates in the page map.
  */
 

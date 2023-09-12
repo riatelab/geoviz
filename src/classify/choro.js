@@ -20,7 +20,7 @@ const d3 = Object.assign({}, { scaleThreshold });
  * @param {number} options.k - number of standard deviations taken into account (msd method only)
  * @param {boolean} options.middle - o have the average as a class center (msd method only)
  * @example
- * classify.choro(world.features.map((d) => d.properties.gdppc))
+ * geoviz.classify.choro(world.features.map((d) => d.properties.gdppc))
  * @return {object} an object containg breaks, colors, the color of the missing value and a function.
  */
 

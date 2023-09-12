@@ -25,7 +25,7 @@ import { addattrlegend } from "../helpers/addattrlegend";
  * @param {number} options.lineLength - length of line connecting circles to values
  * @param {number} options.values_text - Text to display
  * @example
- * let legend = legend.box(main, { rect_fill:"blue", values_text:"water" })
+ * let legend = geoviz.legend.box(main, { rect_fill:"blue", values_text:"water" })
  * @returns {SVGSVGElement|string} - the function adds a layer with a legend and its id
  */
 export function box(

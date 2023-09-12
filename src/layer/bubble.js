@@ -23,7 +23,7 @@ const d3 = Object.assign({}, { scaleSqrt, max, descending });
  * @param {object} options.tipstyle - tooltip style
  * @param {*} options.foo - *other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @example
- * let circles = layer.bubble(main, { data: cities, r: "population" })
+ * let circles = geoviz.layer.bubble(main, { data: cities, r: "population" })
  * @returns {SVGSVGElement|string} - the function adds a layer with circles to the SVG container and returns the layer identifier.
  */
 

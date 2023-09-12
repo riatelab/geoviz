@@ -22,7 +22,7 @@ import { unique } from "../helpers/unique";
  * @param {string} options.strokeLinejoin - stroke-Linejoin
  * @param {*} options.foo - *other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @example
- * let circles = layer.label(main, { data: cities, text: "population", fontSize:20 })
+ * let circles = geoviz.layer.label(main, { data: cities, text: "population", fontSize:20 })
  * @returns {SVGSVGElement|string} - the function adds a layer with labels to the SVG container and returns the layer identifier.
  */
 export function label(
