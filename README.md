@@ -21,7 +21,7 @@ viz = require("geoviz")
 1 - Simple map
 
 ~~~js
-let svg = container.create({width: 500})
+let svg = geoviz.container.create({width: 500})
 svg.layer.datum({
   data: world,
   fill: "#CCC",
@@ -32,7 +32,7 @@ return svg.render();
 2 - Bubbles
 
 ~~~js
-let svg = container.create({width: 500})
+let svg = geoviz.container.create({width: 500})
 // basemap
 svg.layer.datum(main, {
   data: world,
@@ -50,9 +50,9 @@ return svg.render();
 3 - Choropleth
 
 ~~~js
-let svg = container.create({width: 500})
+let svg = geoviz.container.create({width: 500})
 // classification
-let classif = classify.choro(world.features.map((d) => d.properties.population), {method: "jenks})
+let classif = geoviz.classify.choro(world.features.map((d) => d.properties.population), {method: "jenks})
 // Choro layer
 svg.geo({
   data: world,
