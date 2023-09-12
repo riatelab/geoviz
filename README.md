@@ -30,7 +30,7 @@ svg.layer.geo({data: data, fill: "#F8D993", stroke: "#ada9a6", strokeWidth:0.5})
 document.body.appendChild(svg.render())
 ~~~
 
-Demo: [simple.html](https://neocarto.github.io/geoviz/examples/simple**.html)
+Demo: [simple.html](https://neocarto.github.io/geoviz/examples/simple.html)
 
 **2 - Bubbles**
 

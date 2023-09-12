@@ -16,10 +16,9 @@ svg.layer.outline()
 svg.layer.graticule({stroke: "white", strokeWidth: 0.4})
 svg.layer.datum({data: data, fill: "white", fillOpacity:0.4})
 let centroids = geoviz.transform.centroid(data)
-svg.layer.bubble({data: centroids, r: "pop", fill: "#f07d75"})
+svg.layer.bubble({data: centroids, r: "pop", fill: "#f07d75", tip:d => `${d.properties.NAMEen}
+${d.properties.pop} inh.`})
 svg.legend.circles_nested({pos:[50, 250], data: centroids.features.map(d => d.properties.pop), title_text: "Word Population" })
-
-
 svg.layer.text({pos:[svg.width/2, 30], textAnchor: "middle", fontSize: 30, text: "A World Map With Bubbles", fill: "#267A8A", fontWeight: "bold", fontFamily: "Tangerine"})
 document.body.appendChild(svg.render())
 })
