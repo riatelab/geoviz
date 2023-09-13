@@ -1,6 +1,6 @@
 ![npm](https://img.shields.io/npm/v/geoviz) ![jsdeliver](https://img.shields.io/jsdelivr/npm/hw/geoviz) ![license](https://img.shields.io/badge/license-MIT-success) ![code size](https://img.shields.io/github/languages/code-size/neocarto/geoviz) ![github stars](https://img.shields.io/github/stars/neocarto/geoviz?style=social)
 
-![logo](img/logo_small.png)
+![logo](img/logo_small_transparent.png)
 
 # Geoviz JavaScript library
 
