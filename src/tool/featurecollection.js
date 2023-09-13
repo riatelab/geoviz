@@ -1,5 +1,6 @@
 import { whatisit } from "../helpers/whatisit";
 import { coords2geo } from "../helpers/coords2geo";
+import { geotabletogeojson } from "../helpers/geotabletogeojson";
 import { bbox } from "../helpers/bbox";
 
 /**
@@ -10,14 +11,20 @@ import { bbox } from "../helpers/bbox";
  * @param {string} options.latitude - name of field containing latitudes. You can also use `lat`
  * @param {string} options.longitude - name of field containing longitudes. You can also use `lon`
  * @param {string} options.coordinates - name of field containing géographic coordinates. You can also use `coords`
+ * @param {string} options.geometry - name of field containing GEOJSON geometries
+ *
  * @returns {object} a GeoJSON FeatureCollection
  */
 
 export function featurecollection(data, options = {}) {
   let x = JSON.parse(JSON.stringify(data));
-
-  if (whatisit(x) == "table" && checkOptions) {
+  if (whatisit(x) == "table" && checkTable(options) == true) {
+    console.log("table");
     return coords2geo(x, options);
+  } else if (whatisit(x) == "table" && checkGeoTable(options) == true) {
+    console.log("geotable");
+    console.log(options);
+    return geotabletogeojson(x, options);
   } else {
     switch (whatisit(x)) {
       case "FeatureCollection":
@@ -58,13 +65,21 @@ export function featurecollection(data, options = {}) {
   }
 }
 
-function checkOptions(options) {
+function checkTable(options) {
   if (
     (options.lat && options.lon) ||
     (options.latitude && options.longitude) ||
     options.coords ||
     options.coordinates
   ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function checkGeoTable(options) {
+  if (options.geom || options.geometry) {
     return true;
   } else {
     return false;

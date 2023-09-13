@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="667.01459mm"
+   height="770.20245mm"
+   viewBox="0 0 667.01459 770.20245"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09, custom)"
+   sodipodi:docname="logo.svg"
+   inkscape:export-filename="../cebfc283/logo.png"
+   inkscape:export-xdpi="57.12019"
+   inkscape:export-ydpi="57.12019"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#999999"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.2102413"
+     inkscape:cx="1524.4388"
+     inkscape:cy="1767.0172"
+     inkscape:window-width="1864"
+     inkscape:window-height="1016"
+     inkscape:window-x="994"
+     inkscape:window-y="1107"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <pattern
+       id="hatch"
+       patternUnits="userSpaceOnUse"
+       width="12.5"
+       height="12.5"
+       patternTransform="rotate(45)">
+      <line
+         x1="0"
+         y1="12.5"
+         x2="0"
+         stroke="white"
+         stroke-linejoin="butt"
+         stroke-width="3.3333333333333335"
+         stroke-opacity="0.25"
+         id="line198" />
+    </pattern>
+    <pattern
+       id="hatch-3"
+       patternUnits="userSpaceOnUse"
+       width="12.5"
+       height="12.5"
+       patternTransform="rotate(45)">
+      <line
+         x1="0"
+         y1="12.5"
+         x2="0"
+         stroke="white"
+         stroke-linejoin="butt"
+         stroke-width="3.3333333333333335"
+         stroke-opacity="0.25"
+         id="line198-7" />
+    </pattern>
+    <filter
+       inkscape:menu-tooltip="Partly opaque water color effect with bleed"
+       inkscape:menu="Textures"
+       inkscape:label="Gouache"
+       style="color-interpolation-filters:sRGB;"
+       id="filter8834"
+       x="-0.011362492"
+       y="-0.0098402017"
+       width="1.022725"
+       height="1.0196804">
+      <feGaussianBlur
+         stdDeviation="3"
+         result="result5"
+         in="SourceGraphic"
+         id="feGaussianBlur8822" />
+      <feTurbulence
+         result="result1"
+         baseFrequency="0.02"
+         type="fractalNoise"
+         seed="0"
+         numOctaves="3"
+         id="feTurbulence8824" />
+      <feDisplacementMap
+         result="result3"
+         in2="result1"
+         in="SourceGraphic"
+         xChannelSelector="R"
+         yChannelSelector="G"
+         scale="30"
+         id="feDisplacementMap8826" />
+      <feComposite
+         result="result4"
+         in="result3"
+         in2="result1"
+         operator="out"
+         id="feComposite8828" />
+      <feComposite
+         result="result6"
+         operator="arithmetic"
+         k2="1"
+         k1="0.3"
+         k3="0.3"
+         in2="result4"
+         id="feComposite8830" />
+      <feComposite
+         in2="result5"
+         in="result6"
+         operator="over"
+         id="feComposite8832" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter9505"
+       x="-0.12227966"
+       y="-0.10589724"
+       width="1.2445593"
+       height="1.2117945">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="30.287495"
+         id="feGaussianBlur9507" />
+    </filter>
+    <pattern
+       id="hatch-6"
+       patternUnits="userSpaceOnUse"
+       width="12.5"
+       height="12.5"
+       patternTransform="rotate(45)">
+      <line
+         x1="0"
+         y1="12.5"
+         x2="0"
+         stroke="white"
+         stroke-linejoin="butt"
+         stroke-width="3.3333333333333335"
+         stroke-opacity="0.25"
+         id="line198-2" />
+    </pattern>
+    <pattern
+       id="hatch-6-4"
+       patternUnits="userSpaceOnUse"
+       width="12.5"
+       height="12.5"
+       patternTransform="rotate(45)">
+      <line
+         x1="0"
+         y1="12.5"
+         x2="0"
+         stroke="white"
+         stroke-linejoin="butt"
+         stroke-width="3.3333333333333335"
+         stroke-opacity="0.25"
+         id="line198-2-1" />
+    </pattern>
+    <pattern
+       inkscape:collect="always"
+       xlink:href="#hatch-6-4-8"
+       id="pattern11911"
+       patternTransform="matrix(0.51738461,0.51738461,-0.51738461,0.51738461,-806.33477,-427.3304)" />
+    <pattern
+       id="hatch-6-4-8"
+       patternUnits="userSpaceOnUse"
+       width="12.5"
+       height="12.5"
+       patternTransform="rotate(45)">
+      <line
+         x1="0"
+         y1="12.5"
+         x2="0"
+         stroke="white"
+         stroke-linejoin="butt"
+         stroke-width="3.3333333333333335"
+         stroke-opacity="0.25"
+         id="line198-2-1-5" />
+    </pattern>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(823.01017,446.58547)">
+    <path
+       d="M -155.9956,-254.03486 V 131.06636 L -489.5025,323.61697 -823.01017,131.06636 v -385.10122 l 333.50767,-192.55061 z"
+       stroke="none"
+       fill="#c42727"
+       id="path203"
+       style="stroke-width:0.770202;fill:#ffd42a;fill-opacity:1" />
+    <path
+       d="M -192.27442,-233.08926 V 110.12075 L -489.50253,281.72576 -786.73132,110.12075 v -343.21001 l 297.22879,-171.605 z"
+       stroke="none"
+       fill="#c42727"
+       id="path203-4"
+       style="fill:#ffe26e;fill-opacity:1;stroke-width:0.68642;filter:url(#filter9505)" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:579.192px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:14.4798"
+       x="-690.01416"
+       y="132.66386"
+       id="text3149-4"><tspan
+         sodipodi:role="line"
+         id="tspan3147-4"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Manjari;-inkscape-font-specification:Manjari;fill:#000000;fill-opacity:1;stroke-width:14.4798"
+         x="-690.01416"
+         y="132.66386">G</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:214.71px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:5.36777"
+       x="-794.68079"
+       y="-7.8067417"
+       id="text252"><tspan
+         sodipodi:role="line"
+         id="tspan250"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:wasy10;-inkscape-font-specification:wasy10;stroke-width:5.36777"
+         x="-794.68079"
+         y="-7.8067417">G</tspan></text>
+    <g
+       id="g11208"
+       transform="matrix(1.2148027,0,0,1.2148027,30.743394,27.335011)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:81.6472px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.04118"
+         x="-487.27228"
+         y="-100.10664"
+         id="text3149-3"><tspan
+           sodipodi:role="line"
+           id="tspan3147-0"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Manjari;-inkscape-font-specification:Manjari;stroke-width:2.04118"
+           x="-487.27228"
+           y="-100.10664">GEOVIZ</tspan></text>
+      <ellipse
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ee1a26;fill-opacity:1;stroke:none;stroke-width:11.6301;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         id="path9625"
+         cx="-347.17343"
+         cy="-127.05503"
+         rx="27.492001"
+         ry="28.783449" />
+    </g>
+    <rect
+       style="font-variation-settings:normal;vector-effect:none;fill:#000000;fill-opacity:1;stroke:none;stroke-width:10.5212;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+       id="rect11365-1"
+       width="294.23135"
+       height="13.306463"
+       x="-636.61853"
+       y="185.1257"
+       ry="4.2592406" />
+    <rect
+       style="font-variation-settings:normal;vector-effect:none;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.24689;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+       id="rect11365-1-7"
+       width="180.77805"
+       height="13.306463"
+       x="-579.89191"
+       y="214.77998"
+       ry="4.2592406" />
+    <rect
+       style="font-variation-settings:normal;vector-effect:none;fill:#000000;fill-opacity:1;stroke:none;stroke-width:5.74812;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+       id="rect11365-1-7-5"
+       width="87.824028"
+       height="13.306463"
+       x="-533.41492"
+       y="244.43384"
+       ry="4.2592406" />
+    <rect
+       style="font-variation-settings:normal;vector-effect:none;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.78261;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+       id="rect11365-1-7-5-9"
+       width="20.581051"
+       height="13.306463"
+       x="-499.7934"
+       y="274.0878"
+       ry="4.2592406" />
+    <rect
+       style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:0.60606;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+       id="rect13715"
+       width="111.28831"
+       height="83.142914"
+       x="-299.22528"
+       y="-23.118498"
+       ry="28.563425" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:60.5043px;line-height:1.25;font-family:sans-serif;fill:#ffd633;fill-opacity:1;stroke:none;stroke-width:1.51261"
+       x="-288.49002"
+       y="38.91349"
+       id="text13773"><tspan
+         sodipodi:role="line"
+         id="tspan13771"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Manjari;-inkscape-font-specification:Manjari;fill:#ffd633;fill-opacity:1;stroke-width:1.51261"
+         x="-288.49002"
+         y="38.91349">.JS</tspan></text>
+    <path
+       d="m -172.67098,-244.40732 v 365.84615 l -316.83159,182.92308 -316.8322,-182.92308 v -365.84615 l 316.8322,-182.92308 z"
+       stroke="none"
+       fill="url(#hatch)"
+       id="path215"
+       style="fill:url(#pattern11911);stroke-width:0.731692" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Layer 2" />
+</svg>

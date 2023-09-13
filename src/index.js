@@ -10,11 +10,13 @@ export let container = {
 import { rewind } from "./tool/rewind";
 import { featurecollection } from "./tool/featurecollection";
 import { merge } from "./tool/merge";
+import { geotable } from "./tool/geotable";
 
 export let tool = {
   rewind,
   featurecollection,
   merge,
+  geotable,
 };
 
 // Transform
