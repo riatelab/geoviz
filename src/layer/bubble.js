@@ -48,9 +48,6 @@ export function bubble(
     : svg.select(`#${id}`);
   layer.selectAll("*").remove();
 
-  // Attr with specific default values
-  layer.attr("fill", fill).attr("stroke", stroke);
-
   // ...attr
   addattr({
     layer,
@@ -83,7 +80,9 @@ export function bubble(
       .join("circle")
       .attr("cx", (d) => projection(d.geometry.coordinates)[0])
       .attr("cy", (d) => projection(d.geometry.coordinates)[1])
-      .attr("r", (d) => radius(Math.abs(d.properties[r])));
+      .attr("r", (d) => radius(Math.abs(d.properties[r])))
+      .attr("fill", fill)
+      .attr("stroke", stroke);
   }
 
   if (typeof r == "number") {
@@ -93,7 +92,9 @@ export function bubble(
       .join("circle")
       .attr("cx", (d) => projection(d.geometry.coordinates)[0])
       .attr("cy", (d) => projection(d.geometry.coordinates)[1])
-      .attr("r", r);
+      .attr("r", r)
+      .attr("fill", fill)
+      .attr("stroke", stroke);
   }
 
   if (tip) {
