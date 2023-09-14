@@ -89,7 +89,8 @@ function isGeometry(x) {
 }
 
 function isArrayOfObjects(x) {
-  return Array.isArray(x) &&
+  return !isBbox(x) &&
+    Array.isArray(x) &&
     typeof x[0] == "object" &&
     Object.keys(x[0]).length !== 0
     ? true

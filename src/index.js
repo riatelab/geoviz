@@ -74,3 +74,4 @@ export let legend = {
   typo_horizontal,
   box,
 };
+export { whatisit } from "./helpers/whatisit";
