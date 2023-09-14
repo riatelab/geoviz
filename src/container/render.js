@@ -21,7 +21,7 @@ export function render(svg, { order = [] } = {}) {
     }
   }
   // raise tooltips
-  svg.select("#_geoviztooltip").raise();
+  svg.select(".geotooltip").raise();
   // Add metadata
   Object.assign(svg.node(), {
     metadata: "Map designed with https://github.com/neocarto/geoviz",

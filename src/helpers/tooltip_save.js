@@ -1,5 +1,4 @@
 import { select, pointers } from "d3-selection";
-import { unique } from "./unique.js";
 const d3 = Object.assign({}, { select, pointers });
 
 export function tooltip(layer, container, tip, tip_style = {}) {
@@ -15,14 +14,19 @@ export function tooltip(layer, container, tip, tip_style = {}) {
     textDecoration: "none",
   };
 
+  if (container.selectAll("#_geoviztooltip").empty()) {
+    console.log("create");
+    container.append("g").attr("id", "_geoviztooltip");
+  } else {
+    console.log("not create");
+  }
+
   Object.keys(tip_style).forEach((d) => {
     style[d] = tip_style[d];
   });
 
-  let idtooltip = "tooltip" + unique();
-
-  container.append("g").attr("id", idtooltip).attr("class", "geotooltip");
-  const geoviztooltip = container.select(`#${idtooltip}`);
+  //layer.style("visiblility", "hidden");
+  const geoviztooltip = container.select("#_geoviztooltip");
   geoviztooltip.attr("pointer-events", "none");
 
   const path = geoviztooltip
