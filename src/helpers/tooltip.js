@@ -1,8 +1,7 @@
 import { select, pointers } from "d3-selection";
-import { unique } from "./unique.js";
 const d3 = Object.assign({}, { select, pointers });
 
-export function tooltip(layer, container, tip, tip_style = {}) {
+export function tooltip(layer, container, tip, tip_style = {}, id) {
   let style = {
     fontSize: 15,
     fill: "#4d4545",
@@ -19,7 +18,7 @@ export function tooltip(layer, container, tip, tip_style = {}) {
     style[d] = tip_style[d];
   });
 
-  let idtooltip = "tooltip" + unique();
+  let idtooltip = "tooltip" + id;
 
   container.append("g").attr("id", idtooltip).attr("class", "geotooltip");
   const geoviztooltip = container.select(`#${idtooltip}`);
