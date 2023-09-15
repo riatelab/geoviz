@@ -23,6 +23,7 @@ toc:
       - centroid
       - dodge
       - project
+      - replicate
   - name: classify
     description: |
       This section contains classification operations that can be used, for example, to create choropleth maps or typologies. 
