@@ -83,6 +83,7 @@ export function create({
       .attr("height", height)
       .attr("viewBox", [0, 0, width, height])
       .style("background-color", background);
+    svg.append("g").attr("id", "geoviztooltip");
 
     output = Object.assign(svg, info);
   } else {
@@ -96,6 +97,7 @@ export function create({
       .attr("width", width)
       .attr("height", height)
       .attr("fill", background);
+    svg.append("g").attr("id", "geoviztooltip");
 
     output = Object.assign(svg, info);
   }
@@ -133,7 +135,6 @@ export function create({
         d.func(output, arguments[0]);
       })
   );
-
   // Output
 
   return Object.assign(output, {

@@ -1,7 +1,7 @@
 import { select, pointers } from "d3-selection";
 const d3 = Object.assign({}, { select, pointers });
 
-export function tooltip(layer, container, tip, tip_style = {}, id) {
+export function tooltip(layer, container, tip, tip_style = {}) {
   let style = {
     fontSize: 15,
     fill: "#4d4545",
@@ -18,29 +18,41 @@ export function tooltip(layer, container, tip, tip_style = {}, id) {
     style[d] = tip_style[d];
   });
 
-  let idtooltip = "tooltip" + id;
-
-  container.append("g").attr("id", idtooltip).attr("class", "geotooltip");
-  const geoviztooltip = container.select(`#${idtooltip}`);
+  const geoviztooltip = container.select(`#geoviztooltip`);
   geoviztooltip.attr("pointer-events", "none");
 
-  const path = geoviztooltip
-    .append("g")
-    .attr("fill", style.background)
-    .attr("stroke", style.stroke)
-    .attr("stroke-width", style.strokeWidth)
-    .selectAll("path")
-    .data([null])
-    .join("path");
-  const text = geoviztooltip
-    .append("g")
-    .attr("font-size", `${style.fontSize}px`)
-    .attr("fill", style.fill)
-    .attr("font-family", style.fontFamily)
-    .attr("font-weight", style.fontWeight)
-    .attr("font-style", style.fontStyle)
-    .attr("text-decoration", style.textDecoration);
-
+  let path;
+  let text;
+  if (container.select(`#geoviztooltip`).selectAll("*").empty()) {
+    path = geoviztooltip
+      .append("g")
+      .attr("id", "geotooltippath")
+      .attr("fill", style.background)
+      .attr("stroke", style.stroke)
+      .attr("stroke-width", style.strokeWidth)
+      .selectAll("path")
+      .data([null])
+      .join("path");
+    text = geoviztooltip
+      .append("g")
+      .attr("id", "geotooltiptext")
+      .attr("font-size", `${style.fontSize}px`)
+      .attr("fill", style.fill)
+      .attr("font-family", style.fontFamily)
+      .attr("font-weight", style.fontWeight)
+      .attr("font-style", style.fontStyle)
+      .attr("text-decoration", style.textDecoration);
+  } else {
+    path = geoviztooltip
+      .select("#geotooltippath")
+      .attr("fill", style.background)
+      .attr("stroke", style.stroke)
+      .attr("stroke-width", style.strokeWidth)
+      .selectAll("path")
+      .data([null])
+      .join("path");
+    text = geoviztooltip.select("#geotooltiptext");
+  }
   layer
     .selectAll("*")
     .on("touchmove mousemove", function (event, d) {

@@ -98,7 +98,7 @@ export function bubble(
   }
 
   if (tip) {
-    tooltip(layer, svg, tip, tipstyle, id);
+    tooltip(layer, svg, tip, tipstyle);
   }
 
   return `#${id}`;

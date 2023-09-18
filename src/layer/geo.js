@@ -61,7 +61,7 @@ export function geo(
 
   // Tooltip
   if (tip) {
-    tooltip(layer, svg, tip, tipstyle, id);
+    tooltip(layer, svg, tip, tipstyle);
   }
 
   return `#${id}`;
