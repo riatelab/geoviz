@@ -49,6 +49,7 @@ import { text } from "./layer/text";
 import { bubble } from "./layer/bubble";
 import { datum } from "./layer/datum";
 import { label } from "./layer/label";
+import { tile } from "./layer/tile";
 export let layer = {
   datum,
   geo,
@@ -57,6 +58,7 @@ export let layer = {
   text,
   bubble,
   label,
+  tile,
 };
 
 // Legend

@@ -13,6 +13,7 @@ import { text as addtext } from "../layer/text";
 import { bubble as addbubble } from "../layer/bubble";
 import { datum as adddatum } from "../layer/datum";
 import { label as addlabel } from "../layer/label";
+import { tile } from "../layer/tile";
 
 import { circles_nested as addcircles_nested } from "../legend/circles-nested";
 import { circles as addcircles } from "../legend/circles";
@@ -113,6 +114,7 @@ export function create({
     { id: "datum", func: adddatum },
     { id: "label", func: addlabel },
     { id: "text", func: addtext },
+    { id: "tile", func: tile },
   ].forEach(
     (d) =>
       (layer[d.id] = function () {
