@@ -12,6 +12,7 @@ import { tile as d3tile } from "d3-tile";
  * @param {number} options.zoomDelta - zoom offset
  * @param {number} options.opacity - tile opacity
  * @param {function} options.url - tile style
+ * @param {string} options.clipPath - clip-path. e.g. "url(#myclipid)"
  *
  * let tiles = geoviz.layer.tile(main, {  url : (x, y, z) =>
     `https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}.png`})
@@ -26,6 +27,7 @@ export function tile(
     zoomDelta = 1,
     increasetilesize = 1,
     opacity = 1,
+    clipPath,
     url = (x, y, z) => `https://tile.openstreetmap.org/${z}/${x}/${y}.png`,
   } = {}
 ) {
@@ -49,7 +51,8 @@ export function tile(
     .attr("y", (d) => Math.round((d[1] + tile().translate[1]) * tile().scale))
     .attr("width", tile().scale + increasetilesize + "px")
     .attr("height", tile().scale + increasetilesize + "px")
-    .attr("opacity", opacity);
+    .attr("opacity", opacity)
+    .attr("clip-path", clipPath);
 
   return `#${id}`;
 }

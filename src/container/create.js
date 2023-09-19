@@ -14,6 +14,7 @@ import { bubble as addbubble } from "../layer/bubble";
 import { datum as adddatum } from "../layer/datum";
 import { label as addlabel } from "../layer/label";
 import { tile } from "../layer/tile";
+import { clippath } from "../layer/clippath";
 
 import { circles_nested as addcircles_nested } from "../legend/circles-nested";
 import { circles as addcircles } from "../legend/circles";
@@ -115,6 +116,7 @@ export function create({
     { id: "label", func: addlabel },
     { id: "text", func: addtext },
     { id: "tile", func: tile },
+    { id: "clippath", func: clippath },
   ].forEach(
     (d) =>
       (layer[d.id] = function () {

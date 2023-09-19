@@ -50,6 +50,7 @@ import { bubble } from "./layer/bubble";
 import { datum } from "./layer/datum";
 import { label } from "./layer/label";
 import { tile } from "./layer/tile";
+import { clippath } from "./layer/clippath";
 export let layer = {
   datum,
   geo,
@@ -59,6 +60,7 @@ export let layer = {
   bubble,
   label,
   tile,
+  clippath,
 };
 
 // Legend
