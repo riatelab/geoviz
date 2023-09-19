@@ -33,6 +33,12 @@ export function tile(
 ) {
   console.log("WARNING - you must use the projection d3.geoMercator()");
 
+  // init layer
+  let layer = svg.selectAll(`#${id}`).empty()
+    ? svg.append("g").attr("id", id)
+    : svg.select(`#${id}`);
+  layer.selectAll("*").remove();
+
   let tile = d3tile()
     .size([svg.width, svg.height])
     .scale(svg.projection.scale() * 2 * Math.PI)
@@ -40,9 +46,7 @@ export function tile(
     .tileSize(tileSize)
     .zoomDelta(zoomDelta);
 
-  svg
-    .append("g")
-    .attr("id", id)
+  layer
     .selectAll("image")
     .data(tile())
     .join("image")

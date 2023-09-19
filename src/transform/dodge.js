@@ -35,7 +35,12 @@ export function dodge(
     gap = 0,
   } = {}
 ) {
-  let features = JSON.parse(JSON.stringify(data)).features;
+  let rawfeatures = JSON.parse(JSON.stringify(data))
+    .features.filter((d) => d.geometry)
+    .filter((d) => d.geometry.coordinates != undefined);
+
+  let features = JSON.parse(JSON.stringify(rawfeatures));
+
   let simulation;
   if (typeof r == "string") {
     const valmax =
@@ -61,7 +66,6 @@ export function dodge(
   }
 
   if (typeof r == "number") {
-    features = features.filter((d) => d.geometry.coordinates != undefined);
     simulation = d3
       .forceSimulation(features)
       .force(
@@ -79,7 +83,6 @@ export function dodge(
     simulation.tick();
   }
 
-  let rawfeatures = JSON.parse(JSON.stringify(data)).features;
   rawfeatures.map(
     (d, i) => (d.geometry.coordinates = [features[i].x, features[i].y])
   );

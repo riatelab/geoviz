@@ -51,6 +51,7 @@ import { datum } from "./layer/datum";
 import { label } from "./layer/label";
 import { tile } from "./layer/tile";
 import { clippath } from "./layer/clippath";
+import { header } from "./layer/header";
 export let layer = {
   datum,
   geo,
@@ -61,6 +62,7 @@ export let layer = {
   label,
   tile,
   clippath,
+  header,
 };
 
 // Legend

@@ -68,6 +68,7 @@ export function bubble(
       .selectAll("circle")
       .data(
         data.features
+          .filter((d) => d.geometry)
           .filter((d) => d.geometry.coordinates != undefined)
           .filter((d) => d.properties[r] != undefined)
           .sort((a, b) =>
@@ -88,7 +89,11 @@ export function bubble(
   if (typeof r == "number") {
     layer
       .selectAll("circle")
-      .data(data.features.filter((d) => d.geometry.coordinates != undefined))
+      .data(
+        data.features
+          .filter((d) => d.geometry)
+          .filter((d) => d.geometry.coordinates != undefined)
+      )
       .join("circle")
       .attr("cx", (d) => projection(d.geometry.coordinates)[0])
       .attr("cy", (d) => projection(d.geometry.coordinates)[1])
