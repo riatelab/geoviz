@@ -13,8 +13,9 @@ import { tile as d3tile } from "d3-tile";
  * @param {number} options.opacity - tile opacity
  * @param {function} options.url - tile style
  *
- * let circles = geoviz.layer.bubble(main, { data: cities, r: "population" })
- * @returns {SVGSVGElement|string} - the function adds a layer with circles to the SVG container and returns the layer identifier.
+ * let tiles = geoviz.layer.tile(main, {  url : (x, y, z) =>
+    `https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}.png`})
+ * @returns {SVGSVGElement|string} - the function adds a layer with mercator tiles to the SVG container and returns the layer identifier.
  */
 
 export function tile(
