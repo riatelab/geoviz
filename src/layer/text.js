@@ -24,7 +24,7 @@ export function text(
     text = "My text here",
     pos = [10, 10],
     id = unique(),
-    fill = "#e87daf",
+    fill = "red",
     fontSize = 15,
   } = {}
 ) {
@@ -35,7 +35,10 @@ export function text(
   layer.selectAll("*").remove();
 
   // Attr with specific default values
-  layer.attr("font-size", `${fontSize}px`).attr("fill", fill);
+  layer
+    .attr("font-size", `${fontSize}px`)
+    .attr("fill", fill)
+    .attr("font-family", svg.fontFamily || fontFamily);
 
   // ...attr
   addattr({

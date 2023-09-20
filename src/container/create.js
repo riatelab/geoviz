@@ -37,6 +37,7 @@ import { render as addrender } from "../container/render";
  * @param {function} options.projection - projection definition. See [d3-geo](https://github.com/d3/d3-geo) & [d3-geo-projection](https://github.com/d3/d3-geo-projection)
  * @param {number[]} options.pos - position of the container (if contained in another svg container)
  * @param {string} options.background - background color
+ * @param {string} options.frontFamily - font-family for the entire map
  * @param {number|number[]} options.margin - margins around the map. A number to set the same margin everywhere or an array [top, right, bottom, left] to set different margins.
  * @param {object} options.parent - name of parent container into which this child container is to be included. In this case, the options.pos parameter is also used.
  * @example
@@ -53,11 +54,19 @@ export function create({
   width = 1000,
   margin = [0, 0, 0, 0],
   parent = null,
+  fontFamily = "Roboto",
 } = {}) {
+  // Font
+  let link = document.createElement("link");
+  link.setAttribute("rel", "stylesheet");
+  link.setAttribute("type", "text/css");
+  link.setAttribute("href", "https://fonts.googleapis.com/css2?family=Roboto");
+  document.head.appendChild(link);
+
   let output;
   let info;
   if (height !== null) {
-    info = { width, height };
+    info = { width, height, fontFamily };
   } else {
     //adapt scale
     let ref = extent(domain);
@@ -75,6 +84,7 @@ export function create({
       margin,
       width,
       height,
+      fontFamily,
       bbox: d3.geoBounds(ref),
     };
   }

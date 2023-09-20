@@ -7,8 +7,8 @@ export function header(
   {
     id = unique(),
     text = "Map title",
-    rect_fill = "black",
-    rect_fillOpacity = 0.15,
+    rect_fill = "white",
+    rect_fillOpacity = 0.4,
     fontSize = 30,
   } = {}
 ) {
@@ -18,10 +18,13 @@ export function header(
     : svg.select(`#${id}`);
   layer.selectAll("*").remove();
 
-  console.log(arguments[1]);
-
   // Height
-  let tmp = layer.append("text").attr("font-size", fontSize).text(text);
+  let tmp = layer
+    .append("text")
+    .attr("x", 100)
+    .attr("font-size", fontSize)
+    .attr("font-family", svg.fontFamily || fontFamily)
+    .text(text);
   let txt_height = getsize(tmp).height;
   tmp.remove();
 
@@ -31,7 +34,7 @@ export function header(
     .attr("x", 0)
     .attr("y", 0)
     .attr("width", svg.width)
-    .attr("height", txt_height + txt_height / 4)
+    .attr("height", txt_height)
     .attr("fill", rect_fill)
     .attr("fill-opacity", rect_fillOpacity);
 
@@ -42,15 +45,13 @@ export function header(
     prefix: "rect",
   });
 
-  // ATTENTION FONT FAMILIY !! TODO
-
-  let mytext = layer
+  layer
     .append("text")
     .attr("x", svg.width / 2)
-    .attr("y", (txt_height + txt_height / 4) / 2)
+    .attr("y", txt_height / 2)
     .attr("text-anchor", "middle")
-    .attr("fontFamilly", null)
-    .attr("dominant-baseline", "central")
+    .attr("font-family", svg.fontFamily || fontFamily)
+    .attr("dominant-baseline", "middle")
     .attr("font-size", fontSize)
     .attr("fill", "#242323")
     .text(text);

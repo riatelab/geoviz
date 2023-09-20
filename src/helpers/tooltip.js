@@ -8,11 +8,13 @@ export function tooltip(layer, container, tip, tip_style = {}) {
     background: "#fcf7e6",
     stroke: "#4a4d4b",
     strokeWidth: 1,
-    fontFamily: "Roboto",
+    fontFamily: container.fontFamily,
     fontWeight: "normal",
     fontStyle: "normal",
     textDecoration: "none",
   };
+
+  console.log(style);
 
   Object.keys(tip_style).forEach((d) => {
     style[d] = tip_style[d];

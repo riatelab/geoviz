@@ -1,10 +1,12 @@
 import { camelcasetodash } from "./camelcase";
-export function legtitle(layer, options, prefix, dy = 0) {
+export function legtitle(svg, layer, options, prefix, dy = 0) {
   if (options?.[prefix + "_text"]) {
     const defaultvalues = {
       texts_fontSize: 14,
       texts_fill: "#363636",
+      texts_fontFamily: svg.fontFamily,
     };
+
     const params = Object.assign(defaultvalues, options);
 
     let title = layer.append("g").attr("transform", `translate(0, ${dy})`);

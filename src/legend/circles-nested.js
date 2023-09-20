@@ -54,10 +54,10 @@ export function circles_nested(
   layer.attr("transform", `translate(${pos})`);
 
   // Title
-  let dy = legtitle(layer, arguments[1], "title", 0);
+  let dy = legtitle(svg, layer, arguments[1], "title", 0);
 
   // Subtitle
-  dy = legtitle(layer, arguments[1], "subtitle", dy);
+  dy = legtitle(svg, layer, arguments[1], "subtitle", dy);
 
   // Circles
   let arr = datatoradius(data, { nb, round: values_round, fixmax, k });
@@ -118,6 +118,7 @@ export function circles_nested(
     .text((d) => locale.format(",")(d[0]))
     .attr("dominant-baseline", "middle")
     .attr("font-size", 10)
+    .attr("font-family", svg.fontFamily)
     .attr("fill", "#363636");
   addattrlegend({
     params: arguments[1],
@@ -127,6 +128,6 @@ export function circles_nested(
   });
 
   // Note
-  dy = legtitle(layer, arguments[1], "note", dy + rmax * 2 + gap * 2);
+  dy = legtitle(svg, layer, arguments[1], "note", dy + rmax * 2 + gap * 2);
   return `#${id}`;
 }

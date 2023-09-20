@@ -51,10 +51,10 @@ export function box(
   layer.attr("transform", `translate(${pos})`);
 
   // Title
-  let dy = legtitle(layer, arguments[1], "title", 0);
+  let dy = legtitle(svg, layer, arguments[1], "title", 0);
 
   // Subtitle
-  dy = legtitle(layer, arguments[1], "subtitle", dy);
+  dy = legtitle(svg, layer, arguments[1], "subtitle", dy);
 
   // Vertical boxes layer
   let box = layer.append("g");
@@ -84,6 +84,7 @@ export function box(
     .attr("text-anchor", "start")
     .attr("dominant-baseline", "middle")
     .attr("font-size", 10)
+    .attr("font-family", svg.fontFamily)
     .attr("fill", "#363636");
   values
     .append("text")
@@ -98,6 +99,6 @@ export function box(
   });
 
   // Note
-  dy = legtitle(layer, arguments[1], "note", dy + gap + rect_height + gap);
+  dy = legtitle(svg, layer, arguments[1], "note", dy + gap + rect_height + gap);
   return `#${id}`;
 }

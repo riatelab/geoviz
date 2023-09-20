@@ -72,10 +72,10 @@ export function choro_horizontal(
   layer.attr("transform", `translate(${pos})`);
 
   // Title
-  let dy = legtitle(layer, arguments[1], "title", 0);
+  let dy = legtitle(svg, layer, arguments[1], "title", 0);
 
   // Subtitle
-  dy = legtitle(layer, arguments[1], "subtitle", dy);
+  dy = legtitle(svg, layer, arguments[1], "subtitle", dy);
 
   // Vertical boxes layer
   let horizontalchoro = layer.append("g");
@@ -124,6 +124,7 @@ export function choro_horizontal(
     .append("g")
     .attr("text-anchor", "middle")
     .attr("font-size", 10)
+    .attr("font-family", svg.fontFamily)
     .attr("fill", "#363636");
   values
     .selectAll("text")
@@ -155,6 +156,7 @@ export function choro_horizontal(
 
   // Note
   dy = legtitle(
+    svg,
     layer,
     arguments[1],
     "note",
