@@ -35,6 +35,7 @@ export function label(
     fill = "black",
     stroke = "none",
     fontSize = 14,
+    fontFamily = svg.fontFamily,
     dx = 0,
     dy = 0,
     paintOrder = "stroke",
@@ -54,7 +55,8 @@ export function label(
   layer
     .attr("paint-order", paintOrder)
     .attr("stroke-linejoin", strokeLinejoin)
-    .attr("stroke-linecap", strokeLinecap);
+    .attr("stroke-linecap", strokeLinecap)
+    .attr("font-family", fontFamily);
 
   //   if (typeof text == "string") {
   //     text = (d) => d.properties[text];
