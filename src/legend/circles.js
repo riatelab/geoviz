@@ -1,7 +1,7 @@
 import { unique } from "../helpers/unique";
 import { legtitle } from "../helpers/legtitle";
 import { datatoradius } from "../helpers/datatoradius";
-import { addattrlegend } from "../helpers/addattrlegend";
+import { addattrprefix } from "../helpers/addattrprefix";
 import { formatLocale } from "d3-format";
 import { sum, cumsum } from "d3-array";
 const d3 = Object.assign({}, { formatLocale, sum, cumsum });
@@ -83,7 +83,7 @@ export function circles(
     )
     .attr("fill", "none")
     .attr("stroke", "#363636");
-  addattrlegend({
+  addattrprefix({
     params: arguments[1],
     layer: circles,
     prefix: "circles",
@@ -102,7 +102,7 @@ export function circles(
     .attr("stroke", "#363636")
     .attr("stroke-dasharray", 1)
     .attr("stroke-width", 0.7);
-  addattrlegend({
+  addattrprefix({
     params: arguments[1],
     layer: lines,
     prefix: "lines",
@@ -126,7 +126,7 @@ export function circles(
     .attr("font-size", 10)
     .attr("font-family", svg.fontFamily)
     .attr("fill", "#363636");
-  addattrlegend({
+  addattrprefix({
     params: arguments[1],
     layer: values,
     prefix: "values",

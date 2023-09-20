@@ -1,6 +1,6 @@
 import { unique } from "../helpers/unique";
 import { legtitle } from "../helpers/legtitle";
-import { addattrlegend } from "../helpers/addattrlegend";
+import { addattrprefix } from "../helpers/addattrprefix";
 
 /**
  * The `choro_vertical` function allows to create a legend with a color gradient (boxes)
@@ -73,7 +73,7 @@ export function box(
     .attr("width", rect_width)
     .attr("height", rect_height);
 
-  addattrlegend({
+  addattrprefix({
     params: arguments[1],
     layer: rect,
     prefix: "rect",
@@ -92,7 +92,7 @@ export function box(
     .attr("y", gap + dy + rect_height / 2 + values_dy)
     .text(values_text);
 
-  addattrlegend({
+  addattrprefix({
     params: arguments[1],
     layer: values,
     prefix: "values",

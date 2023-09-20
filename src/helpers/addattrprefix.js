@@ -1,5 +1,5 @@
 import { camelcasetodash } from "./camelcase";
-export function addattrlegend({ params, layer, prefix, text = false } = {}) {
+export function addattrprefix({ params, layer, prefix, text = false } = {}) {
   if (text) {
     Object.keys(params)
       .filter((str) => str.includes("texts"))

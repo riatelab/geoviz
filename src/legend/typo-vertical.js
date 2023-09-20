@@ -1,6 +1,6 @@
 import { unique } from "../helpers/unique";
 import { legtitle } from "../helpers/legtitle";
-import { addattrlegend } from "../helpers/addattrlegend";
+import { addattrprefix } from "../helpers/addattrprefix";
 
 /**
  * The `typo_vertical` function allows to create a legend with classes (boxes)
@@ -113,7 +113,7 @@ export function typo_vertical(
       .attr("fill", missing_fill);
   }
 
-  addattrlegend({
+  addattrprefix({
     params: arguments[1],
     layer: rect,
     prefix: "rect",
@@ -160,7 +160,7 @@ export function typo_vertical(
       .text(missing_text);
   }
 
-  addattrlegend({
+  addattrprefix({
     params: arguments[1],
     layer: values,
     prefix: "values",

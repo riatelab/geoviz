@@ -1,7 +1,7 @@
 import { unique } from "../helpers/unique";
 import { legtitle } from "../helpers/legtitle";
 import { roundarray } from "../helpers/rounding";
-import { addattrlegend } from "../helpers/addattrlegend";
+import { addattrprefix } from "../helpers/addattrprefix";
 import { formatLocale } from "d3-format";
 import { descending } from "d3-array";
 const d3 = Object.assign({}, { formatLocale, descending });
@@ -113,7 +113,7 @@ export function choro_vertical(
       .attr("fill", missing_fill);
   }
 
-  addattrlegend({
+  addattrprefix({
     params: arguments[1],
     layer: rect,
     prefix: "rect",
@@ -160,7 +160,7 @@ export function choro_vertical(
       .text(missing_text);
   }
 
-  addattrlegend({
+  addattrprefix({
     params: arguments[1],
     layer: values,
     prefix: "values",

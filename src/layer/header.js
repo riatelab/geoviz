@@ -1,6 +1,36 @@
-import { addattrlegend } from "../helpers/addattrlegend";
+import { addattrprefix } from "../helpers/addattrprefix";
+import { addattr } from "../helpers/addattr";
 import { unique } from "../helpers/unique";
 import { getsize } from "../helpers/getsize";
+
+/**
+ * The `header` function allows to add a title at the top of the map
+ *
+ * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
+ * @param {object} options - options and parameters
+ * @param {string} options.id - id of the layer
+ * @param {string} options.text - wtitle of the map
+ * @param {string} options.fontFamily - font-family
+ * @param {number} options.fontSize - font-size
+ * @param {string} options.textAnchor - Position of the text ("start", "middle","end")
+ * @param {number} options.lineSpacing - a positive number to increase spacing. A negative number to reduce it.
+ * @param {number} options.dx - translate in x
+ * @param {number} options.dy - translate in y
+ * @param {*} options.foo - *other attributes that can be used to define the svg style of the text (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ * @param {string} options.rect_fill - color background
+ * @param {string} options.rect_fillOpacity - background opacity
+ * @param {*} options.rect_foo - *other attributes that can be used to define the svg style of the background *
+ * @param {number|number[]} options.step - gap between graticules. The value can be a number or an array of two values
+ * @param {string} options.stroke - stroke color
+ * @param {string} options.fill - fill color
+ * @param {string} options.strokeWidth - stroke width
+ * @param {string} options.strokeLinecap - stroke-inecap
+ * @param {string} options.strokeLinejoin - stroke-Linejoin
+ * @param {string} options.strokeDasharray - stroke-dasharray
+ * @example
+ * let title = geoviz.layer.header(main, { text: "World population", rect_fill: "black" })
+ * @returns {SVGSVGElement|string} - the function adds a layer with the title to the SVG container and returns the layer identifier.
+ */
 
 export function header(
   svg,
@@ -8,8 +38,13 @@ export function header(
     id = unique(),
     text = "Map title",
     rect_fill = "white",
-    rect_fillOpacity = 0.4,
+    rect_fillOpacity = 0.5,
     fontSize = 30,
+    dx = 0,
+    dy = 0,
+    fontFamily,
+    lineSpacing = 0,
+    textAnchor = "middle",
   } = {}
 ) {
   // init layer
@@ -19,12 +54,21 @@ export function header(
   layer.selectAll("*").remove();
 
   // Height
+  let startdy = 7;
+
   let tmp = layer
-    .append("text")
-    .attr("x", 100)
-    .attr("font-size", fontSize)
+    .append("g")
+    .attr("text-anchor", "middle")
     .attr("font-family", svg.fontFamily || fontFamily)
-    .text(text);
+    .attr("font-size", fontSize);
+
+  tmp
+    .selectAll("text")
+    .data(text.split("\n"))
+    .join("text")
+    .attr("y", (d, i) => i * fontSize + i * lineSpacing)
+    //.attr("dy", dy)
+    .text((d) => d);
   let txt_height = getsize(tmp).height;
   tmp.remove();
 
@@ -34,27 +78,54 @@ export function header(
     .attr("x", 0)
     .attr("y", 0)
     .attr("width", svg.width)
-    .attr("height", txt_height)
+    .attr("height", txt_height + startdy + dy * 4)
     .attr("fill", rect_fill)
     .attr("fill-opacity", rect_fillOpacity);
 
   // ...attr
-  addattrlegend({
+  addattrprefix({
     params: arguments[1] || {},
     layer: rect,
     prefix: "rect",
   });
 
-  layer
-    .append("text")
-    .attr("x", svg.width / 2)
-    .attr("y", txt_height / 2)
+  // text anchor
+  let xpos;
+  switch (textAnchor) {
+    case "start":
+      xpos = dx;
+      break;
+    case "middle":
+      xpos = svg.width / 2 + dx;
+      break;
+    case "end":
+      xpos = svg.width - dx;
+      break;
+  }
+
+  let txt = layer
+    .append("g")
     .attr("text-anchor", "middle")
     .attr("font-family", svg.fontFamily || fontFamily)
-    .attr("dominant-baseline", "middle")
+    .attr("dominant-baseline", "hanging")
     .attr("font-size", fontSize)
-    .attr("fill", "#242323")
-    .text(text);
+    .attr("fill", "#242323");
+
+  txt
+    .selectAll("text")
+    .data(text.split("\n"))
+    .join("text")
+    .attr("x", xpos)
+    .attr("y", (d, i) => i * fontSize + i * lineSpacing + dy + startdy)
+    .attr("dy", dy)
+    .text((d) => d);
+
+  // ...attr
+  addattr({
+    layer: txt,
+    args: arguments[1],
+    exclude: [],
+  });
 
   return `#${id}`;
 }
