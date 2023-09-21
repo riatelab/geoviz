@@ -15,7 +15,7 @@ let svg = geoviz.container.create({projection: d3.geoEqualEarth(), margin: [40,0
 svg.layer.outline()
 svg.layer.graticule({stroke: "white", strokeWidth: 0.4})
 let choro = geoviz.classify.choro(data.features.map((d) => d.properties.gdppc), {method: "quantile", palette: "Matter"})
-svg.layer.geo({data: data, fill: d =>  choro.colorize(d.properties.gdppc), stroke: "white", strokeWidth:0.5, tip:d => `${d.properties.NAMEen}
+svg.layer.geopath({data: data, fill: d =>  choro.colorize(d.properties.gdppc), stroke: "white", strokeWidth:0.5, tip:d => `${d.properties.NAMEen}
 ${d.properties.gdppc} $ per inh.`})
 svg.legend.choro_horizontal({
     pos: [410, 390],

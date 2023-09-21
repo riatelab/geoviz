@@ -9,9 +9,8 @@ toc:
     description: |
       This section contains functions for designing layers to be added to the svg container. 
     children:
-      - bubble
-      - datum
-      - geo
+      - geopath
+      - circle
       - graticule
       - outline
       - label

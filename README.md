@@ -30,21 +30,21 @@ d3.json(geojson).then(data => {
 let svg = geoviz.container.create({projection: d3.geoEqualEarth())
 svg.layer.outline({fill: "#267A8A"})
 svg.layer.graticule({stroke: "white", strokeWidth: 0.4})
-svg.layer.geo({data: data, fill: "#F8D993", stroke: "#ada9a6", strokeWidth:0.5})
+svg.layer.geopath({data: data, fill: "#F8D993", stroke: "#ada9a6", strokeWidth:0.5})
 document.body.appendChild(svg.render())
 ~~~
 
 Demo: [simple.html](https://neocarto.github.io/geoviz/examples/simple.html)
 
-**2 - Bubbles**
+**2 - Circles**
 
 ~~~js
 let geojson =   "./world.json"
 d3.json(geojson).then(data => {
 let svg = geoviz.container.create({projection: d3.geoEqualEarth()})
-svg.layer.datum({data: data, fill: "white", fillOpacity:0.4})
+svg.layer.geopath({data: data, fill: "white", fillOpacity:0.4})
 let centroids = geoviz.transform.centroid(data)
-svg.layer.bubble({data: centroids, r: "pop", fill: "#f07d75"})
+svg.layer.circle({data: centroids, r: "pop", fill: "#f07d75"})
 document.body.appendChild(svg.render())
 ~~~
 
@@ -57,7 +57,7 @@ let geojson =   "./world.json"
 d3.json(geojson).then(data => {
 let svg = geoviz.container.create({projection: d3.geoEqualEarth()})
 let choro = geoviz.classify.choro(data.features.map((d) => d.properties.gdppc))
-svg.layer.geo({data: data, fill: d =>  choro.colorize(d.properties.gdppc)})
+svg.layer.geopath({data: data, fill: d =>  choro.colorize(d.properties.gdppc)})
 document.body.appendChild(svg.render())
 ~~~
 
@@ -70,7 +70,7 @@ let geojson =   "./world.json"
 d3.json(geojson).then(data => {
 let svg = geoviz.container.create({projection: d3.geoEqualEarth())
 let typo = geoviz.classify.typo(data.features.map((d) => d.properties.region));
-svg.layer.geo({data: data, fill: (d) => typo.colorize(d.properties.region) })
+svg.layer.geopath({data: data, fill: (d) => typo.colorize(d.properties.region) })
 document.body.appendChild(svg.render())
 })
 ~~~

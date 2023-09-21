@@ -15,7 +15,7 @@ let svg = geoviz.container.create({projection: d3.geoEqualEarth(), margin: [40,0
 svg.layer.outline()
 svg.layer.graticule({stroke: "white", strokeWidth: 0.4})
 let typo = geoviz.classify.typo(data.features.map((d) => d.properties.region), {palette: "Set3"});
-svg.layer.geo({data: data, fill: (d) => typo.colorize(d.properties.region), stroke: "white", strokeWidth:0.5, tip:d => `${d.properties.NAMEen} (${d.properties.region})`})
+svg.layer.geopath({data: data, fill: (d) => typo.colorize(d.properties.region), stroke: "white", strokeWidth:0.5, tip:d => `${d.properties.NAMEen} (${d.properties.region})`})
 svg.legend.typo_vertical({
     pos: [670, 300],
     alphabetical: true,

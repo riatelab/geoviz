@@ -42,23 +42,21 @@ export let classify = {
 };
 
 // Layers
-import { geo } from "./layer/geo";
+import { geopath } from "./layer/geopath";
 import { outline } from "./layer/outline";
 import { graticule } from "./layer/graticule";
 import { text } from "./layer/text";
-import { bubble } from "./layer/bubble";
-import { datum } from "./layer/datum";
+import { circle } from "./layer/circle";
 import { label } from "./layer/label";
 import { tile } from "./layer/tile";
 import { clippath } from "./layer/clippath";
 import { header } from "./layer/header";
 export let layer = {
-  datum,
-  geo,
+  geopath,
   outline,
   graticule,
   text,
-  bubble,
+  circle,
   label,
   tile,
   clippath,

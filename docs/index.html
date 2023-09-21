@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset='utf-8'>
-  <title>geoviz 0.1.9 | Documentation</title>
+  <title>geoviz 0.1.10 | Documentation</title>
   <meta name='description' content='d3-based javascript library for thematic maps'>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
   <link href='assets/bass.css' rel='stylesheet'>
@@ -15,7 +15,7 @@
       <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
         <div class='py1 px2'>
           <h3 class='mb0 no-anchor'>geoviz</h3>
-          <div class='mb1'><code>0.1.9</code></div>
+          <div class='mb1'><code>0.1.10</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -75,21 +75,15 @@
                     <li class='h5'><span>Static members</span></li>
                     
                       <li><a
+                        href='#geopath'
+                        class='regular pre-open'>
+                        .geopath
+                      </a></li>
+                    
+                      <li><a
                         href='#bubble'
                         class='regular pre-open'>
                         .bubble
-                      </a></li>
-                    
-                      <li><a
-                        href='#datum'
-                        class='regular pre-open'>
-                        .datum
-                      </a></li>
-                    
-                      <li><a
-                        href='#geo'
-                        class='regular pre-open'>
-                        .geo
                       </a></li>
                     
                       <li><a
@@ -405,7 +399,7 @@
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/container/create.js#L48-L163'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/container/create.js#L47-L161'>
       <span>src/container/create.js</span>
       </a>
     
@@ -543,20 +537,12 @@ It creates an svg container into which the various layers can be added.</p>
 
               
                 <tr>
-  <td class='break-word'><span class='code bold'>options.frontFamily</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
-  </td>
-  <td class='break-word'><span>font-family for the entire map
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>options.fontFamily</span> <code class='quiet'>any</code>
+  <td class='break-word'><span class='code bold'>options.fontFamily</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
   
     (default <code>&quot;Roboto&quot;</code>)
   </td>
-  <td class='break-word'><span></span></td>
+  <td class='break-word'><span>font-family for the entire map
+</span></td>
 </tr>
 
 
@@ -628,7 +614,7 @@ It creates an svg container into which the various layers can be added.</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/container/render.js#L14-L33'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/container/render.js#L14-L33'>
       <span>src/container/render.js</span>
       </a>
     
@@ -795,6 +781,228 @@ It creates an svg container into which the various layers can be added.</p>
     <div class='py1 quiet mt1 prose-big'>Static Members</div>
     <div class="clearfix">
   
+    <div class='border-bottom' id='geopath'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>geopath(svg, options)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/layer/geopath.js#L28-L108'>
+      <span>src/layer/geopath.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>The <code>geopath</code> function generates SVG paths from a geoJSON</p>
+
+    <div class='pre p1 fill-light mt0'>geopath(svg: <a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a>, options: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): (<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>svg</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a>)</code>
+	    SVG container as defined with the
+<code>container.init</code>
+ function.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>options</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>
+            = <code>{}</code>)</code>
+	    options and parameters
+
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>options.id</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  
+    (default <code>unique()</code>)
+  </td>
+  <td class='break-word'><span>id of the layer
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>options.geocoords</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>
+  
+    (default <code>true</code>)
+  </td>
+  <td class='break-word'><span>use 
+<code>true</code>
+ if input coordinates are in latitude ans longitude. Use 
+<code>false</code>
+ if the coordinates are already defined in the page plan
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>options.data</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></code>
+  </td>
+  <td class='break-word'><span>GeoJSON FeatureCollection. Use data to be able to iterate
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>options.datum</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></code>
+  </td>
+  <td class='break-word'><span>GeoJSON FeatureCollection. Use datum if you don't need to iterate.
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>options.tip</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
+  </td>
+  <td class='break-word'><span>tooltip content
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>options.tipstyle</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></code>
+  </td>
+  <td class='break-word'><span>tooltip style
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>options.fill</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
+  </td>
+  <td class='break-word'><span>fill color. To create choropleth maps or typologies, use the 
+<code>classify.choro</code>
+ and 
+<code>classify.topo</code>
+ functions
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>options.stroke</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
+  </td>
+  <td class='break-word'><span>stroke color. To create choropleth maps or typologies, use the 
+<code>classify.choro</code>
+ and 
+<code>classify.topo</code>
+ functions
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>options.strokeWidth</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
+  
+    (default <code>1</code>)
+  </td>
+  <td class='break-word'><span>stroke-width
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>options.foo</span> <code class='quiet'>any</code>
+  </td>
+  <td class='break-word'><span><em>other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)</em>
+</span></td>
+</tr>
+
+
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>(<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>:
+        the function adds a layer with SVG paths to the SVG container and returns the layer identifier.
+
+      
+    
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> circles = geoviz.<span class="hljs-property">layer</span>.<span class="hljs-title function_">geopath</span>(main, { <span class="hljs-attr">data</span>: world, <span class="hljs-attr">fill</span>: <span class="hljs-string">&quot;red&quot;</span> })</pre>
+    
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
     <div class='border-bottom' id='bubble'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
@@ -809,7 +1017,7 @@ It creates an svg container into which the various layers can be added.</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/layer/bubble.js#L30-L110'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/layer/bubble.js#L30-L110'>
       <span>src/layer/bubble.js</span>
       </a>
     
@@ -1038,370 +1246,6 @@ It creates an svg container into which the various layers can be added.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='datum'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>datum(svg, options)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/layer/datum.js#L20-L39'>
-      <span>src/layer/datum.js</span>
-      </a>
-    
-  </div>
-  
-
-  <p>The <code>datum</code> function generates an SVG path (in which you can't iterate) from a geoJSON</p>
-
-    <div class='pre p1 fill-light mt0'>datum(svg: <a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a>, options: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): (<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>svg</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a>)</code>
-	    SVG container as defined with the
-<code>container.init</code>
- function.
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>options</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>
-            = <code>{}</code>)</code>
-	    options and parameters
-
-          </div>
-          
-          <table class='mt1 mb2 fixed-table h5 col-12'>
-            <colgroup>
-              <col width='30%' />
-              <col width='70%' />
-            </colgroup>
-            <thead>
-              <tr class='bold fill-light'>
-                <th>Name</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody class='mt1'>
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>options.id</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
-  
-    (default <code>unique()</code>)
-  </td>
-  <td class='break-word'><span>id of the layer
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>options.data</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></code>
-  </td>
-  <td class='break-word'><span>GeoJSON FeatureCollection (points)
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>options.geocoords</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>
-  
-    (default <code>true</code>)
-  </td>
-  <td class='break-word'><span>use 
-<code>true</code>
- if input coordinates are in latitude ans longitude. Use 
-<code>false</code>
- if the coordinates are already defined in the page plan
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>options.foo</span> <code class='quiet'>any</code>
-  </td>
-  <td class='break-word'><span><em>other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)</em>
-</span></td>
-</tr>
-
-
-              
-            </tbody>
-          </table>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code>(<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>:
-        the function adds a layer with circles to the SVG container and returns the layer identifier.
-
-      
-    
-  
-
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Example</div>
-    
-      
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> basemap = geoviz.<span class="hljs-property">layer</span>.<span class="hljs-title function_">datum</span>(main, { <span class="hljs-attr">data</span>: world, <span class="hljs-attr">fill</span>: <span class="hljs-string">&quot;#CCC&quot;</span> })</pre>
-    
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='geo'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>geo(svg, options)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/layer/geo.js#L26-L68'>
-      <span>src/layer/geo.js</span>
-      </a>
-    
-  </div>
-  
-
-  <p>The <code>geo</code> function generates SVG paths (in which you can iterate) from a geoJSON</p>
-
-    <div class='pre p1 fill-light mt0'>geo(svg: <a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a>, options: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): (<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>svg</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a>)</code>
-	    SVG container as defined with the
-<code>container.init</code>
- function.
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>options</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>
-            = <code>{}</code>)</code>
-	    options and parameters
-
-          </div>
-          
-          <table class='mt1 mb2 fixed-table h5 col-12'>
-            <colgroup>
-              <col width='30%' />
-              <col width='70%' />
-            </colgroup>
-            <thead>
-              <tr class='bold fill-light'>
-                <th>Name</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody class='mt1'>
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>options.id</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
-  
-    (default <code>unique()</code>)
-  </td>
-  <td class='break-word'><span>id of the layer
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>options.geocoords</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>
-  
-    (default <code>true</code>)
-  </td>
-  <td class='break-word'><span>use 
-<code>true</code>
- if input coordinates are in latitude ans longitude. Use 
-<code>false</code>
- if the coordinates are already defined in the page plan
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>options.data</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></code>
-  </td>
-  <td class='break-word'><span>GeoJSON FeatureCollection (points)
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>options.tip</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-  </td>
-  <td class='break-word'><span>tooltip content
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>options.tipstyle</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></code>
-  </td>
-  <td class='break-word'><span>tooltip style
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>options.fill</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-  
-    (default <code>implantation(data)==2?&quot;none&quot;:random()</code>)
-  </td>
-  <td class='break-word'><span>fill color. To create choropleth maps or typologies, use the 
-<code>classify.choro</code>
- and 
-<code>classify.topo</code>
- functions
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>options.stroke</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-  
-    (default <code>implantation(data)==2?random():&quot;white&quot;</code>)
-  </td>
-  <td class='break-word'><span>stroke color. To create choropleth maps or typologies, use the 
-<code>classify.choro</code>
- and 
-<code>classify.topo</code>
- functions
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>options.foo</span> <code class='quiet'>any</code>
-  </td>
-  <td class='break-word'><span><em>other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)</em>
-</span></td>
-</tr>
-
-
-              
-            </tbody>
-          </table>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code>(<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>:
-        the function adds a layer with circles to the SVG container and returns the layer identifier.
-
-      
-    
-  
-
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Example</div>
-    
-      
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">let</span> circles = geoviz.<span class="hljs-property">layer</span>.<span class="hljs-title function_">bubble</span>(main, { <span class="hljs-attr">data</span>: cities, <span class="hljs-attr">r</span>: <span class="hljs-string">&quot;population&quot;</span> })</pre>
-    
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
     <div class='border-bottom' id='graticule'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
@@ -1416,7 +1260,7 @@ It creates an svg container into which the various layers can be added.</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/layer/graticule.js#L24-L66'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/layer/graticule.js#L24-L66'>
       <span>src/layer/graticule.js</span>
       </a>
     
@@ -1625,7 +1469,7 @@ It creates an svg container into which the various layers can be added.</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/layer/outline.js#L20-L48'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/layer/outline.js#L20-L48'>
       <span>src/layer/outline.js</span>
       </a>
     
@@ -1792,7 +1636,7 @@ It creates an svg container into which the various layers can be added.</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/layer/label.js#L28-L99'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/layer/label.js#L28-L99'>
       <span>src/layer/label.js</span>
       </a>
     
@@ -2079,7 +1923,7 @@ It creates an svg container into which the various layers can be added.</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/layer/text.js#L21-L60'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/layer/text.js#L21-L60'>
       <span>src/layer/text.js</span>
       </a>
     
@@ -2275,7 +2119,7 @@ It creates an svg container into which the various layers can be added.</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/layer/tile.js#L22-L62'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/layer/tile.js#L22-L62'>
       <span>src/layer/tile.js</span>
       </a>
     
@@ -2460,7 +2304,7 @@ WARNING - you must use the projection d3.geoMercator()</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/layer/clippath.js#L17-L29'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/layer/clippath.js#L17-L29'>
       <span>src/layer/clippath.js</span>
       </a>
     
@@ -2597,7 +2441,7 @@ WARNING - the clip is valid for the entireweb  page, not just the map</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/layer/header.js#L35-L131'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/layer/header.js#L35-L131'>
       <span>src/layer/header.js</span>
       </a>
     
@@ -2956,7 +2800,7 @@ WARNING - the clip is valid for the entireweb  page, not just the map</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/transform/centroid.js#L18-L64'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/transform/centroid.js#L18-L64'>
       <span>src/transform/centroid.js</span>
       </a>
     
@@ -3094,7 +2938,7 @@ WARNING - the clip is valid for the entireweb  page, not just the map</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/transform/dodge.js#L27-L91'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/transform/dodge.js#L27-L91'>
       <span>src/transform/dodge.js</span>
       </a>
     
@@ -3290,7 +3134,7 @@ It returns the coordinates in the page map. It can be used to create a dorling c
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/transform/project.js#L13-L15'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/transform/project.js#L13-L15'>
       <span>src/transform/project.js</span>
       </a>
     
@@ -3416,7 +3260,7 @@ It returns the coordinates in the page map. It can be used to create a dorling c
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/transform/replicate.js#L17-L33'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/transform/replicate.js#L17-L33'>
       <span>src/transform/replicate.js</span>
       </a>
     
@@ -3603,7 +3447,7 @@ See</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/classify/choro.js#L27-L65'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/classify/choro.js#L27-L65'>
       <span>src/classify/choro.js</span>
       </a>
     
@@ -3822,7 +3666,7 @@ See</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/classify/typo.js#L18-L33'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/classify/typo.js#L18-L33'>
       <span>src/classify/typo.js</span>
       </a>
     
@@ -3968,7 +3812,7 @@ See</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/classify/random.js#L6-L30'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/classify/random.js#L6-L30'>
       <span>src/classify/random.js</span>
       </a>
     
@@ -4090,7 +3934,7 @@ See</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/legend/box.js#L31-L104'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/legend/box.js#L31-L104'>
       <span>src/legend/box.js</span>
       </a>
     
@@ -4377,7 +4221,7 @@ See</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/legend/circles.js#L33-L145'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/legend/circles.js#L33-L145'>
       <span>src/legend/circles.js</span>
       </a>
     
@@ -4669,7 +4513,7 @@ See</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/legend/circles-nested.js#L32-L133'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/legend/circles-nested.js#L32-L133'>
       <span>src/legend/circles-nested.js</span>
       </a>
     
@@ -4961,7 +4805,7 @@ See</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/legend/choro-vertical.js#L44-L183'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/legend/choro-vertical.js#L44-L183'>
       <span>src/legend/choro-vertical.js</span>
       </a>
     
@@ -5336,7 +5180,7 @@ See</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/legend/choro-horizontal.js#L44-L170'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/legend/choro-horizontal.js#L44-L170'>
       <span>src/legend/choro-horizontal.js</span>
       </a>
     
@@ -5711,7 +5555,7 @@ See</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/legend/typo-vertical.js#L40-L183'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/legend/typo-vertical.js#L40-L183'>
       <span>src/legend/typo-vertical.js</span>
       </a>
     
@@ -6080,7 +5924,7 @@ See</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/legend/typo-horizontal.js#L40-L163'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/legend/typo-horizontal.js#L40-L163'>
       <span>src/legend/typo-horizontal.js</span>
       </a>
     
@@ -6505,7 +6349,7 @@ See</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/tool/featurecollection.js#L19-L66'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/tool/featurecollection.js#L19-L66'>
       <span>src/tool/featurecollection.js</span>
       </a>
     
@@ -6650,7 +6494,7 @@ See</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/tool/merge.js#L15-L80'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/tool/merge.js#L15-L80'>
       <span>src/tool/merge.js</span>
       </a>
     
@@ -6792,7 +6636,7 @@ See</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/tool/rewind.js#L13-L27'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/tool/rewind.js#L13-L27'>
       <span>src/tool/rewind.js</span>
       </a>
     
@@ -6917,7 +6761,7 @@ Adapted from MapBox geojson-rewind code (<a href="https://github.com/mapbox/groj
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3fccae88ba61544d22afdf7d5212ea691b11913e/src/tool/geotable.js#L12-L18'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/ee11a12ecc6bc412bc0431bddf80c6d24253b005/src/tool/geotable.js#L12-L18'>
       <span>src/tool/geotable.js</span>
       </a>
     

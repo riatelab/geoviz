@@ -14,7 +14,7 @@ d3.json(geojson).then(data => {
 let svg = geoviz.container.create({projection: d3.geoEqualEarth(), margin: [40,0,0,0]})
 svg.layer.outline({fill: "#267A8A"})
 svg.layer.graticule({stroke: "white", strokeWidth: 0.4})
-svg.layer.geo({data: data, fill: "#F8D993", stroke: "#ada9a6", strokeWidth:0.5, tip:d => d.properties.NAMEen})
+svg.layer.geopath({data: data, fill: "#F8D993", stroke: "#ada9a6", strokeWidth:0.5, tip:d => d.properties.NAMEen})
 svg.layer.text({pos:[svg.width/2, 30], textAnchor: "middle", fontSize: 30, text: "A Simple World Map", fill: "#267A8A", fontWeight: "bold", fontFamily: "Tangerine"})
 document.body.appendChild(svg.render())
 })

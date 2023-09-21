@@ -7,11 +7,10 @@ const d3 = Object.assign(
 );
 
 import { outline as addoutline } from "../layer/outline";
-import { geo as addgeo } from "../layer/geo";
+import { geopath as addgeopath } from "../layer/geopath";
 import { graticule as addgraticule } from "../layer/graticule";
 import { text as addtext } from "../layer/text";
-import { bubble as addbubble } from "../layer/bubble";
-import { datum as adddatum } from "../layer/datum";
+import { circle as addcircle } from "../layer/circle";
 import { label as addlabel } from "../layer/label";
 import { tile } from "../layer/tile";
 import { clippath } from "../layer/clippath";
@@ -37,7 +36,7 @@ import { render as addrender } from "../container/render";
  * @param {function} options.projection - projection definition. See [d3-geo](https://github.com/d3/d3-geo) & [d3-geo-projection](https://github.com/d3/d3-geo-projection)
  * @param {number[]} options.pos - position of the container (if contained in another svg container)
  * @param {string} options.background - background color
- * @param {string} options.frontFamily - font-family for the entire map
+ * @param {string} options.fontFamily - font-family for the entire map
  * @param {number|number[]} options.margin - margins around the map. A number to set the same margin everywhere or an array [top, right, bottom, left] to set different margins.
  * @param {object} options.parent - name of parent container into which this child container is to be included. In this case, the options.pos parameter is also used.
  * @example
@@ -120,10 +119,9 @@ export function create({
   let layer = {};
   [
     { id: "outline", func: addoutline },
-    { id: "geo", func: addgeo },
+    { id: "geopath", func: addgeopath },
     { id: "graticule", func: addgraticule },
-    { id: "bubble", func: addbubble },
-    { id: "datum", func: adddatum },
+    { id: "circle", func: addcircle },
     { id: "label", func: addlabel },
     { id: "text", func: addtext },
     { id: "tile", func: tile },

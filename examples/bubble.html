@@ -14,9 +14,9 @@ d3.json(geojson).then(data => {
 let svg = geoviz.container.create({projection: d3.geoEqualEarth(), margin: [40,0,0,0]})
 svg.layer.outline()
 svg.layer.graticule({stroke: "white", strokeWidth: 0.4})
-svg.layer.datum({data: data, fill: "white", fillOpacity:0.4})
+svg.layer.geopath({datum: data, fill: "white", fillOpacity:0.4})
 let centroids = geoviz.transform.centroid(data)
-svg.layer.bubble({data: centroids, r: "pop", fill: "#f07d75", tip:d => `${d.properties.NAMEen}
+svg.layer.circle({data: centroids, r: "pop", fill: "#f07d75", tip:d => `${d.properties.NAMEen}
 ${d.properties.pop / 1000} thousands inh.`})
 svg.legend.circles_nested({pos:[50, 250], data: centroids.features.map(d => d.properties.pop), title_text: "Word Population" })
 svg.layer.text({pos:[svg.width/2, 30], textAnchor: "middle", fontSize: 30, text: "A World Map With Bubbles", fill: "#267A8A", fontWeight: "bold", fontFamily: "Tangerine"})
