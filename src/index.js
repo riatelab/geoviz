@@ -49,7 +49,7 @@ import { text } from "./layer/text";
 import { circle } from "./layer/circle";
 import { label } from "./layer/label";
 import { tile } from "./layer/tile";
-import { clippath } from "./layer/clippath";
+
 import { header } from "./layer/header";
 export let layer = {
   geopath,
@@ -59,7 +59,6 @@ export let layer = {
   circle,
   label,
   tile,
-  clippath,
   header,
 };
 
@@ -80,4 +79,11 @@ export let legend = {
   typo_horizontal,
   box,
 };
-export { whatisit } from "./helpers/whatisit";
+
+// Filter
+import { blur } from "./filter/blur";
+import { clippath } from "./filter/clippath";
+export let filter = {
+  clippath,
+  blur,
+};

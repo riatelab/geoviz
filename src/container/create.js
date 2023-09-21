@@ -13,7 +13,6 @@ import { text as addtext } from "../layer/text";
 import { circle as addcircle } from "../layer/circle";
 import { label as addlabel } from "../layer/label";
 import { tile } from "../layer/tile";
-import { clippath } from "../layer/clippath";
 import { header } from "../layer/header";
 
 import { circles_nested as addcircles_nested } from "../legend/circles-nested";
@@ -95,6 +94,7 @@ export function create({
       .attr("height", height)
       .attr("viewBox", [0, 0, width, height])
       .style("background-color", background);
+    svg.append("defs").attr("id", "defs");
     svg.append("g").attr("id", "geoviztooltip");
 
     output = Object.assign(svg, info);
@@ -102,6 +102,7 @@ export function create({
     let svg = parent
       .append("g")
       .attr("transform", `translate(${pos[0]},${pos[1]})`);
+    svg.append("defs").attr("id", "defs");
     svg
       .append("rect")
       .attr("x", 0)
@@ -125,7 +126,6 @@ export function create({
     { id: "label", func: addlabel },
     { id: "text", func: addtext },
     { id: "tile", func: tile },
-    { id: "clippath", func: clippath },
     { id: "header", func: header },
   ].forEach(
     (d) =>
