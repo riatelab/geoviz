@@ -11,12 +11,14 @@ import { rewind } from "./tool/rewind";
 import { featurecollection } from "./tool/featurecollection";
 import { merge } from "./tool/merge";
 import { geotable } from "./tool/geotable";
+import { addfont } from "./tool/addfont";
 
 export let tool = {
   rewind,
   featurecollection,
   merge,
   geotable,
+  addfont,
 };
 
 // Transform
