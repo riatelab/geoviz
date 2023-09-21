@@ -15,6 +15,9 @@ import { label as addlabel } from "../layer/label";
 import { tile } from "../layer/tile";
 import { header } from "../layer/header";
 
+import { blur as addblur } from "../filter/blur";
+import { clippath as addclippath } from "../filter/clippath";
+
 import { circles_nested as addcircles_nested } from "../legend/circles-nested";
 import { circles as addcircles } from "../legend/circles";
 import { choro_vertical as addchoro_vertical } from "../legend/choro-vertical";
@@ -130,7 +133,7 @@ export function create({
   ].forEach(
     (d) =>
       (layer[d.id] = function () {
-        d.func(output, arguments[0]);
+        return d.func(output, arguments[0]);
       })
   );
 
@@ -146,7 +149,19 @@ export function create({
   ].forEach(
     (d) =>
       (legend[d.id] = function () {
-        d.func(output, arguments[0]);
+        return d.func(output, arguments[0]);
+      })
+  );
+
+  let filter = {};
+  [
+    { id: "blur", func: addblur },
+    { id: "clippath", func: addclippath },
+    ,
+  ].forEach(
+    (d) =>
+      (filter[d.id] = function () {
+        return d.func(output, arguments[0]);
       })
   );
   // Output
@@ -154,6 +169,7 @@ export function create({
   return Object.assign(output, {
     layer,
     legend,
+    filter,
     render: function () {
       return addrender(output, arguments[0]);
     },
