@@ -51,8 +51,8 @@ import { text } from "./layer/text";
 import { circle } from "./layer/circle";
 import { label } from "./layer/label";
 import { tile } from "./layer/tile";
-
 import { header } from "./layer/header";
+import { footer } from "./layer/footer";
 export let layer = {
   geopath,
   outline,
@@ -62,6 +62,7 @@ export let layer = {
   label,
   tile,
   header,
+  footer,
 };
 
 // Legend
