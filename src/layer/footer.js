@@ -4,7 +4,7 @@ import { unique } from "../helpers/unique";
 import { getsize } from "../helpers/getsize";
 
 /**
- * The `header` function allows to add a title at the top of the map
+ * The `footer` function allows to add a notes and sources at the bottom of the map
  *
  * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
  * @param {object} options - options and parameters
@@ -32,14 +32,14 @@ import { getsize } from "../helpers/getsize";
  * @returns {SVGSVGElement|string} - the function adds a layer with the title to the SVG container and returns the layer identifier.
  */
 
-export function header(
+export function footer(
   svg,
   {
     id = unique(),
-    text = "Map title",
+    text = "Author, source...",
     rect_fill = "white",
     rect_fillOpacity = 0.5,
-    fontSize = 30,
+    fontSize = 10,
     dx = 0,
     dy = 0,
     fontFamily,
@@ -54,7 +54,7 @@ export function header(
   layer.selectAll("*").remove();
 
   // Height
-  let startdy = fontSize / 4;
+  let startdy = fontSize / 3;
 
   let tmp = layer
     .append("g")
@@ -73,12 +73,13 @@ export function header(
   tmp.remove();
 
   // Background
+  let rect_h = txt_height + startdy + dy * 4;
   let rect = layer
     .append("rect")
     .attr("x", 0)
-    .attr("y", 0)
+    .attr("y", svg.height - rect_h)
     .attr("width", svg.width)
-    .attr("height", txt_height + startdy + dy * 4)
+    .attr("height", rect_h)
     .attr("fill", rect_fill)
     .attr("fill-opacity", rect_fillOpacity);
 
@@ -116,7 +117,11 @@ export function header(
     .data(text.split("\n"))
     .join("text")
     .attr("x", xpos)
-    .attr("y", (d, i) => i * fontSize + i * lineSpacing + dy + startdy)
+    .attr(
+      "y",
+      (d, i) =>
+        svg.height - rect_h + i * fontSize + i * lineSpacing + dy + startdy
+    )
     .attr("dy", dy)
     .text((d) => d);
 

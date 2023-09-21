@@ -14,6 +14,7 @@ import { circle as addcircle } from "../layer/circle";
 import { label as addlabel } from "../layer/label";
 import { tile } from "../layer/tile";
 import { header } from "../layer/header";
+import { footer } from "../layer/footer";
 
 import { blur as addblur } from "../filter/blur";
 import { clippath as addclippath } from "../filter/clippath";
@@ -130,6 +131,7 @@ export function create({
     { id: "text", func: addtext },
     { id: "tile", func: tile },
     { id: "header", func: header },
+    { id: "footer", func: footer },
   ].forEach(
     (d) =>
       (layer[d.id] = function () {
