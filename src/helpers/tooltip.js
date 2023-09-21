@@ -14,7 +14,7 @@ export function tooltip(layer, container, tip, tip_style = {}) {
     textDecoration: "none",
   };
 
-  console.log(style);
+  let formerOpacity = layer.attr("fill-opacity");
 
   Object.keys(tip_style).forEach((d) => {
     style[d] = tip_style[d];
@@ -58,6 +58,7 @@ export function tooltip(layer, container, tip, tip_style = {}) {
   layer
     .selectAll("*")
     .on("touchmove mousemove", function (event, d) {
+      //formerOpacity = d3.select(this);
       geoviztooltip.style("visibility", "visible");
       const xy = d3.pointers(event, this)[0];
       d3.select(this).attr("fill-opacity", 0.5);
@@ -147,7 +148,7 @@ export function tooltip(layer, container, tip, tip_style = {}) {
       }
     })
     .on("touchend mouseleave", function (event, d) {
-      d3.select(this).attr("fill-opacity", 1);
+      d3.select(this).attr("fill-opacity", formerOpacity);
       geoviztooltip.style("visibility", "hidden");
     });
 }
