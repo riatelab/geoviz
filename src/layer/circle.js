@@ -16,7 +16,7 @@ const d3 = Object.assign({}, { scaleSqrt, max, descending });
  * @param {number|string} options.r - a number or the name of a property containing numerical values.
  * @param {number} options.k - dadius of the largest circle (or corresponding to the value defined by `fixmax`)
  * @param {number} options.fixmax - value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
- * @param {boolean} options.geocoords - use `true` if input coordinates are in latitude ans longitude. Use `false` if the coordinates are already defined in the page plan
+ * @param {string|function} options.projection - use "none" if the coordinates are already in the plan of the page. If this field is left blank, the global container projection is applied.
  * @param {string|function} options.fill - fill color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
  * @param {string|function} options.stroke - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
  * @param {string|function} options.tip - tooltip content
@@ -31,7 +31,7 @@ export function circle(
   svg,
   {
     id = unique(),
-    geocoords = true,
+    projection,
     data,
     r = 10,
     k = 50,
@@ -55,7 +55,8 @@ export function circle(
     exclude: ["fill", "stroke", "r"],
   });
 
-  const projection = geocoords ? svg.projection : (d) => d;
+  // Projection
+  projection = projection == "none" ? (d) => d : svg.projection;
 
   if (typeof r == "string") {
     const valmax =

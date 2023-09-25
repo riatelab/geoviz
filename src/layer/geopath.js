@@ -14,7 +14,7 @@ const d3 = Object.assign({}, { geoPath });
  * @param {object} options.data - GeoJSON FeatureCollection. Use data to be able to iterate
  * @param {object} options.datum - GeoJSON FeatureCollection. Use datum if you don't need to iterate.
  * @param {string} options.id - id of the layer
- * @param {boolean} options.geocoords - use `true` if input coordinates are in latitude ans longitude. Use `false` if the coordinates are already defined in the page plan
+ * @param {string|function} options.projection - use "none" if the coordinates are already in the plan of the page. If this field is left blank, the global container projection is applied.
  * @param {string|function} options.fill - fill color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
  * @param {string|function} options.stroke - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
  * @param {string|function} options.strokeWidth - stroke-width
@@ -29,7 +29,7 @@ export function geopath(
   svg,
   {
     id = unique(),
-    geocoords = true,
+    projection,
     data,
     datum,
     tip,
@@ -46,7 +46,9 @@ export function geopath(
   layer.selectAll("*").remove();
 
   // Projection
-  const projection = geocoords ? svg.projection : null;
+  projection = projection == "none" ? null : svg.projection;
+
+  console.log(projection);
 
   // DATUM -----------------------------------------
   if (datum) {

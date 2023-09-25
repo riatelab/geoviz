@@ -8,7 +8,7 @@ import { unique } from "../helpers/unique";
  * @param {object} options - options and parameters
  * @param {object} options.data - GeoJSON FeatureCollection (points)
  * @param {string} options.id - id of the layer
- * @param {boolean} options.geocoords - use `true` if input coordinates are in latitude ans longitude. Use `false` if the coordinates are already defined in the page plan
+ * @param {string|function} options.projection - use "none" if the coordinates are already in the plan of the page. If this field is left blank, the global container projection is applied.
  * @param {string|function} options.text - text to display. Name of the property or a function
  * @param {string|function} options.fill - fill color
  * @param {string|function} options.stroke - stroke color
@@ -29,7 +29,7 @@ export function label(
   svg,
   {
     id = unique(),
-    geocoords = true,
+    projection,
     data,
     text,
     fill = "black",
@@ -78,7 +78,8 @@ export function label(
     ],
   });
 
-  const projection = geocoords ? svg.projection : (d) => d;
+  // Projection
+  projection = projection == "none" ? (d) => d : svg.projection;
 
   layer
     .selectAll("text")
