@@ -41,14 +41,12 @@ export function geopath(
 ) {
   // init layer
   let layer = svg.selectAll(`#${id}`).empty()
-    ? svg.append("g").attr("id", id)
+    ? svg.append("g").attr("id", id).attr("class", "zoomable")
     : svg.select(`#${id}`);
   layer.selectAll("*").remove();
 
   // Projection
   projection = projection == "none" ? null : svg.projection;
-
-  console.log(projection);
 
   // DATUM -----------------------------------------
   if (datum) {
@@ -72,7 +70,8 @@ export function geopath(
       .datum(datum)
       .attr("d", d3.geoPath(projection))
       .attr("fill", fill)
-      .attr("stroke", stroke);
+      .attr("stroke", stroke)
+      .attr("vector-effect", "non-scaling-stroke");
   }
 
   // DATA -----------------------------------------
@@ -98,7 +97,8 @@ export function geopath(
       .attr("d", d3.geoPath(projection))
       .attr("fill", fill)
       .attr("stroke", stroke)
-      .attr("stroke-width", strokeWidth);
+      .attr("stroke-width", strokeWidth)
+      .attr("vector-effect", "non-scaling-stroke");
 
     // Tooltip
     if (tip) {

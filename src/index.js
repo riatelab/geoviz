@@ -12,6 +12,7 @@ import { featurecollection } from "./tool/featurecollection";
 import { merge } from "./tool/merge";
 import { geotable } from "./tool/geotable";
 import { addfont } from "./tool/addfont";
+import { addfonts } from "./tool/addfonts";
 
 export let tool = {
   rewind,
@@ -19,6 +20,7 @@ export let tool = {
   merge,
   geotable,
   addfont,
+  addfonts,
 };
 
 // Transform
@@ -83,10 +85,10 @@ export let legend = {
   box,
 };
 
-// Filter
-import { blur } from "./filter/blur";
-import { clippath } from "./filter/clippath";
-export let filter = {
+// Defs
+import { blur } from "./defs/blur";
+import { clippath } from "./defs/clippath";
+export let defs = {
   clippath,
   blur,
 };

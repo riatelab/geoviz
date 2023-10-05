@@ -31,11 +31,13 @@ export function tile(
     url = (x, y, z) => `https://tile.openstreetmap.org/${z}/${x}/${y}.png`,
   } = {}
 ) {
-  console.log("WARNING - you must use the projection d3.geoMercator()");
+  console.log(
+    "WARNING - to display tiles, you must use the projection d3.geoMercator()"
+  );
 
   // init layer
   let layer = svg.selectAll(`#${id}`).empty()
-    ? svg.append("g").attr("id", id)
+    ? svg.append("g").attr("id", id).attr("class", "zoomable")
     : svg.select(`#${id}`);
   layer.selectAll("*").remove();
 

@@ -1,9 +1,10 @@
 import { extent } from "../helpers/extent";
 import { create as create2 } from "d3-selection";
+import { zoomIdentity } from "d3-zoom";
 import { geoPath, geoBounds, geoEquirectangular } from "d3-geo";
 const d3 = Object.assign(
   {},
-  { create2, geoPath, geoBounds, geoEquirectangular }
+  { create2, geoPath, geoBounds, geoEquirectangular, zoomIdentity }
 );
 
 import { outline as addoutline } from "../layer/outline";
@@ -16,8 +17,8 @@ import { tile } from "../layer/tile";
 import { header } from "../layer/header";
 import { footer } from "../layer/footer";
 
-import { blur as addblur } from "../filter/blur";
-import { clippath as addclippath } from "../filter/clippath";
+import { blur as addblur } from "../defs/blur";
+import { clippath as addclippath } from "../defs/clippath";
 
 import { circles_nested as addcircles_nested } from "../legend/circles-nested";
 import { circles as addcircles } from "../legend/circles";
@@ -57,6 +58,7 @@ export function create({
   margin = [0, 0, 0, 0],
   parent = null,
   fontFamily = "Roboto",
+  //zoomable = false,
 } = {}) {
   // Font
   let link = document.createElement("link");
@@ -87,6 +89,7 @@ export function create({
       width,
       height,
       fontFamily,
+      //zoomable,
       bbox: d3.geoBounds(ref),
     };
   }
@@ -155,23 +158,24 @@ export function create({
       })
   );
 
-  let filter = {};
+  let defs = {};
   [
     { id: "blur", func: addblur },
     { id: "clippath", func: addclippath },
     ,
   ].forEach(
     (d) =>
-      (filter[d.id] = function () {
+      (defs[d.id] = function () {
         return d.func(output, arguments[0]);
       })
   );
+
   // Output
 
   return Object.assign(output, {
     layer,
     legend,
-    filter,
+    defs,
     render: function () {
       return addrender(output, arguments[0]);
     },

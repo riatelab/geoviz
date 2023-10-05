@@ -44,7 +44,7 @@ toc:
       - choro_horizontal
       - typo_vertical
       - typo_horizontal
-  - name: filter
+  - name: defs
     description: |
       This section contains helpers to bluid svg filters or clipaths
     children:

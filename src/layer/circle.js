@@ -44,7 +44,7 @@ export function circle(
 ) {
   // init layer
   let layer = svg.selectAll(`#${id}`).empty()
-    ? svg.append("g").attr("id", id)
+    ? svg.append("g").attr("id", id).attr("class", "proportionnalzoomable")
     : svg.select(`#${id}`);
   layer.selectAll("*").remove();
 
@@ -80,6 +80,10 @@ export function circle(
           )
       )
       .join("circle")
+      // .attr(
+      //   "transform",
+      //   (d) => `translate(${projection(d.geometry.coordinates)})`
+      // )
       .attr("cx", (d) => projection(d.geometry.coordinates)[0])
       .attr("cy", (d) => projection(d.geometry.coordinates)[1])
       .attr("r", (d) => radius(Math.abs(d.properties[r])))
@@ -96,6 +100,10 @@ export function circle(
           .filter((d) => d.geometry.coordinates != undefined)
       )
       .join("circle")
+      // .attr(
+      //   "transform",
+      //   (d) => `translate(${projection(d.geometry.coordinates)})`
+      // )
       .attr("cx", (d) => projection(d.geometry.coordinates)[0])
       .attr("cy", (d) => projection(d.geometry.coordinates)[1])
       .attr("r", r)

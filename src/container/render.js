@@ -1,4 +1,6 @@
 import { getDOMids } from "../helpers/getDOMids";
+// import { zoom } from "d3-zoom";
+// const d3 = Object.assign({}, { zoom });
 
 /**
  * The `render` function returns the svg document
@@ -20,6 +22,19 @@ export function render(svg, { order = [] } = {}) {
       });
     }
   }
+
+  // Zoom
+  if (svg.zoomable) {
+    function zoomed(event) {
+      const { transform } = event;
+      svg.selectAll(".zoomable").attr("transform", transform);
+      svg
+        .select("#geoviztooltip")
+        .attr("transform", { x: transform.x, y: transform.y });
+    }
+    svg.call(d3.zoom().scaleExtent([1, 8]).on("zoom", zoomed));
+  }
+
   // raise tooltips
   svg.select("#geoviztooltip").raise();
   // svg.select(".geotooltip").raise();
