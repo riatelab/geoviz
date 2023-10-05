@@ -57,15 +57,17 @@ export function create({
   width = 1000,
   margin = [0, 0, 0, 0],
   parent = null,
-  fontFamily = "Roboto",
+  fontFamily = undefined,
   //zoomable = false,
 } = {}) {
   // Font
-  let link = document.createElement("link");
-  link.setAttribute("rel", "stylesheet");
-  link.setAttribute("type", "text/css");
-  link.setAttribute("href", "https://fonts.googleapis.com/css2?family=Roboto");
-  document.head.appendChild(link);
+  // let link = document.createElement("link");
+  // link.setAttribute("rel", "stylesheet");
+  // link.setAttribute("type", "text/css");
+  // //link.setAttribute("href", "../font/Roboto-Regular.ttf");
+  // //link.setAttribute("href", "../font/DancingScript-VariableFont_wght.ttf");
+  // link.setAttribute("href", "../font/Tangerine-Bold.ttf");
+  // document.head.appendChild(link);
 
   let output;
   let info;
