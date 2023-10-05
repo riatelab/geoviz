@@ -44,12 +44,13 @@ toc:
       - choro_horizontal
       - typo_vertical
       - typo_horizontal
-  - name: defs
+  - name: style
     description: |
       This section contains helpers to bluid svg filters or clipaths
     children:
       - blur
       - clippath
+      - addfonts
   - name: tool
     description: |
       This section contains useful geoJSON functions.

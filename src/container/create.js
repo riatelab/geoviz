@@ -17,8 +17,8 @@ import { tile } from "../layer/tile";
 import { header } from "../layer/header";
 import { footer } from "../layer/footer";
 
-import { blur as addblur } from "../defs/blur";
-import { clippath as addclippath } from "../defs/clippath";
+import { blur as addblur } from "../style/blur";
+import { clippath as addclippath } from "../style/clippath";
 
 import { circles_nested as addcircles_nested } from "../legend/circles-nested";
 import { circles as addcircles } from "../legend/circles";
@@ -57,17 +57,10 @@ export function create({
   width = 1000,
   margin = [0, 0, 0, 0],
   parent = null,
-  fontFamily = undefined,
+  fontFamily = "Arial",
   //zoomable = false,
 } = {}) {
   // Font
-  // let link = document.createElement("link");
-  // link.setAttribute("rel", "stylesheet");
-  // link.setAttribute("type", "text/css");
-  // //link.setAttribute("href", "../font/Roboto-Regular.ttf");
-  // //link.setAttribute("href", "../font/DancingScript-VariableFont_wght.ttf");
-  // link.setAttribute("href", "../font/Tangerine-Bold.ttf");
-  // document.head.appendChild(link);
 
   let output;
   let info;
@@ -160,14 +153,14 @@ export function create({
       })
   );
 
-  let defs = {};
+  let style = {};
   [
     { id: "blur", func: addblur },
     { id: "clippath", func: addclippath },
     ,
   ].forEach(
     (d) =>
-      (defs[d.id] = function () {
+      (style[d.id] = function () {
         return d.func(output, arguments[0]);
       })
   );
@@ -177,7 +170,7 @@ export function create({
   return Object.assign(output, {
     layer,
     legend,
-    defs,
+    style,
     render: function () {
       return addrender(output, arguments[0]);
     },
