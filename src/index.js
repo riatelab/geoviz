@@ -82,10 +82,12 @@ export let legend = {
 
 // style
 import { blur } from "./style/blur";
+import { radialGradient } from "./style/radialgradient";
 import { clippath } from "./style/clippath";
 import { addfonts } from "./style/addfonts";
 export let style = {
   clippath,
   blur,
   addfonts,
+  radialGradient,
 };
