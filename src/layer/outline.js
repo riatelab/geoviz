@@ -1,6 +1,7 @@
 import { geoPath } from "d3-geo";
 import { addattr } from "../helpers/addattr";
 import { unique } from "../helpers/unique";
+import { zoomclass } from "../helpers/zoomclass";
 const d3 = Object.assign({}, { geoPath });
 
 /**
@@ -23,7 +24,7 @@ export function outline(
 ) {
   // init layer
   let layer = svg.selectAll(`#${id}`).empty()
-    ? svg.append("g").attr("id", id)
+    ? svg.append("g").attr("id", id).attr("class", zoomclass(svg.inset))
     : svg.select(`#${id}`);
   layer.selectAll("*").remove();
 
@@ -40,9 +41,8 @@ export function outline(
     exclude: ["fill", "stroke", "strokeWidth"],
   });
 
-  layer
-    .append("path")
-    .attr("d", d3.geoPath(svg.projection)({ type: "Sphere" }));
+  let outline = { type: "Sphere" };
+  layer.append("path").attr("d", d3.geoPath(svg.projection)(outline));
 
   return `#${id}`;
 }

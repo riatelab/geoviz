@@ -30,6 +30,7 @@ export function render(svg, { order = [] } = {}) {
     const baseScale = svg.projection.scale();
     const baseTranslate = svg.projection.translate();
 
+    // zoom
     function zoom({ transform }) {
       // Adapt projection
       svg.projection
@@ -40,17 +41,6 @@ export function render(svg, { order = [] } = {}) {
         ]);
       noproj.scale(transform.k).translate([transform.x, transform.y]);
 
-      render(transform);
-    }
-
-    function reset() {
-      svg.projection.scale(baseScale).translate(baseTranslate);
-      const path = d3.geoPath(svg.projection);
-      svg.selectAll(".zoomable > path").attr("d", path);
-      render({ k: 1, x: 0, y: 0 });
-    }
-
-    function render(t) {
       // Path
       const path = d3.geoPath(svg.projection);
       svg.selectAll(".zoomable > path").attr("d", path);
@@ -78,7 +68,46 @@ export function render(svg, { order = [] } = {}) {
         .attr("y", (d) => noproj(d.geometry.coordinates)[1]);
 
       // Tiles
-      svg.selectAll(".zoomable > image").attr("transform", t);
+      svg.selectAll(".zoomable > image").attr("transform", transform);
+    }
+
+    // rest
+    function reset() {
+      // Adapt projection
+      svg.projection.scale(baseScale).translate(baseTranslate);
+      noproj.scale(1).translate([0, 0]);
+    
+    
+    }
+
+      // Path
+      const path = d3.geoPath(svg.projection);
+      svg.selectAll(".zoomable > path").attr("d", path);
+      const path2 = d3.geoPath(noproj);
+      svg.selectAll(".zoomable2 > path").attr("d", path2);
+
+      // Circles
+      svg
+        .selectAll(".zoomable > circle")
+        .attr("cx", (d) => svg.projection(d.geometry.coordinates)[0])
+        .attr("cy", (d) => svg.projection(d.geometry.coordinates)[1]);
+      svg
+        .selectAll(".zoomable2 > circle")
+        .attr("cx", (d) => noproj(d.geometry.coordinates)[0])
+        .attr("cy", (d) => noproj(d.geometry.coordinates)[1]);
+
+      // Texts
+      svg
+        .selectAll(".zoomable > text")
+        .attr("x", (d) => svg.projection(d.geometry.coordinates)[0])
+        .attr("y", (d) => svg.projection(d.geometry.coordinates)[1]);
+      svg
+        .selectAll(".zoomable2 > text")
+        .attr("x", (d) => noproj(d.geometry.coordinates)[0])
+        .attr("y", (d) => noproj(d.geometry.coordinates)[1]);
+
+      // Tiles
+      svg.selectAll(".zoomable > image").attr("transform", transform);
     }
 
     svg.call(
@@ -94,7 +123,6 @@ export function render(svg, { order = [] } = {}) {
         })
         .on("zoom", zoom)
     );
-    svg.on("click", reset);
   }
 
   // raise tooltips

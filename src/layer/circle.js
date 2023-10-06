@@ -1,4 +1,5 @@
 import { tooltip } from "../helpers/tooltip";
+import { zoomclass } from "../helpers/zoomclass";
 import { addattr } from "../helpers/addattr";
 import { random } from "../classify/random";
 import { unique } from "../helpers/unique";
@@ -44,7 +45,10 @@ export function circle(
 ) {
   // init layer
   let layer = svg.selectAll(`#${id}`).empty()
-    ? svg.append("g").attr("id", id).attr("class", "proportionnalzoomable")
+    ? svg
+        .append("g")
+        .attr("id", id)
+        .attr("class", zoomclass(svg.inset, projection))
     : svg.select(`#${id}`);
   layer.selectAll("*").remove();
 

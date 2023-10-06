@@ -66,7 +66,7 @@ export function choro_horizontal(
 ) {
   // init layer
   let layer = svg.selectAll(`#${id}`).empty()
-    ? svg.append("g").attr("id", id)
+    ? svg.append("g").attr("id", id).attr("pointer-events", "none")
     : svg.select(`#${id}`);
   layer.selectAll("*").remove();
   layer.attr("transform", `translate(${pos})`);

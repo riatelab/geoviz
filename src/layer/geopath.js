@@ -1,10 +1,11 @@
 import { tooltip } from "../helpers/tooltip";
+import { zoomclass } from "../helpers/zoomclass";
 import { addattr } from "../helpers/addattr";
 import { random } from "../classify/random";
 import { implantation } from "../helpers/implantation";
 import { unique } from "../helpers/unique";
-import { geoPath } from "d3-geo";
-const d3 = Object.assign({}, { geoPath });
+import { geoPath, geoIdentity } from "d3-geo";
+const d3 = Object.assign({}, { geoPath, geoIdentity });
 
 /**
  * The `geopath` function generates SVG paths from a geoJSON
@@ -41,12 +42,15 @@ export function geopath(
 ) {
   // init layer
   let layer = svg.selectAll(`#${id}`).empty()
-    ? svg.append("g").attr("id", id).attr("class", "zoomable")
+    ? svg
+        .append("g")
+        .attr("id", id)
+        .attr("class", zoomclass(svg.inset, projection))
     : svg.select(`#${id}`);
   layer.selectAll("*").remove();
 
   // Projection
-  projection = projection == "none" ? null : svg.projection;
+  projection = projection == "none" ? d3.geoIdentity() : svg.projection;
 
   // DATUM -----------------------------------------
   if (datum) {

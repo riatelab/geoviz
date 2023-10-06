@@ -1,5 +1,6 @@
 import { addattr } from "../helpers/addattr";
 import { unique } from "../helpers/unique";
+import { zoomclass } from "../helpers/zoomclass";
 
 /**
  * The `label` function allows to create a label layer from a geoJSON (points)
@@ -47,7 +48,11 @@ export function label(
 ) {
   // init layer
   let layer = svg.selectAll(`#${id}`).empty()
-    ? svg.append("g").attr("id", id)
+    ? svg
+        .append("g")
+        .attr("id", id)
+        .attr("class", zoomclass(svg.inset, projection))
+        .attr("pointer-events", "none")
     : svg.select(`#${id}`);
   layer.selectAll("*").remove();
 
@@ -57,10 +62,6 @@ export function label(
     .attr("stroke-linejoin", strokeLinejoin)
     .attr("stroke-linecap", strokeLinecap)
     .attr("font-family", fontFamily);
-
-  //   if (typeof text == "string") {
-  //     text = (d) => d.properties[text];
-  //   }
 
   //...attr
   addattr({

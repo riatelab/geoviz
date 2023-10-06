@@ -1,5 +1,6 @@
 import { unique } from "../helpers/unique";
 import { tile as d3tile } from "d3-tile";
+import { zoomclass } from "../helpers/zoomclass";
 
 /**
  * The `titke` function allows to display raster tiles
@@ -37,7 +38,7 @@ export function tile(
 
   // init layer
   let layer = svg.selectAll(`#${id}`).empty()
-    ? svg.append("g").attr("id", id).attr("class", "zoomable")
+    ? svg.append("g").attr("id", id).attr("class", zoomclass(svg.inset))
     : svg.select(`#${id}`);
   layer.selectAll("*").remove();
 

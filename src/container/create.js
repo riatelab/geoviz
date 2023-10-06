@@ -19,6 +19,7 @@ import { footer } from "../layer/footer";
 
 import { blur as addblur } from "../style/blur";
 import { clippath as addclippath } from "../style/clippath";
+import { radialGradient as addradialGradient } from "../style/radialgradient";
 
 import { circles_nested as addcircles_nested } from "../legend/circles-nested";
 import { circles as addcircles } from "../legend/circles";
@@ -43,6 +44,7 @@ import { render as addrender } from "../container/render";
  * @param {string} options.fontFamily - font-family for the entire map
  * @param {number|number[]} options.margin - margins around the map. A number to set the same margin everywhere or an array [top, right, bottom, left] to set different margins.
  * @param {object} options.parent - name of parent container into which this child container is to be included. In this case, the options.pos parameter is also used.
+ * @param {boolean} options.zoomable - activates the map zoom function (experimental)
  * @example
  * let main = geoviz.container.create({width: 500, background: "lightblue"})
  * @returns {SVGSVGElement} - the function returns a svg container + some information about this container:`projection`, `margin`, `width`, `height` and `bbox`
@@ -58,7 +60,7 @@ export function create({
   margin = [0, 0, 0, 0],
   parent = null,
   fontFamily = "Arial",
-  //zoomable = false,
+  zoomable = false,
 } = {}) {
   // Font
 
@@ -84,8 +86,9 @@ export function create({
       width,
       height,
       fontFamily,
-      //zoomable,
+      zoomable,
       bbox: d3.geoBounds(ref),
+      inset: parent ? true : false,
     };
   }
 
@@ -157,6 +160,8 @@ export function create({
   [
     { id: "blur", func: addblur },
     { id: "clippath", func: addclippath },
+    { id: "radialGradient", func: addradialGradient },
+
     ,
   ].forEach(
     (d) =>

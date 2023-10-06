@@ -2,6 +2,7 @@ import { geoGraticule, geoPath } from "d3-geo";
 const d3 = Object.assign({}, { geoPath, geoGraticule });
 import { addattr } from "../helpers/addattr";
 import { unique } from "../helpers/unique";
+import { zoomclass } from "../helpers/zoomclass";
 
 /**
  * The `graticule` function allows to create a layer with lat/long lines
@@ -26,7 +27,7 @@ export function graticule(
   {
     id = unique(),
     step = 10,
-    stroke = "red",
+    stroke = "#9ad5e6",
     strokeWidth = 0.8,
     strokeLinecap = "square",
     strokeLinejoin = "round",
@@ -37,7 +38,7 @@ export function graticule(
 
   // init layer
   let layer = svg.selectAll(`#${id}`).empty()
-    ? svg.append("g").attr("id", id)
+    ? svg.append("g").attr("id", id).attr("class", zoomclass(svg.inset))
     : svg.select(`#${id}`);
   layer.selectAll("*").remove();
 
