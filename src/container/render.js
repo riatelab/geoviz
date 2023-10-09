@@ -1,7 +1,10 @@
 import { getDOMids } from "../helpers/getDOMids";
-import { zoom } from "d3-zoom";
+import { zoom, zoomTransform, zoomIdentity, ZoomTransform } from "d3-zoom";
 import { geoPath, geoIdentity } from "d3-geo";
-const d3 = Object.assign({}, { zoom, geoPath, geoIdentity });
+const d3 = Object.assign(
+  {},
+  { zoom, geoPath, geoIdentity, zoomTransform, zoomIdentity, ZoomTransform }
+);
 
 /**
  * The `render` function returns the svg document
@@ -44,9 +47,11 @@ export function render(svg, { order = [] } = {}) {
     }
 
     function reset() {
+      d3.zoomTransform(this).k = 1;
+      d3.zoomTransform(this).x = 0;
+      d3.zoomTransform(this).y = 0;
       svg.projection.scale(baseScale).translate(baseTranslate);
-      const path = d3.geoPath(svg.projection);
-      svg.selectAll(".zoomable > path").attr("d", path);
+      noproj.scale(1).translate([0, 0]);
       render({ k: 1, x: 0, y: 0 });
     }
 
