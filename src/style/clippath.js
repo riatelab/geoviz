@@ -8,10 +8,10 @@ const d3 = Object.assign({}, { geoPath });
  *
  * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
  * @param {object} options - options and parameters
- * @param {object} options.id - clip id. In another layer
+ * @param {string} options.id - clip id. In another layer
  * @param {object} options.datum - datum to clip
  * @example
- * let myclip = geoviz.filter.clippath(main, { datum: world })
+ * let myclip = geoviz.style.clippath(main, { datum: world })
  * @returns {SVGSVGElement|string} - the function adds a clip layer to the SVG container and returns the id like "url(#id)".
  */
 export function clippath(

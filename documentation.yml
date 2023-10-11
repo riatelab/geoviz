@@ -50,6 +50,7 @@ toc:
     children:
       - blur
       - clippath
+      - radialGradient
       - addfonts
   - name: tool
     description: |

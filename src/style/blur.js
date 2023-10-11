@@ -6,10 +6,10 @@ import { unique } from "../helpers/unique";
  *
  * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
  * @param {object} options - options and parameters
- * @param {object} options.id - id
- * @param {object} options.stdDeviation - standard deviation
+ * @param {string} options.id - id
+ * @param {number} options.stdDeviation - standard deviation
  * @example
- * let filter = viz.filter.blur(svg, { stdDeviation: 0, id: "blur" })
+ * let filter = viz.style.blur(svg, { stdDeviation: 0, id: "blur" })
  * @returns {SVGSVGElement|string} - the function adds a filter to the defs and returns the id like "url(#id)".
  */
 export function blur(svg, { id = unique(), stdDeviation = 1.5 } = {}) {
