@@ -1,9 +1,16 @@
 import { getDOMids } from "../helpers/getDOMids";
-import { zoom, zoomTransform, zoomIdentity, ZoomTransform } from "d3-zoom";
+import { zoom, zoomTransform, ZoomTransform } from "d3-zoom";
 import { geoPath, geoIdentity } from "d3-geo";
+import { tile } from "d3-tile";
 const d3 = Object.assign(
   {},
-  { zoom, geoPath, geoIdentity, zoomTransform, zoomIdentity, ZoomTransform }
+  {
+    zoom,
+    geoPath,
+    geoIdentity,
+    zoomTransform,
+    tile,
+  }
 );
 
 /**
@@ -62,6 +69,11 @@ export function render(svg, { order = [] } = {}) {
       const path2 = d3.geoPath(noproj);
       svg.selectAll(".zoomable2 > path").attr("d", path2);
 
+      // Outline
+      svg
+        .selectAll(".zoomableoutline > path")
+        .attr("d", d3.geoPath(svg.projection)({ type: "Sphere" }));
+
       // Circles
       svg
         .selectAll(".zoomable > circle")
@@ -83,7 +95,32 @@ export function render(svg, { order = [] } = {}) {
         .attr("y", (d) => noproj(d.geometry.coordinates)[1]);
 
       // Tiles
-      svg.selectAll(".zoomable > image").attr("transform", t);
+
+      if (!svg.selectAll(".zoomabletiles").empty()) {
+        const datalayer = JSON.parse(
+          svg.selectAll(".zoomabletiles").attr("data-layer")
+        );
+
+        let tile = d3
+          .tile()
+          .size([svg.width, svg.height])
+          .scale(svg.projection.scale() * 2 * Math.PI)
+          .translate(svg.projection([0, 0]))
+          .tileSize(datalayer.tileSize)
+          .zoomDelta(datalayer.zoomDelta);
+
+        let url = eval(datalayer.url);
+        svg
+          .select(".zoomabletiles")
+          .selectAll("image")
+          .data(tile(), (d) => d)
+          .join("image")
+          .attr("xlink:href", (d) => url(...d))
+          .attr("x", ([x]) => (x + tile().translate[0]) * tile().scale)
+          .attr("y", ([, y]) => (y + tile().translate[1]) * tile().scale)
+          .attr("width", tile().scale + datalayer.increasetilesize + "px")
+          .attr("height", tile().scale + datalayer.increasetilesize + "px");
+      }
     }
 
     svg.call(
@@ -93,7 +130,7 @@ export function render(svg, { order = [] } = {}) {
           [0, 0],
           [svg.width, svg.height],
         ])
-        .scaleExtent([1, 8])
+        .scaleExtent([1, typeof svg.zoomable == "number" ? svg.zoomable : 8])
         .on("start", () => {
           svg.select("#geoviztooltip").style("visibility", "hidden");
         })

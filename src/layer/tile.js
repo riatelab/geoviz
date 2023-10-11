@@ -24,7 +24,7 @@ export function tile(
   svg,
   {
     id = unique(),
-    tileSize = 256,
+    tileSize = 512,
     zoomDelta = 1,
     increasetilesize = 1,
     opacity = 1,
@@ -38,9 +38,22 @@ export function tile(
 
   // init layer
   let layer = svg.selectAll(`#${id}`).empty()
-    ? svg.append("g").attr("id", id).attr("class", zoomclass(svg.inset))
+    ? svg
+        .append("g")
+        .attr("id", id)
+        .attr("class", svg.inset ? "tiles" : "zoomabletiles")
     : svg.select(`#${id}`);
   layer.selectAll("*").remove();
+
+  layer.attr(
+    "data-layer",
+    JSON.stringify({
+      tileSize,
+      zoomDelta,
+      increasetilesize,
+      url: url.toString(),
+    })
+  );
 
   let tile = d3tile()
     .size([svg.width, svg.height])
@@ -53,9 +66,9 @@ export function tile(
     .selectAll("image")
     .data(tile())
     .join("image")
-    .attr("xlink:href", (d) => url(d[0], d[1], d[2]))
-    .attr("x", (d) => Math.round((d[0] + tile().translate[0]) * tile().scale))
-    .attr("y", (d) => Math.round((d[1] + tile().translate[1]) * tile().scale))
+    .attr("xlink:href", (d) => url(...d))
+    .attr("x", ([x]) => (x + tile().translate[0]) * tile().scale)
+    .attr("y", ([, y]) => (y + tile().translate[1]) * tile().scale)
     .attr("width", tile().scale + increasetilesize + "px")
     .attr("height", tile().scale + increasetilesize + "px")
     .attr("opacity", opacity)

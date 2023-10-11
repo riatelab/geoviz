@@ -91,3 +91,5 @@ export let style = {
   addfonts,
   radialGradient,
 };
+
+//export { render2 } from "./container/render2.js";

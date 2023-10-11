@@ -44,7 +44,7 @@ import { render as addrender } from "../container/render";
  * @param {string} options.fontFamily - font-family for the entire map
  * @param {number|number[]} options.margin - margins around the map. A number to set the same margin everywhere or an array [top, right, bottom, left] to set different margins.
  * @param {object} options.parent - name of parent container into which this child container is to be included. In this case, the options.pos parameter is also used.
- * @param {boolean} options.zoomable - activates the map zoom function (experimental)
+ * @param {boolean|number} options.zoomable - activates the map zoom function. If you set a number, it defines the scaleExtent (default:8).
  * @example
  * let main = geoviz.container.create({width: 500, background: "lightblue"})
  * @returns {SVGSVGElement} - the function returns a svg container + some information about this container:`projection`, `margin`, `width`, `height` and `bbox`
