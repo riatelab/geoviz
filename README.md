@@ -75,7 +75,19 @@ document.body.appendChild(svg.render())
 })
 ~~~
 
-Demo: [typo.html](https://neocarto.github.io/geoviz/examples/typo.html)
+**5 - Zoomable tiles**
+
+~~~js
+let geojson =   "./world.json"
+d3.json(geojson).then(data => {
+let svg = geoviz.container.create({projection: d3.geoMercator(), zoomable:true})
+svg.layer.tile()
+svg.layer.geopath({datum: world, fill:"none", stroke:"black"})
+document.body.appendChild(svg.render())
+})
+~~~
+
+Demo: [typo.html](https://neocarto.github.io/geoviz/examples/tiles.html)
 
 ### Live Examples
 
