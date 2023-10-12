@@ -92,7 +92,9 @@ export function zoomandpan(svg) {
         .attr("x", ([x]) => (x + tile().translate[0]) * tile().scale)
         .attr("y", ([, y]) => (y + tile().translate[1]) * tile().scale)
         .attr("width", tile().scale + datalayer.increasetilesize + "px")
-        .attr("height", tile().scale + datalayer.increasetilesize + "px");
+        .attr("height", tile().scale + datalayer.increasetilesize + "px")
+        .attr("opacity", datalayer.opacity)
+        .attr("clip-path", datalayer.clipPath);
     }
   }
 

@@ -52,6 +52,8 @@ export function tile(
       zoomDelta,
       increasetilesize,
       url: url.toString(),
+      opacity,
+      clipPath,
     })
   );
 
