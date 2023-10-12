@@ -44,7 +44,7 @@ import { render as addrender } from "../container/render";
  * @param {string} options.fontFamily - font-family for the entire map
  * @param {number|number[]} options.margin - margins around the map. A number to set the same margin everywhere or an array [top, right, bottom, left] to set different margins.
  * @param {object} options.parent - name of parent container into which this child container is to be included. In this case, the options.pos parameter is also used.
- * @param {boolean|number} options.zoomable - activates the map zoom function. If you set a number, it defines the scaleExtent (default:8).
+ * @param {boolean|number|string} options.zoomable - activates the map zoom function. If you set a number, it defines the scaleExtent (default:8). Use "versor" to acctivate [versor zoom](https://github.com/d3/versor). "Versor" is only available for vector geometries in wgs84.
  * @example
  * let main = geoviz.container.create({width: 500, background: "lightblue"})
  * @returns {SVGSVGElement} - the function returns a svg container + some information about this container:`projection`, `margin`, `width`, `height` and `bbox`

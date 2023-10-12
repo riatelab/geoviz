@@ -5,7 +5,8 @@ import { random } from "../classify/random";
 import { unique } from "../helpers/unique";
 import { scaleSqrt } from "d3-scale";
 import { max, descending } from "d3-array";
-const d3 = Object.assign({}, { scaleSqrt, max, descending });
+import { geoPath } from "d3-geo";
+const d3 = Object.assign({}, { scaleSqrt, max, descending, geoPath });
 
 /**
  * The `circle` function allows to create a layer with circles from a geoJSON (points)
@@ -74,7 +75,6 @@ export function circle(
       .data(
         data.features
           .filter((d) => d.geometry)
-          .filter((d) => d.geometry.coordinates != undefined)
           .filter((d) => d.properties[r] != undefined)
           .sort((a, b) =>
             d3.descending(
@@ -84,35 +84,33 @@ export function circle(
           )
       )
       .join("circle")
-      // .attr(
-      //   "transform",
-      //   (d) => `translate(${projection(d.geometry.coordinates)})`
-      // )
-      .attr("cx", (d) => projection(d.geometry.coordinates)[0])
-      .attr("cy", (d) => projection(d.geometry.coordinates)[1])
+      .attr("cx", (d) => d3.geoPath(projection).centroid(d.geometry)[0])
+      .attr("cy", (d) => d3.geoPath(projection).centroid(d.geometry)[1])
       .attr("r", (d) => radius(Math.abs(d.properties[r])))
       .attr("fill", fill)
-      .attr("stroke", stroke);
+      .attr("stroke", stroke)
+      .attr("visibility", (d) =>
+        isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[0])
+          ? "hidden"
+          : "visible"
+      );
   }
 
   if (typeof r == "number") {
     layer
       .selectAll("circle")
-      .data(
-        data.features
-          .filter((d) => d.geometry)
-          .filter((d) => d.geometry.coordinates != undefined)
-      )
+      .data(data.features.filter((d) => d.geometry))
       .join("circle")
-      // .attr(
-      //   "transform",
-      //   (d) => `translate(${projection(d.geometry.coordinates)})`
-      // )
-      .attr("cx", (d) => projection(d.geometry.coordinates)[0])
-      .attr("cy", (d) => projection(d.geometry.coordinates)[1])
+      .attr("cx", (d) => d3.geoPath(projection).centroid(d.geometry)[0])
+      .attr("cy", (d) => d3.geoPath(projection).centroid(d.geometry)[1])
       .attr("r", r)
       .attr("fill", fill)
-      .attr("stroke", stroke);
+      .attr("stroke", stroke)
+      .attr("visibility", (d) =>
+        isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[0])
+          ? "hidden"
+          : "visible"
+      );
   }
 
   if (tip) {

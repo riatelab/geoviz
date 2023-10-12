@@ -1,6 +1,8 @@
 import { addattr } from "../helpers/addattr";
 import { unique } from "../helpers/unique";
 import { zoomclass } from "../helpers/zoomclass";
+import { geoPath } from "d3-geo";
+const d3 = Object.assign({}, { geoPath });
 
 /**
  * The `label` function allows to create a label layer from a geoJSON (points)
@@ -86,8 +88,8 @@ export function label(
     .selectAll("text")
     .data(data.features.filter((d) => d.geometry.coordinates != undefined))
     .join("text")
-    .attr("x", (d) => projection(d.geometry.coordinates)[0])
-    .attr("y", (d) => projection(d.geometry.coordinates)[1])
+    .attr("x", (d) => d3.geoPath(projection).centroid(d.geometry)[0])
+    .attr("y", (d) => d3.geoPath(projection).centroid(d.geometry)[1])
     .attr("fill", fill)
     .attr("stroke", stroke)
     .attr("font-size", fontSize)
@@ -95,6 +97,11 @@ export function label(
     .attr("dy", dy)
     .attr("dominant-baseline", dominantBaseline)
     .attr("text-anchor", textAnchor)
+    .attr("visibility", (d) =>
+      isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[0])
+        ? "hidden"
+        : "visible"
+    )
     .text(typeof text == "string" ? (d) => d.properties[text] : text);
 
   return `#${id}`;

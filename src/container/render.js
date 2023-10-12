@@ -1,5 +1,6 @@
 import { getDOMids } from "../helpers/getDOMids";
 import { zoomandpan } from "../helpers/zoomandpan";
+import { zoomversor } from "../helpers/zoomversor";
 
 /**
  * The `render` function returns the svg document
@@ -24,7 +25,14 @@ export function render(svg, { order = [] } = {}) {
 
   // Zoom
   if (svg.zoomable) {
-    zoomandpan(svg);
+    if (svg.zoomable == "versor") {
+      zoomversor(svg);
+    } else {
+      zoomandpan(svg);
+    }
+  }
+
+  if (svg.versor) {
   }
 
   // raise tooltips

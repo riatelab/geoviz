@@ -44,7 +44,8 @@
     "d3-tile": "^1.0.0",
     "d3-zoom": "^3.0.0",
     "dicopal": "^0.4.0",
-    "statsbreaks": "^1.0.3"
+    "statsbreaks": "^1.0.3",
+    "versor": "^0.2.0"
   },
   "devDependencies": {
     "@rollup/plugin-babel": "^6.0.3",

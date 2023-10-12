@@ -94,7 +94,7 @@ Demo: [tiles.html](https://neocarto.github.io/geoviz/examples/tiles.html)
 
 ### Live Examples
 
-You can find several live examples of how to use the library on the [observable platform](https://observablehq.com/collection/@neocartocnrs/bergeoviztin)
+You can find several live examples of how to use the library on the [observable platform](https://observablehq.com/collection/@neocartocnrs/geoviz)
 
 ### Api documentation
 

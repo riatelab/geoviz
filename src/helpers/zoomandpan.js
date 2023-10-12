@@ -50,8 +50,8 @@ export function zoomandpan(svg) {
     // Circles
     svg
       .selectAll(".zoomable > circle")
-      .attr("cx", (d) => svg.projection(d.geometry.coordinates)[0])
-      .attr("cy", (d) => svg.projection(d.geometry.coordinates)[1]);
+      .attr("cx", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[0])
+      .attr("cy", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[1]);
     svg
       .selectAll(".zoomable2 > circle")
       .attr("cx", (d) => d3.geoIdentity()(d.geometry.coordinates)[0])
@@ -60,8 +60,8 @@ export function zoomandpan(svg) {
     // Texts
     svg
       .selectAll(".zoomable > text")
-      .attr("x", (d) => svg.projection(d.geometry.coordinates)[0])
-      .attr("y", (d) => svg.projection(d.geometry.coordinates)[1]);
+      .attr("cx", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[0])
+      .attr("cy", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[1]);
     svg
       .selectAll(".zoomable2 > text")
       .attr("x", (d) => d3.geoIdentity()(d.geometry.coordinates)[0])
