@@ -93,7 +93,7 @@ export function circle(
       .attr("fill", fill)
       .attr("stroke", stroke)
       .attr("visibility", (d) =>
-        isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[0])
+        isNaN(d3.geoPath(projection).centroid(d.geometry)[0])
           ? "hidden"
           : "visible"
       );
@@ -110,7 +110,7 @@ export function circle(
       .attr("fill", fill)
       .attr("stroke", stroke)
       .attr("visibility", (d) =>
-        isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[0])
+        isNaN(d3.geoPath(projection).centroid(d.geometry)[0])
           ? "hidden"
           : "visible"
       );

@@ -98,7 +98,7 @@ export function label(
     .attr("dominant-baseline", dominantBaseline)
     .attr("text-anchor", textAnchor)
     .attr("visibility", (d) =>
-      isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[0])
+      isNaN(d3.geoPath(projection).centroid(d.geometry)[0])
         ? "hidden"
         : "visible"
     )
