@@ -105,7 +105,7 @@ export function zoomandpan(svg) {
         [0, 0],
         [svg.width, svg.height],
       ])
-      .scaleExtent([1, typeof svg.zoomable == "number" ? svg.zoomable : 8])
+      .scaleExtent(Array.isArray(svg.zoomable) ? svg.zoomable : [1, 8])
       .on("start", () => {
         svg.select("#geoviztooltip").style("visibility", "hidden");
       })
