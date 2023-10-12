@@ -21,11 +21,13 @@ export let tool = {
 // Transform
 import { centroid } from "./transform/centroid";
 import { project } from "./transform/project";
+import { unproject } from "./transform/unproject";
 import { dodge } from "./transform/dodge";
 import { replicate } from "./transform/replicate";
 export let transform = {
   centroid,
   project,
+  unproject,
   dodge,
   replicate,
 };
