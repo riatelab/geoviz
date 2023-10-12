@@ -5,8 +5,11 @@ import { random } from "../classify/random";
 import { unique } from "../helpers/unique";
 import { scaleSqrt } from "d3-scale";
 import { max, descending } from "d3-array";
-import { geoPath } from "d3-geo";
-const d3 = Object.assign({}, { scaleSqrt, max, descending, geoPath });
+import { geoPath, geoIdentity } from "d3-geo";
+const d3 = Object.assign(
+  {},
+  { scaleSqrt, max, descending, geoPath, geoIdentity }
+);
 
 /**
  * The `circle` function allows to create a layer with circles from a geoJSON (points)
@@ -61,7 +64,7 @@ export function circle(
   });
 
   // Projection
-  projection = projection == "none" ? (d) => d : svg.projection;
+  projection = projection == "none" ? d3.geoIdentity() : svg.projection;
 
   if (typeof r == "string") {
     const valmax =

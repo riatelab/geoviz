@@ -1,8 +1,8 @@
 import { addattr } from "../helpers/addattr";
 import { unique } from "../helpers/unique";
 import { zoomclass } from "../helpers/zoomclass";
-import { geoPath } from "d3-geo";
-const d3 = Object.assign({}, { geoPath });
+import { geoPath, geoIdentity } from "d3-geo";
+const d3 = Object.assign({}, { geoPath, geoIdentity });
 
 /**
  * The `label` function allows to create a label layer from a geoJSON (points)
@@ -82,7 +82,7 @@ export function label(
   });
 
   // Projection
-  projection = projection == "none" ? (d) => d : svg.projection;
+  projection = projection == "none" ? d3.geoIdentity() : svg.projection;
 
   layer
     .selectAll("text")
