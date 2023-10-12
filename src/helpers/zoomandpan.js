@@ -13,6 +13,7 @@ const d3 = Object.assign(
 );
 
 export function zoomandpan(svg) {
+  let noproj = d3.geoIdentity();
   function zoom({ transform }) {
     // Adapt projection
     svg.projection
@@ -21,8 +22,7 @@ export function zoomandpan(svg) {
         svg.baseTranslate[0] * transform.k + transform.x,
         svg.baseTranslate[1] * transform.k + transform.y,
       ]);
-    d3.geoIdentity().scale(transform.k).translate([transform.x, transform.y]);
-
+    noproj.scale(transform.k).translate([transform.x, transform.y]);
     render(transform);
   }
 
@@ -39,7 +39,7 @@ export function zoomandpan(svg) {
     // Path
     const path = d3.geoPath(svg.projection);
     svg.selectAll(".zoomable > path").attr("d", path);
-    const path2 = d3.geoPath(d3.geoIdentity());
+    const path2 = d3.geoPath(noproj);
     svg.selectAll(".zoomable2 > path").attr("d", path2);
 
     // Outline
@@ -54,8 +54,8 @@ export function zoomandpan(svg) {
       .attr("cy", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[1]);
     svg
       .selectAll(".zoomable2 > circle")
-      .attr("cx", (d) => d3.geoIdentity()(d.geometry.coordinates)[0])
-      .attr("cy", (d) => d3.geoIdentity()(d.geometry.coordinates)[1]);
+      .attr("cx", (d) => noproj(d.geometry.coordinates)[0])
+      .attr("cy", (d) => noproj(d.geometry.coordinates)[1]);
 
     // Texts
     svg
@@ -64,8 +64,8 @@ export function zoomandpan(svg) {
       .attr("y", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[1]);
     svg
       .selectAll(".zoomable2 > text")
-      .attr("x", (d) => d3.geoIdentity()(d.geometry.coordinates)[0])
-      .attr("y", (d) => d3.geoIdentity()(d.geometry.coordinates)[1]);
+      .attr("x", (d) => noproj(d.geometry.coordinates)[0])
+      .attr("y", (d) => noproj(d.geometry.coordinates)[1]);
 
     // Tiles
 
