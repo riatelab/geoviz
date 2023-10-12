@@ -1,6 +1,7 @@
 import { unique } from "../helpers/unique";
 import { legtitle } from "../helpers/legtitle";
 import { addattrprefix } from "../helpers/addattrprefix";
+import { addbackground } from "../helpers/addbackground";
 
 /**
  * The `choro_vertical` function allows to create a legend with a color gradient (boxes)
@@ -24,6 +25,7 @@ import { addattrprefix } from "../helpers/addattrprefix";
  * @param {number} options.values_dy - to move the label up or down
  * @param {number} options.lineLength - length of line connecting circles to values
  * @param {number} options.values_text - Text to display
+ * @param {boolean|object} options.background - use true tu add a background behind the legend. You can set also an object to customize it {  margin, fill, stroke, fillOpacity, strokeWidth}
  * @example
  * let legend = geoviz.legend.box(main, { rect_fill:"blue", values_text:"water" })
  * @returns {SVGSVGElement|string} - the function adds a layer with a legend and its id
@@ -41,6 +43,7 @@ export function box(
     rect_stroke = "white",
     rect_strokeWidth = 0.3,
     values_text = "values_text",
+    background = false,
   } = {}
 ) {
   // init layer
@@ -100,5 +103,11 @@ export function box(
 
   // Note
   dy = legtitle(svg, layer, arguments[1], "note", dy + gap + rect_height + gap);
+
+  // Background
+  if (background) {
+    addbackground({ node: layer, ...background });
+  }
+
   return `#${id}`;
 }

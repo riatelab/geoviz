@@ -2,6 +2,7 @@ import { unique } from "../helpers/unique";
 import { legtitle } from "../helpers/legtitle";
 import { roundarray } from "../helpers/rounding";
 import { addattrprefix } from "../helpers/addattrprefix";
+import { addbackground } from "../helpers/addbackground";
 import { formatLocale } from "d3-format";
 import { descending } from "d3-array";
 const d3 = Object.assign({}, { formatLocale, descending });
@@ -37,6 +38,7 @@ const d3 = Object.assign({}, { formatLocale, descending });
  * @param {number} options.values_dx - to move values to the right
  * @param {number} options.lineLength - length of line connecting circles to values
  * @param {number} options.gap - gap between texts and legend
+ * @param {boolean|object} options.background - use true tu add a background behind the legend. You can set also an object to customize it {  margin, fill, stroke, fillOpacity, strokeWidth}
  * @example
  * let legend = geoviz.legend.choro_vertical(main, { breaks: [foo]), title_text: "GDP per capita", colors: [foo] })
  * @returns {SVGSVGElement|string} - the function adds a layer with a legend and its id
@@ -62,6 +64,7 @@ export function choro_vertical(
     reverse = false,
     rect_stroke = "white",
     rect_strokeWidth = 0.3,
+    background = false,
   } = {}
 ) {
   // init layer
@@ -179,5 +182,11 @@ export function choro_vertical(
       gap +
       (missing ? rect_height + rect_gap + gap : 0)
   );
+
+  // Background
+  if (background) {
+    addbackground({ node: layer, ...background });
+  }
+
   return `#${id}`;
 }

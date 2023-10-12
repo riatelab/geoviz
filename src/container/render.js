@@ -37,16 +37,16 @@ export function render(svg, { order = [] } = {}) {
   // Zoom
   let noproj = d3.geoIdentity();
   if (svg.zoomable) {
-    const baseScale = svg.projection.scale();
-    const baseTranslate = svg.projection.translate();
+    // const baseScale = svg.projection.scale();
+    // const baseTranslate = svg.projection.translate();
 
     function zoom({ transform }) {
       // Adapt projection
       svg.projection
-        .scale(transform.k * baseScale)
+        .scale(transform.k * svg.baseScale)
         .translate([
-          baseTranslate[0] * transform.k + transform.x,
-          baseTranslate[1] * transform.k + transform.y,
+          svg.baseTranslate[0] * transform.k + transform.x,
+          svg.baseTranslate[1] * transform.k + transform.y,
         ]);
       noproj.scale(transform.k).translate([transform.x, transform.y]);
 
@@ -57,7 +57,7 @@ export function render(svg, { order = [] } = {}) {
       d3.zoomTransform(this).k = 1;
       d3.zoomTransform(this).x = 0;
       d3.zoomTransform(this).y = 0;
-      svg.projection.scale(baseScale).translate(baseTranslate);
+      svg.projection.scale(svg.baseScale).translate(svg.baseTranslate);
       noproj.scale(1).translate([0, 0]);
       render({ k: 1, x: 0, y: 0 });
     }

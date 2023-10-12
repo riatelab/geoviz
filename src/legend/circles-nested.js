@@ -3,6 +3,8 @@ import { legtitle } from "../helpers/legtitle";
 import { datatoradius } from "../helpers/datatoradius";
 import { addattrprefix } from "../helpers/addattrprefix";
 import { formatLocale } from "d3-format";
+import { addbackground } from "../helpers/addbackground";
+
 const d3 = Object.assign({}, { formatLocale });
 /**
  * The `circles_nested` function allows to create a nested proportional circles legend
@@ -25,6 +27,7 @@ const d3 = Object.assign({}, { formatLocale });
  * @param {string} options.values_thousands - thousands separator
  * @param {number} options.lineLength - length of line connecting circles to values
  * @param {number} options.gap - Gap between texts and legend
+ * @param {boolean|object} options.background - use true tu add a background behind the legend. You can set also an object to customize it {  margin, fill, stroke, fillOpacity, strokeWidth}
  * @example
  * let legend = geoviz.legend.circles_nested(main, { data: world.features.map((d) => +d.properties.pop), title_text: "Number of inhabitants", k: 70 })
  * @returns {SVGSVGElement|string} - the function adds a layer with a legend and its id
@@ -44,6 +47,7 @@ export function circles_nested(
     values_thousands = " ",
     values_dx = 3,
     gap = 7,
+    background = false,
   } = {}
 ) {
   // init layer
@@ -129,5 +133,10 @@ export function circles_nested(
 
   // Note
   dy = legtitle(svg, layer, arguments[1], "note", dy + rmax * 2 + gap * 2);
+
+  // Background
+  if (background) {
+    addbackground({ node: layer, ...background });
+  }
   return `#${id}`;
 }

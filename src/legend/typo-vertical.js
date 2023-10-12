@@ -1,6 +1,7 @@
 import { unique } from "../helpers/unique";
 import { legtitle } from "../helpers/legtitle";
 import { addattrprefix } from "../helpers/addattrprefix";
+import { addbackground } from "../helpers/addbackground";
 
 /**
  * The `typo_vertical` function allows to create a legend with classes (boxes)
@@ -33,6 +34,7 @@ import { addattrprefix } from "../helpers/addattrprefix";
  * @param {number} options.values_dx - to move values to the right
  * @param {number} options.lineLength - length of line connecting circles to values
  * @param {number} options.gap - gap between texts and legend
+ * @param {boolean|object} options.background - use true tu add a background behind the legend. You can set also an object to customize it {  margin, fill, stroke, fillOpacity, strokeWidth}
  * @example
  * let legend = geoviz.legend.typo_vertical(main, { types: [foo]), title_text: "GDP per capita", colors: [foo] })
  * @returns {SVGSVGElement|string} - the function adds a layer with a legend and its id
@@ -55,6 +57,7 @@ export function typo_vertical(
     rect_stroke = "white",
     rect_strokeWidth = 0.3,
     alphabetical = true,
+    background = false,
   } = {}
 ) {
   // init layer
@@ -179,5 +182,11 @@ export function typo_vertical(
       gap +
       (missing ? rect_height + rect_gap + gap : 0)
   );
+
+  // Background
+  if (background) {
+    addbackground({ node: layer, ...background });
+  }
+
   return `#${id}`;
 }

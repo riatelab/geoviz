@@ -2,6 +2,7 @@ import { unique } from "../helpers/unique";
 import { legtitle } from "../helpers/legtitle";
 import { datatoradius } from "../helpers/datatoradius";
 import { addattrprefix } from "../helpers/addattrprefix";
+import { addbackground } from "../helpers/addbackground";
 import { formatLocale } from "d3-format";
 import { sum, cumsum } from "d3-array";
 const d3 = Object.assign({}, { formatLocale, sum, cumsum });
@@ -26,6 +27,7 @@ const d3 = Object.assign({}, { formatLocale, sum, cumsum });
  * @param {string} options.values_thousands - thousands separator
  * @param {number} options.lineLength - length of line connecting circles to values
  * @param {number} options.gap - Gap between texts and legend
+ * @param {boolean|object} options.background - use true tu add a background behind the legend. You can set also an object to customize it {  margin, fill, stroke, fillOpacity, strokeWidth}
  * @example
  * let legend = geoviz.legend.circles_nested(main, { data: world.features.map((d) => +d.properties.pop), title_text: "Number of inhabitants", k: 70 })
  * @returns {SVGSVGElement|string} - the function adds a layer with a legend and its id
@@ -45,6 +47,7 @@ export function circles(
     values_thousands = " ",
     values_dx = 3,
     gap = 5,
+    background = false,
   } = {}
 ) {
   // init layer
@@ -141,5 +144,10 @@ export function circles(
     "note",
     gap + dy + cumdiam[cumdiam.length - 1] + cumdiam.length * gap
   );
+
+  // Background
+  if (background) {
+    addbackground({ node: layer, ...background });
+  }
   return `#${id}`;
 }

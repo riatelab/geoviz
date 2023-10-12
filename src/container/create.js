@@ -82,6 +82,8 @@ export function create({
     projection.translate([trans[0] + margin[3], trans[1] + margin[0]]);
     info = {
       projection,
+      baseScale: projection.scale(),
+      baseTranslate: projection.translate(),
       margin,
       width,
       height,

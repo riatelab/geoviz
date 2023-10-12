@@ -75,6 +75,9 @@ document.body.appendChild(svg.render())
 })
 ~~~
 
+Demo: [typo.html](https://neocarto.github.io/geoviz/examples/typo.html)
+
+
 **5 - Zoomable tiles**
 
 ~~~js
@@ -87,7 +90,7 @@ document.body.appendChild(svg.render())
 })
 ~~~
 
-Demo: [typo.html](https://neocarto.github.io/geoviz/examples/tiles.html)
+Demo: [tiles.html](https://neocarto.github.io/geoviz/examples/tiles.html)
 
 ### Live Examples
 
