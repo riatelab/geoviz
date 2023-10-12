@@ -1,12 +1,11 @@
 import versor from "versor@0.2";
-import { selectAll, pointers } from "d3-selection";
+import { pointers } from "d3-selection";
 import { zoom, zoomIdentity } from "d3-zoom";
 import { geoPath, geoIdentity } from "d3-geo";
 const d3 = Object.assign(
   {},
   {
     zoom,
-    selectAll,
     zoomIdentity,
     pointers,
     geoPath,
@@ -18,9 +17,10 @@ export function zoomversor(svg) {
   function render() {
     // Path
     const path = d3.geoPath(svg.projection);
-    d3.selectAll(".zoomable > path").attr("d", path);
+    svg.selectAll(".zoomable > path").attr("d", path);
     // Circles
-    d3.selectAll(".zoomable > circle")
+    svg
+      .selectAll(".zoomable > circle")
       .attr("cx", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[0])
       .attr("cy", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[1])
       .attr("visibility", (d) =>
@@ -29,10 +29,9 @@ export function zoomversor(svg) {
           : "visible"
       );
     // Outline
-    d3.selectAll(".zoomableoutline > path").attr(
-      "d",
-      d3.geoPath(svg.projection)({ type: "Sphere" })
-    );
+    svg
+      .selectAll(".zoomableoutline > path")
+      .attr("d", d3.geoPath(svg.projection)({ type: "Sphere" }));
     // Texts
     svg
       .selectAll(".zoomable > text")
