@@ -54,6 +54,7 @@ import { label } from "./layer/label";
 import { tile } from "./layer/tile";
 import { header } from "./layer/header";
 import { footer } from "./layer/footer";
+import { scalebar } from "./layer/scalebar";
 export let layer = {
   geopath,
   outline,
@@ -64,6 +65,7 @@ export let layer = {
   tile,
   header,
   footer,
+  scalebar,
 };
 
 // Legend

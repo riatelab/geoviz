@@ -27,7 +27,7 @@ export function outline(
     ? svg
         .append("g")
         .attr("id", id)
-        .attr("class", svg.inset ? "tiles" : "zoomableoutline")
+        .attr("class", svg.inset ? "nozoom" : "zoomableoutline")
     : svg.select(`#${id}`);
   layer.selectAll("*").remove();
 

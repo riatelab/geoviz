@@ -1,6 +1,8 @@
 import { zoom, zoomTransform } from "d3-zoom";
 import { geoPath, geoIdentity } from "d3-geo";
 import { tile } from "d3-tile";
+//import * as geoScaleBar from "d3-geo-scale-bar";
+
 const d3 = Object.assign(
   {},
   {
@@ -66,6 +68,31 @@ export function zoomandpan(svg) {
       .selectAll(".zoomable2 > text")
       .attr("x", (d) => noproj(d.geometry.coordinates)[0])
       .attr("y", (d) => noproj(d.geometry.coordinates)[1]);
+
+    // Scalebar
+    // if (!svg.selectAll(".zoomablescalebar").empty()) {
+    //scaleBar.zoomFactor(transform.k); // Zoom the scale bar by the k scale factor.
+    //scaleBarSelection.call(scaleBar);
+    // const datalayer = JSON.parse(
+    //   svg.selectAll(".zoomablescalebar").attr("data-layer")
+    // );
+    // const scaleBar = geoScaleBar()
+    //   .zoomFactor(transform.k)
+    //   .projection(svg.projection)
+    //   .size([svg.width, svg.height])
+    //   .left(datalayer.left)
+    //   .top(datalayer.top)
+    //   .distance(distance)
+    //   .label(datalayer.label)
+    //   .units(datalayer.units)
+    //   .orient(datalayer.orient)
+    //   .tickPadding(datalayer.tickPadding)
+    //   .tickSize(datalayer.tickSize)
+    //   .tickFormat(eval(datalayer.tickFormat))
+    //   .tickValues(datalayer.tickValues)
+    //   .labelAnchor(datalayer.labelAnchor);
+    // svg.select(".zoomabletiles").call(scaleBar);
+    //}
 
     // Tiles
 

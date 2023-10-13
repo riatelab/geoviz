@@ -39,6 +39,7 @@
     "d3-format": "^3.1.0",
     "d3-geo": "^3.1.0",
     "d3-geo-projection": "^4.0.0",
+    "d3-geo-scale-bar": "^1.2.5",
     "d3-scale": "^4.0.2",
     "d3-selection": "^3.0.0",
     "d3-tile": "^1.0.0",
