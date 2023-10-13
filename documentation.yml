@@ -23,6 +23,7 @@ toc:
       This section contains functions for altering a geographic layer: changing its projection, calculating centroids, etc.
     children:
       - centroid
+      - dissolve
       - dodge
       - project
       - replicate
