@@ -18,6 +18,7 @@ toc:
       - tile
       - header
       - footer
+      - scalebar
   - name: transform
     description: |
       This section contains functions for altering a geographic layer: changing its projection, calculating centroids, etc.

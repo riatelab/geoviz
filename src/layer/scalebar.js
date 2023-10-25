@@ -1,13 +1,42 @@
 import * as geoScaleBar from "d3-geo-scale-bar";
-const d3 = Object.assign({}, geoScaleBar);
+import { zoom, zoomTransform } from "d3-zoom";
+
+const d3 = Object.assign(
+  {},
+
+  geoScaleBar,
+  { zoom, zoomTransform }
+);
+
 import { unique } from "../helpers/unique";
 import { addattr } from "../helpers/addattr";
+
+/**
+ * The `scalebar` function allows add a scalebar.
+ *
+ * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
+ * @param {object} options - options and parameters
+ * @param {string} options.id - id of the layer
+ * @param {number[]} options.pos - position [x,y] on the page
+ * @param {string} options.units - "ft" (feet), "km" (kilometers), "m" (meters) or "mi" (miles)
+ * @param {string} options.label - label to display
+ * @param {string} options.tickSize - tick padding
+ * @param {string} options.tickPadding - tick size
+ * @param {number} options.distance - distance represented by the scalebar
+ * @param {function} options.tickFormat - a function to format values
+ * @param {number[]} options.tickValues - values to display on the scalebar
+ * @param {string} options.labelAnchor - position of the label ("start", "middle" or "end")
+ * @param {string} options.labelAnchor - position of the label ("start", "middle" or "end")
+ * @example
+ * geoviz.layer.scalebar(svg, { units:"km", distance: 500, pos: [100, 200] })
+ * @returns {SVGSVGElement|string} - the function adds a layer with a scalebar
+ */
 
 export function scalebar(
   svg,
   {
     id = unique(),
-    pos = [10, 10],
+    pos = [10, svg.height - 20],
     units = "km",
     label = undefined,
     tickPadding = 5,
@@ -16,7 +45,6 @@ export function scalebar(
     tickFormat = (d) => d,
     tickValues,
     labelAnchor = "start",
-    orient = "bottom",
   } = {}
 ) {
   // init layer
@@ -42,11 +70,6 @@ export function scalebar(
     ["mi", d3.geoScaleMiles],
   ]).get(units);
 
-  orient = new Map([
-    ["top", d3.geoScaleTop],
-    ["bottom", d3.geoScaleBottom],
-  ]).get(orient);
-
   const x = pos[0] / svg.width;
   const y = pos[1] / svg.height;
 
@@ -59,7 +82,6 @@ export function scalebar(
     .distance(distance)
     .label(label !== undefined ? label : units.units)
     .units(units)
-    .orient(orient)
     .tickPadding(tickPadding)
     .tickSize(tickSize)
     .tickFormat(tickFormat)
@@ -75,8 +97,8 @@ export function scalebar(
       distance: distance,
       label: label !== undefined ? label : units.units,
       units: units,
-      orient: orient.toString(),
       tickPadding: tickPadding,
+      tickSize: tickSize,
       tickFormat: tickFormat.toString(),
       tickValues: tickValues,
       labelAnchor,
@@ -85,5 +107,6 @@ export function scalebar(
   );
 
   layer.call(scaleBar);
+
   return `#${id}`;
 }

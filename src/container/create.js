@@ -16,6 +16,7 @@ import { label as addlabel } from "../layer/label";
 import { tile } from "../layer/tile";
 import { header } from "../layer/header";
 import { footer } from "../layer/footer";
+import { scalebar as addscalebar } from "../layer/scalebar";
 
 import { blur as addblur } from "../style/blur";
 import { clippath as addclippath } from "../style/clippath";
@@ -135,6 +136,7 @@ export function create({
     { id: "tile", func: tile },
     { id: "header", func: header },
     { id: "footer", func: footer },
+    { id: "scalebar", func: addscalebar },
   ].forEach(
     (d) =>
       (layer[d.id] = function () {

@@ -19,7 +19,6 @@ import { bbox } from "../helpers/bbox";
 export function featurecollection(data, options = {}) {
   let x = JSON.parse(JSON.stringify(data));
 
-  console.log(whatisit(x));
   if (whatisit(x) == "table" && checkTable(options) == true) {
     console.log("table");
     return coords2geo(x, options);
