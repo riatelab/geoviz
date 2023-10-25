@@ -18,7 +18,8 @@ export function clippath(
   svg,
   { id = unique(), datum = { type: "Sphere" } } = {}
 ) {
-  svg
+  let layer = svg.append("g").attr("class", "zoomable");
+  layer
     .append("clipPath")
     .attr("id", id)
     .append("path")

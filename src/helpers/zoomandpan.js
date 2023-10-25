@@ -43,6 +43,9 @@ export function zoomandpan(svg) {
     const path2 = d3.geoPath(noproj);
     svg.selectAll(".zoomable2 > path").attr("d", path2);
 
+    // ClipPath
+    svg.selectAll(".zoomable > clipPath > path").attr("d", path);
+
     // Outline
     svg
       .selectAll(".zoomableoutline > path")
@@ -94,35 +97,65 @@ export function zoomandpan(svg) {
       }
     }
 
-    // Tiles
+    // Tiles (new)
 
     if (!svg.selectAll(".zoomabletiles").empty()) {
-      const datalayer = JSON.parse(
-        svg.selectAll(".zoomabletiles").attr("data-layer")
-      );
+      let tilesnodes = svg.selectAll(".zoomabletiles");
+      tilesnodes.selectAll("*").remove();
 
-      let tile = d3
-        .tile()
-        .size([svg.width, svg.height])
-        .scale(svg.projection.scale() * 2 * Math.PI)
-        .translate(svg.projection([0, 0]))
-        .tileSize(datalayer.tileSize)
-        .zoomDelta(datalayer.zoomDelta);
-
-      let url = eval(datalayer.url);
-      svg
-        .select(".zoomabletiles")
-        .selectAll("image")
-        .data(tile(), (d) => d)
-        .join("image")
-        .attr("xlink:href", (d) => url(...d))
-        .attr("x", ([x]) => (x + tile().translate[0]) * tile().scale)
-        .attr("y", ([, y]) => (y + tile().translate[1]) * tile().scale)
-        .attr("width", tile().scale + datalayer.increasetilesize + "px")
-        .attr("height", tile().scale + datalayer.increasetilesize + "px")
-        .attr("opacity", datalayer.opacity)
-        .attr("clip-path", datalayer.clipPath);
+      for (let i = 0; i < tilesnodes.size(); i++) {
+        let n = d3.select(tilesnodes.nodes()[i]);
+        const datalayer = JSON.parse(n.attr("data-layer"));
+        const url = eval(datalayer.url);
+        let tile = d3
+          .tile()
+          .size([svg.width, svg.height])
+          .scale(svg.projection.scale() * 2 * Math.PI)
+          .translate(svg.projection([0, 0]))
+          .tileSize(datalayer.tileSize)
+          .zoomDelta(datalayer.zoomDelta);
+        n.selectAll("image")
+          .data(tile(), (d) => d)
+          .join("image")
+          .attr("xlink:href", (d) => url(...d))
+          .attr("x", ([x]) => (x + tile().translate[0]) * tile().scale)
+          .attr("y", ([, y]) => (y + tile().translate[1]) * tile().scale)
+          .attr("width", tile().scale + datalayer.increasetilesize + "px")
+          .attr("height", tile().scale + datalayer.increasetilesize + "px")
+          .attr("opacity", datalayer.opacity)
+          .attr("clip-path", datalayer.clipPath);
+      }
     }
+
+    // Tiles
+
+    // if (!svg.selectAll(".zoomabletiles").empty()) {
+    //   const datalayer = JSON.parse(
+    //     svg.selectAll(".zoomabletiles").attr("data-layer")
+    //   );
+
+    //   let tile = d3
+    //     .tile()
+    //     .size([svg.width, svg.height])
+    //     .scale(svg.projection.scale() * 2 * Math.PI)
+    //     .translate(svg.projection([0, 0]))
+    //     .tileSize(datalayer.tileSize)
+    //     .zoomDelta(datalayer.zoomDelta);
+
+    //   let url = eval(datalayer.url);
+    //   svg
+    //     .select(".zoomabletiles")
+    //     .selectAll("image")
+    //     .data(tile(), (d) => d)
+    //     .join("image")
+    //     .attr("xlink:href", (d) => url(...d))
+    //     .attr("x", ([x]) => (x + tile().translate[0]) * tile().scale)
+    //     .attr("y", ([, y]) => (y + tile().translate[1]) * tile().scale)
+    //     .attr("width", tile().scale + datalayer.increasetilesize + "px")
+    //     .attr("height", tile().scale + datalayer.increasetilesize + "px")
+    //     .attr("opacity", datalayer.opacity)
+    //     .attr("clip-path", datalayer.clipPath);
+    // }
   }
 
   svg.call(
