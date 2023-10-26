@@ -7,7 +7,7 @@ export function northangle(pos, projection) {
   let angle = Math.atan(xdelta / ydelta) * (180 / Math.PI);
   const posnorth = projection([0, 90]);
   if (pos[1] < posnorth[1]) {
-    angle = rotate + 180;
+    angle = angle + 180;
   }
   return angle;
 }
