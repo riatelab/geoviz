@@ -1,7 +1,6 @@
 import { geoPath } from "d3-geo";
 import { addattr } from "../helpers/addattr";
 import { unique } from "../helpers/unique";
-import { zoomclass } from "../helpers/zoomclass";
 const d3 = Object.assign({}, { geoPath });
 
 /**
