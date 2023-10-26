@@ -94,10 +94,19 @@ export function zoomandpan(svg) {
             .tickValues(datalayer.tickValues)
             .labelAnchor(datalayer.labelAnchor)
         );
+
+        if (datalayer.translate) {
+          n.attr(
+            "transform",
+            `translate(${datalayer.pos[0] + datalayer.translate[0]},${
+              datalayer.pos[1] + datalayer.translate[1]
+            })`
+          );
+        }
       }
     }
 
-    // Tiles (new)
+    // Tiles
 
     if (!svg.selectAll(".zoomabletiles").empty()) {
       let tilesnodes = svg.selectAll(".zoomabletiles");
@@ -126,36 +135,6 @@ export function zoomandpan(svg) {
           .attr("clip-path", datalayer.clipPath);
       }
     }
-
-    // Tiles
-
-    // if (!svg.selectAll(".zoomabletiles").empty()) {
-    //   const datalayer = JSON.parse(
-    //     svg.selectAll(".zoomabletiles").attr("data-layer")
-    //   );
-
-    //   let tile = d3
-    //     .tile()
-    //     .size([svg.width, svg.height])
-    //     .scale(svg.projection.scale() * 2 * Math.PI)
-    //     .translate(svg.projection([0, 0]))
-    //     .tileSize(datalayer.tileSize)
-    //     .zoomDelta(datalayer.zoomDelta);
-
-    //   let url = eval(datalayer.url);
-    //   svg
-    //     .select(".zoomabletiles")
-    //     .selectAll("image")
-    //     .data(tile(), (d) => d)
-    //     .join("image")
-    //     .attr("xlink:href", (d) => url(...d))
-    //     .attr("x", ([x]) => (x + tile().translate[0]) * tile().scale)
-    //     .attr("y", ([, y]) => (y + tile().translate[1]) * tile().scale)
-    //     .attr("width", tile().scale + datalayer.increasetilesize + "px")
-    //     .attr("height", tile().scale + datalayer.increasetilesize + "px")
-    //     .attr("opacity", datalayer.opacity)
-    //     .attr("clip-path", datalayer.clipPath);
-    // }
   }
 
   svg.call(

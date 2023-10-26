@@ -17,7 +17,8 @@ import { addattr } from "../helpers/addattr";
  * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
  * @param {object} options - options and parameters
  * @param {string} options.id - id of the layer
- * @param {number[]} options.pos - position [x,y] on the page
+ * @param {number[]} options.pos - position [x,y] on the page. The scale value is relevant for this location on the map
+ * @param {number[]} options.translate - an array of two values to move the scalebar without change its size
  * @param {string} options.units - "ft" (feet), "km" (kilometers), "m" (meters) or "mi" (miles)
  * @param {string} options.label - label to display
  * @param {string} options.tickSize - tick padding
@@ -45,6 +46,7 @@ export function scalebar(
     tickFormat = (d) => d,
     tickValues,
     labelAnchor = "start",
+    translate = null,
   } = {}
 ) {
   // init layer
@@ -102,11 +104,19 @@ export function scalebar(
       tickFormat: tickFormat.toString(),
       tickValues: tickValues,
       labelAnchor,
-      labelAnchor,
+      translate,
+      pos,
     })
   );
 
   layer.call(scaleBar);
+
+  if (translate) {
+    layer.attr(
+      "transform",
+      `translate(${pos[0] + translate[0]},${pos[1] + translate[1]})`
+    );
+  }
 
   return `#${id}`;
 }
