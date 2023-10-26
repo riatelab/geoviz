@@ -27,7 +27,6 @@ import { addattr } from "../helpers/addattr";
  * @param {function} options.tickFormat - a function to format values
  * @param {number[]} options.tickValues - values to display on the scalebar
  * @param {string} options.labelAnchor - position of the label ("start", "middle" or "end")
- * @param {string} options.labelAnchor - position of the label ("start", "middle" or "end")
  * @example
  * geoviz.layer.scalebar(svg, { units:"km", distance: 500, pos: [100, 200] })
  * @returns {SVGSVGElement|string} - the function adds a layer with a scalebar
@@ -38,6 +37,7 @@ export function scalebar(
   {
     id = unique(),
     pos = [10, svg.height - 20],
+    translate = null,
     units = "km",
     label = undefined,
     tickPadding = 5,
@@ -46,7 +46,6 @@ export function scalebar(
     tickFormat = (d) => d,
     tickValues,
     labelAnchor = "start",
-    translate = null,
   } = {}
 ) {
   // init layer

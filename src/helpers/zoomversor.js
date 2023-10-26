@@ -18,6 +18,10 @@ export function zoomversor(svg) {
     // Path
     const path = d3.geoPath(svg.projection);
     svg.selectAll(".zoomable > path").attr("d", path);
+
+    // ClipPath
+    svg.selectAll(".zoomable > clipPath > path").attr("d", path);
+
     // Circles
     svg
       .selectAll(".zoomable > circle")
