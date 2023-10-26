@@ -1,6 +1,7 @@
 import { zoom, zoomTransform } from "d3-zoom";
 import { geoPath, geoIdentity } from "d3-geo";
 import { tile } from "d3-tile";
+import { northangle } from "../helpers/northangle";
 import * as geoScaleBar from "d3-geo-scale-bar";
 import { select } from "d3-selection";
 
@@ -133,6 +134,29 @@ export function zoomandpan(svg) {
           .attr("height", tile().scale + datalayer.increasetilesize + "px")
           .attr("opacity", datalayer.opacity)
           .attr("clip-path", datalayer.clipPath);
+      }
+    }
+
+    // North arrow
+
+    if (!svg.selectAll(".zoomablesnorth").empty()) {
+      let northnodes = svg.selectAll(".zoomablesnorth");
+      northnodes.selectAll("*").remove();
+      for (let i = 0; i < northnodes.size(); i++) {
+        let n = d3.select(northnodes.nodes()[i]);
+        const datalayer = JSON.parse(n.attr("data-layer"));
+        n.append("path")
+          .attr("d", datalayer.symbol)
+          .attr("fill", datalayer.fill)
+          .attr("fill-opacity", datalayer.fillOpacity)
+          .attr(
+            "transform",
+            `translate(${datalayer.pos[0]},${datalayer.pos[1]}) rotate(${
+              datalayer.rotate === null
+                ? northangle(datalayer.pos, svg.projection)
+                : datalayer.rotate
+            }) scale(${datalayer.scale})`
+          );
       }
     }
   }

@@ -4,6 +4,7 @@ import { zoom, zoomIdentity } from "d3-zoom";
 import { geoPath, geoIdentity } from "d3-geo";
 import * as geoScaleBar from "d3-geo-scale-bar";
 import { select } from "d3-selection";
+import { northangle } from "../helpers/northangle";
 
 const d3 = Object.assign({}, geoScaleBar, {
   zoom,
@@ -82,6 +83,9 @@ export function zoomversor(svg) {
         }
       }
     }
+
+    // North Arrow
+    // --- not implemented
   }
   svg
     .call(versorzoom(svg.projection).on("zoom.render end.render", render))
