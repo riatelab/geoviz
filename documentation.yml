@@ -11,6 +11,7 @@ toc:
     children:
       - geopath
       - circle
+      - spike
       - graticule
       - outline
       - label

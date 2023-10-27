@@ -72,6 +72,23 @@ export function zoomandpan(svg) {
       .attr("x", (d) => noproj(d.geometry.coordinates)[0])
       .attr("y", (d) => noproj(d.geometry.coordinates)[1]);
 
+    // Spikes
+
+    let spikenodes = svg.selectAll(".zoomablespike");
+    for (let i = 0; i < spikenodes.size(); i++) {
+      let n = d3.select(spikenodes.nodes()[i]);
+      const datalayer = JSON.parse(n.attr("data-layer"));
+      n.selectAll("path").attr(
+        "transform",
+        (d) =>
+          `translate(
+       ${d3.geoPath(svg.projection).centroid(d.geometry)[0]},
+       ${d3.geoPath(svg.projection).centroid(d.geometry)[1]}) skewX(${
+            datalayer.skewX
+          }) skewY(${datalayer.skewY})`
+      );
+    }
+
     //Scalebar
     if (!svg.selectAll(".zoomablescalebar").empty()) {
       let scalebarnodes = svg.selectAll(".zoomablescalebar");
@@ -140,7 +157,7 @@ export function zoomandpan(svg) {
     // North arrow
 
     if (!svg.selectAll(".zoomablesnorth").empty()) {
-      let northnodes = svg.selectAll(".zoomablesnorth");
+      let northnodes = svg.selectAll(".zoomablenorth");
       northnodes.selectAll("*").remove();
       for (let i = 0; i < northnodes.size(); i++) {
         let n = d3.select(northnodes.nodes()[i]);

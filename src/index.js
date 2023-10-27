@@ -52,6 +52,7 @@ import { outline } from "./layer/outline";
 import { graticule } from "./layer/graticule";
 import { text } from "./layer/text";
 import { circle } from "./layer/circle";
+import { spike } from "./layer/spike";
 import { label } from "./layer/label";
 import { tile } from "./layer/tile";
 import { header } from "./layer/header";
@@ -70,6 +71,7 @@ export let layer = {
   footer,
   scalebar,
   north,
+  spike,
 };
 
 // Legend

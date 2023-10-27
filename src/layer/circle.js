@@ -78,6 +78,7 @@ export function circle(
       .data(
         data.features
           .filter((d) => d.geometry)
+          .filter((d) => d.geometry.coordinates != undefined)
           .filter((d) => d.properties[r] != undefined)
           .sort((a, b) =>
             d3.descending(

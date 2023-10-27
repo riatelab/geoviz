@@ -33,6 +33,10 @@ export function zoomversor(svg) {
           ? "hidden"
           : "visible"
       );
+
+    // Spikes
+    // not yet implemented
+
     // Outline
     svg
       .selectAll(".zoomableoutline > path")

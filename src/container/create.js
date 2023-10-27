@@ -12,6 +12,7 @@ import { geopath as addgeopath } from "../layer/geopath";
 import { graticule as addgraticule } from "../layer/graticule";
 import { text as addtext } from "../layer/text";
 import { circle as addcircle } from "../layer/circle";
+import { spike as addspike } from "../layer/spike";
 import { label as addlabel } from "../layer/label";
 import { tile } from "../layer/tile";
 import { header } from "../layer/header";
@@ -136,6 +137,7 @@ export function create({
     { id: "geopath", func: addgeopath },
     { id: "graticule", func: addgraticule },
     { id: "circle", func: addcircle },
+    { id: "spike", func: addspike },
     { id: "label", func: addlabel },
     { id: "text", func: addtext },
     { id: "tile", func: tile },

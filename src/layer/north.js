@@ -33,7 +33,7 @@ export function north(
     ? svg
         .append("g")
         .attr("id", id)
-        .attr("class", svg.inset ? "nozoom" : "zoomablesnorth")
+        .attr("class", svg.inset ? "nozoom" : "zoomablenorth")
     : svg.select(`#${id}`);
   layer.selectAll("*").remove();
 
