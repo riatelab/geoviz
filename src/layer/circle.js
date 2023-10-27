@@ -24,7 +24,7 @@ const d3 = Object.assign(
  * @param {string|function} options.projection - use "none" if the coordinates are already in the plan of the page. If this field is left blank, the global container projection is applied.
  * @param {string|function} options.fill - fill color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
  * @param {string|function} options.stroke - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
- * @param {string|function} options.tip - tooltip content
+ * @param {boolean|function} options.tip - a function to display the tip. Use true tu display all fields
  * @param {object} options.tipstyle - tooltip style
  * @param {*} options.foo - *other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @example
@@ -117,7 +117,7 @@ export function circle(
   }
 
   if (tip) {
-    tooltip(layer, svg, tip, tipstyle);
+    tooltip(layer, data, svg, tip, tipstyle);
   }
 
   return `#${id}`;

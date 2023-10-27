@@ -1,9 +1,26 @@
 import { select, pointers } from "d3-selection";
 const d3 = Object.assign({}, { select, pointers });
 
-export function tooltip(layer, container, tip, tip_style = {}) {
+export function tooltip(layer, data, container, tip, tip_style = {}) {
+  // tip function
+
+  if (tip === true) {
+    let x = { ...data };
+    let keys = [];
+    x.features
+      .map((d) => d.properties)
+      .forEach((d) => {
+        keys.push(Object.keys(d));
+      });
+    keys = Array.from(new Set(keys.flat()));
+
+    let str = [];
+    keys.forEach((d) => str.push(`${d}: \${d.properties.${d}}`));
+    tip = eval("(d) => `" + str.join("\n") + "`");
+  }
+
   let style = {
-    fontSize: 15,
+    fontSize: 13,
     fill: "#4d4545",
     background: "#fcf7e6",
     stroke: "#4a4d4b",

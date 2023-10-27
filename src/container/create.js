@@ -82,6 +82,10 @@ export function create({
 
     let trans = projection.translate();
     projection.translate([trans[0] + margin[3], trans[1] + margin[0]]);
+    projection.clipExtent([
+      [0, 0],
+      [width, height],
+    ]);
     info = {
       projection,
       baseScale: projection.scale(),

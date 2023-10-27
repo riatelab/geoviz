@@ -28,6 +28,7 @@ toc:
       - dissolve
       - dodge
       - project
+      - unproject
       - replicate
   - name: classify
     description: |
@@ -63,3 +64,4 @@ toc:
       - merge
       - rewind
       - geotable
+      - proj4d3
