@@ -4,6 +4,8 @@ import { tile } from "d3-tile";
 import { northangle } from "../helpers/northangle";
 import * as geoScaleBar from "d3-geo-scale-bar";
 import { select } from "d3-selection";
+import { scaleLinear } from "d3-scale";
+import { max } from "d3-array";
 
 const d3 = Object.assign({}, geoScaleBar, {
   zoom,
@@ -12,6 +14,8 @@ const d3 = Object.assign({}, geoScaleBar, {
   zoomTransform,
   tile,
   select,
+  scaleLinear,
+  max,
 });
 
 export function zoomandpan(svg) {
@@ -73,20 +77,58 @@ export function zoomandpan(svg) {
       .attr("y", (d) => noproj(d.geometry.coordinates)[1]);
 
     // Spikes
-
     let spikenodes = svg.selectAll(".zoomablespike");
     for (let i = 0; i < spikenodes.size(); i++) {
       let n = d3.select(spikenodes.nodes()[i]);
       const datalayer = JSON.parse(n.attr("data-layer"));
-      n.selectAll("path").attr(
-        "transform",
-        (d) =>
-          `translate(
-       ${d3.geoPath(svg.projection).centroid(d.geometry)[0]},
-       ${d3.geoPath(svg.projection).centroid(d.geometry)[1]}) skewX(${
-            datalayer.skewX
-          }) skewY(${datalayer.skewY})`
-      );
+      const valmax =
+        datalayer.fixmax != undefined
+          ? datalayer.fixmax
+          : d3.max(datalayer.features, (d) =>
+              Math.abs(+d.properties[datalayer.height])
+            );
+      const yScale = d3
+        .scaleLinear()
+        .domain([0, valmax])
+        .range([0, datalayer.k]);
+
+      if (typeof datalayer.height == "number") {
+        n.selectAll("path").attr(
+          "d",
+          (d) =>
+            `M ${
+              d3.geoPath(svg.projection).centroid(d.geometry)[0] -
+              datalayer.width / 2
+            }, ${d3.geoPath(svg.projection).centroid(d.geometry)[1]} ${
+              d3.geoPath(svg.projection).centroid(d.geometry)[0]
+            }, ${
+              d3.geoPath(svg.projection).centroid(d.geometry)[1] -
+              datalayer.height
+            } ${
+              d3.geoPath(svg.projection).centroid(d.geometry)[0] +
+              datalayer.width / 2
+            }, ${d3.geoPath(svg.projection).centroid(d.geometry)[1]}`
+        );
+      }
+
+      if (typeof datalayer.height == "string") {
+        n.selectAll("path").attr(
+          "d",
+          (d) =>
+            `M ${
+              d3.geoPath(svg.projection).centroid(d.geometry)[0] -
+              datalayer.width / 2
+            }, ${d3.geoPath(svg.projection).centroid(d.geometry)[1]} ${
+              d3.geoPath(svg.projection).centroid(d.geometry)[0]
+            }, ${
+              d3.geoPath(svg.projection).centroid(d.geometry)[1] -
+              yScale(d.properties[datalayer.height])
+            } ${
+              d3.geoPath(svg.projection).centroid(d.geometry)[0] +
+              datalayer.width / 2
+            }, ${d3.geoPath(svg.projection).centroid(d.geometry)[1]}`
+        );
+      }
     }
 
     //Scalebar

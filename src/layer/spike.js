@@ -55,6 +55,7 @@ export function spike(
       height,
       k,
       fixmax,
+      features: data.features,
     })
   );
 
