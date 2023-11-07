@@ -87,48 +87,27 @@ export function zoomandpan(svg) {
           : d3.max(datalayer.features, (d) =>
               Math.abs(+d.properties[datalayer.height])
             );
-      const yScale = d3
-        .scaleLinear()
-        .domain([0, valmax])
-        .range([0, datalayer.k]);
+      const yScale =
+        datalayer.height == "___const"
+          ? (d) => d
+          : d3.scaleLinear().domain([0, valmax]).range([0, datalayer.k]);
 
-      if (typeof datalayer.height == "number") {
-        n.selectAll("path").attr(
-          "d",
-          (d) =>
-            `M ${
-              d3.geoPath(svg.projection).centroid(d.geometry)[0] -
-              datalayer.width / 2
-            }, ${d3.geoPath(svg.projection).centroid(d.geometry)[1]} ${
-              d3.geoPath(svg.projection).centroid(d.geometry)[0]
-            }, ${
-              d3.geoPath(svg.projection).centroid(d.geometry)[1] -
-              datalayer.height
-            } ${
-              d3.geoPath(svg.projection).centroid(d.geometry)[0] +
-              datalayer.width / 2
-            }, ${d3.geoPath(svg.projection).centroid(d.geometry)[1]}`
-        );
-      }
+      let projection = datalayer.prj == "none" ? noproj : svg.projection;
 
-      if (typeof datalayer.height == "string") {
-        n.selectAll("path").attr(
-          "d",
-          (d) =>
-            `M ${
-              d3.geoPath(svg.projection).centroid(d.geometry)[0] -
-              datalayer.width / 2
-            }, ${d3.geoPath(svg.projection).centroid(d.geometry)[1]} ${
-              d3.geoPath(svg.projection).centroid(d.geometry)[0]
-            }, ${
-              d3.geoPath(svg.projection).centroid(d.geometry)[1] -
-              yScale(d.properties[datalayer.height])
-            } ${
-              d3.geoPath(svg.projection).centroid(d.geometry)[0] +
-              datalayer.width / 2
-            }, ${d3.geoPath(svg.projection).centroid(d.geometry)[1]}`
-        );
-      }
+      n.selectAll("path").attr(
+        "d",
+        (d) =>
+          `M ${
+            d3.geoPath(projection).centroid(d.geometry)[0] - datalayer.width / 2
+          }, ${d3.geoPath(projection).centroid(d.geometry)[1]} ${
+            d3.geoPath(projection).centroid(d.geometry)[0]
+          }, ${
+            d3.geoPath(projection).centroid(d.geometry)[1] -
+            yScale(d.properties[datalayer.height])
+          } ${
+            d3.geoPath(projection).centroid(d.geometry)[0] + datalayer.width / 2
+          }, ${d3.geoPath(projection).centroid(d.geometry)[1]}`
+      );
     }
 
     //Scalebar

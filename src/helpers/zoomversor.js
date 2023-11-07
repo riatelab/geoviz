@@ -4,6 +4,8 @@ import { zoom, zoomIdentity } from "d3-zoom";
 import { geoPath, geoIdentity } from "d3-geo";
 import * as geoScaleBar from "d3-geo-scale-bar";
 import { select } from "d3-selection";
+import { scaleLinear } from "d3-scale";
+import { max } from "d3-array";
 
 const d3 = Object.assign({}, geoScaleBar, {
   zoom,
@@ -12,6 +14,8 @@ const d3 = Object.assign({}, geoScaleBar, {
   geoPath,
   geoIdentity,
   select,
+  scaleLinear,
+  max,
 });
 
 export function zoomversor(svg) {
@@ -24,6 +28,7 @@ export function zoomversor(svg) {
     svg.selectAll(".zoomable > clipPath > path").attr("d", path);
 
     // Circles
+
     svg
       .selectAll(".zoomable > circle")
       .attr("cx", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[0])
@@ -35,7 +40,39 @@ export function zoomversor(svg) {
       );
 
     // Spikes
-    // not yet implemented
+
+    let spikenodes = svg.selectAll(".zoomablespike");
+    for (let i = 0; i < spikenodes.size(); i++) {
+      let n = d3.select(spikenodes.nodes()[i]);
+      const datalayer = JSON.parse(n.attr("data-layer"));
+      const valmax =
+        datalayer.fixmax != undefined
+          ? datalayer.fixmax
+          : d3.max(datalayer.features, (d) =>
+              Math.abs(+d.properties[datalayer.height])
+            );
+      const yScale =
+        datalayer.height == "___const"
+          ? (d) => d
+          : d3.scaleLinear().domain([0, valmax]).range([0, datalayer.k]);
+
+      n.selectAll("path").attr(
+        "d",
+        (d) =>
+          `M ${
+            d3.geoPath(svg.projection).centroid(d.geometry)[0] -
+            datalayer.width / 2
+          }, ${d3.geoPath(svg.projection).centroid(d.geometry)[1]} ${
+            d3.geoPath(svg.projection).centroid(d.geometry)[0]
+          }, ${
+            d3.geoPath(svg.projection).centroid(d.geometry)[1] -
+            yScale(d.properties[datalayer.height])
+          } ${
+            d3.geoPath(svg.projection).centroid(d.geometry)[0] +
+            datalayer.width / 2
+          }, ${d3.geoPath(svg.projection).centroid(d.geometry)[1]}`
+      );
+    }
 
     // Outline
     svg

@@ -1,7 +1,6 @@
 import { tooltip } from "../helpers/tooltip";
-import { zoomclass } from "../helpers/zoomclass";
+import { addconst } from "../helpers/addconst";
 import { addattr } from "../helpers/addattr";
-import { random } from "../classify/random";
 import { unique } from "../helpers/unique";
 import { scaleLinear } from "d3-scale";
 import { max, descending } from "d3-array";
@@ -22,7 +21,6 @@ export function spike(
     k = 50,
     fixmax = null,
     fill = "red",
-    fillOpacity = 0.5,
     stroke = "none",
     tip,
     tipstyle,
@@ -41,11 +39,25 @@ export function spike(
   addattr({
     layer,
     args: arguments[1],
-    exclude: ["fill", "stroke", "transform"],
+    exclude: ["fill", "stroke"],
   });
 
   // Projection
+  let prj = projection == "none" ? "none" : "svg";
   projection = projection == "none" ? d3.geoIdentity() : svg.projection;
+
+  // String or number?
+  let features =
+    typeof height == "string" ? data.features : addconst(data.features, height);
+  height = typeof height == "string" ? height : "___const";
+  const valmax =
+    fixmax != undefined
+      ? fixmax
+      : d3.max(features, (d) => Math.abs(+d.properties[height]));
+  const yScale =
+    height == "___const"
+      ? (d) => d
+      : d3.scaleLinear().domain([0, valmax]).range([0, k]);
 
   // layer data
   layer.attr(
@@ -55,77 +67,44 @@ export function spike(
       height,
       k,
       fixmax,
-      features: data.features,
+      features: features,
+      prj,
     })
   );
 
-  if (typeof height == "string") {
-    const valmax =
-      fixmax != undefined
-        ? fixmax
-        : d3.max(data.features, (d) => Math.abs(+d.properties[height]));
-    const yScale = d3.scaleLinear().domain([0, valmax]).range([0, k]);
-
-    layer
-      .selectAll("path")
-      .data(
-        data.features
-          .filter((d) => d.geometry)
-          .filter((d) => d.properties[height] != undefined)
-          .sort((a, b) =>
-            d3.descending(
-              Math.abs(+a.properties[height]),
-              Math.abs(+b.properties[height])
-            )
+  layer
+    .selectAll("path")
+    .data(
+      features
+        .filter((d) => d.geometry)
+        .filter((d) => d.properties[height] != undefined)
+        .sort((a, b) =>
+          d3.descending(
+            Math.abs(+a.properties[height]),
+            Math.abs(+b.properties[height])
           )
-      )
-      .join("path")
-      .attr(
-        "d",
-        (d) =>
-          `M ${d3.geoPath(projection).centroid(d.geometry)[0] - width / 2}, ${
-            d3.geoPath(projection).centroid(d.geometry)[1]
-          } ${d3.geoPath(projection).centroid(d.geometry)[0]}, ${
-            d3.geoPath(projection).centroid(d.geometry)[1] -
-            yScale(d.properties[height])
-          } ${d3.geoPath(projection).centroid(d.geometry)[0] + width / 2}, ${
-            d3.geoPath(projection).centroid(d.geometry)[1]
-          }`
-      )
-      .attr("fill", fill)
-      .attr("stroke", stroke)
-      .attr("visibility", (d) =>
-        isNaN(d3.geoPath(projection).centroid(d.geometry)[0])
-          ? "hidden"
-          : "visible"
-      );
-  }
-
-  if (typeof height == "number") {
-    layer
-      .selectAll("path")
-      .data(data.features.filter((d) => d.geometry))
-      .join("path")
-
-      .attr(
-        "d",
-        (d) =>
-          `M ${d3.geoPath(projection).centroid(d.geometry)[0] - width / 2}, ${
-            d3.geoPath(projection).centroid(d.geometry)[1]
-          } ${d3.geoPath(projection).centroid(d.geometry)[0]}, ${
-            d3.geoPath(projection).centroid(d.geometry)[1] - height
-          } ${d3.geoPath(projection).centroid(d.geometry)[0] + width / 2}, ${
-            d3.geoPath(projection).centroid(d.geometry)[1]
-          }`
-      )
-      .attr("fill", fill)
-      .attr("stroke", stroke)
-      .attr("visibility", (d) =>
-        isNaN(d3.geoPath(projection).centroid(d.geometry)[0])
-          ? "hidden"
-          : "visible"
-      );
-  }
+        )
+    )
+    .join("path")
+    .attr(
+      "d",
+      (d) =>
+        `M ${d3.geoPath(projection).centroid(d.geometry)[0] - width / 2}, ${
+          d3.geoPath(projection).centroid(d.geometry)[1]
+        } ${d3.geoPath(projection).centroid(d.geometry)[0]}, ${
+          d3.geoPath(projection).centroid(d.geometry)[1] -
+          yScale(d.properties[height])
+        } ${d3.geoPath(projection).centroid(d.geometry)[0] + width / 2}, ${
+          d3.geoPath(projection).centroid(d.geometry)[1]
+        }`
+    )
+    .attr("fill", fill)
+    .attr("stroke", stroke)
+    .attr("visibility", (d) =>
+      isNaN(d3.geoPath(projection).centroid(d.geometry)[0])
+        ? "hidden"
+        : "visible"
+    );
 
   if (tip) {
     tooltip(layer, data, svg, tip, tipstyle);
