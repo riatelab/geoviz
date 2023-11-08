@@ -45,6 +45,7 @@ toc:
       - box   
       - circles
       - circles_nested
+      - spikes
       - choro_vertical
       - choro_horizontal
       - typo_vertical

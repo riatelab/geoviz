@@ -26,6 +26,7 @@ import { radialGradient as addradialGradient } from "../style/radialgradient";
 
 import { circles_nested as addcircles_nested } from "../legend/circles-nested";
 import { circles as addcircles } from "../legend/circles";
+import { spikes as addspikes } from "../legend/spikes";
 import { choro_vertical as addchoro_vertical } from "../legend/choro-vertical";
 import { choro_horizontal as addchoro_horizontal } from "../legend/choro-horizontal";
 import { typo_vertical as addtypo_vertical } from "../legend/typo-vertical";
@@ -156,6 +157,7 @@ export function create({
   [
     { id: "circles_nested", func: addcircles_nested },
     { id: "circles", func: addcircles },
+    { id: "spikes", func: addspikes },
     { id: "choro_vertical", func: addchoro_vertical },
     { id: "choro_horizontal", func: addchoro_horizontal },
     { id: "typo_vertical", func: addtypo_vertical },

@@ -19,7 +19,7 @@ const d3 = Object.assign(
  * @param {object} options.data - GeoJSON FeatureCollection (points)
  * @param {string} options.id - id of the layer
  * @param {number|string} options.r - a number or the name of a property containing numerical values.
- * @param {number} options.k - dadius of the largest circle (or corresponding to the value defined by `fixmax`)
+ * @param {number} options.k - radius of the largest circle (or corresponding to the value defined by `fixmax`)
  * @param {number} options.fixmax - value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
  * @param {string|function} options.projection - use "none" if the coordinates are already in the plan of the page. If this field is left blank, the global container projection is applied.
  * @param {string|function} options.fill - fill color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions

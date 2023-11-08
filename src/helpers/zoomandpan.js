@@ -103,7 +103,7 @@ export function zoomandpan(svg) {
             d3.geoPath(projection).centroid(d.geometry)[0]
           }, ${
             d3.geoPath(projection).centroid(d.geometry)[1] -
-            yScale(d.properties[datalayer.height])
+            yScale(d.properties[datalayer.height] * datalayer.updown)
           } ${
             d3.geoPath(projection).centroid(d.geometry)[0] + datalayer.width / 2
           }, ${d3.geoPath(projection).centroid(d.geometry)[1]}`

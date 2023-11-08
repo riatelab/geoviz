@@ -77,6 +77,7 @@ export let layer = {
 // Legend
 import { circles_nested } from "./legend/circles-nested";
 import { circles } from "./legend/circles";
+import { spikes } from "./legend/spikes";
 import { choro_vertical } from "./legend/choro-vertical";
 import { choro_horizontal } from "./legend/choro-horizontal";
 import { typo_vertical } from "./legend/typo-vertical";
@@ -90,6 +91,7 @@ export let legend = {
   typo_vertical,
   typo_horizontal,
   box,
+  spikes,
 };
 
 // style

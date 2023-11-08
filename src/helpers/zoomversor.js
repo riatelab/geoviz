@@ -18,6 +18,9 @@ const d3 = Object.assign({}, geoScaleBar, {
   max,
 });
 
+
+
+
 export function zoomversor(svg) {
   function render() {
     // Path
@@ -66,7 +69,7 @@ export function zoomversor(svg) {
             d3.geoPath(svg.projection).centroid(d.geometry)[0]
           }, ${
             d3.geoPath(svg.projection).centroid(d.geometry)[1] -
-            yScale(d.properties[datalayer.height])
+            yScale(d.properties[datalayer.height] * datalayer.updown)
           } ${
             d3.geoPath(svg.projection).centroid(d.geometry)[0] +
             datalayer.width / 2
