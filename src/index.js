@@ -22,6 +22,7 @@ export let tool = {
 
 // Transform
 import { centroid } from "./transform/centroid";
+import { ridge } from "./transform/ridge";
 import { dissolve } from "./transform/dissolve";
 import { project } from "./transform/project";
 import { unproject } from "./transform/unproject";
@@ -34,6 +35,7 @@ export let transform = {
   unproject,
   dodge,
   replicate,
+  ridge,
 };
 
 // Classify
