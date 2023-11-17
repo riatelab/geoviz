@@ -1,6 +1,8 @@
 import { geoPath } from "d3-geo";
 import { addattr } from "../helpers/addattr";
 import { unique } from "../helpers/unique";
+import { create } from "../container/create";
+import { render } from "../container/render";
 const d3 = Object.assign({}, { geoPath });
 
 /**
@@ -17,29 +19,48 @@ const d3 = Object.assign({}, { geoPath });
  * let outline = geoviz.layer.outline(main, { fillOpacity: 0.5 })
  * @returns {SVGSVGElement|string} - the function adds a layer with the outline to the SVG container and returns the layer identifier.
  */
-export function outline(
-  svg,
-  { id = unique(), fill = "#B5DFFD", stroke = 0, strokeWidth = 0 } = {}
-) {
+export function outline(arg1, arg2) {
+  // Test if new container
+  let newcontainer =
+    arguments.length <= 1 && !arguments[0]?._groups ? true : false;
+  arg1 = newcontainer && arg1 == undefined ? {} : arg1;
+  arg2 = arg2 == undefined ? {} : arg2;
+  let svg = newcontainer ? create() : arg1;
+  let options = newcontainer ? arg1 : arg2;
+
+  // Default values
+  let opts = {
+    id: unique(),
+    fill: "#B5DFFD",
+    stroke: "none",
+    strokeWidth: 1,
+  };
+
+  Object.keys(opts).forEach((d) => {
+    if (options[d] !== undefined) {
+      opts[d] = options[d];
+    }
+  });
+
   // init layer
-  let layer = svg.selectAll(`#${id}`).empty()
+  let layer = svg.selectAll(`#${opts.id}`).empty()
     ? svg
         .append("g")
-        .attr("id", id)
+        .attr("id", opts.id)
         .attr("class", svg.inset ? "nozoom" : "zoomableoutline")
-    : svg.select(`#${id}`);
+    : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 
   // Attr with specific default values
   layer
-    .attr("fill", fill)
-    .attr("stroke", stroke)
-    .attr("stroke-width", strokeWidth);
+    .attr("fill", opts.fill)
+    .attr("stroke", opts.stroke)
+    .attr("stroke-width", opts.strokeWidth);
 
   // ...attr
   addattr({
     layer,
-    args: arguments[1],
+    args: options,
     exclude: ["fill", "stroke", "strokeWidth"],
   });
 
@@ -47,5 +68,10 @@ export function outline(
     .append("path")
     .attr("d", d3.geoPath(svg.projection)({ type: "Sphere" }));
 
-  return `#${id}`;
+  // Output
+  if (newcontainer) {
+    return render(svg);
+  } else {
+    return `#${opts.id}`;
+  }
 }

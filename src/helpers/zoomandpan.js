@@ -177,7 +177,7 @@ export function zoomandpan(svg) {
 
     // North arrow
 
-    if (!svg.selectAll(".zoomablesnorth").empty()) {
+    if (!svg.selectAll(".zoomablenorth").empty()) {
       let northnodes = svg.selectAll(".zoomablenorth");
       northnodes.selectAll("*").remove();
       for (let i = 0; i < northnodes.size(); i++) {

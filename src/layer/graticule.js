@@ -3,6 +3,8 @@ const d3 = Object.assign({}, { geoPath, geoGraticule });
 import { addattr } from "../helpers/addattr";
 import { unique } from "../helpers/unique";
 import { zoomclass } from "../helpers/zoomclass";
+import { create } from "../container/create";
+import { render } from "../container/render";
 
 /**
  * The `graticule` function allows to create a layer with lat/long lines
@@ -22,46 +24,68 @@ import { zoomclass } from "../helpers/zoomclass";
  * let graticule = geoviz.layer.graticule(main, { step: 2 })
  * @returns {SVGSVGElement|string} - the function adds a layer with graticule lines to the SVG container and returns the layer identifier.
  */
-export function graticule(
-  svg,
-  {
-    id = unique(),
-    step = 10,
-    stroke = "#9ad5e6",
-    strokeWidth = 0.8,
-    strokeLinecap = "square",
-    strokeLinejoin = "round",
-    strokeDasharray = 2,
-  } = {}
-) {
-  step = Array.isArray(step) ? step : [step, step];
+
+export function graticule(arg1, arg2) {
+  // Test if new container
+  let newcontainer =
+    arguments.length <= 1 && !arguments[0]?._groups ? true : false;
+  arg1 = newcontainer && arg1 == undefined ? {} : arg1;
+  arg2 = arg2 == undefined ? {} : arg2;
+  let svg = newcontainer ? create() : arg1;
+  let options = newcontainer ? arg1 : arg2;
+
+  // Default values
+  let opts = {
+    id: unique(),
+    step: 10,
+    stroke: "#9ad5e6",
+    strokeWidth: 0.8,
+    strokeLinecap: "square",
+    strokeLinejoin: "round",
+    strokeDasharray: 2,
+  };
+
+  Object.keys(opts).forEach((d) => {
+    if (options[d] !== undefined) {
+      opts[d] = options[d];
+    }
+  });
 
   // init layer
-  let layer = svg.selectAll(`#${id}`).empty()
-    ? svg.append("g").attr("id", id).attr("class", zoomclass(svg.inset))
-    : svg.select(`#${id}`);
+  let layer = svg.selectAll(`#${opts.id}`).empty()
+    ? svg.append("g").attr("id", opts.id).attr("class", zoomclass(svg.inset))
+    : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 
   // Attr with specific default values
   layer
     .attr("fill", "none")
-    .attr("stroke", stroke)
-    .attr("stroke-width", strokeWidth)
-    .attr("stroke-linecap", strokeLinecap)
-    .attr("stroke-linejoin", strokeLinejoin)
-    .attr("stroke-dasharray", strokeDasharray);
+    .attr("stroke", opts.stroke)
+    .attr("stroke-width", opts.strokeWidth)
+    .attr("stroke-linecap", opts.strokeLinecap)
+    .attr("stroke-linejoin", opts.strokeLinejoin)
+    .attr("stroke-dasharray", opts.strokeDasharray);
 
-  // ...attr
+  //...attr
   addattr({
     layer,
-    args: arguments[1],
+    args: options,
     exclude: [],
   });
 
   layer
     .append("path")
-    .datum(d3.geoGraticule().step(step))
+    .datum(
+      d3
+        .geoGraticule()
+        .step(Array.isArray(opts.step) ? opts.step : [opts.step, opts.step])
+    )
     .attr("d", d3.geoPath(svg.projection));
 
-  return `#${id}`;
+  // Output
+  if (newcontainer) {
+    return render(svg);
+  } else {
+    return `#${opts.id}`;
+  }
 }

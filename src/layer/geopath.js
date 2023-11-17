@@ -101,8 +101,7 @@ export function geopath(
       .attr("d", d3.geoPath(projection))
       .attr("fill", fill)
       .attr("stroke", stroke)
-      .attr("stroke-width", strokeWidth)
-      .attr("vector-effect", "non-scaling-stroke");
+      .attr("stroke-width", strokeWidth);
 
     // Tooltip
     if (tip) {

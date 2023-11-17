@@ -9,7 +9,7 @@ const d3 = Object.assign(
 
 import { outline as addoutline } from "../layer/outline";
 import { geopath as addgeopath } from "../layer/geopath";
-import { graticule as addgraticule } from "../layer/graticule";
+import { graticule as addgraticule } from "../layer/graticule.js";
 import { text as addtext } from "../layer/text";
 import { circle as addcircle } from "../layer/circle";
 import { spike as addspike } from "../layer/spike";
@@ -33,6 +33,8 @@ import { typo_vertical as addtypo_vertical } from "../legend/typo-vertical";
 import { typo_horizontal as addtypo_horizontal } from "../legend/typo-horizontal";
 import { box as addbox } from "../legend/box";
 import { render as addrender } from "../container/render";
+
+import { choropleth as addchoropleth } from "../symbology/choropleth.js";
 
 /**
  * The `create` function is the first step in map construction.
@@ -184,9 +186,18 @@ export function create({
       })
   );
 
+  let symbology = {};
+  [{ id: "choropleth", func: addchoropleth }, ,].forEach(
+    (d) =>
+      (symbology[d.id] = function () {
+        return d.func(output, arguments[0]);
+      })
+  );
+
   // Output
 
   return Object.assign(output, {
+    ...symbology,
     layer,
     legend,
     style,

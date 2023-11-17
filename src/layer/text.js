@@ -1,5 +1,7 @@
 import { addattr } from "../helpers/addattr";
 import { unique } from "../helpers/unique";
+import { create } from "../container/create";
+import { render } from "../container/render";
 
 /**
  * The `text` function allows to create a layer with a text somewhere on the map
@@ -18,43 +20,62 @@ import { unique } from "../helpers/unique";
  * let outline = geoviz.layer.outline(main, { fillOpacity: 0.5 })
  * @returns {SVGSVGElement|string} - the function adds a layer with the outline to the SVG container and returns the layer identifier.
  */
-export function text(
-  svg,
-  {
-    text = "My text here",
-    pos = [10, 10],
-    id = unique(),
-    fill = "red",
-    fontSize = 15,
-  } = {}
-) {
+export function text(arg1, arg2) {
+  // Test if new container
+  let newcontainer =
+    arguments.length <= 1 && !arguments[0]?._groups ? true : false;
+  arg1 = newcontainer && arg1 == undefined ? {} : arg1;
+  arg2 = arg2 == undefined ? {} : arg2;
+  let svg = newcontainer ? create() : arg1;
+  let options = newcontainer ? arg1 : arg2;
+
+  // Default values
+  let opts = {
+    text: "My text here",
+    pos: [10, 10],
+    id: unique(),
+    fill: "red",
+    fontSize: 15,
+  };
+
+  Object.keys(opts).forEach((d) => {
+    if (options[d] !== undefined) {
+      opts[d] = options[d];
+    }
+  });
+
   // init layer
-  let layer = svg.selectAll(`#${id}`).empty()
-    ? svg.append("g").attr("id", id)
-    : svg.select(`#${id}`);
+  let layer = svg.selectAll(`#${opts.id}`).empty()
+    ? svg.append("g").attr("id", opts.id)
+    : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 
   // Attr with specific default values
   layer
-    .attr("font-size", `${fontSize}px`)
-    .attr("fill", fill)
-    .attr("font-family", svg.fontFamily || fontFamily);
+    .attr("font-size", `${opts.fontSize}px`)
+    .attr("fill", opts.fill)
+    .attr("font-family", svg.fontFamily || opts.fontFamily);
 
   // ...attr
   addattr({
     layer,
-    args: arguments[1],
+    args: options,
     exclude: ["fontSize", "fill"],
   });
 
   layer
     .selectAll("text")
-    .data(text.split("\n"))
+    .data(opts.text.split("\n"))
     .join("text")
-    .attr("x", pos[0])
-    .attr("y", pos[1])
-    .attr("dy", (d, i) => i * fontSize)
+    .attr("x", opts.pos[0])
+    .attr("y", opts.pos[1])
+    .attr("dy", (d, i) => i * opts.fontSize)
     .text((d) => d);
 
-  return `#${id}`;
+  // Output
+  if (newcontainer) {
+    return render(svg);
+  } else {
+    return `#${opts.id}`;
+  }
 }

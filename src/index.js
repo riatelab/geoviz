@@ -51,7 +51,7 @@ export let classify = {
 // Layers
 import { geopath } from "./layer/geopath";
 import { outline } from "./layer/outline";
-import { graticule } from "./layer/graticule";
+import { graticule } from "./layer/graticule.js";
 import { text } from "./layer/text";
 import { circle } from "./layer/circle";
 import { spike } from "./layer/spike";
@@ -108,4 +108,15 @@ export let style = {
   radialGradient,
 };
 
+// main
+export { create } from "./container/create";
+export { graticule } from "./layer/graticule.js";
+export { header } from "./layer/header.js";
+export { north } from "./layer/north.js";
+export { text } from "./layer/text.js";
+export { footer } from "./layer/footer.js";
+export { outline } from "./layer/outline.js";
+export { render } from "./container/render";
+export { view } from "./symbology/view.js";
+export { choropleth } from "./symbology/choropleth.js";
 //export { render2 } from "./container/render2.js";

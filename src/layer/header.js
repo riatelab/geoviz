@@ -2,6 +2,8 @@ import { addattrprefix } from "../helpers/addattrprefix";
 import { addattr } from "../helpers/addattr";
 import { unique } from "../helpers/unique";
 import { getsize } from "../helpers/getsize";
+import { create } from "../container/create";
+import { render } from "../container/render";
 
 /**
  * The `header` function allows to add a title at the top of the map
@@ -32,41 +34,55 @@ import { getsize } from "../helpers/getsize";
  * @returns {SVGSVGElement|string} - the function adds a layer with the title to the SVG container and returns the layer identifier.
  */
 
-export function header(
-  svg,
-  {
-    id = unique(),
-    text = "Map title",
-    rect_fill = "white",
-    rect_fillOpacity = 0.5,
-    fontSize = 30,
-    dx = 0,
-    dy = 0,
-    fontFamily,
-    lineSpacing = 0,
-    textAnchor = "middle",
-  } = {}
-) {
+export function header(arg1, arg2) {
+  // Test if new container
+  let newcontainer =
+    arguments.length <= 1 && !arguments[0]?._groups ? true : false;
+  arg1 = newcontainer && arg1 == undefined ? {} : arg1;
+  arg2 = arg2 == undefined ? {} : arg2;
+  let svg = newcontainer ? create() : arg1;
+  let options = newcontainer ? arg1 : arg2;
+
+  // Default values
+  let opts = {
+    id: unique(),
+    text: "Map title",
+    rect_fill: "white",
+    rect_fillOpacity: 0.5,
+    fontSize: 30,
+    dx: 0,
+    dy: 0,
+    fontFamily: undefined,
+    lineSpacing: 0,
+    textAnchor: "middle",
+  };
+
+  Object.keys(opts).forEach((d) => {
+    if (options[d] !== undefined) {
+      opts[d] = options[d];
+    }
+  });
+
   // init layer
-  let layer = svg.selectAll(`#${id}`).empty()
-    ? svg.append("g").attr("id", id)
-    : svg.select(`#${id}`);
+  let layer = svg.selectAll(`#${opts.id}`).empty()
+    ? svg.append("g").attr("id", opts.id)
+    : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 
   // Height
-  let startdy = fontSize / 4;
+  let startdy = opts.fontSize / 4;
 
   let tmp = layer
     .append("g")
     .attr("text-anchor", "middle")
-    .attr("font-family", svg.fontFamily || fontFamily)
-    .attr("font-size", fontSize);
+    .attr("font-family", svg.fontFamily || opts.fontFamily)
+    .attr("font-size", opts.fontSize);
 
   tmp
     .selectAll("text")
-    .data(text.split("\n"))
+    .data(opts.text.split("\n"))
     .join("text")
-    .attr("y", (d, i) => i * fontSize + i * lineSpacing)
+    .attr("y", (d, i) => i * opts.fontSize + i * opts.lineSpacing)
     //.attr("dy", dy)
     .text((d) => d);
   let txt_height = getsize(tmp).height;
@@ -78,54 +94,62 @@ export function header(
     .attr("x", 0)
     .attr("y", 0)
     .attr("width", svg.width)
-    .attr("height", txt_height + startdy + dy * 4)
-    .attr("fill", rect_fill)
-    .attr("fill-opacity", rect_fillOpacity);
+    .attr("height", txt_height + startdy + opts.dy * 4)
+    .attr("fill", opts.rect_fill)
+    .attr("fill-opacity", opts.rect_fillOpacity);
 
   // ...attr
   addattrprefix({
-    params: arguments[1] || {},
+    params: options || {},
     layer: rect,
     prefix: "rect",
   });
 
   // text anchor
   let xpos;
-  switch (textAnchor) {
+  switch (opts.textAnchor) {
     case "start":
-      xpos = dx + startdy;
+      xpos = opts.dx + startdy;
       break;
     case "middle":
-      xpos = svg.width / 2 + dx;
+      xpos = svg.width / 2 + opts.dx;
       break;
     case "end":
-      xpos = svg.width - dx - startdy;
+      xpos = svg.width - opts.dx - startdy;
       break;
   }
 
   let txt = layer
     .append("g")
     .attr("text-anchor", "middle")
-    .attr("font-family", svg.fontFamily || fontFamily)
+    .attr("font-family", svg.fontFamily || opts.fontFamily)
     .attr("dominant-baseline", "hanging")
-    .attr("font-size", fontSize)
+    .attr("font-size", opts.fontSize)
     .attr("fill", "#242323");
 
   txt
     .selectAll("text")
-    .data(text.split("\n"))
+    .data(opts.text.split("\n"))
     .join("text")
     .attr("x", xpos)
-    .attr("y", (d, i) => i * fontSize + i * lineSpacing + dy + startdy)
-    .attr("dy", dy)
+    .attr(
+      "y",
+      (d, i) => i * opts.fontSize + i * opts.lineSpacing + opts.dy + startdy
+    )
+    .attr("dy", opts.dy)
     .text((d) => d);
 
   // ...attr
   addattr({
     layer: txt,
-    args: arguments[1],
+    args: options,
     exclude: [],
   });
 
-  return `#${id}`;
+  // Output
+  if (newcontainer) {
+    return render(svg);
+  } else {
+    return `#${opts.id}`;
+  }
 }

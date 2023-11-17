@@ -1,5 +1,7 @@
 import { unique } from "../helpers/unique";
 import { northangle } from "../helpers/northangle";
+import { create } from "../container/create";
+import { render } from "../container/render";
 
 /**
  * The `north` function allows add a North arrow.
@@ -17,28 +19,43 @@ import { northangle } from "../helpers/northangle";
  * @returns {SVGSVGElement|string} - the function adds a layer with a north arrow
  */
 
-export function north(
-  svg,
-  {
-    id = unique(),
-    pos = [svg.width - 30, 30],
-    rotate = null,
-    scale = 1,
-    fill = "black",
-    fillOpacity = 1,
-  } = {}
-) {
+export function north(arg1, arg2) {
+  // Test if new container
+  let newcontainer =
+    arguments.length <= 1 && !arguments[0]?._groups ? true : false;
+  arg1 = newcontainer && arg1 == undefined ? {} : arg1;
+  arg2 = arg2 == undefined ? {} : arg2;
+  let svg = newcontainer ? create() : arg1;
+  let options = newcontainer ? arg1 : arg2;
+
+  // Default values
+  let opts = {
+    id: unique(),
+    pos: [svg.width - 30, 30],
+    rotate: null,
+    scale: 1,
+    fill: "black",
+    fillOpacity: 1,
+  };
+
+  Object.keys(opts).forEach((d) => {
+    if (options[d] !== undefined) {
+      opts[d] = options[d];
+    }
+  });
+
   // init layer
-  let layer = svg.selectAll(`#${id}`).empty()
+  let layer = svg.selectAll(`#${opts.id}`).empty()
     ? svg
         .append("g")
-        .attr("id", id)
+        .attr("id", opts.id)
         .attr("class", svg.inset ? "nozoom" : "zoomablenorth")
-    : svg.select(`#${id}`);
+    : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 
   // angle
-  const angle = rotate === null ? northangle(pos, svg.projection) : rotate;
+  const angle =
+    opts.rotate === null ? northangle(opts.pos, svg.projection) : opts.rotate;
 
   // Symbol
   let symbol =
@@ -48,11 +65,11 @@ export function north(
   layer
     .append("path")
     .attr("d", symbol)
-    .attr("fill", fill)
-    .attr("fill-opacity", fillOpacity)
+    .attr("fill", opts.fill)
+    .attr("fill-opacity", opts.fillOpacity)
     .attr(
       "transform",
-      `translate(${pos[0]},${pos[1]}) rotate(${angle}) scale(${scale})`
+      `translate(${opts.pos[0]},${opts.pos[1]}) rotate(${angle}) scale(${opts.scale})`
     );
 
   // datalayer
@@ -60,13 +77,18 @@ export function north(
     "data-layer",
     JSON.stringify({
       symbol,
-      pos,
-      scale,
-      rotate,
-      fill,
-      fillOpacity,
+      pos: opts.pos,
+      scale: opts.scale,
+      rotate: opts.rotate,
+      fill: opts.fill,
+      fillOpacity: opts.fillOpacity,
     })
   );
 
-  return `#${id}`;
+  // Output
+  if (newcontainer) {
+    return render(svg);
+  } else {
+    return `#${opts.id}`;
+  }
 }
