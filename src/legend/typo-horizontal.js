@@ -1,3 +1,5 @@
+import { create } from "../container/create";
+import { render } from "../container/render";
 import { unique } from "../helpers/unique";
 import { legtitle } from "../helpers/legtitle";
 import { addattrprefix } from "../helpers/addattrprefix";
@@ -39,79 +41,102 @@ import { addbackground } from "../helpers/addbackground";
  * let legend = geoviz.legend.typo_horizontal(main, { types: [foo]), title_text: "GDP per capita", colors: [foo] })
  * @returns {SVGSVGElement|string} - the function adds a layer with a legend and its id
  */
-export function typo_horizontal(
-  svg,
-  {
-    pos = [10, 10],
-    id = unique(),
-    types = [],
-    colors = [],
-    missing = true,
-    missing_fill = "white",
-    missing_text = "no data",
-    gap = 5,
-    rect_gap = 5,
-    rect_width = 25,
-    rect_height = 17,
-    values_dy = 5,
-    rect_stroke = "white",
-    rect_strokeWidth = 0.3,
-    alphabetical = true,
-    background = false,
-  } = {}
-) {
+
+export function typo_horizontal(arg1, arg2) {
+  // Test if new container
+  let newcontainer =
+    arguments.length <= 1 && !arguments[0]?._groups ? true : false;
+  arg1 = newcontainer && arg1 == undefined ? {} : arg1;
+  arg2 = arg2 == undefined ? {} : arg2;
+  let svg = newcontainer ? create() : arg1;
+  let options = newcontainer ? arg1 : arg2;
+
+  // Default values
+  let opts = {
+    pos: [10, 10],
+    id: unique(),
+    types: ["A", "B", "C", "D"],
+    colors: ["#e41a1c", "#377eb8", "#4daf4a", "#984ea3"],
+    missing: true,
+    missing_fill: "white",
+    missing_text: "no data",
+    title_text: "title_text",
+    gap: 5,
+    rect_gap: 5,
+    rect_width: 25,
+    rect_height: 17,
+    values_dy: 5,
+    rect_stroke: "black",
+    rect_strokeWidth: 0.3,
+    alphabetical: true,
+    background: false,
+  };
+
+  Object.keys(opts).forEach((d) => {
+    if (options[d] !== undefined) {
+      opts[d] = options[d];
+    }
+  });
+
+  Object.keys(options).forEach((d) => {
+    opts[d] = options[d];
+  });
+
   // init layer
-  let layer = svg.selectAll(`#${id}`).empty()
-    ? svg.append("g").attr("id", id).attr("pointer-events", "none")
-    : svg.select(`#${id}`);
+  let layer = svg.selectAll(`#${opts.id}`).empty()
+    ? svg.append("g").attr("id", opts.id).attr("pointer-events", "none")
+    : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
-  layer.attr("transform", `translate(${pos})`);
+  layer.attr("transform", `translate(${opts.pos})`);
 
   // Title
-  let dy = legtitle(svg, layer, arguments[1], "title", 0);
+  let dy = legtitle(svg, layer, opts, "title", 0);
 
   // Subtitle
-  dy = legtitle(svg, layer, arguments[1], "subtitle", dy);
+  dy = legtitle(svg, layer, opts, "subtitle", dy);
 
   // Vertical boxes layer
   let horizontaltypo = layer.append("g");
 
   // Sort
-  if (alphabetical) {
-    let all = types.map((d, i) => [d, colors[i]]).sort();
-    types = all.map((d) => d[0]);
-    colors = all.map((d) => d[1]);
+  if (opts.alphabetical) {
+    let all = opts.types.map((d, i) => [d, opts.colors[i]]).sort();
+    opts.ypes = all.map((d) => d[0]);
+    opts.colors = all.map((d) => d[1]);
   }
 
   // Rect
 
   let rect = horizontaltypo
     .append("g")
-    .attr("stroke", rect_stroke)
-    .attr("stroke-opacity", rect_strokeWidth);
+    .attr("stroke", opts.rect_stroke)
+    .attr("stroke-opacity", opts.rect_strokeWidth);
 
   rect
     .selectAll("rect")
-    .data(colors)
+    .data(opts.colors)
     .join("rect")
-    .attr("x", (d, i) => i * (rect_width + rect_gap))
-    .attr("y", gap + dy)
-    .attr("width", rect_width)
-    .attr("height", rect_height)
+    .attr("x", (d, i) => i * (opts.rect_width + opts.rect_gap))
+    .attr("y", opts.gap + dy)
+    .attr("width", opts.rect_width)
+    .attr("height", opts.rect_height)
     .attr("fill", (d) => d);
 
-  if (missing) {
+  if (opts.missing) {
     rect
       .append("rect")
-      .attr("x", colors.length * (rect_width + rect_gap) + gap)
-      .attr("y", gap + dy)
-      .attr("width", rect_width)
-      .attr("height", rect_height)
-      .attr("fill", missing_fill);
+      .attr(
+        "x",
+        opts.colors.length * (opts.rect_width + opts.rect_gap) + opts.gap
+      )
+      .attr("y", opts.gap + dy)
+      .attr("width", opts.rect_width)
+      .attr("height", opts.rect_height)
+      .attr("fill", opts.missing_fill);
   }
 
   addattrprefix({
-    params: arguments[1],
+    params: opts,
     layer: rect,
     prefix: "rect",
   });
@@ -126,26 +151,34 @@ export function typo_horizontal(
     .attr("fill", "#363636");
   values
     .selectAll("text")
-    .data(types)
+    .data(opts.types)
     .join("text")
-    .attr("x", (d, i) => i * (rect_width + rect_gap) + rect_width / 2)
-    .attr("y", gap + dy + rect_height + values_dy)
+    .attr(
+      "x",
+      (d, i) => i * (opts.rect_width + opts.rect_gap) + opts.rect_width / 2
+    )
+    .attr("y", opts.gap + dy + opts.rect_height + opts.values_dy)
     .text((d) => d)
     .attr("text-anchor", "middle")
     .attr("dominant-baseline", "hanging");
 
-  if (missing) {
+  if (opts.missing) {
     values
       .append("text")
-      .attr("x", colors.length * (rect_width + rect_gap) + gap + rect_width / 2)
-      .attr("y", gap + dy + rect_height + values_dy)
-      .text(missing_text)
+      .attr(
+        "x",
+        opts.colors.length * (opts.rect_width + opts.rect_gap) +
+          opts.gap +
+          opts.rect_width / 2
+      )
+      .attr("y", opts.gap + dy + opts.rect_height + opts.values_dy)
+      .text(opts.missing_text)
       .attr("text-anchor", "middle")
       .attr("dominant-baseline", "hanging");
   }
 
   addattrprefix({
-    params: arguments[1],
+    params: opts,
     layer: values,
     prefix: "values",
   });
@@ -154,19 +187,24 @@ export function typo_horizontal(
   dy = legtitle(
     svg,
     layer,
-    arguments[1],
+    opts,
     "note",
     dy +
-      gap +
-      rect_height +
-      gap +
-      (arguments[1].values_fontSize ? arguments[1].values_fontSize : 10)
+      opts.gap +
+      opts.rect_height +
+      opts.gap +
+      (opts.values_fontSize ? opts.values_fontSize : 10)
   );
 
   // Background
-  if (background) {
-    addbackground({ node: layer, ...background });
+  if (opts.background) {
+    addbackground({ node: layer, ...opts.background });
   }
 
-  return `#${id}`;
+  // Output
+  if (newcontainer) {
+    return render(svg);
+  } else {
+    return `#${opts.id}`;
+  }
 }

@@ -1,3 +1,5 @@
+import { create } from "../container/create";
+import { render } from "../container/render";
 import { unique } from "../helpers/unique";
 import { legtitle } from "../helpers/legtitle";
 import { roundarray } from "../helpers/rounding";
@@ -43,42 +45,62 @@ const d3 = Object.assign({}, { formatLocale, descending });
  * let legend = geoviz.legend.choro_horizontal(main, { breaks: [foo]), title_text: "GDP per capita", colors: [foo] })
  * @returns {SVGSVGElement|string} - the function adds a layer with a legend and its id
  */
-export function choro_horizontal(
-  svg,
-  {
-    pos = [10, 10],
-    id = unique(),
-    breaks = [],
-    colors = [],
-    missing = true,
-    missing_fill = "white",
-    missing_text = "no data",
-    values_round = 2,
-    values_decimal = ".",
-    values_thousands = " ",
-    gap = 10,
-    rect_gap = 0,
-    rect_width = 45,
-    rect_height = 14,
-    values_dy = 5,
-    reverse = false,
-    rect_stroke = "white",
-    rect_strokeWidth = 0.3,
-    background = false,
-  } = {}
-) {
+
+export function choro_horizontal(arg1, arg2) {
+  // Test if new container
+  let newcontainer =
+    arguments.length <= 1 && !arguments[0]?._groups ? true : false;
+  arg1 = newcontainer && arg1 == undefined ? {} : arg1;
+  arg2 = arg2 == undefined ? {} : arg2;
+  let svg = newcontainer ? create() : arg1;
+  let options = newcontainer ? arg1 : arg2;
+
+  // Default values
+  let opts = {
+    pos: [10, 10],
+    id: unique(),
+    breaks: [1, 2, 3, 4, 5],
+    colors: ["#fee5d9", "#fcae91", "#fb6a4a", "#cb181d"],
+    missing: true,
+    missing_fill: "white",
+    missing_text: "no data",
+    values_round: 2,
+    values_decimal: ".",
+    values_thousands: " ",
+    gap: 10,
+    rect_gap: 0,
+    rect_width: 45,
+    rect_height: 14,
+    rect_stroke: "black",
+    values_dy: 5,
+    title_text: "title_text",
+    reverse: false,
+    rect_strokeWidth: 0.3,
+    background: false,
+  };
+
+  Object.keys(opts).forEach((d) => {
+    if (options[d] !== undefined) {
+      opts[d] = options[d];
+    }
+  });
+
+  Object.keys(options).forEach((d) => {
+    opts[d] = options[d];
+  });
+
   // init layer
-  let layer = svg.selectAll(`#${id}`).empty()
-    ? svg.append("g").attr("id", id).attr("pointer-events", "none")
-    : svg.select(`#${id}`);
+  let layer = svg.selectAll(`#${opts.id}`).empty()
+    ? svg.append("g").attr("id", opts.id).attr("pointer-events", "none")
+    : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
-  layer.attr("transform", `translate(${pos})`);
+  layer.attr("transform", `translate(${opts.pos})`);
 
   // Title
-  let dy = legtitle(svg, layer, arguments[1], "title", 0);
+  let dy = legtitle(svg, layer, opts, "title", 0);
 
   // Subtitle
-  dy = legtitle(svg, layer, arguments[1], "subtitle", dy);
+  dy = legtitle(svg, layer, opts, "subtitle", dy);
 
   // Vertical boxes layer
   let horizontalchoro = layer.append("g");
@@ -87,39 +109,42 @@ export function choro_horizontal(
 
   let rect = horizontalchoro
     .append("g")
-    .attr("stroke", rect_stroke)
-    .attr("stroke-opacity", rect_strokeWidth);
+    .attr("stroke", opts.rect_stroke)
+    .attr("stroke-opacity", opts.rect_strokeWidth);
 
   rect
     .selectAll("rect")
-    .data(reverse ? colors.slice().reverse() : colors)
+    .data(opts.reverse ? opts.colors.slice().reverse() : opts.colors)
     .join("rect")
-    .attr("x", (d, i) => i * (rect_width + rect_gap))
-    .attr("y", gap + dy)
-    .attr("width", rect_width)
-    .attr("height", rect_height)
+    .attr("x", (d, i) => i * (opts.rect_width + opts.rect_gap))
+    .attr("y", opts.gap + dy)
+    .attr("width", opts.rect_width)
+    .attr("height", opts.rect_height)
     .attr("fill", (d) => d);
 
-  if (missing) {
+  if (opts.missing) {
     rect
       .append("rect")
-      .attr("x", colors.length * (rect_width + rect_gap) + gap)
-      .attr("y", gap + dy)
-      .attr("width", rect_width)
-      .attr("height", rect_height)
-      .attr("fill", missing_fill);
+      .attr(
+        "x",
+        opts.colors.length * (opts.rect_width + opts.rect_gap) + opts.gap
+      )
+      .attr("y", opts.gap + dy)
+      .attr("width", opts.rect_width)
+      .attr("height", opts.rect_height)
+      .attr("fill", opts.missing_fill);
   }
 
   addattrprefix({
-    params: arguments[1],
+    params: options,
     layer: rect,
     prefix: "rect",
   });
 
   // Values
   let locale = d3.formatLocale({
-    decimal: values_decimal,
-    thousands: values_thousands,
+    decimal: opts.values_decimal,
+    thousands: opts.values_thousands,
     grouping: [3],
   });
 
@@ -132,27 +157,35 @@ export function choro_horizontal(
   values
     .selectAll("text")
     .data(
-      reverse
-        ? roundarray(breaks.slice().reverse(), values_round)
-        : roundarray(breaks, values_round)
+      opts.reverse
+        ? roundarray(opts.breaks.slice().reverse(), opts.values_round)
+        : roundarray(opts.breaks, opts.values_round)
     )
     .join("text")
-    .attr("x", (d, i) => i * (rect_width + rect_gap) - rect_gap / 2)
-    .attr("y", gap + dy + rect_height + values_dy)
+    .attr(
+      "x",
+      (d, i) => i * (opts.rect_width + opts.rect_gap) - opts.rect_gap / 2
+    )
+    .attr("y", opts.gap + dy + opts.rect_height + opts.values_dy)
     .text((d) => locale.format(",")(d))
     .attr("dominant-baseline", "hanging");
 
-  if (missing) {
+  if (opts.missing) {
     values
       .append("text")
-      .attr("x", colors.length * (rect_width + rect_gap) + gap + rect_width / 2)
-      .attr("y", gap + dy + rect_height / 2)
-      .text(missing_text)
+      .attr(
+        "x",
+        opts.colors.length * (opts.rect_width + opts.rect_gap) +
+          opts.gap +
+          opts.rect_width / 2
+      )
+      .attr("y", opts.gap + dy + opts.rect_height / 2)
+      .text(opts.missing_text)
       .attr("dominant-baseline", "central");
   }
 
   addattrprefix({
-    params: arguments[1],
+    params: opts,
     layer: values,
     prefix: "values",
   });
@@ -161,19 +194,23 @@ export function choro_horizontal(
   dy = legtitle(
     svg,
     layer,
-    arguments[1],
+    opts,
     "note",
     dy +
-      gap +
-      rect_height +
-      gap +
-      (arguments[1].values_fontSize ? arguments[1].values_fontSize : 10)
+      opts.gap +
+      opts.rect_height +
+      opts.gap +
+      (opts.values_fontSize ? opts.values_fontSize : 10)
   );
 
   // Background
-  if (background) {
-    addbackground({ node: layer, ...background });
+  if (opts.background) {
+    addbackground({ node: layer, ...opts.background });
   }
-
-  return `#${id}`;
+  // Output
+  if (newcontainer) {
+    return render(svg);
+  } else {
+    return `#${opts.id}`;
+  }
 }

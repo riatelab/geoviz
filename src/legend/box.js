@@ -1,3 +1,5 @@
+import { create } from "../container/create";
+import { render } from "../container/render";
 import { unique } from "../helpers/unique";
 import { legtitle } from "../helpers/legtitle";
 import { addattrprefix } from "../helpers/addattrprefix";
@@ -30,34 +32,54 @@ import { addbackground } from "../helpers/addbackground";
  * let legend = geoviz.legend.box(main, { rect_fill:"blue", values_text:"water" })
  * @returns {SVGSVGElement|string} - the function adds a layer with a legend and its id
  */
-export function box(
-  svg,
-  {
-    pos = [10, 10],
-    id = unique(),
-    gap = 5,
-    rect_width = 25,
-    rect_height = 17,
-    values_dx = 5,
-    values_dy = 0,
-    rect_stroke = "white",
-    rect_strokeWidth = 0.3,
-    values_text = "values_text",
-    background = false,
-  } = {}
-) {
+
+export function box(arg1, arg2) {
+  // Test if new container
+  let newcontainer =
+    arguments.length <= 1 && !arguments[0]?._groups ? true : false;
+  arg1 = newcontainer && arg1 == undefined ? {} : arg1;
+  arg2 = arg2 == undefined ? {} : arg2;
+  let svg = newcontainer ? create() : arg1;
+  let options = newcontainer ? arg1 : arg2;
+
+  // Default values
+  let opts = {
+    pos: [10, 10],
+    id: unique(),
+    gap: 5,
+    rect_width: 25,
+    rect_height: 17,
+    values_dx: 5,
+    values_dy: 0,
+    rect_fill: "#CCC",
+    rect_stroke: "black",
+    rect_strokeWidth: 0.3,
+    values_text: "values_text",
+    background: false,
+  };
+
+  Object.keys(opts).forEach((d) => {
+    if (options[d] !== undefined) {
+      opts[d] = options[d];
+    }
+  });
+
+  Object.keys(options).forEach((d) => {
+    opts[d] = options[d];
+  });
+
   // init layer
-  let layer = svg.selectAll(`#${id}`).empty()
-    ? svg.append("g").attr("id", id).attr("pointer-events", "none")
-    : svg.select(`#${id}`);
+  let layer = svg.selectAll(`#${opts.id}`).empty()
+    ? svg.append("g").attr("id", opts.id).attr("pointer-events", "none")
+    : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
-  layer.attr("transform", `translate(${pos})`);
+  layer.attr("transform", `translate(${opts.pos})`);
 
   // Title
-  let dy = legtitle(svg, layer, arguments[1], "title", 0);
+  let dy = legtitle(svg, layer, opts, "title", 0);
 
   // Subtitle
-  dy = legtitle(svg, layer, arguments[1], "subtitle", dy);
+  dy = legtitle(svg, layer, opts, "subtitle", dy);
 
   // Vertical boxes layer
   let box = layer.append("g");
@@ -66,18 +88,18 @@ export function box(
 
   let rect = box
     .append("g")
-    .attr("stroke", rect_stroke)
-    .attr("stroke-opacity", rect_strokeWidth);
+    .attr("stroke", opts.rect_stroke)
+    .attr("stroke-opacity", opts.rect_strokeWidth);
 
   rect
     .append("rect")
     .attr("x", 0)
-    .attr("y", dy + gap)
-    .attr("width", rect_width)
-    .attr("height", rect_height);
+    .attr("y", dy + opts.gap)
+    .attr("width", opts.rect_width)
+    .attr("height", opts.rect_height);
 
   addattrprefix({
-    params: arguments[1],
+    params: opts,
     layer: rect,
     prefix: "rect",
   });
@@ -91,23 +113,34 @@ export function box(
     .attr("fill", "#363636");
   values
     .append("text")
-    .attr("x", values_dx + rect_width)
-    .attr("y", gap + dy + rect_height / 2 + values_dy)
-    .text(values_text);
+    .attr("x", opts.values_dx + opts.rect_width)
+    .attr("y", opts.gap + dy + opts.rect_height / 2 + opts.values_dy)
+    .text(opts.values_text);
 
   addattrprefix({
-    params: arguments[1],
+    params: opts,
     layer: values,
     prefix: "values",
   });
 
   // Note
-  dy = legtitle(svg, layer, arguments[1], "note", dy + gap + rect_height + gap);
+  dy = legtitle(
+    svg,
+    layer,
+    opts,
+    "note",
+    dy + opts.gap + opts.rect_height + opts.gap
+  );
 
   // Background
-  if (background) {
-    addbackground({ node: layer, ...background });
+  if (opts.background) {
+    addbackground({ node: layer, ...opts.background });
   }
 
-  return `#${id}`;
+  // Output
+  if (newcontainer) {
+    return render(svg);
+  } else {
+    return `#${opts.id}`;
+  }
 }

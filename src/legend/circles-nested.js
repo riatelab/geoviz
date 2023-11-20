@@ -1,3 +1,5 @@
+import { create } from "../container/create";
+import { render } from "../container/render";
 import { unique } from "../helpers/unique";
 import { legtitle } from "../helpers/legtitle";
 import { datatoradius } from "../helpers/datatoradius";
@@ -32,39 +34,64 @@ const d3 = Object.assign({}, { formatLocale });
  * let legend = geoviz.legend.circles_nested(main, { data: world.features.map((d) => +d.properties.pop), title_text: "Number of inhabitants", k: 70 })
  * @returns {SVGSVGElement|string} - the function adds a layer with a legend and its id
  */
-export function circles_nested(
-  svg,
-  {
-    data,
-    pos = [10, 10],
-    id = unique(),
-    k = 50,
-    fixmax = null,
-    nb = 4,
-    lineLength = 10,
-    values_round = 2,
-    values_decimal = ".",
-    values_thousands = " ",
-    values_dx = 3,
-    gap = 7,
-    background = false,
-  } = {}
-) {
+
+export function circles_nested(arg1, arg2) {
+  // Test if new container
+  let newcontainer =
+    arguments.length <= 1 && !arguments[0]?._groups ? true : false;
+  arg1 = newcontainer && arg1 == undefined ? {} : arg1;
+  arg2 = arg2 == undefined ? {} : arg2;
+  let svg = newcontainer ? create() : arg1;
+  let options = newcontainer ? arg1 : arg2;
+
+  // Default values
+  let opts = {
+    data: [1, 1000],
+    pos: [10, 10],
+    id: unique(),
+    k: 50,
+    fixmax: null,
+    nb: 4,
+    title_text: "title_text",
+    lineLength: 10,
+    values_round: 2,
+    values_decimal: ".",
+    values_thousands: " ",
+    values_dx: 3,
+    gap: 7,
+    background: false,
+  };
+
+  Object.keys(opts).forEach((d) => {
+    if (options[d] !== undefined) {
+      opts[d] = options[d];
+    }
+  });
+
+  Object.keys(options).forEach((d) => {
+    opts[d] = options[d];
+  });
+
   // init layer
-  let layer = svg.selectAll(`#${id}`).empty()
-    ? svg.append("g").attr("id", id).attr("pointer-events", "none")
-    : svg.select(`#${id}`);
+  let layer = svg.selectAll(`#${opts.id}`).empty()
+    ? svg.append("g").attr("id", opts.id).attr("pointer-events", "none")
+    : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
-  layer.attr("transform", `translate(${pos})`);
+  layer.attr("transform", `translate(${opts.pos})`);
 
   // Title
-  let dy = legtitle(svg, layer, arguments[1], "title", 0);
+  let dy = legtitle(svg, layer, opts, "title", 0);
 
   // Subtitle
-  dy = legtitle(svg, layer, arguments[1], "subtitle", dy);
+  dy = legtitle(svg, layer, opts, "subtitle", dy);
 
   // Circles
-  let arr = datatoradius(data, { nb, round: values_round, fixmax, k });
+  let arr = datatoradius(opts.data, {
+    nb: opts.nb,
+    round: opts.values_round,
+    fixmax: opts.fixmax,
+    k: opts.k,
+  });
   let rmax = arr[arr.length - 1][1];
 
   let nestedcircles = layer.append("g");
@@ -77,12 +104,12 @@ export function circles_nested(
     .attr("r", (d) => d[1])
     .attr(
       "transform",
-      (d) => `translate(${rmax}, ${gap + dy + rmax * 2 - d[1]})`
+      (d) => `translate(${rmax}, ${opts.gap + dy + rmax * 2 - d[1]})`
     )
     .attr("fill", "none")
     .attr("stroke", "#363636");
   addattrprefix({
-    params: arguments[1],
+    params: opts,
     layer: circles,
     prefix: "circles",
   });
@@ -93,23 +120,23 @@ export function circles_nested(
     .data(arr)
     .join("line")
     .attr("x1", rmax)
-    .attr("x2", rmax + rmax + lineLength)
-    .attr("y1", (d) => gap + dy + rmax * 2 - d[1] * 2)
-    .attr("y2", (d) => gap + dy + rmax * 2 - d[1] * 2)
+    .attr("x2", rmax + rmax + opts.lineLength)
+    .attr("y1", (d) => opts.gap + dy + rmax * 2 - d[1] * 2)
+    .attr("y2", (d) => opts.gap + dy + rmax * 2 - d[1] * 2)
     .attr("fill", "none")
     .attr("stroke", "#363636")
     .attr("stroke-dasharray", 2)
     .attr("stroke-width", 0.7);
   addattrprefix({
-    params: arguments[1],
+    params: opts,
     layer: lines,
     prefix: "lines",
   });
 
   // Values
   let locale = d3.formatLocale({
-    decimal: values_decimal,
-    thousands: values_thousands,
+    decimal: opts.values_decimal,
+    thousands: opts.values_thousands,
     grouping: [3],
   });
 
@@ -117,26 +144,31 @@ export function circles_nested(
     .selectAll("text")
     .data(arr)
     .join("text")
-    .attr("x", rmax + rmax + lineLength + values_dx)
-    .attr("y", (d) => gap + dy + rmax * 2 - d[1] * 2)
+    .attr("x", rmax + rmax + opts.lineLength + opts.values_dx)
+    .attr("y", (d) => opts.gap + dy + rmax * 2 - d[1] * 2)
     .text((d) => locale.format(",")(d[0]))
     .attr("dominant-baseline", "middle")
     .attr("font-size", 10)
     .attr("font-family", svg.fontFamily)
     .attr("fill", "#363636");
   addattrprefix({
-    params: arguments[1],
+    params: opts,
     layer: values,
     prefix: "values",
     text: true,
   });
 
   // Note
-  dy = legtitle(svg, layer, arguments[1], "note", dy + rmax * 2 + gap * 2);
+  dy = legtitle(svg, layer, opts, "note", dy + rmax * 2 + opts.gap * 2);
 
   // Background
-  if (background) {
-    addbackground({ node: layer, ...background });
+  if (opts.background) {
+    addbackground({ node: layer, ...opts.background });
   }
-  return `#${id}`;
+  // Output
+  if (newcontainer) {
+    return render(svg);
+  } else {
+    return `#${opts.id}`;
+  }
 }

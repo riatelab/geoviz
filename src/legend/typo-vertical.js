@@ -1,3 +1,5 @@
+import { create } from "../container/create";
+import { render } from "../container/render";
 import { unique } from "../helpers/unique";
 import { legtitle } from "../helpers/legtitle";
 import { addattrprefix } from "../helpers/addattrprefix";
@@ -39,85 +41,114 @@ import { addbackground } from "../helpers/addbackground";
  * let legend = geoviz.legend.typo_vertical(main, { types: [foo]), title_text: "GDP per capita", colors: [foo] })
  * @returns {SVGSVGElement|string} - the function adds a layer with a legend and its id
  */
-export function typo_vertical(
-  svg,
-  {
-    pos = [10, 10],
-    id = unique(),
-    types = [],
-    colors = [],
-    missing = true,
-    missing_fill = "white",
-    missing_text = "no data",
-    gap = 5,
-    rect_gap = 3,
-    rect_width = 25,
-    rect_height = 17,
-    values_dx = 5,
-    rect_stroke = "white",
-    rect_strokeWidth = 0.3,
-    alphabetical = true,
-    background = false,
-  } = {}
-) {
+
+export function typo_vertical(arg1, arg2) {
+  // Test if new container
+  let newcontainer =
+    arguments.length <= 1 && !arguments[0]?._groups ? true : false;
+  arg1 = newcontainer && arg1 == undefined ? {} : arg1;
+  arg2 = arg2 == undefined ? {} : arg2;
+  let svg = newcontainer ? create() : arg1;
+  let options = newcontainer ? arg1 : arg2;
+
+  // Default values
+  let opts = {
+    pos: [10, 10],
+    id: unique(),
+    types: ["A", "B", "C", "D"],
+    colors: ["#e41a1c", "#377eb8", "#4daf4a", "#984ea3"],
+    missing: true,
+    missing_fill: "white",
+    missing_text: "no data",
+    title_text: "title_text",
+    gap: 5,
+    rect_gap: 3,
+    rect_width: 25,
+    rect_height: 17,
+    values_dx: 5,
+    rect_stroke: "black",
+    rect_strokeWidth: 0.3,
+    alphabetical: true,
+    background: false,
+  };
+
+  Object.keys(opts).forEach((d) => {
+    if (options[d] !== undefined) {
+      opts[d] = options[d];
+    }
+  });
+
+  Object.keys(options).forEach((d) => {
+    opts[d] = options[d];
+  });
+
   // init layer
-  let layer = svg.selectAll(`#${id}`).empty()
-    ? svg.append("g").attr("id", id).attr("pointer-events", "none")
-    : svg.select(`#${id}`);
+  let layer = svg.selectAll(`#${opts.id}`).empty()
+    ? svg.append("g").attr("id", opts.id).attr("pointer-events", "none")
+    : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
-  layer.attr("transform", `translate(${pos})`);
+  layer.attr("transform", `translate(${opts.pos})`);
 
   // Title
-  let dy = legtitle(svg, layer, arguments[1], "title", 0);
+  let dy = legtitle(svg, layer, opts, "title", 0);
 
   // Subtitle
-  dy = legtitle(svg, layer, arguments[1], "subtitle", dy);
+  dy = legtitle(svg, layer, opts, "subtitle", dy);
 
   // Vertical boxes layer
   let verticaltypo = layer.append("g");
 
   // Sort
-  if (alphabetical) {
-    let all = types.map((d, i) => [d, colors[i]]).sort();
-    types = all.map((d) => d[0]);
-    colors = all.map((d) => d[1]);
+  if (opts.alphabetical) {
+    let all = opts.types.map((d, i) => [d, opts.colors[i]]).sort();
+    opts.types = all.map((d) => d[0]);
+    opts.colors = all.map((d) => d[1]);
   }
 
   // Rect
 
   let rect = verticaltypo
     .append("g")
-    .attr("stroke", rect_stroke)
-    .attr("stroke-opacity", rect_strokeWidth);
+    .attr("stroke", opts.rect_stroke)
+    .attr("stroke-opacity", opts.rect_strokeWidth);
 
   rect
     .selectAll("rect")
-    .data(colors)
+    .data(opts.colors)
     .join("rect")
     .attr("x", 0)
     .attr(
       "y",
-      (d, i) => gap + dy + i * rect_height + rect_gap * i + rect_gap / 2
+      (d, i) =>
+        opts.gap +
+        dy +
+        i * opts.rect_height +
+        opts.rect_gap * i +
+        opts.rect_gap / 2
     )
-    .attr("width", rect_width)
-    .attr("height", rect_height)
+    .attr("width", opts.rect_width)
+    .attr("height", opts.rect_height)
     .attr("fill", (d) => d);
 
-  if (missing) {
+  if (opts.missing) {
     rect
       .append("rect")
       .attr("x", 0)
       .attr(
         "y",
-        dy + gap + colors.length * (rect_height + rect_gap) + gap + rect_gap / 2
+        dy +
+          opts.gap +
+          opts.colors.length * (opts.rect_height + opts.rect_gap) +
+          opts.gap +
+          opts.rect_gap / 2
       )
-      .attr("width", rect_width)
-      .attr("height", rect_height)
-      .attr("fill", missing_fill);
+      .attr("width", opts.rect_width)
+      .attr("height", opts.rect_height)
+      .attr("fill", opts.missing_fill);
   }
 
   addattrprefix({
-    params: arguments[1],
+    params: opts,
     layer: rect,
     prefix: "rect",
   });
@@ -132,39 +163,39 @@ export function typo_vertical(
     .attr("fill", "#363636");
   values
     .selectAll("text")
-    .data(types)
+    .data(opts.types)
     .join("text")
-    .attr("x", rect_width + values_dx)
+    .attr("x", opts.rect_width + opts.values_dx)
     .attr(
       "y",
       (d, i) =>
-        gap +
+        opts.gap +
         dy +
-        i * rect_height +
-        rect_gap * i +
-        rect_gap / 2 +
-        rect_height / 2
+        i * opts.rect_height +
+        opts.rect_gap * i +
+        opts.rect_gap / 2 +
+        opts.rect_height / 2
     )
     .text((d) => d);
 
-  if (missing) {
+  if (opts.missing) {
     values
       .append("text")
-      .attr("x", rect_width + values_dx)
+      .attr("x", opts.rect_width + opts.values_dx)
       .attr(
         "y",
         dy +
-          gap +
-          colors.length * (rect_height + rect_gap) +
-          gap +
-          rect_gap / 2 +
-          rect_height / 2
+          opts.gap +
+          opts.colors.length * (opts.rect_height + opts.rect_gap) +
+          opts.gap +
+          opts.rect_gap / 2 +
+          opts.rect_height / 2
       )
-      .text(missing_text);
+      .text(opts.missing_text);
   }
 
   addattrprefix({
-    params: arguments[1],
+    params: opts,
     layer: values,
     prefix: "values",
   });
@@ -173,20 +204,29 @@ export function typo_vertical(
   dy = legtitle(
     svg,
     layer,
-    arguments[1],
+    opts,
     "note",
     dy +
-      gap +
-      colors.length * rect_height +
-      colors.length * rect_gap +
-      gap +
-      (missing ? rect_height + rect_gap + gap : 0)
+      opts.gap +
+      opts.colors.length * opts.rect_height +
+      opts.colors.length * opts.rect_gap +
+      opts.gap +
+      (opts.missing ? opts.rect_height + opts.rect_gap + opts.gap : 0)
   );
 
   // Background
-  if (background) {
-    addbackground({ node: layer, ...background });
+  if (opts.background) {
+    addbackground({ node: layer, ...opts.background });
   }
 
-  return `#${id}`;
+  // Background
+  if (opts.background) {
+    addbackground({ node: layer, ...opts.background });
+  }
+  // Output
+  if (newcontainer) {
+    return render(svg);
+  } else {
+    return `#${opts.id}`;
+  }
 }

@@ -63,6 +63,10 @@ export function header(arg1, arg2) {
     }
   });
 
+  Object.keys(options).forEach((d) => {
+    opts[d] = options[d];
+  });
+
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
     ? svg.append("g").attr("id", opts.id)
@@ -100,7 +104,7 @@ export function header(arg1, arg2) {
 
   // ...attr
   addattrprefix({
-    params: options || {},
+    params: opts || {},
     layer: rect,
     prefix: "rect",
   });
@@ -142,7 +146,7 @@ export function header(arg1, arg2) {
   // ...attr
   addattr({
     layer: txt,
-    args: options,
+    args: opts,
     exclude: [],
   });
 

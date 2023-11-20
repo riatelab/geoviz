@@ -67,6 +67,10 @@ export function label(arg1, arg2) {
     }
   });
 
+  Object.keys(options).forEach((d) => {
+    opts[d] = options[d];
+  });
+
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
     ? svg
@@ -87,7 +91,7 @@ export function label(arg1, arg2) {
   //...attr
   addattr({
     layer,
-    args: options,
+    args: opts,
     exclude: [
       "text",
       "fill",
