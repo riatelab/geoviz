@@ -18,9 +18,6 @@ const d3 = Object.assign({}, geoScaleBar, {
   max,
 });
 
-
-
-
 export function zoomversor(svg) {
   function render() {
     // Path
@@ -59,21 +56,20 @@ export function zoomversor(svg) {
           ? (d) => d
           : d3.scaleLinear().domain([0, valmax]).range([0, datalayer.k]);
 
+      let projection = datalayer.prj == "none" ? noproj : svg.projection;
       n.selectAll("path").attr(
         "d",
         (d) =>
           `M ${
-            d3.geoPath(svg.projection).centroid(d.geometry)[0] -
-            datalayer.width / 2
-          }, ${d3.geoPath(svg.projection).centroid(d.geometry)[1]} ${
-            d3.geoPath(svg.projection).centroid(d.geometry)[0]
+            d3.geoPath(projection).centroid(d.geometry)[0] - datalayer.width / 2
+          }, ${d3.geoPath(projection).centroid(d.geometry)[1]} ${
+            d3.geoPath(projection).centroid(d.geometry)[0]
           }, ${
-            d3.geoPath(svg.projection).centroid(d.geometry)[1] -
+            d3.geoPath(projection).centroid(d.geometry)[1] -
             yScale(d.properties[datalayer.height] * datalayer.updown)
           } ${
-            d3.geoPath(svg.projection).centroid(d.geometry)[0] +
-            datalayer.width / 2
-          }, ${d3.geoPath(svg.projection).centroid(d.geometry)[1]}`
+            d3.geoPath(projection).centroid(d.geometry)[0] + datalayer.width / 2
+          }, ${d3.geoPath(projection).centroid(d.geometry)[1]}`
       );
     }
 
@@ -84,8 +80,11 @@ export function zoomversor(svg) {
     // Texts
     svg
       .selectAll(".zoomable > text")
-      .attr("x", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[0])
-      .attr("y", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[1])
+      // .attr("x", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[0])
+      // .attr("y", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[1])
+
+      .attr("x", (d) => d.geometry[0])
+      .attr("y", (d) => d.geometry[1])
       .attr("visibility", (d) =>
         isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[0])
           ? "hidden"

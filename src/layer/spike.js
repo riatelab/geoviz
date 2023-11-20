@@ -1,3 +1,7 @@
+import { create } from "../container/create";
+import { render } from "../container/render";
+import { centroid } from "../transform/centroid";
+import { implantation } from "../helpers/implantation";
 import { tooltip } from "../helpers/tooltip";
 import { addconst } from "../helpers/addconst";
 import { addattr } from "../helpers/addattr";
@@ -33,67 +37,87 @@ const d3 = Object.assign(
  * @returns {SVGSVGElement|string} - the function adds a layer with spikes to the SVG container and returns the layer identifier.
  */
 
-export function spike(
-  svg,
-  {
-    id = unique(),
-    projection,
-    data,
-    height,
-    width = 10,
-    k = 50,
-    fixmax = null,
-    fill = "#c9225a",
-    stroke = "none",
-    reverse = false,
-    tip,
-    tipstyle,
-  } = {}
-) {
+export function spike(arg1, arg2) {
+  // Test if new container
+  let newcontainer =
+    arguments.length <= 1 && !arguments[0]?._groups ? true : false;
+  arg1 = newcontainer && arg1 == undefined ? {} : arg1;
+  arg2 = arg2 == undefined ? {} : arg2;
+  let svg = newcontainer ? create({ zoomable: true }) : arg1;
+  let options = newcontainer ? arg1 : arg2;
+
+  // Default values
+  let opts = {
+    id: unique(),
+    projection: undefined,
+    data: undefined,
+    height: undefined,
+    width: 10,
+    k: 50,
+    fixmax: null,
+    fill: "#c9225a",
+    stroke: "none",
+    reverse: false,
+    tip: undefined,
+    tipstyle: undefined,
+  };
+
+  Object.keys(opts).forEach((d) => {
+    if (options[d] !== undefined) {
+      opts[d] = options[d];
+    }
+  });
+
   // init layer
-  let layer = svg.selectAll(`#${id}`).empty()
+  let layer = svg.selectAll(`#${opts.id}`).empty()
     ? svg
         .append("g")
-        .attr("id", id)
+        .attr("id", opts.id)
         .attr("class", svg.inset ? "nozoom" : "zoomablespike")
-    : svg.select(`#${id}`);
+    : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 
   // ...attr
   addattr({
     layer,
-    args: arguments[1],
+    args: options,
     exclude: ["fill", "stroke"],
   });
 
+  // Centroid
+  opts.data = implantation(opts.data) !== 1 ? centroid(opts.data) : opts.data;
+
   // Projection
-  let prj = projection == "none" ? "none" : "svg";
-  projection = projection == "none" ? d3.geoIdentity() : svg.projection;
+  let prj = opts.projection == "none" ? "none" : "svg";
+  opts.projection =
+    opts.projection == "none" ? d3.geoIdentity() : svg.projection;
 
   // String or number?
   let features =
-    typeof height == "string" ? data.features : addconst(data.features, height);
-  height = typeof height == "string" ? height : "___const";
+    typeof height == "string"
+      ? opts.data.features
+      : addconst(opts.data.features, opts.height);
+  opts.height = typeof opts.height == "string" ? opts.height : "___const";
   const valmax =
-    fixmax != undefined
-      ? fixmax
-      : d3.max(features, (d) => Math.abs(+d.properties[height]));
+    opts.fixmax != undefined
+      ? opts.fixmax
+      : d3.max(features, (d) => Math.abs(+d.properties[opts.height]));
   const yScale =
-    height == "___const"
+    opts.height == "___const"
       ? (d) => d
-      : d3.scaleLinear().domain([0, valmax]).range([0, k]);
+      : d3.scaleLinear().domain([0, valmax]).range([0, opts.k]);
 
-  let updown = reverse ? -1 : 1;
+  let updown = opts.reverse ? -1 : 1;
 
   // layer data
   layer.attr(
     "data-layer",
     JSON.stringify({
-      width,
-      height,
-      k,
-      fixmax,
-      features: features,
+      width: opts.width,
+      height: opts.height,
+      k: opts.k,
+      fixmax: opts.fixmax,
+      features,
       prj,
       updown,
     })
@@ -103,40 +127,41 @@ export function spike(
     .selectAll("path")
     .data(
       features
-        .filter((d) => d.geometry)
-        .filter((d) => d.properties[height] != undefined)
+        //.filter((d) => d.geometry)
+        .filter((d) => d.properties[opts.height] != undefined)
         .sort((a, b) =>
           d3.descending(
-            Math.abs(+a.properties[height]),
-            Math.abs(+b.properties[height])
+            Math.abs(+a.properties[opts.height]),
+            Math.abs(+b.properties[opts.height])
           )
         )
     )
     .join("path")
-
     .attr(
       "d",
       (d) =>
-        `M ${d3.geoPath(projection).centroid(d.geometry)[0] - width / 2}, ${
-          d3.geoPath(projection).centroid(d.geometry)[1]
-        } ${d3.geoPath(projection).centroid(d.geometry)[0]}, ${
-          d3.geoPath(projection).centroid(d.geometry)[1] -
-          yScale(d.properties[height] * updown)
-        } ${d3.geoPath(projection).centroid(d.geometry)[0] + width / 2}, ${
-          d3.geoPath(projection).centroid(d.geometry)[1]
-        }`
+        `M ${
+          d3.geoPath(opts.projection).centroid(d.geometry)[0] - opts.width / 2
+        }, ${d3.geoPath(opts.projection).centroid(d.geometry)[1]} ${
+          d3.geoPath(opts.projection).centroid(d.geometry)[0]
+        }, ${
+          d3.geoPath(opts.projection).centroid(d.geometry)[1] -
+          yScale(d.properties[opts.height] * updown)
+        } ${
+          d3.geoPath(opts.projection).centroid(d.geometry)[0] + opts.width / 2
+        }, ${d3.geoPath(opts.projection).centroid(d.geometry)[1]}`
     )
-    .attr("fill", fill)
-    .attr("stroke", stroke)
-    .attr("visibility", (d) =>
-      isNaN(d3.geoPath(projection).centroid(d.geometry)[0])
-        ? "hidden"
-        : "visible"
-    );
+    .attr("fill", opts.fill)
+    .attr("stroke", opts.stroke);
 
-  if (tip) {
-    tooltip(layer, data, svg, tip, tipstyle);
+  if (opts.tip) {
+    tooltip(layer, opts.data, svg, opts.tip, opts.tipstyle);
   }
 
-  return `#${id}`;
+  // Output
+  if (newcontainer) {
+    return render(svg);
+  } else {
+    return `#${opts.id}`;
+  }
 }

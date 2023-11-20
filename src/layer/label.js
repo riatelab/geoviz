@@ -1,5 +1,9 @@
+import { create } from "../container/create";
+import { render } from "../container/render";
 import { addattr } from "../helpers/addattr";
 import { unique } from "../helpers/unique";
+import { centroid } from "../transform/centroid";
+import { implantation } from "../helpers/implantation";
 import { zoomclass } from "../helpers/zoomclass";
 import { geoPath, geoIdentity } from "d3-geo";
 const d3 = Object.assign({}, { geoPath, geoIdentity });
@@ -28,47 +32,62 @@ const d3 = Object.assign({}, { geoPath, geoIdentity });
  * let circles = geoviz.layer.label(main, { data: cities, text: "population", fontSize:20 })
  * @returns {SVGSVGElement|string} - the function adds a layer with labels to the SVG container and returns the layer identifier.
  */
-export function label(
-  svg,
-  {
-    id = unique(),
-    projection,
-    data,
-    text,
-    fill = "black",
-    stroke = "none",
-    fontSize = 14,
-    fontFamily = svg.fontFamily,
-    dx = 0,
-    dy = 0,
-    paintOrder = "stroke",
-    strokeLinejoin = "round",
-    strokeLinecap = "round",
-    dominantBaseline = "central",
-    textAnchor = "middle",
-  } = {}
-) {
+
+export function label(arg1, arg2) {
+  // Test if new container
+  let newcontainer =
+    arguments.length <= 1 && !arguments[0]?._groups ? true : false;
+  arg1 = newcontainer && arg1 == undefined ? {} : arg1;
+  arg2 = arg2 == undefined ? {} : arg2;
+  let svg = newcontainer ? create({ zoomable: true }) : arg1;
+  let options = newcontainer ? arg1 : arg2;
+
+  // Default values
+  let opts = {
+    id: unique(),
+    projection: undefined,
+    data: undefined,
+    text: undefined,
+    fill: "black",
+    stroke: "none",
+    fontSize: 14,
+    fontFamily: svg.fontFamily,
+    dx: 0,
+    dy: 0,
+    paintOrder: "stroke",
+    strokeLinejoin: "round",
+    strokeLinecap: "round",
+    dominantBaseline: "central",
+    textAnchor: "middle",
+  };
+
+  Object.keys(opts).forEach((d) => {
+    if (options[d] !== undefined) {
+      opts[d] = options[d];
+    }
+  });
+
   // init layer
-  let layer = svg.selectAll(`#${id}`).empty()
+  let layer = svg.selectAll(`#${opts.id}`).empty()
     ? svg
         .append("g")
-        .attr("id", id)
-        .attr("class", zoomclass(svg.inset, projection))
+        .attr("id", opts.id)
+        .attr("class", zoomclass(svg.inset, opts.projection))
         .attr("pointer-events", "none")
-    : svg.select(`#${id}`);
+    : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 
   // Attr with specific default values
   layer
-    .attr("paint-order", paintOrder)
-    .attr("stroke-linejoin", strokeLinejoin)
-    .attr("stroke-linecap", strokeLinecap)
-    .attr("font-family", fontFamily);
+    .attr("paint-order", opts.paintOrder)
+    .attr("stroke-linejoin", opts.strokeLinejoin)
+    .attr("stroke-linecap", opts.strokeLinecap)
+    .attr("font-family", opts.fontFamily);
 
   //...attr
   addattr({
     layer,
-    args: arguments[1],
+    args: options,
     exclude: [
       "text",
       "fill",
@@ -81,28 +100,39 @@ export function label(
     ],
   });
 
+  // Centroid
+  opts.data = implantation(opts.data) == 3 ? centroid(opts.data) : opts.data;
+
   // Projection
-  projection = projection == "none" ? d3.geoIdentity() : svg.projection;
+  opts.projection =
+    opts.projection == "none" ? d3.geoIdentity() : svg.projection;
 
   layer
     .selectAll("text")
-    .data(data.features.filter((d) => d.geometry.coordinates != undefined))
+    .data(opts.data.features.filter((d) => d.geometry.coordinates != undefined))
     .join("text")
-    .attr("x", (d) => d3.geoPath(projection).centroid(d.geometry)[0])
-    .attr("y", (d) => d3.geoPath(projection).centroid(d.geometry)[1])
-    .attr("fill", fill)
-    .attr("stroke", stroke)
-    .attr("font-size", fontSize)
-    .attr("dx", dx)
-    .attr("dy", dy)
-    .attr("dominant-baseline", dominantBaseline)
-    .attr("text-anchor", textAnchor)
+    .attr("x", (d) => d3.geoPath(opts.projection).centroid(d.geometry)[0])
+    .attr("y", (d) => d3.geoPath(opts.projection).centroid(d.geometry)[1])
+    .attr("fill", opts.fill)
+    .attr("stroke", opts.stroke)
+    .attr("font-size", opts.fontSize)
+    .attr("dx", opts.dx)
+    .attr("dy", opts.dy)
+    .attr("dominant-baseline", opts.dominantBaseline)
+    .attr("text-anchor", opts.textAnchor)
     .attr("visibility", (d) =>
-      isNaN(d3.geoPath(projection).centroid(d.geometry)[0])
+      isNaN(d3.geoPath(opts.projection).centroid(d.geometry)[0])
         ? "hidden"
         : "visible"
     )
-    .text(typeof text == "string" ? (d) => d.properties[text] : text);
+    .text(
+      typeof opts.text == "string" ? (d) => d.properties[opts.text] : opts.text
+    );
 
-  return `#${id}`;
+  // Output
+  if (newcontainer) {
+    return render(svg);
+  } else {
+    return `#${opts.id}`;
+  }
 }

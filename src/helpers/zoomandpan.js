@@ -60,17 +60,31 @@ export function zoomandpan(svg) {
     svg
       .selectAll(".zoomable > circle")
       .attr("cx", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[0])
-      .attr("cy", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[1]);
+      .attr("cy", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[1])
+      .attr("visibility", (d) =>
+        isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[0])
+          ? "hidden"
+          : "visible"
+      );
     svg
       .selectAll(".zoomable2 > circle")
       .attr("cx", (d) => noproj(d.geometry.coordinates)[0])
-      .attr("cy", (d) => noproj(d.geometry.coordinates)[1]);
-
+      .attr("cy", (d) => noproj(d.geometry.coordinates)[1])
+      .attr("visibility", (d) =>
+        isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[0])
+          ? "hidden"
+          : "visible"
+      );
     // Texts
     svg
       .selectAll(".zoomable > text")
       .attr("x", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[0])
-      .attr("y", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[1]);
+      .attr("y", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[1])
+      .attr("visibility", (d) =>
+        isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[0])
+          ? "hidden"
+          : "visible"
+      );
     svg
       .selectAll(".zoomable2 > text")
       .attr("x", (d) => noproj(d.geometry.coordinates)[0])
@@ -140,6 +154,10 @@ export function zoomandpan(svg) {
             `translate(${datalayer.pos[0] + datalayer.translate[0]},${
               datalayer.pos[1] + datalayer.translate[1]
             })`
+          ).attr("visibility", (d) =>
+            isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[0])
+              ? "hidden"
+              : "visible"
           );
         }
       }

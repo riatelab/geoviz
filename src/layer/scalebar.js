@@ -1,3 +1,5 @@
+import { create } from "../container/create";
+import { render } from "../container/render";
 import * as geoScaleBar from "d3-geo-scale-bar";
 import { zoom, zoomTransform } from "d3-zoom";
 
@@ -32,47 +34,61 @@ import { addattr } from "../helpers/addattr";
  * @returns {SVGSVGElement|string} - the function adds a layer with a scalebar
  */
 
-export function scalebar(
-  svg,
-  {
-    id = unique(),
-    pos = [10, svg.height - 20],
-    translate = null,
-    units = "km",
-    label = undefined,
-    tickPadding = 5,
-    tickSize = 0,
-    distance,
-    tickFormat = (d) => d,
-    tickValues,
-    labelAnchor = "start",
-  } = {}
-) {
+export function scalebar(arg1, arg2) {
+  // Test if new container
+  let newcontainer =
+    arguments.length <= 1 && !arguments[0]?._groups ? true : false;
+  arg1 = newcontainer && arg1 == undefined ? {} : arg1;
+  arg2 = arg2 == undefined ? {} : arg2;
+  let svg = newcontainer ? create() : arg1;
+  let options = newcontainer ? arg1 : arg2;
+
+  // Default values
+  let opts = {
+    id: unique(),
+    pos: [10, svg.height - 20],
+    translate: null,
+    units: "km",
+    label: undefined,
+    tickPadding: 5,
+    tickSize: 0.2,
+    distance: undefined,
+    tickFormat: (d) => d,
+    tickValues: undefined,
+    labelAnchor: "start",
+  };
+
+  Object.keys(opts).forEach((d) => {
+    if (options[d] !== undefined) {
+      opts[d] = options[d];
+    }
+  });
+
   // init layer
-  let layer = svg.selectAll(`#${id}`).empty()
+  let layer = svg.selectAll(`#${opts.id}`).empty()
     ? svg
         .append("g")
-        .attr("id", id)
+        .attr("id", opts.id)
         .attr("class", svg.inset ? "nozoom" : "zoomablescalebar")
-    : svg.select(`#${id}`);
+    : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 
-  // ...attr
+  //...attr
   addattr({
     layer,
-    args: arguments[1],
+    args: options,
     exclude: [],
   });
 
-  units = new Map([
+  let units = new Map([
     ["ft", d3.geoScaleFeet],
     ["km", d3.geoScaleKilometers],
     ["m", d3.geoScaleMeters],
     ["mi", d3.geoScaleMiles],
-  ]).get(units);
+  ]).get(opts.units);
 
-  const x = pos[0] / svg.width;
-  const y = pos[1] / svg.height;
+  const x = opts.pos[0] / svg.width;
+  const y = opts.pos[1] / svg.height;
 
   const scaleBar = d3
     .geoScaleBar()
@@ -80,14 +96,14 @@ export function scalebar(
     .size([svg.width, svg.height])
     .left(x)
     .top(y)
-    .distance(distance)
-    .label(label !== undefined ? label : units.units)
+    .distance(opts.distance)
+    .label(opts.label !== undefined ? opts.label : units.units)
     .units(units)
-    .tickPadding(tickPadding)
-    .tickSize(tickSize)
-    .tickFormat(tickFormat)
-    .tickValues(tickValues)
-    .labelAnchor(labelAnchor);
+    .tickPadding(opts.tickPadding)
+    .tickSize(opts.tickSize)
+    .tickFormat(opts.tickFormat)
+    .tickValues(opts.tickValues)
+    .labelAnchor(opts.labelAnchor);
 
   layer.attr(
     "data-layer",
@@ -95,27 +111,34 @@ export function scalebar(
       size: [svg.width, svg.height],
       left: x,
       top: y,
-      distance: distance,
-      label: label !== undefined ? label : units.units,
+      distance: opts.distance,
+      label: opts.label !== undefined ? opts.label : units.units,
       units: units,
-      tickPadding: tickPadding,
-      tickSize: tickSize,
-      tickFormat: tickFormat.toString(),
-      tickValues: tickValues,
-      labelAnchor,
-      translate,
-      pos,
+      tickPadding: opts.tickPadding,
+      tickSize: opts.tickSize,
+      tickFormat: opts.tickFormat.toString(),
+      tickValues: opts.tickValues,
+      labelAnchor: opts.labelAnchor,
+      translate: opts.translate,
+      pos: opts.pos,
     })
   );
 
   layer.call(scaleBar);
 
-  if (translate) {
+  if (opts.translate) {
     layer.attr(
       "transform",
-      `translate(${pos[0] + translate[0]},${pos[1] + translate[1]})`
+      `translate(${opts.pos[0] + opts.translate[0]},${
+        opts.pos[1] + opts.translate[1]
+      })`
     );
   }
 
-  return `#${id}`;
+  // Output
+  if (newcontainer) {
+    return render(svg);
+  } else {
+    return `#${opts.id}`;
+  }
 }

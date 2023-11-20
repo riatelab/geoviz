@@ -1,8 +1,12 @@
+import { create } from "../container/create";
+import { render } from "../container/render";
 import { tooltip } from "../helpers/tooltip";
+import { centroid } from "../transform/centroid";
 import { zoomclass } from "../helpers/zoomclass";
 import { addattr } from "../helpers/addattr";
 import { random } from "../classify/random";
 import { unique } from "../helpers/unique";
+import { implantation } from "../helpers/implantation";
 import { scaleSqrt } from "d3-scale";
 import { max, descending } from "d3-array";
 import { geoPath, geoIdentity } from "d3-geo";
@@ -32,94 +36,116 @@ const d3 = Object.assign(
  * @returns {SVGSVGElement|string} - the function adds a layer with circles to the SVG container and returns the layer identifier.
  */
 
-export function circle(
-  svg,
-  {
-    id = unique(),
-    projection,
-    data,
-    r = 10,
-    k = 50,
-    fixmax = null,
-    fill = random(),
-    stroke = "white",
-    tip,
-    tipstyle,
-  } = {}
-) {
+export function circle(arg1, arg2) {
+  // Test if new container
+  let newcontainer =
+    arguments.length <= 1 && !arguments[0]?._groups ? true : false;
+  arg1 = newcontainer && arg1 == undefined ? {} : arg1;
+  arg2 = arg2 == undefined ? {} : arg2;
+  let svg = newcontainer ? create({ zoomable: true }) : arg1;
+  let options = newcontainer ? arg1 : arg2;
+
+  // Default values
+  let opts = {
+    id: unique(),
+    projection: undefined,
+    data: undefined,
+    r: 10,
+    k: 50,
+    fixmax: null,
+    fill: random(),
+    stroke: "white",
+    tip: undefined,
+    tipstyle: undefined,
+  };
+
+  Object.keys(opts).forEach((d) => {
+    if (options[d] !== undefined) {
+      opts[d] = options[d];
+    }
+  });
+
   // init layer
-  let layer = svg.selectAll(`#${id}`).empty()
+  let layer = svg.selectAll(`#${opts.id}`).empty()
     ? svg
         .append("g")
-        .attr("id", id)
-        .attr("class", zoomclass(svg.inset, projection))
-    : svg.select(`#${id}`);
+        .attr("id", opts.id)
+        .attr("class", zoomclass(svg.inset, opts.projection))
+    : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 
   // ...attr
   addattr({
     layer,
-    args: arguments[1],
+    args: options,
     exclude: ["fill", "stroke", "r"],
   });
 
-  // Projection
-  projection = projection == "none" ? d3.geoIdentity() : svg.projection;
+  // Centroid
+  opts.data = implantation(opts.data) == 3 ? centroid(opts.data) : opts.data;
 
-  if (typeof r == "string") {
+  // Projection
+  opts.projection =
+    opts.projection == "none" ? d3.geoIdentity() : svg.projection;
+
+  if (typeof opts.r == "string") {
     const valmax =
-      fixmax != undefined
-        ? fixmax
-        : d3.max(data.features, (d) => Math.abs(+d.properties[r]));
-    let radius = d3.scaleSqrt([0, valmax], [0, k]);
+      opts.fixmax != undefined
+        ? opts.fixmax
+        : d3.max(opts.data.features, (d) => Math.abs(+d.properties[opts.r]));
+    let radius = d3.scaleSqrt([0, valmax], [0, opts.k]);
 
     layer
       .selectAll("circle")
       .data(
-        data.features
+        opts.data.features
           .filter((d) => d.geometry)
           .filter((d) => d.geometry.coordinates != undefined)
-          .filter((d) => d.properties[r] != undefined)
+          .filter((d) => d.properties[opts.r] != undefined)
           .sort((a, b) =>
             d3.descending(
-              Math.abs(+a.properties[r]),
-              Math.abs(+b.properties[r])
+              Math.abs(+a.properties[opts.r]),
+              Math.abs(+b.properties[opts.r])
             )
           )
       )
       .join("circle")
-      .attr("cx", (d) => d3.geoPath(projection).centroid(d.geometry)[0])
-      .attr("cy", (d) => d3.geoPath(projection).centroid(d.geometry)[1])
-      .attr("r", (d) => radius(Math.abs(d.properties[r])))
-      .attr("fill", fill)
-      .attr("stroke", stroke)
+      .attr("cx", (d) => d3.geoPath(opts.projection).centroid(d.geometry)[0])
+      .attr("cy", (d) => d3.geoPath(opts.projection).centroid(d.geometry)[1])
+      .attr("r", (d) => radius(Math.abs(d.properties[opts.r])))
+      .attr("fill", opts.fill)
+      .attr("stroke", opts.stroke)
       .attr("visibility", (d) =>
-        isNaN(d3.geoPath(projection).centroid(d.geometry)[0])
+        isNaN(d3.geoPath(opts.projection).centroid(d.geometry)[0])
           ? "hidden"
           : "visible"
       );
   }
 
-  if (typeof r == "number") {
+  if (typeof opts.r == "number") {
     layer
       .selectAll("circle")
-      .data(data.features.filter((d) => d.geometry))
+      .data(opts.data.features.filter((d) => d.geometry))
       .join("circle")
-      .attr("cx", (d) => d3.geoPath(projection).centroid(d.geometry)[0])
-      .attr("cy", (d) => d3.geoPath(projection).centroid(d.geometry)[1])
-      .attr("r", r)
-      .attr("fill", fill)
-      .attr("stroke", stroke)
+      .attr("cx", (d) => d3.geoPath(opts.projection).centroid(d.geometry)[0])
+      .attr("cy", (d) => d3.geoPath(opts.projection).centroid(d.geometry)[1])
+      .attr("r", opts.r)
+      .attr("fill", opts.fill)
+      .attr("stroke", opts.stroke)
       .attr("visibility", (d) =>
-        isNaN(d3.geoPath(projection).centroid(d.geometry)[0])
+        isNaN(d3.geoPath(opts.projection).centroid(d.geometry)[0])
           ? "hidden"
           : "visible"
       );
   }
 
-  if (tip) {
-    tooltip(layer, data, svg, tip, tipstyle);
+  if (opts.tip) {
+    tooltip(layer, opts.data, svg, opts.tip, opts.tipstyle);
   }
-
-  return `#${id}`;
+  // Output
+  if (newcontainer) {
+    return render(svg);
+  } else {
+    return `#${opts.id}`;
+  }
 }

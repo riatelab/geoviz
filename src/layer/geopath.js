@@ -1,3 +1,5 @@
+import { create } from "../container/create";
+import { render } from "../container/render";
 import { tooltip } from "../helpers/tooltip";
 import { zoomclass } from "../helpers/zoomclass";
 import { addattr } from "../helpers/addattr";
@@ -26,88 +28,109 @@ const d3 = Object.assign({}, { geoPath, geoIdentity });
  * let circles = geoviz.layer.geopath(main, { data: world, fill: "red" })
  * @returns {SVGSVGElement|string} - the function adds a layer with SVG paths to the SVG container and returns the layer identifier.
  */
-export function geopath(
-  svg,
-  {
-    id = unique(),
-    projection,
-    data,
-    datum,
-    tip,
-    tipstyle,
-    fill,
-    stroke,
-    strokeWidth = 1,
-  } = {}
-) {
+
+export function geopath(arg1, arg2) {
+  // Test if new container
+  let newcontainer =
+    arguments.length <= 1 && !arguments[0]?._groups ? true : false;
+  arg1 = newcontainer && arg1 == undefined ? {} : arg1;
+  arg2 = arg2 == undefined ? {} : arg2;
+  let svg = newcontainer ? create({ zoomable: true }) : arg1;
+  let options = newcontainer ? arg1 : arg2;
+
+  // Default values
+  let opts = {
+    id: unique(),
+    projection: undefined,
+    data: undefined,
+    datum: undefined,
+    tip: undefined,
+    tipstyle: undefined,
+    fill: undefined,
+    stroke: undefined,
+    strokeWidth: 1,
+  };
+
+  Object.keys(opts).forEach((d) => {
+    if (options[d] !== undefined) {
+      opts[d] = options[d];
+    }
+  });
+
   // init layer
-  let layer = svg.selectAll(`#${id}`).empty()
+  let layer = svg.selectAll(`#${opts.id}`).empty()
     ? svg
         .append("g")
-        .attr("id", id)
-        .attr("class", zoomclass(svg.inset, projection))
-    : svg.select(`#${id}`);
+        .attr("id", opts.id)
+        .attr("class", zoomclass(svg.inset, opts.projection))
+    : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 
   // Projection
-  projection = projection == "none" ? d3.geoIdentity() : svg.projection;
+  opts.projection =
+    opts.projection == "none" ? d3.geoIdentity() : svg.projection;
 
   // DATUM -----------------------------------------
-  if (datum) {
+  if (opts.datum) {
     // Colors by default
-    if (!fill) {
-      fill = implantation(datum) == 2 ? "none" : random();
+    if (!opts.fill) {
+      opts.fill = implantation(opts.datum) == 2 ? "none" : random();
     }
-    if (!stroke) {
-      stroke = implantation(datum) == 2 ? random() : "none";
+    if (!opts.stroke) {
+      opts.stroke = implantation(opts.datum) == 2 ? random() : "none";
     }
 
     // ...attr
     addattr({
       layer,
-      args: arguments[1],
+      args: options,
       exclude: ["fill", "stroke"],
     });
 
     layer
       .append("path")
-      .datum(datum)
-      .attr("d", d3.geoPath(projection))
-      .attr("fill", fill)
-      .attr("stroke", stroke)
+      .datum(opts.datum)
+      .attr("d", d3.geoPath(opts.projection))
+      .attr("fill", opts.fill)
+      .attr("stroke", opts.stroke)
       .attr("vector-effect", "non-scaling-stroke");
   }
 
   // DATA -----------------------------------------
-  if (data) {
+  if (opts.data) {
     // Colors by default
-    if (!fill) {
-      fill = implantation(data) == 2 ? "none" : random();
+    if (!opts.fill) {
+      opts.fill = implantation(opts.data) == 2 ? "none" : random();
     }
-    if (!stroke) {
-      stroke = implantation(data) == 2 ? random() : "white";
+    if (!opts.stroke) {
+      opts.stroke = implantation(opts.data) == 2 ? random() : "white";
     }
     // ...attr
     addattr({
       layer,
-      args: arguments[1],
+      args: options,
       exclude: ["fill", "stroke"],
     });
 
     layer
       .selectAll("path")
-      .data(data.features.filter((d) => d.geometry !== null))
+      .data(opts.data.features.filter((d) => d.geometry !== null))
       .join("path")
-      .attr("d", d3.geoPath(projection))
-      .attr("fill", fill)
-      .attr("stroke", stroke)
-      .attr("stroke-width", strokeWidth);
+      .attr("d", d3.geoPath(opts.projection))
+      .attr("fill", opts.fill)
+      .attr("stroke", opts.stroke)
+      .attr("stroke-width", opts.strokeWidth);
 
     // Tooltip
-    if (tip) {
-      tooltip(layer, data, svg, tip, tipstyle);
+    if (opts.tip) {
+      tooltip(layer, opts.data, svg, opts.tip, opts.tipstyle);
     }
   }
 
-  return `#${id}`;
+  // Output
+  if (newcontainer) {
+    return render(svg);
+  } else {
+    return `#${opts.id}`;
+  }
 }
