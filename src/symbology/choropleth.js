@@ -11,6 +11,10 @@ export function choropleth(arg1, arg2) {
   let svg = newcontainer ? create() : arg1;
   let options = newcontainer ? arg1 : arg2;
 
+
+
+
+  
   // Default values
   let opts = {
     // Discretization

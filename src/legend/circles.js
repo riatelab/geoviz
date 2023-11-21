@@ -1,5 +1,6 @@
 import { create } from "../container/create";
 import { render } from "../container/render";
+import { getsize } from "../helpers/getsize";
 import { unique } from "../helpers/unique";
 import { legtitle } from "../helpers/legtitle";
 import { datatoradius } from "../helpers/datatoradius";
@@ -47,7 +48,7 @@ export function circles(arg1, arg2) {
   // Default values
   let opts = {
     data: [1, 1000],
-    pos: [10, 10],
+    pos: [0, 0],
     id: unique(),
     k: 50,
     fixmax: null,
@@ -179,8 +180,14 @@ export function circles(arg1, arg2) {
   if (opts.background) {
     addbackground({ node: layer, ...opts.background });
   }
+
   // Output
   if (newcontainer) {
+    const newheight = getsize(layer).height + opts.pos[1];
+    svg
+      .attr("width", svg.width)
+      .attr("height", newheight)
+      .attr("viewBox", [0, 0, svg.width, newheight]);
     return render(svg);
   } else {
     return `#${opts.id}`;

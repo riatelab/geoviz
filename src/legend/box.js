@@ -1,5 +1,6 @@
 import { create } from "../container/create";
 import { render } from "../container/render";
+import { getsize } from "../helpers/getsize";
 import { unique } from "../helpers/unique";
 import { legtitle } from "../helpers/legtitle";
 import { addattrprefix } from "../helpers/addattrprefix";
@@ -44,7 +45,7 @@ export function box(arg1, arg2) {
 
   // Default values
   let opts = {
-    pos: [10, 10],
+    pos: [0, 0],
     id: unique(),
     gap: 5,
     rect_width: 25,
@@ -139,6 +140,11 @@ export function box(arg1, arg2) {
 
   // Output
   if (newcontainer) {
+    const newheight = getsize(layer).height + opts.pos[1];
+    svg
+      .attr("width", svg.width)
+      .attr("height", newheight)
+      .attr("viewBox", [0, 0, svg.width, newheight]);
     return render(svg);
   } else {
     return `#${opts.id}`;

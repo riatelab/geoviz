@@ -35,7 +35,9 @@ export function geopath(arg1, arg2) {
     arguments.length <= 1 && !arguments[0]?._groups ? true : false;
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
-  let svg = newcontainer ? create({ zoomable: true }) : arg1;
+  let svg = newcontainer
+    ? create({ zoomable: true, domain: arg1.data || arg1.datum })
+    : arg1;
   let options = newcontainer ? arg1 : arg2;
 
   // Default values
@@ -88,7 +90,7 @@ export function geopath(arg1, arg2) {
     addattr({
       layer,
       args: opts,
-      exclude: ["fill", "stroke"],
+      exclude: ["id", "fill", "stroke", "projection", "data", "datum"],
     });
 
     layer
@@ -100,7 +102,7 @@ export function geopath(arg1, arg2) {
       .attr("vector-effect", "non-scaling-stroke");
   }
 
-  // DATA -----------------------------------------
+  // // DATA -----------------------------------------
   if (opts.data) {
     // Colors by default
     if (!opts.fill) {
@@ -113,7 +115,7 @@ export function geopath(arg1, arg2) {
     addattr({
       layer,
       args: opts,
-      exclude: ["fill", "stroke"],
+      exclude: ["id", "fill", "stroke", "projection", "data", "datum"],
     });
 
     layer

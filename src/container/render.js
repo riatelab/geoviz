@@ -16,6 +16,7 @@ import { zoomversor } from "../helpers/zoomversor";
 export function render(svg, { order = [] } = {}) {
   // Reorder layers
   if (order.length > 0) {
+    order = order.flat();
     if (getDOMids(svg).toString() !== order) {
       order.forEach((d) => {
         svg.select(`${d}`).raise();

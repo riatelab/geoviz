@@ -87,7 +87,6 @@ export function header(arg1, arg2) {
     .data(opts.text.split("\n"))
     .join("text")
     .attr("y", (d, i) => i * opts.fontSize + i * opts.lineSpacing)
-    //.attr("dy", dy)
     .text((d) => d);
   let txt_height = getsize(tmp).height;
   tmp.remove();
@@ -104,7 +103,7 @@ export function header(arg1, arg2) {
 
   // ...attr
   addattrprefix({
-    params: opts || {},
+    params: opts,
     layer: rect,
     prefix: "rect",
   });

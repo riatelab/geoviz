@@ -124,4 +124,5 @@ export { spike } from "./layer/spike";
 export { render } from "./container/render";
 export { tile } from "./layer/tile";
 export { choropleth } from "./symbology/choropleth.js";
+export { bubble } from "./symbology/bubble.js";
 //export { render2 } from "./container/render2.js";
