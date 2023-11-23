@@ -42,20 +42,22 @@ export let transform = {
 import { choro } from "./classify/choro";
 import { typo } from "./classify/typo";
 import { random } from "./classify/random";
+import { radius } from "./classify/radius";
 export let classify = {
   choro,
   typo,
   random,
+  radius,
 };
 
 // Layers
-import { geopath } from "./layer/geopath";
+import { geopath } from "./mark/geopath";
 import { outline } from "./layer/outline";
 import { graticule } from "./layer/graticule.js";
 import { text } from "./layer/text";
-import { circle } from "./layer/circle";
-import { spike } from "./layer/spike";
-import { label } from "./layer/label";
+import { circle } from "./mark/circle";
+import { spike } from "./mark/spike";
+import { label } from "./mark/label";
 import { tile } from "./layer/tile";
 import { header } from "./layer/header";
 import { footer } from "./layer/footer";
@@ -115,14 +117,18 @@ export { header } from "./layer/header.js";
 export { north } from "./layer/north.js";
 export { scalebar } from "./layer/scalebar.js";
 export { text } from "./layer/text.js";
-export { label } from "./layer/label.js";
-export { circle } from "./layer/circle.js";
+export { label } from "./mark/label.js";
+export { circle } from "./mark/circle.js";
 export { footer } from "./layer/footer.js";
 export { outline } from "./layer/outline.js";
-export { geopath } from "./layer/geopath";
-export { spike } from "./layer/spike";
+export { geopath } from "./mark/geopath";
+export { spike } from "./mark/spike";
 export { render } from "./container/render";
 export { tile } from "./layer/tile";
 export { choropleth } from "./symbology/choropleth.js";
 export { bubble } from "./symbology/bubble.js";
 //export { render2 } from "./container/render2.js";
+
+// TESTS
+export { parse } from "./helpers/parse.js";
+export { stringify } from "./helpers/stringify.js";

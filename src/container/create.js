@@ -7,18 +7,18 @@ const d3 = Object.assign(
   { create2, geoPath, geoBounds, geoEquirectangular, zoomIdentity }
 );
 
-import { outline as addoutline } from "../layer/outline";
-import { geopath as addgeopath } from "../layer/geopath";
+import { outline as addoutline } from "../layer/outline.js";
+import { geopath as addgeopath } from "../mark/geopath.js";
 import { graticule as addgraticule } from "../layer/graticule.js";
-import { text as addtext } from "../layer/text";
-import { circle as addcircle } from "../layer/circle";
-import { spike as addspike } from "../layer/spike";
-import { label as addlabel } from "../layer/label";
-import { tile } from "../layer/tile";
-import { header } from "../layer/header";
-import { footer } from "../layer/footer";
-import { scalebar as addscalebar } from "../layer/scalebar";
-import { north as addnorth } from "../layer/north";
+import { text as addtext } from "../layer/text.js";
+import { circle as addcircle } from "../mark/circle.js";
+import { spike as addspike } from "../mark/spike.js";
+import { label as addlabel } from "../mark/label.js";
+import { tile } from "../layer/tile.js";
+import { header } from "../layer/header.js";
+import { footer } from "../layer/footer.js";
+import { scalebar as addscalebar } from "../layer/scalebar.js";
+import { north as addnorth } from "../layer/north.js";
 
 import { blur as addblur } from "../style/blur";
 import { clippath as addclippath } from "../style/clippath";

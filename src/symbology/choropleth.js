@@ -1,6 +1,6 @@
 import { choro } from "../classify/choro";
 import { create } from "../container/create";
-import { geopath } from "../layer/geopath";
+import { geopath } from "../mark/geopath";
 import { render } from "../container/render";
 import { choro_vertical } from "../legend/choro-vertical";
 import { choro_horizontal } from "../legend/choro-horizontal";
@@ -11,10 +11,6 @@ export function choropleth(arg1, arg2) {
   let svg = newcontainer ? create() : arg1;
   let options = newcontainer ? arg1 : arg2;
 
-
-
-
-  
   // Default values
   let opts = {
     // Discretization
@@ -36,7 +32,7 @@ export function choropleth(arg1, arg2) {
     stroke: "white",
     strokeWidth: 1,
     fillOpacity: 1,
-        // Legend
+    // Legend
     leg_type: "vertical",
     leg_pos: [10, svg.height / 2],
   };

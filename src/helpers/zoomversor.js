@@ -1,4 +1,6 @@
 import versor from "versor@0.2";
+import { circle } from "../mark/circle";
+import { parse } from "./parse";
 import { pointers } from "d3-selection";
 import { zoom, zoomIdentity } from "d3-zoom";
 import { geoPath, geoIdentity } from "d3-geo";
@@ -29,15 +31,26 @@ export function zoomversor(svg) {
 
     // Circles
 
-    svg
-      .selectAll(".zoomable > circle")
-      .attr("cx", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[0])
-      .attr("cy", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[1])
-      .attr("visibility", (d) =>
-        isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[0])
-          ? "hidden"
-          : "visible"
-      );
+    if (!svg.selectAll(".zoomablecircle").empty()) {
+      let circles = svg.selectAll(".zoomablecircle");
+      circles.selectAll("*").remove();
+      for (let i = 0; i < circles.size(); i++) {
+        let n = d3.select(circles.nodes()[i]);
+        const datalayer = parse(n.attr("data-layer"));
+        //const datalayer = parse(n.attr("data-layer"));
+        circle(svg, datalayer);
+      }
+    }
+
+    // svg
+    //   .selectAll(".zoomable > circle")
+    //   .attr("cx", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[0])
+    //   .attr("cy", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[1])
+    //   .attr("visibility", (d) =>
+    //     isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[0])
+    //       ? "hidden"
+    //       : "visible"
+    //   );
 
     // Spikes
 

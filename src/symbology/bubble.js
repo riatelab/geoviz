@@ -1,6 +1,6 @@
 import { create } from "../container/create";
-import { geopath } from "../layer/geopath";
-import { circle } from "../layer/circle";
+import { geopath } from "../mark/geopath";
+import { circle } from "../mark/circle";
 import { render } from "../container/render";
 import { unique } from "../helpers/unique";
 import { circles as leg_circles } from "../legend/circles";

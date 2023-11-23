@@ -1,5 +1,3 @@
-import { propertiesentries } from "../helpers/propertiesentries";
-import { detectinput } from "../helpers/detectinput";
 import { forceX, forceY, forceCollide, forceSimulation } from "d3-force";
 import { max } from "d3-array";
 import { scaleSqrt } from "d3-scale";
@@ -44,11 +42,7 @@ export function dodge(
   let features = JSON.parse(JSON.stringify(rawfeatures));
 
   let simulation;
-
-  // r input type
-  let columns = propertiesentries(data);
-
-  if (detectinput(r, columns) == "field") {
+  if (typeof r == "string") {
     const valmax =
       fixmax != undefined
         ? fixmax
@@ -71,21 +65,7 @@ export function dodge(
       );
   }
 
-  if (detectinput(r, columns) == "function") {
-    simulation = d3
-      .forceSimulation(features)
-      .force(
-        "x",
-        d3.forceX((d) => projection(d.geometry.coordinates)[0])
-      )
-      .force(
-        "y",
-        d3.forceY((d) => projection(d.geometry.coordinates)[1])
-      )
-      .force("collide", d3.forceCollide(r));
-  }
-
-  if (detectinput(r, columns) == "value") {
+  if (typeof r == "number") {
     simulation = d3
       .forceSimulation(features)
       .force(

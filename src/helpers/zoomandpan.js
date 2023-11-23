@@ -1,3 +1,5 @@
+import { circle } from "../mark/circle";
+import { parse } from "./parse";
 import { zoom, zoomTransform } from "d3-zoom";
 import { geoPath, geoIdentity } from "d3-geo";
 import { tile } from "d3-tile";
@@ -57,24 +59,38 @@ export function zoomandpan(svg) {
       .attr("d", d3.geoPath(svg.projection)({ type: "Sphere" }));
 
     // Circles
-    svg
-      .selectAll(".zoomable > circle")
-      .attr("cx", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[0])
-      .attr("cy", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[1])
-      .attr("visibility", (d) =>
-        isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[0])
-          ? "hidden"
-          : "visible"
-      );
-    svg
-      .selectAll(".zoomable2 > circle")
-      .attr("cx", (d) => noproj(d.geometry.coordinates)[0])
-      .attr("cy", (d) => noproj(d.geometry.coordinates)[1])
-      .attr("visibility", (d) =>
-        isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[0])
-          ? "hidden"
-          : "visible"
-      );
+    // svg
+    //   .selectAll(".zoomable > circle")
+    //   .attr("cx", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[0])
+    //   .attr("cy", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[1])
+    //   .attr("visibility", (d) =>
+    //     isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[0])
+    //       ? "hidden"
+    //       : "visible"
+    //   );
+    // svg
+    //   .selectAll(".zoomable2 > circle")
+    //   .attr("cx", (d) => noproj(d.geometry.coordinates)[0])
+    //   .attr("cy", (d) => noproj(d.geometry.coordinates)[1])
+    //   .attr("visibility", (d) =>
+    //     isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[0])
+    //       ? "hidden"
+    //       : "visible"
+    //   );
+
+    // Circles
+
+    if (!svg.selectAll(".zoomablecircle").empty()) {
+      let circles = svg.selectAll(".zoomablecircle");
+      circles.selectAll("*").remove();
+      for (let i = 0; i < circles.size(); i++) {
+        let n = d3.select(circles.nodes()[i]);
+        const datalayer = parse(n.attr("data-layer"));
+        //const datalayer = parse(n.attr("data-layer"));
+        circle(svg, datalayer);
+      }
+    }
+
     // Texts
     svg
       .selectAll(".zoomable > text")

@@ -1,5 +1,5 @@
 /**
- * This function this function returns a random color
+ * This function returns a random color
  *
  * @return {string} a color
  */
