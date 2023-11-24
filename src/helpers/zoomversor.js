@@ -1,6 +1,12 @@
 import versor from "versor@0.2";
+
 import { circle } from "../mark/circle";
-import { parse } from "./parse";
+import { triangle } from "../mark/triangle";
+import { label } from "../mark/label";
+import { tile } from "../mark/tile";
+import { scalebar } from "../mark/scalebar";
+import { north } from "../mark/north";
+
 import { pointers } from "d3-selection";
 import { zoom, zoomIdentity } from "d3-zoom";
 import { geoPath, geoIdentity } from "d3-geo";
@@ -22,125 +28,46 @@ const d3 = Object.assign({}, geoScaleBar, {
 
 export function zoomversor(svg) {
   function render() {
-    // Path
-    const path = d3.geoPath(svg.projection);
-    svg.selectAll(".zoomable > path").attr("d", path);
-
-    // ClipPath
-    svg.selectAll(".zoomable > clipPath > path").attr("d", path);
-
-    // Circles
-
-    if (!svg.selectAll(".zoomablecircle").empty()) {
-      let circles = svg.selectAll(".zoomablecircle");
-      circles.selectAll("*").remove();
-      for (let i = 0; i < circles.size(); i++) {
-        let n = d3.select(circles.nodes()[i]);
-        const datalayer = parse(n.attr("data-layer"));
-        //const datalayer = parse(n.attr("data-layer"));
-        circle(svg, datalayer);
+    svg.zoomablelayers.forEach((d) => {
+      const path = d3.geoPath(svg.projection);
+      switch (d.mark) {
+        case "circle":
+          circle(svg, d);
+          break;
+        case "triangle":
+          triangle(svg, d);
+          break;
+        case "geopath":
+          svg.selectAll(`#${d.id} > path`).attr("d", path);
+          break;
+        case "clippath":
+          svg.selectAll(`#${d.id} > path`).attr("d", path);
+          break;
+        case "label":
+          if (!d.latlong) {
+            d._zoom = { k: t.k, x: t.x, y: t.y };
+          }
+          label(svg, d);
+          break;
+        case "text": // TODO (possibilité de rentrer des lat lon comme position)
+          break;
+        case "outline":
+          svg.selectAll(`#${d.id} > path`).attr("d", path({ type: "Sphere" }));
+          break;
+        case "graticule":
+          svg.selectAll(`#${d.id} > path`).attr("d", path);
+          break;
+        case "tile":
+          tile(svg, d);
+          break;
+        case "scalebar":
+          scalebar(svg, d);
+          break;
+        case "north":
+          north(svg, d);
+          break;
       }
-    }
-
-    // svg
-    //   .selectAll(".zoomable > circle")
-    //   .attr("cx", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[0])
-    //   .attr("cy", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[1])
-    //   .attr("visibility", (d) =>
-    //     isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[0])
-    //       ? "hidden"
-    //       : "visible"
-    //   );
-
-    // Spikes
-
-    let spikenodes = svg.selectAll(".zoomablespike");
-    for (let i = 0; i < spikenodes.size(); i++) {
-      let n = d3.select(spikenodes.nodes()[i]);
-      const datalayer = JSON.parse(n.attr("data-layer"));
-      const valmax =
-        datalayer.fixmax != undefined
-          ? datalayer.fixmax
-          : d3.max(datalayer.features, (d) =>
-              Math.abs(+d.properties[datalayer.height])
-            );
-      const yScale =
-        datalayer.height == "___const"
-          ? (d) => d
-          : d3.scaleLinear().domain([0, valmax]).range([0, datalayer.k]);
-
-      let projection = datalayer.prj == "none" ? noproj : svg.projection;
-      n.selectAll("path").attr(
-        "d",
-        (d) =>
-          `M ${
-            d3.geoPath(projection).centroid(d.geometry)[0] - datalayer.width / 2
-          }, ${d3.geoPath(projection).centroid(d.geometry)[1]} ${
-            d3.geoPath(projection).centroid(d.geometry)[0]
-          }, ${
-            d3.geoPath(projection).centroid(d.geometry)[1] -
-            yScale(d.properties[datalayer.height] * datalayer.updown)
-          } ${
-            d3.geoPath(projection).centroid(d.geometry)[0] + datalayer.width / 2
-          }, ${d3.geoPath(projection).centroid(d.geometry)[1]}`
-      );
-    }
-
-    // Outline
-    svg
-      .selectAll(".zoomableoutline > path")
-      .attr("d", d3.geoPath(svg.projection)({ type: "Sphere" }));
-    // Texts
-    svg
-      .selectAll(".zoomable > text")
-      // .attr("x", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[0])
-      // .attr("y", (d) => d3.geoPath(svg.projection).centroid(d.geometry)[1])
-
-      .attr("x", (d) => d.geometry[0])
-      .attr("y", (d) => d.geometry[1])
-      .attr("visibility", (d) =>
-        isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[0])
-          ? "hidden"
-          : "visible"
-      );
-
-    // Scale
-    if (!svg.selectAll(".zoomablescalebar").empty()) {
-      let scalebarnodes = svg.selectAll(".zoomablescalebar");
-      scalebarnodes.selectAll("*").remove();
-      for (let i = 0; i < scalebarnodes.size(); i++) {
-        let n = d3.select(scalebarnodes.nodes()[i]);
-        const datalayer = JSON.parse(n.attr("data-layer"));
-        n.call(
-          d3
-            .geoScaleBar()
-            .projection(svg.projection)
-            .size([svg.width, svg.height])
-            .left(datalayer.left)
-            .top(datalayer.top)
-            .distance(datalayer.distance)
-            .label(datalayer.label)
-            .units(datalayer.units)
-            .tickPadding(datalayer.tickPadding)
-            .tickSize(datalayer.tickSize)
-            .tickFormat(eval(datalayer.tickFormat))
-            .tickValues(datalayer.tickValues)
-            .labelAnchor(datalayer.labelAnchor)
-        );
-
-        if (datalayer.translate) {
-          n.attr(
-            "transform",
-            `translate(${datalayer.pos[0] + datalayer.translate[0]},${
-              datalayer.pos[1] + datalayer.translate[1]
-            })`
-          );
-        }
-      }
-    }
-
-    // North Arrow
-    // --- not implemented
+    });
   }
   svg
     .call(versorzoom(svg.projection).on("zoom.render end.render", render))

@@ -1,10 +1,12 @@
 import { create } from "../container/create";
 import { render } from "../container/render";
+import { mergeoptions } from "../helpers/mergeoptions";
 import { addattr } from "../helpers/addattr";
 import { unique } from "../helpers/unique";
 import { centroid } from "../transform/centroid";
 import { implantation } from "../helpers/implantation";
-import { zoomclass } from "../helpers/zoomclass";
+import { check } from "../helpers/check";
+import { propertiesentries } from "../helpers/propertiesentries";
 import { geoPath, geoIdentity } from "d3-geo";
 const d3 = Object.assign({}, { geoPath, geoIdentity });
 
@@ -40,46 +42,59 @@ export function label(arg1, arg2) {
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
   let svg = newcontainer ? create({ zoomable: true }) : arg1;
-  let options = newcontainer ? arg1 : arg2;
 
-  // Default values
-  let opts = {
-    id: unique(),
-    projection: undefined,
-    data: undefined,
-    text: undefined,
-    fill: "black",
-    stroke: "none",
-    fontSize: 14,
-    fontFamily: svg.fontFamily,
-    dx: 0,
-    dy: 0,
-    paintOrder: "stroke",
-    strokeLinejoin: "round",
-    strokeLinecap: "round",
-    dominantBaseline: "central",
-    textAnchor: "middle",
-  };
+  // Arguments
+  let opts = mergeoptions(
+    {
+      mark: "label",
+      id: unique(),
+      latlong: true,
+      data: undefined,
+      text: undefined,
+      fill: "black",
+      stroke: "none",
+      fontSize: 14,
+      fontFamily: svg.fontFamily,
+      dx: 0,
+      dy: 0,
+      paintOrder: "stroke",
+      strokeLinejoin: "round",
+      strokeLinecap: "round",
+      dominantBaseline: "central",
+      textAnchor: "middle",
+    },
+    newcontainer ? arg1 : arg2
+  );
 
-  Object.keys(opts).forEach((d) => {
-    if (options[d] !== undefined) {
-      opts[d] = options[d];
-    }
-  });
-
-  Object.keys(options).forEach((d) => {
-    opts[d] = options[d];
+  // Arguments to functions
+  const fields = propertiesentries(opts.data);
+  ["text", "fill"].forEach((d) => {
+    opts[d] = check(opts[d], fields);
   });
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
-    ? svg
-        .append("g")
-        .attr("id", opts.id)
-        .attr("class", zoomclass(svg.inset, opts.projection))
-        .attr("pointer-events", "none")
+    ? svg.append("g").attr("id", opts.id)
     : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
+
+  // Centroid
+  opts.data =
+    implantation(opts.data) == 3
+      ? centroid(opts.data, { latlong: opts.latlong })
+      : opts.data;
+
+  // zoomable layer
+  if (svg.zoomable && !svg.parent) {
+    if (!svg.zoomablelayers.map((d) => d.id).includes(opts.id)) {
+      svg.zoomablelayers.push(opts);
+    } else {
+      let i = svg.zoomablelayers.indexOf(
+        svg.zoomablelayers.find((d) => d.id == opts.id)
+      );
+      svg.zoomablelayers[i] = opts;
+    }
+  }
 
   // Attr with specific default values
   layer
@@ -104,19 +119,18 @@ export function label(arg1, arg2) {
     ],
   });
 
-  // Centroid
-  opts.data = implantation(opts.data) == 3 ? centroid(opts.data) : opts.data;
-
   // Projection
-  opts.projection =
-    opts.projection == "none" ? d3.geoIdentity() : svg.projection;
+  let projection =
+    opts.latlong == false
+      ? d3.geoIdentity().scale(svg.zoom.k).translate([svg.zoom.x, svg.zoom.y])
+      : svg.projection;
 
   layer
     .selectAll("text")
     .data(opts.data.features.filter((d) => d.geometry.coordinates != undefined))
     .join("text")
-    .attr("x", (d) => d3.geoPath(opts.projection).centroid(d.geometry)[0])
-    .attr("y", (d) => d3.geoPath(opts.projection).centroid(d.geometry)[1])
+    .attr("x", (d) => d3.geoPath(projection).centroid(d.geometry)[0])
+    .attr("y", (d) => d3.geoPath(projection).centroid(d.geometry)[1])
     .attr("fill", opts.fill)
     .attr("stroke", opts.stroke)
     .attr("font-size", opts.fontSize)
@@ -125,13 +139,11 @@ export function label(arg1, arg2) {
     .attr("dominant-baseline", opts.dominantBaseline)
     .attr("text-anchor", opts.textAnchor)
     .attr("visibility", (d) =>
-      isNaN(d3.geoPath(opts.projection).centroid(d.geometry)[0])
+      isNaN(d3.geoPath(projection).centroid(d.geometry)[0])
         ? "hidden"
         : "visible"
     )
-    .text(
-      typeof opts.text == "string" ? (d) => d.properties[opts.text] : opts.text
-    );
+    .text(opts.text);
 
   // Output
   if (newcontainer) {

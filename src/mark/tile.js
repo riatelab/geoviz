@@ -1,4 +1,5 @@
 import { unique } from "../helpers/unique";
+import { mergeoptions } from "../helpers/mergeoptions";
 import { tile as d3tile } from "d3-tile";
 import { geoMercator } from "d3-geo";
 import { create } from "../container/create";
@@ -36,49 +37,39 @@ export function tile(arg1, arg2) {
   let svg = newcontainer
     ? create({ projection: geoMercator(), zoomable: true })
     : arg1;
-  let options = newcontainer ? arg1 : arg2;
 
-  // Default values
-  let opts = {
-    id: unique(),
-    tileSize: 512,
-    zoomDelta: 1,
-    increasetilesize: 1,
-    opacity: 1,
-    clipPath: undefined,
-    url: (x, y, z) => `https://tile.openstreetmap.org/${z}/${x}/${y}.png`,
-  };
-
-  Object.keys(opts).forEach((d) => {
-    if (options[d] !== undefined) {
-      opts[d] = options[d];
-    }
-  });
-
-  Object.keys(options).forEach((d) => {
-    opts[d] = options[d];
-  });
+  // Arguments
+  let opts = mergeoptions(
+    {
+      mark: "tile",
+      id: unique(),
+      tileSize: 512,
+      zoomDelta: 1,
+      increasetilesize: 1,
+      opacity: 1,
+      clipPath: undefined,
+      url: (x, y, z) => `https://tile.openstreetmap.org/${z}/${x}/${y}.png`,
+    },
+    newcontainer ? arg1 : arg2
+  );
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
-    ? svg
-        .append("g")
-        .attr("id", opts.id)
-        .attr("class", svg.inset ? "tiles" : "zoomabletiles")
+    ? svg.append("g").attr("id", opts.id)
     : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 
-  layer.attr(
-    "data-layer",
-    JSON.stringify({
-      tileSize: opts.tileSize,
-      zoomDelta: opts.zoomDelta,
-      increasetilesize: opts.zoomDelta,
-      url: opts.url.toString(),
-      opacity: opts.opacity,
-      clipPath: opts.clipPath,
-    })
-  );
+  // zoomable layer
+  if (svg.zoomable && !svg.parent) {
+    if (!svg.zoomablelayers.map((d) => d.id).includes(opts.id)) {
+      svg.zoomablelayers.push(opts);
+    } else {
+      let i = svg.zoomablelayers.indexOf(
+        svg.zoomablelayers.find((d) => d.id == opts.id)
+      );
+      svg.zoomablelayers[i] = opts;
+    }
+  }
 
   let tile = d3tile()
     .size([svg.width, svg.height])

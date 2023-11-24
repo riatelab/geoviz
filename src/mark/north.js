@@ -1,5 +1,6 @@
 import { unique } from "../helpers/unique";
 import { northangle } from "../helpers/northangle";
+import { mergeoptions } from "../helpers/mergeoptions";
 import { create } from "../container/create";
 import { render } from "../container/render";
 
@@ -26,36 +27,38 @@ export function north(arg1, arg2) {
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
   let svg = newcontainer ? create() : arg1;
-  let options = newcontainer ? arg1 : arg2;
 
-  // Default values
-  let opts = {
-    id: unique(),
-    pos: [svg.width - 30, 30],
-    rotate: null,
-    scale: 1,
-    fill: "black",
-    fillOpacity: 1,
-  };
-
-  Object.keys(opts).forEach((d) => {
-    if (options[d] !== undefined) {
-      opts[d] = options[d];
-    }
-  });
-
-  Object.keys(options).forEach((d) => {
-    opts[d] = options[d];
-  });
+  // Arguments
+  let opts = mergeoptions(
+    {
+      mark: "north",
+      id: unique(),
+      pos: [svg.width - 30, 30],
+      rotate: null,
+      scale: 1,
+      fill: "black",
+      fillOpacity: 1,
+    },
+    newcontainer ? arg1 : arg2
+  );
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
-    ? svg
-        .append("g")
-        .attr("id", opts.id)
-        .attr("class", svg.inset ? "nozoom" : "zoomablenorth")
+    ? svg.append("g").attr("id", opts.id)
     : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
+
+  // zoomable layer
+  if (svg.zoomable && !svg.parent) {
+    if (!svg.zoomablelayers.map((d) => d.id).includes(opts.id)) {
+      svg.zoomablelayers.push(opts);
+    } else {
+      let i = svg.zoomablelayers.indexOf(
+        svg.zoomablelayers.find((d) => d.id == opts.id)
+      );
+      svg.zoomablelayers[i] = opts;
+    }
+  }
 
   // angle
   const angle =
@@ -75,19 +78,6 @@ export function north(arg1, arg2) {
       "transform",
       `translate(${opts.pos[0]},${opts.pos[1]}) rotate(${angle}) scale(${opts.scale})`
     );
-
-  // datalayer
-  layer.attr(
-    "data-layer",
-    JSON.stringify({
-      symbol,
-      pos: opts.pos,
-      scale: opts.scale,
-      rotate: opts.rotate,
-      fill: opts.fill,
-      fillOpacity: opts.fillOpacity,
-    })
-  );
 
   // Output
   if (newcontainer) {

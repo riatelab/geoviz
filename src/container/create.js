@@ -7,18 +7,19 @@ const d3 = Object.assign(
   { create2, geoPath, geoBounds, geoEquirectangular, zoomIdentity }
 );
 
-import { outline as addoutline } from "../layer/outline.js";
+import { outline as addoutline } from "../mark/outline.js";
 import { geopath as addgeopath } from "../mark/geopath.js";
-import { graticule as addgraticule } from "../layer/graticule.js";
-import { text as addtext } from "../layer/text.js";
+import { graticule as addgraticule } from "../mark/graticule.js";
+import { text as addtext } from "../mark/text.js";
 import { circle as addcircle } from "../mark/circle.js";
-import { spike as addspike } from "../mark/spike.js";
+import { triangle as addtriangle } from "../mark/triangle.js";
+import { spike as addspike } from "../layer/spike.js";
 import { label as addlabel } from "../mark/label.js";
-import { tile } from "../layer/tile.js";
-import { header } from "../layer/header.js";
-import { footer } from "../layer/footer.js";
-import { scalebar as addscalebar } from "../layer/scalebar.js";
-import { north as addnorth } from "../layer/north.js";
+import { tile } from "../mark/tile.js";
+import { header } from "../mark/header.js";
+import { footer } from "../mark/footer.js";
+import { scalebar as addscalebar } from "../mark/scalebar.js";
+import { north as addnorth } from "../mark/north.js";
 
 import { blur as addblur } from "../style/blur";
 import { clippath as addclippath } from "../style/clippath";
@@ -99,6 +100,8 @@ export function create({
       height,
       fontFamily,
       zoomable,
+      zoomablelayers: [],
+      zoom: { k: 1, x: 0, y: 0 },
       bbox: d3.geoBounds(ref),
       inset: parent ? true : false,
     };
@@ -134,13 +137,13 @@ export function create({
 
   // Add functions
 
-  let layer = {};
+  let mark = {};
   [
     { id: "outline", func: addoutline },
     { id: "geopath", func: addgeopath },
     { id: "graticule", func: addgraticule },
     { id: "circle", func: addcircle },
-    { id: "spike", func: addspike },
+    { id: "triangle", func: addtriangle },
     { id: "label", func: addlabel },
     { id: "text", func: addtext },
     { id: "tile", func: tile },
@@ -150,7 +153,7 @@ export function create({
     { id: "north", func: addnorth },
   ].forEach(
     (d) =>
-      (layer[d.id] = function () {
+      (mark[d.id] = function () {
         return d.func(output, arguments[0]);
       })
   );
@@ -186,19 +189,19 @@ export function create({
       })
   );
 
-  let symbology = {};
-  [{ id: "choropleth", func: addchoropleth }, ,].forEach(
-    (d) =>
-      (symbology[d.id] = function () {
-        return d.func(output, arguments[0]);
-      })
-  );
+  // let symbology = {};
+  // [{ id: "choropleth", func: addchoropleth }, ,].forEach(
+  //   (d) =>
+  //     (symbology[d.id] = function () {
+  //       return d.func(output, arguments[0]);
+  //     })
+  // );
 
   // Output
 
   return Object.assign(output, {
-    ...symbology,
-    layer,
+    //...symbology,
+    ...mark,
     legend,
     style,
     render: function () {

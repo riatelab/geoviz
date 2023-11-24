@@ -1,12 +1,13 @@
 import { addattrprefix } from "../helpers/addattrprefix";
 import { addattr } from "../helpers/addattr";
 import { unique } from "../helpers/unique";
+import { mergeoptions } from "../helpers/mergeoptions";
 import { getsize } from "../helpers/getsize";
 import { create } from "../container/create";
 import { render } from "../container/render";
 
 /**
- * The `header` function allows to add a title at the top of the map
+ * The `footer` function allows to add a notes and sources at the bottom of the map
  *
  * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
  * @param {object} options - options and parameters
@@ -34,38 +35,31 @@ import { render } from "../container/render";
  * @returns {SVGSVGElement|string} - the function adds a layer with the title to the SVG container and returns the layer identifier.
  */
 
-export function header(arg1, arg2) {
+export function footer(arg1, arg2) {
   // Test if new container
   let newcontainer =
     arguments.length <= 1 && !arguments[0]?._groups ? true : false;
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
   let svg = newcontainer ? create() : arg1;
-  let options = newcontainer ? arg1 : arg2;
 
-  // Default values
-  let opts = {
-    id: unique(),
-    text: "Map title",
-    rect_fill: "white",
-    rect_fillOpacity: 0.5,
-    fontSize: 30,
-    dx: 0,
-    dy: 0,
-    fontFamily: undefined,
-    lineSpacing: 0,
-    textAnchor: "middle",
-  };
-
-  Object.keys(opts).forEach((d) => {
-    if (options[d] !== undefined) {
-      opts[d] = options[d];
-    }
-  });
-
-  Object.keys(options).forEach((d) => {
-    opts[d] = options[d];
-  });
+  // Arguments
+  let opts = mergeoptions(
+    {
+      mark: "footer",
+      id: unique(),
+      text: "Author, source...",
+      rect_fill: "white",
+      rect_fillOpacity: 0.5,
+      fontSize: 10,
+      dx: 0,
+      dy: 0,
+      fontFamily: undefined,
+      lineSpacing: 0,
+      textAnchor: "middle",
+    },
+    newcontainer ? arg1 : arg2
+  );
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
@@ -74,7 +68,7 @@ export function header(arg1, arg2) {
   layer.selectAll("*").remove();
 
   // Height
-  let startdy = opts.fontSize / 4;
+  let startdy = opts.fontSize / 3;
 
   let tmp = layer
     .append("g")
@@ -87,23 +81,25 @@ export function header(arg1, arg2) {
     .data(opts.text.split("\n"))
     .join("text")
     .attr("y", (d, i) => i * opts.fontSize + i * opts.lineSpacing)
+    //.attr("dy", dy)
     .text((d) => d);
   let txt_height = getsize(tmp).height;
   tmp.remove();
 
   // Background
+  let rect_h = txt_height + startdy + opts.dy * 4;
   let rect = layer
     .append("rect")
     .attr("x", 0)
-    .attr("y", 0)
+    .attr("y", svg.height - rect_h)
     .attr("width", svg.width)
-    .attr("height", txt_height + startdy + opts.dy * 4)
+    .attr("height", rect_h)
     .attr("fill", opts.rect_fill)
     .attr("fill-opacity", opts.rect_fillOpacity);
 
   // ...attr
   addattrprefix({
-    params: opts,
+    params: opts || {},
     layer: rect,
     prefix: "rect",
   });
@@ -137,7 +133,13 @@ export function header(arg1, arg2) {
     .attr("x", xpos)
     .attr(
       "y",
-      (d, i) => i * opts.fontSize + i * opts.lineSpacing + opts.dy + startdy
+      (d, i) =>
+        svg.height -
+        rect_h +
+        i * opts.fontSize +
+        i * opts.lineSpacing +
+        opts.dy +
+        startdy
     )
     .attr("dy", opts.dy)
     .text((d) => d);

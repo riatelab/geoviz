@@ -1,7 +1,6 @@
 import { radius as computeradius } from "../classify/radius";
 import { mergeoptions } from "../helpers/mergeoptions";
 import { dodge } from "../transform/dodge";
-import { stringify } from "../helpers/stringify";
 import { order } from "../helpers/order";
 import { detectinput } from "../helpers/detectinput";
 import { propertiesentries } from "../helpers/propertiesentries";
@@ -9,7 +8,6 @@ import { create } from "../container/create";
 import { render } from "../container/render";
 import { tooltip } from "../helpers/tooltip";
 import { centroid } from "../transform/centroid";
-import { zoomclass } from "../helpers/zoomclass";
 import { addattr } from "../helpers/addattr";
 import { random } from "../classify/random";
 import { unique } from "../helpers/unique";
@@ -45,7 +43,6 @@ const d3 = Object.assign(
 
 export function circle(arg1, arg2) {
   // Test if new container
-  // Test if new container
   let newcontainer =
     arguments.length <= 1 && !arguments[0]?._groups ? true : false;
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
@@ -55,8 +52,9 @@ export function circle(arg1, arg2) {
   // Arguments
   let opts = mergeoptions(
     {
+      mark: "circle",
       id: unique(),
-      projection: undefined,
+      latlong: true,
       data: undefined,
       r: 10,
       k: 50,
@@ -80,16 +78,27 @@ export function circle(arg1, arg2) {
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
-    ? svg.append("g").attr("id", opts.id).attr("class", "zoomablecircle")
-    : //.attr("class", zoomclass(svg.inset, opts.projection))
-      svg.select(`#${opts.id}`);
+    ? svg.append("g").attr("id", opts.id)
+    : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 
   // Centroid
-  opts.data = implantation(opts.data) == 3 ? centroid(opts.data) : opts.data;
+  opts.data =
+    implantation(opts.data) == 3
+      ? centroid(opts.data, { latlong: opts.latlong })
+      : opts.data;
 
-  // layer data
-  layer.attr("data-layer", stringify(opts));
+  // zoomable layer
+  if (svg.zoomable && !svg.parent) {
+    if (!svg.zoomablelayers.map((d) => d.id).includes(opts.id)) {
+      svg.zoomablelayers.push(opts);
+    } else {
+      let i = svg.zoomablelayers.indexOf(
+        svg.zoomablelayers.find((d) => d.id == opts.id)
+      );
+      svg.zoomablelayers[i] = opts;
+    }
+  }
 
   // ...attr
   addattr({
@@ -99,20 +108,38 @@ export function circle(arg1, arg2) {
   });
 
   // Projection
-  opts.projection =
-    opts.projection == "none" ? d3.geoIdentity() : svg.projection;
+  let projection =
+    opts.latlong == false
+      ? d3.geoIdentity().scale(svg.zoom.k).translate([svg.zoom.x, svg.zoom.y])
+      : svg.projection;
 
   // Dodge
+  let data;
   if (opts.dodge) {
-    opts.data = dodge(opts.data, {
-      projection: opts.projection,
+    data = JSON.parse(JSON.stringify(opts.data));
+
+    // PB FILTER (dodge on globe) // TODO
+    // let fet = {
+    //   features: data.features
+    //     .filter(
+    //       (d) => !isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[0])
+    //     )
+    //     .filter(
+    //       (d) => !isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[1])
+    //     ),
+    // };
+
+    data = dodge(data, {
+      projection,
       gap: opts.dodgegap,
       r: opts.r,
       k: opts.k,
       fixmax: opts.fixmax,
       iteration: opts.iteration,
     });
-    opts.projection = d3.geoIdentity();
+    projection = d3.geoIdentity();
+  } else {
+    data = opts.data;
   }
 
   // Radius
@@ -125,7 +152,7 @@ export function circle(arg1, arg2) {
   });
 
   // Sort & filter
-  let data = opts.data.features
+  data = data.features
     .filter((d) => d.geometry)
     .filter((d) => d.geometry.coordinates != undefined);
   if (detectinput(opts.r, columns) == "field") {
@@ -165,20 +192,20 @@ export function circle(arg1, arg2) {
     .attr(
       "cx",
       (d) =>
-        d3.geoPath(opts.projection).centroid(d.geometry)[0] +
+        d3.geoPath(projection).centroid(d.geometry)[0] +
         radius(d, opts.r) * anchor
     )
     .attr(
       "cy",
       (d) =>
-        d3.geoPath(opts.projection).centroid(d.geometry)[1] +
+        d3.geoPath(projection).centroid(d.geometry)[1] +
         radius(d, opts.r) * baseline
     )
     .attr("r", (d) => radius(d, opts.r))
     .attr("fill", opts.fill)
     .attr("stroke", opts.stroke)
     .attr("visibility", (d) =>
-      isNaN(d3.geoPath(opts.projection).centroid(d.geometry)[0])
+      isNaN(d3.geoPath(projection).centroid(d.geometry)[0])
         ? "hidden"
         : "visible"
     );

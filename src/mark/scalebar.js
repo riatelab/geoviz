@@ -1,5 +1,6 @@
 import { create } from "../container/create";
 import { render } from "../container/render";
+import { mergeoptions } from "../helpers/mergeoptions";
 import * as geoScaleBar from "d3-geo-scale-bar";
 import { zoom, zoomTransform } from "d3-zoom";
 
@@ -41,41 +42,43 @@ export function scalebar(arg1, arg2) {
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
   let svg = newcontainer ? create() : arg1;
-  let options = newcontainer ? arg1 : arg2;
 
-  // Default values
-  let opts = {
-    id: unique(),
-    pos: [10, svg.height - 20],
-    translate: null,
-    units: "km",
-    label: undefined,
-    tickPadding: 5,
-    tickSize: 0.2,
-    distance: undefined,
-    tickFormat: (d) => d,
-    tickValues: undefined,
-    labelAnchor: "start",
-  };
-
-  Object.keys(opts).forEach((d) => {
-    if (options[d] !== undefined) {
-      opts[d] = options[d];
-    }
-  });
-
-  Object.keys(options).forEach((d) => {
-    opts[d] = options[d];
-  });
+  // Arguments
+  let opts = mergeoptions(
+    {
+      mark: "scalebar",
+      id: unique(),
+      pos: [10, svg.height - 20],
+      translate: null,
+      units: "km",
+      label: undefined,
+      tickPadding: 5,
+      tickSize: 0.2,
+      distance: undefined,
+      tickFormat: (d) => d,
+      tickValues: undefined,
+      labelAnchor: "start",
+    },
+    newcontainer ? arg1 : arg2
+  );
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
-    ? svg
-        .append("g")
-        .attr("id", opts.id)
-        .attr("class", svg.inset ? "nozoom" : "zoomablescalebar")
+    ? svg.append("g").attr("id", opts.id)
     : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
+
+  // zoomable layer
+  if (svg.zoomable && !svg.parent) {
+    if (!svg.zoomablelayers.map((d) => d.id).includes(opts.id)) {
+      svg.zoomablelayers.push(opts);
+    } else {
+      let i = svg.zoomablelayers.indexOf(
+        svg.zoomablelayers.find((d) => d.id == opts.id)
+      );
+      svg.zoomablelayers[i] = opts;
+    }
+  }
 
   //...attr
   addattr({
@@ -108,25 +111,6 @@ export function scalebar(arg1, arg2) {
     .tickFormat(opts.tickFormat)
     .tickValues(opts.tickValues)
     .labelAnchor(opts.labelAnchor);
-
-  layer.attr(
-    "data-layer",
-    JSON.stringify({
-      size: [svg.width, svg.height],
-      left: x,
-      top: y,
-      distance: opts.distance,
-      label: opts.label !== undefined ? opts.label : units.units,
-      units: units,
-      tickPadding: opts.tickPadding,
-      tickSize: opts.tickSize,
-      tickFormat: opts.tickFormat.toString(),
-      tickValues: opts.tickValues,
-      labelAnchor: opts.labelAnchor,
-      translate: opts.translate,
-      pos: opts.pos,
-    })
-  );
 
   layer.call(scaleBar);
 

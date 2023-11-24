@@ -10,12 +10,12 @@ const d3 = Object.assign({}, { geoArea, geoCentroid, geoIdentity, geoPath });
  * @param {object} data - a GeoJSON FeatureCollection
  * @param {object} options - options and parameters
  * @param {boolean} options.largest - place the centroid in the largest polygon.
- * @param {boolean} options.geocoords - use `true` if input coordinates are in latitude ans longitude. Use `false` if the coordinates are already defined in the page plan
+ * @param {boolean} options.latlong - use `true` if input coordinates are in latitude ans longitude. Use `false` if the coordinates are already defined in the page plan
  * @example
  * let dots = geoviz.transform.centroid(world, { largest: true })
  * @returns {object} - a GeoJSON FeatureCollection (points)
  */
-export function centroid(data, { largest = true, geocoords = true } = {}) {
+export function centroid(data, { largest = true, latlong = true } = {}) {
   let path = d3.geoPath(d3.geoIdentity());
 
   let geojson = JSON.parse(JSON.stringify(data));
@@ -24,7 +24,7 @@ export function centroid(data, { largest = true, geocoords = true } = {}) {
     var bestArea = 0;
     d.geometry.coordinates.forEach(function (coords) {
       var poly = { type: "Polygon", coordinates: coords };
-      var area = geocoords ? d3.geoArea(poly) : path.area(poly);
+      var area = latlong ? d3.geoArea(poly) : path.area(poly);
       if (area > bestArea) {
         bestArea = area;
         best = poly;
@@ -36,7 +36,7 @@ export function centroid(data, { largest = true, geocoords = true } = {}) {
   let centers = geojson.features
     .filter((d) => d.geometry != null)
     .map((d) => {
-      if (geocoords) {
+      if (latlong) {
         d.geometry.coordinates = d3.geoCentroid(
           largest == true
             ? d.geometry.type == "Polygon"

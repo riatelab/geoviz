@@ -50,34 +50,6 @@ export let classify = {
   radius,
 };
 
-// Layers
-import { geopath } from "./mark/geopath";
-import { outline } from "./layer/outline";
-import { graticule } from "./layer/graticule.js";
-import { text } from "./layer/text";
-import { circle } from "./mark/circle";
-import { spike } from "./mark/spike";
-import { label } from "./mark/label";
-import { tile } from "./layer/tile";
-import { header } from "./layer/header";
-import { footer } from "./layer/footer";
-import { scalebar } from "./layer/scalebar";
-import { north } from "./layer/north";
-export let layer = {
-  geopath,
-  outline,
-  graticule,
-  text,
-  circle,
-  label,
-  tile,
-  header,
-  footer,
-  scalebar,
-  north,
-  spike,
-};
-
 // Legend
 import { circles_nested } from "./legend/circles-nested";
 import { circles } from "./legend/circles";
@@ -112,23 +84,20 @@ export let style = {
 
 // main
 export { create } from "./container/create";
-export { graticule } from "./layer/graticule.js";
-export { header } from "./layer/header.js";
-export { north } from "./layer/north.js";
-export { scalebar } from "./layer/scalebar.js";
-export { text } from "./layer/text.js";
+export { graticule } from "./mark/graticule.js";
+export { header } from "./mark/header.js";
+export { north } from "./mark/north.js";
+export { scalebar } from "./mark/scalebar.js";
+export { text } from "./mark/text.js";
 export { label } from "./mark/label.js";
 export { circle } from "./mark/circle.js";
-export { footer } from "./layer/footer.js";
-export { outline } from "./layer/outline.js";
-export { geopath } from "./mark/geopath";
-export { spike } from "./mark/spike";
+export { footer } from "./mark/footer.js";
+export { outline } from "./mark/outline.js";
+export { geopath } from "./mark/geopath.js";
+export { spike } from "./layer/spike.js";
 export { render } from "./container/render";
-export { tile } from "./layer/tile";
-export { choropleth } from "./symbology/choropleth.js";
-export { bubble } from "./symbology/bubble.js";
-//export { render2 } from "./container/render2.js";
+export { tile } from "./mark/tile.js";
+export { triangle } from "./mark/triangle.js";
 
 // TESTS
-export { parse } from "./helpers/parse.js";
-export { stringify } from "./helpers/stringify.js";
+export { info } from "./tool/info.js";

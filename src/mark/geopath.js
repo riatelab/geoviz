@@ -1,7 +1,7 @@
 import { create } from "../container/create";
 import { render } from "../container/render";
 import { tooltip } from "../helpers/tooltip";
-import { zoomclass } from "../helpers/zoomclass";
+import { mergeoptions } from "../helpers/mergeoptions";
 import { addattr } from "../helpers/addattr";
 import { random } from "../classify/random";
 import { implantation } from "../helpers/implantation";
@@ -38,43 +38,43 @@ export function geopath(arg1, arg2) {
   let svg = newcontainer
     ? create({ zoomable: true, domain: arg1.data || arg1.datum })
     : arg1;
-  let options = newcontainer ? arg1 : arg2;
-
-  // Default values
-  let opts = {
-    id: unique(),
-    projection: undefined,
-    data: undefined,
-    datum: undefined,
-    tip: undefined,
-    tipstyle: undefined,
-    fill: undefined,
-    stroke: undefined,
-    strokeWidth: 1,
-  };
-
-  Object.keys(opts).forEach((d) => {
-    if (options[d] !== undefined) {
-      opts[d] = options[d];
-    }
-  });
-
-  Object.keys(options).forEach((d) => {
-    opts[d] = options[d];
-  });
+  // Arguments
+  let opts = mergeoptions(
+    {
+      mark: "geopath",
+      id: unique(),
+      latlong: true,
+      data: undefined,
+      datum: undefined,
+      tip: undefined,
+      tipstyle: undefined,
+      fill: undefined,
+      stroke: undefined,
+      strokeWidth: 1,
+    },
+    newcontainer ? arg1 : arg2
+  );
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
-    ? svg
-        .append("g")
-        .attr("id", opts.id)
-        .attr("class", zoomclass(svg.inset, opts.projection))
+    ? svg.append("g").attr("id", opts.id)
     : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 
+  // zoomable layer
+  if (svg.zoomable && !svg.parent) {
+    if (!svg.zoomablelayers.map((d) => d.id).includes(opts.id)) {
+      svg.zoomablelayers.push(opts);
+    } else {
+      let i = svg.zoomablelayers.indexOf(
+        svg.zoomablelayers.find((d) => d.id == opts.id)
+      );
+      svg.zoomablelayers[i] = opts;
+    }
+  }
+
   // Projection
-  opts.projection =
-    opts.projection == "none" ? d3.geoIdentity() : svg.projection;
+  let projection = opts.latlong ? svg.projection : d3.geoIdentity();
 
   // DATUM -----------------------------------------
   if (opts.datum) {
@@ -90,19 +90,19 @@ export function geopath(arg1, arg2) {
     addattr({
       layer,
       args: opts,
-      exclude: ["id", "fill", "stroke", "projection", "data", "datum"],
+      exclude: ["id", "fill", "stroke", "data", "datum"],
     });
 
     layer
       .append("path")
       .datum(opts.datum)
-      .attr("d", d3.geoPath(opts.projection))
+      .attr("d", d3.geoPath(projection))
       .attr("fill", opts.fill)
       .attr("stroke", opts.stroke)
       .attr("vector-effect", "non-scaling-stroke");
   }
 
-  // // DATA -----------------------------------------
+  // DATA -----------------------------------------
   if (opts.data) {
     // Colors by default
     if (!opts.fill) {
@@ -122,7 +122,7 @@ export function geopath(arg1, arg2) {
       .selectAll("path")
       .data(opts.data.features.filter((d) => d.geometry !== null))
       .join("path")
-      .attr("d", d3.geoPath(opts.projection))
+      .attr("d", d3.geoPath(projection))
       .attr("fill", opts.fill)
       .attr("stroke", opts.stroke)
       .attr("stroke-width", opts.strokeWidth);
