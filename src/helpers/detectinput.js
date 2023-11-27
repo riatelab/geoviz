@@ -1,4 +1,4 @@
-export function detectinput(input, columns) {
+export function detectinput(input, columns = []) {
   if (typeof input == "function") {
     console.log("function");
     return "function";

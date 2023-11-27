@@ -1,6 +1,6 @@
 import { choro } from "../classify/choro";
 import { create } from "../container/create";
-import { geopath } from "../mark/geopath";
+import { path } from "../mark/path";
 import { render } from "../container/render";
 import { choro_vertical } from "../legend/choro-vertical";
 import { choro_horizontal } from "../legend/choro-horizontal";
@@ -64,7 +64,7 @@ export function choropleth(arg1, arg2) {
   );
 
   // geometries
-  geopath(svg, {
+  path(svg, {
     data: opts["data"],
     fill: (d) => classif.colorize(d.properties[opts.fill]),
     tip: opts.tip,

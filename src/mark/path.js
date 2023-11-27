@@ -4,8 +4,8 @@ import { camelcasetodash } from "../helpers/camelcase";
 import { tooltip } from "../helpers/tooltip";
 import { mergeoptions } from "../helpers/mergeoptions";
 import { propertiesentries } from "../helpers/propertiesentries";
-import { addattr } from "../helpers/addattr";
 import { random } from "../classify/random";
+import { check } from "../helpers/check";
 import { detectinput } from "../helpers/detectinput";
 import { implantation } from "../helpers/implantation";
 import { unique } from "../helpers/unique";
@@ -83,34 +83,48 @@ export function path(arg1, arg2) {
   // zoomable layer
   if (svg.zoomable && !svg.parent) {
     if (!svg.zoomablelayers.map((d) => d.id).includes(opts.id)) {
-      svg.zoomablelayers.push(opts);
+      //svg.zoomablelayers.push(opts);
+      svg.zoomablelayers.push({
+        mark: opts.mark,
+        id: opts.id,
+        latlong: opts.latlong,
+      });
     } else {
       let i = svg.zoomablelayers.indexOf(
         svg.zoomablelayers.find((d) => d.id == opts.id)
       );
-      svg.zoomablelayers[i] = opts;
+      //svg.zoomablelayers[i] = opts;
+      svg.zoomablelayers[i] = {
+        mark: opts.mark,
+        id: opts.id,
+        latlong: opts.latlong,
+      };
     }
   }
 
   // Projection
   let projection = opts.latlong ? svg.projection : d3.geoIdentity();
 
-  // Manage options
-  let fields = propertiesentries(opts.data || opts.datum);
+  // Specific attributes
   let entries = Object.entries(opts).map((d) => d[0]);
   const notspecificattr = entries.filter(
     (d) =>
       !["mark", "id", "datum", "data", "latlong", "tip", "tipstyle"].includes(d)
   );
+
+  // layer attributes
+  let fields = propertiesentries(opts.data || opts.datum);
   const layerattr = notspecificattr.filter(
     (d) => detectinput(opts[d], fields) == "value"
   );
-
-  const eltattr = notspecificattr.filter((d) => !layerattr.includes(d));
-
-  // layer attributes
   layerattr.forEach((d) => {
     layer.attr(camelcasetodash(d), opts[d]);
+  });
+
+  // features attributes (iterate on)
+  const eltattr = notspecificattr.filter((d) => !layerattr.includes(d));
+  eltattr.forEach((d) => {
+    opts[d] = check(opts[d], fields);
   });
 
   // Draw each features with its attributes

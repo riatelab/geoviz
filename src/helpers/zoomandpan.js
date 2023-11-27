@@ -61,7 +61,7 @@ export function zoomandpan(svg) {
           }
           triangle(svg, d);
           break;
-        case "geopath":
+        case "path":
           svg.selectAll(`#${d.id} > path`).attr("d", d.latlong ? path : path2);
           break;
         case "clippath":

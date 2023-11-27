@@ -37,7 +37,7 @@ export function zoomversor(svg) {
         case "triangle":
           triangle(svg, d);
           break;
-        case "geopath":
+        case "path":
           svg.selectAll(`#${d.id} > path`).attr("d", path);
           break;
         case "clippath":

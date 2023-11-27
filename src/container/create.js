@@ -8,7 +8,6 @@ const d3 = Object.assign(
 );
 
 import { outline as addoutline } from "../mark/outline.js";
-import { geopath as addgeopath } from "../mark/geopath.js";
 import { graticule as addgraticule } from "../mark/graticule.js";
 import { text as addtext } from "../mark/text.js";
 import { circle as addcircle } from "../mark/circle.js";
@@ -140,7 +139,6 @@ export function create({
   let mark = {};
   [
     { id: "outline", func: addoutline },
-    { id: "geopath", func: addgeopath },
     { id: "path", func: addpath },
     { id: "graticule", func: addgraticule },
     { id: "circle", func: addcircle },

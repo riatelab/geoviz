@@ -49,6 +49,7 @@ export function label(arg1, arg2) {
       mark: "label",
       id: unique(),
       latlong: true,
+      pos: [],
       data: undefined,
       text: undefined,
       fill: "black",

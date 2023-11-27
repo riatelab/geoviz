@@ -54,7 +54,7 @@ export function footer(arg1, arg2) {
       fontSize: 10,
       dx: 0,
       dy: 0,
-      fontFamily: undefined,
+      fontFamily: svg.fontFamily,
       lineSpacing: 0,
       textAnchor: "middle",
     },

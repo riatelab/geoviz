@@ -1,9 +1,8 @@
 import { geoGraticule, geoPath } from "d3-geo";
 const d3 = Object.assign({}, { geoPath, geoGraticule });
-import { addattr } from "../helpers/addattr";
+import { camelcasetodash } from "../helpers/camelcase";
 import { mergeoptions } from "../helpers/mergeoptions";
 import { unique } from "../helpers/unique";
-import { zoomclass } from "../helpers/zoomclass";
 import { create } from "../container/create";
 import { render } from "../container/render";
 
@@ -40,6 +39,7 @@ export function graticule(arg1, arg2) {
       mark: "graticule",
       id: unique(),
       step: 10,
+      fill: "none",
       stroke: "#9ad5e6",
       strokeWidth: 0.8,
       strokeLinecap: "square",
@@ -51,37 +51,39 @@ export function graticule(arg1, arg2) {
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
-    ? svg.append("g").attr("id", opts.id).attr("class", zoomclass(svg.inset))
+    ? svg.append("g").attr("id", opts.id)
     : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 
   // zoomable layer
   if (svg.zoomable && !svg.parent) {
     if (!svg.zoomablelayers.map((d) => d.id).includes(opts.id)) {
-      svg.zoomablelayers.push(opts);
+      svg.zoomablelayers.push({
+        mark: opts.mark,
+        id: opts.id,
+      });
     } else {
       let i = svg.zoomablelayers.indexOf(
         svg.zoomablelayers.find((d) => d.id == opts.id)
       );
-      svg.zoomablelayers[i] = opts;
+      svg.zoomablelayers[i] = {
+        mark: opts.mark,
+        id: opts.id,
+      };
     }
   }
-  // Attr with specific default values
-  layer
-    .attr("fill", "none")
-    .attr("stroke", opts.stroke)
-    .attr("stroke-width", opts.strokeWidth)
-    .attr("stroke-linecap", opts.strokeLinecap)
-    .attr("stroke-linejoin", opts.strokeLinejoin)
-    .attr("stroke-dasharray", opts.strokeDasharray);
 
-  //...attr
-  addattr({
-    layer,
-    args: opts,
-    exclude: [],
+  // Manage options
+  let entries = Object.entries(opts).map((d) => d[0]);
+  const layerattr = entries.filter((d) => !["mark", "id", "step"].includes(d));
+
+  // layer attributes
+  layerattr.forEach((d) => {
+    layer.attr(camelcasetodash(d), opts[d]);
   });
 
+  // Draw graticules
+  let path = d3.geoPath(svg.projection);
   layer
     .append("path")
     .datum(
@@ -89,7 +91,7 @@ export function graticule(arg1, arg2) {
         .geoGraticule()
         .step(Array.isArray(opts.step) ? opts.step : [opts.step, opts.step])
     )
-    .attr("d", d3.geoPath(svg.projection));
+    .attr("d", path);
 
   // Output
   if (newcontainer) {

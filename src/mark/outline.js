@@ -1,25 +1,30 @@
-import { geoPath } from "d3-geo";
-import { addattr } from "../helpers/addattr";
+import { geoGraticule, geoPath } from "d3-geo";
+const d3 = Object.assign({}, { geoPath, geoGraticule });
+import { camelcasetodash } from "../helpers/camelcase";
 import { mergeoptions } from "../helpers/mergeoptions";
 import { unique } from "../helpers/unique";
 import { create } from "../container/create";
 import { render } from "../container/render";
-const d3 = Object.assign({}, { geoPath });
 
 /**
- * The `outline` function allows to create a layer with the limits of the earth area in the given projection
+ * The `graticule` function allows to create a layer with lat/long lines
  *
  * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
  * @param {object} options - options and parameters
  * @param {string} options.id - id of the layer
+ * @param {number|number[]} options.step - gap between graticules. The value can be a number or an array of two values
  * @param {string} options.stroke - stroke color
  * @param {string} options.fill - fill color
  * @param {string} options.strokeWidth - stroke width
+ * @param {string} options.strokeLinecap - stroke-inecap
+ * @param {string} options.strokeLinejoin - stroke-Linejoin
+ * @param {string} options.strokeDasharray - stroke-dasharray
  * @param {*} options.foo - *other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @example
- * let outline = geoviz.layer.outline(main, { fillOpacity: 0.5 })
- * @returns {SVGSVGElement|string} - the function adds a layer with the outline to the SVG container and returns the layer identifier.
+ * let graticule = geoviz.layer.graticule(main, { step: 2 })
+ * @returns {SVGSVGElement|string} - the function adds a layer with graticule lines to the SVG container and returns the layer identifier.
  */
+
 export function outline(arg1, arg2) {
   // Test if new container
   let newcontainer =
@@ -42,42 +47,40 @@ export function outline(arg1, arg2) {
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
-    ? svg
-        .append("g")
-        .attr("id", opts.id)
-        .attr("class", svg.inset ? "nozoom" : "zoomableoutline")
+    ? svg.append("g").attr("id", opts.id)
     : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 
   // zoomable layer
   if (svg.zoomable && !svg.parent) {
     if (!svg.zoomablelayers.map((d) => d.id).includes(opts.id)) {
-      svg.zoomablelayers.push(opts);
+      svg.zoomablelayers.push({
+        mark: opts.mark,
+        id: opts.id,
+      });
     } else {
       let i = svg.zoomablelayers.indexOf(
         svg.zoomablelayers.find((d) => d.id == opts.id)
       );
-      svg.zoomablelayers[i] = opts;
+      svg.zoomablelayers[i] = {
+        mark: opts.mark,
+        id: opts.id,
+      };
     }
   }
 
-  // Attr with specific default values
-  layer
-    .attr("fill", opts.fill)
-    .attr("stroke", opts.stroke)
-    .attr("stroke-width", opts.strokeWidth);
+  // Manage options
+  let entries = Object.entries(opts).map((d) => d[0]);
+  const layerattr = entries.filter((d) => !["mark", "id"].includes(d));
 
-  // ...attr
-  addattr({
-    layer,
-    args: opts,
-    exclude: ["fill", "stroke", "strokeWidth"],
+  // layer attributes
+  layerattr.forEach((d) => {
+    layer.attr(camelcasetodash(d), opts[d]);
   });
 
-  layer
-    .append("path")
-    .attr("d", d3.geoPath(svg.projection)({ type: "Sphere" }));
-
+  // Draw graticules
+  let path = d3.geoPath(svg.projection);
+  layer.append("path").attr("d", path({ type: "Sphere" }));
   // Output
   if (newcontainer) {
     return render(svg);

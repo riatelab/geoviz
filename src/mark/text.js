@@ -1,43 +1,39 @@
-import { addattr } from "../helpers/addattr";
-import { unique } from "../helpers/unique";
-import { mergeoptions } from "../helpers/mergeoptions";
 import { create } from "../container/create";
 import { render } from "../container/render";
+import { centroid } from "../transform/centroid";
+import { camelcasetodash } from "../helpers/camelcase";
+import { mergeoptions } from "../helpers/mergeoptions";
+import { propertiesentries } from "../helpers/propertiesentries";
+import { detectinput } from "../helpers/detectinput";
+import { implantation } from "../helpers/implantation";
+import { order } from "../helpers/order";
+import { check } from "../helpers/check";
+import { unique } from "../helpers/unique";
+import { geoPath, geoIdentity } from "d3-geo";
+const d3 = Object.assign({}, { geoPath, geoIdentity });
 
-/**
- * The `text` function allows to create a layer with a text somewhere on the map
- *
- * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
- * @param {object} options - options and parameters
- * @param {string} options.id - id of the layer
- * @param {string} options.text - text to display. Backticks are allowed for multiple line writing
- * @param {number[]} options.pos - position [x,y] on the page
- * @param {string} options.stroke - stroke color
- * @param {string} options.fill - fill color
- * @param {string} options.strokeWidth - stroke width
- * @param {string} options.fontSize - font size
- * @param {*} options.foo - *other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
- * @example
- * let outline = geoviz.layer.outline(main, { fillOpacity: 0.5 })
- * @returns {SVGSVGElement|string} - the function adds a layer with the outline to the SVG container and returns the layer identifier.
- */
 export function text(arg1, arg2) {
   // Test if new container
   let newcontainer =
     arguments.length <= 1 && !arguments[0]?._groups ? true : false;
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
-  let svg = newcontainer ? create() : arg1;
-
+  let svg = newcontainer
+    ? create({ zoomable: true, domain: arg1.data || arg1.datum })
+    : arg1;
   // Arguments
   let opts = mergeoptions(
     {
       mark: "text",
-      text: "My text here",
-      pos: [10, 10],
       id: unique(),
-      fill: "red",
-      fontSize: 15,
+      latlong: true,
+      strokeWidth: 1,
+      text: "text",
+      sort: undefined,
+      descending: true,
+      paintOrder: "stroke",
+      textAnchor: "middle",
+      dominantBaseline: "middle",
     },
     newcontainer ? arg1 : arg2
   );
@@ -48,27 +44,65 @@ export function text(arg1, arg2) {
     : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 
-  // Attr with specific default values
-  layer
-    .attr("font-size", `${opts.fontSize}px`)
-    .attr("fill", opts.fill)
-    .attr("font-family", svg.fontFamily || opts.fontFamily);
+  // Centroid
+  opts.data =
+    implantation(opts.data) == 3
+      ? centroid(opts.data, { latlong: opts.latlong })
+      : opts.data;
 
-  // ...attr
-  addattr({
-    layer,
-    args: opts,
-    exclude: ["fontSize", "fill"],
+  // Projection
+  let projection = opts.latlong ? svg.projection : d3.geoIdentity();
+
+  // Specific attributes
+  let entries = Object.entries(opts).map((d) => d[0]);
+  const notspecificattr = entries.filter(
+    (d) =>
+      !["mark", "id", "datum", "data", "latlong", "tip", "tipstyle"].includes(d)
+  );
+
+  // layer attributes
+  let fields = propertiesentries(opts.data || opts.datum);
+  const layerattr = notspecificattr.filter(
+    (d) => detectinput(opts[d], fields) == "value"
+  );
+  layerattr.forEach((d) => {
+    layer.attr(camelcasetodash(d), opts[d]);
   });
 
+  // features attributes (iterate on)
+  const eltattr = notspecificattr.filter((d) => !layerattr.includes(d));
+  eltattr.forEach((d) => {
+    opts[d] = check(opts[d], fields);
+  });
+
+  // Sort and filter // TODO (ca va pass car le fonction passée n'est pas une fonction de tri)
+
+  let data = opts.data.features
+    .filter((d) => d.geometry)
+    .filter((d) => d.geometry.coordinates != undefined);
+
+  data = order(data, opts.sort, {
+    fields,
+    descending: opts.descending,
+  });
+
+  // Drawing
+  let path = d3.geoPath(projection);
   layer
     .selectAll("text")
-    .data(opts.text.split("\n"))
-    .join("text")
-    .attr("x", opts.pos[0])
-    .attr("y", opts.pos[1])
-    .attr("dy", (d, i) => i * opts.fontSize)
-    .text((d) => d);
+    .data(data)
+    .join((d) => {
+      let n = d
+        .append("text")
+        .attr("x", (d) => path.centroid(d.geometry)[0])
+        .attr("y", (d) => path.centroid(d.geometry)[1])
+        .text(opts.text);
+
+      eltattr.forEach((e) => {
+        n.attr(camelcasetodash(e), opts[e]);
+      });
+      return n;
+    });
 
   // Output
   if (newcontainer) {
