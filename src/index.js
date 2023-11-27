@@ -94,6 +94,7 @@ export { circle } from "./mark/circle.js";
 export { footer } from "./mark/footer.js";
 export { outline } from "./mark/outline.js";
 export { geopath } from "./mark/geopath.js";
+export { path } from "./mark/path.js";
 export { spike } from "./layer/spike.js";
 export { render } from "./container/render";
 export { tile } from "./mark/tile.js";

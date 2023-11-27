@@ -13,7 +13,7 @@ import { graticule as addgraticule } from "../mark/graticule.js";
 import { text as addtext } from "../mark/text.js";
 import { circle as addcircle } from "../mark/circle.js";
 import { triangle as addtriangle } from "../mark/triangle.js";
-import { spike as addspike } from "../layer/spike.js";
+import { path as addpath } from "../mark/path.js";
 import { label as addlabel } from "../mark/label.js";
 import { tile } from "../mark/tile.js";
 import { header } from "../mark/header.js";
@@ -141,6 +141,7 @@ export function create({
   [
     { id: "outline", func: addoutline },
     { id: "geopath", func: addgeopath },
+    { id: "path", func: addpath },
     { id: "graticule", func: addgraticule },
     { id: "circle", func: addcircle },
     { id: "triangle", func: addtriangle },
