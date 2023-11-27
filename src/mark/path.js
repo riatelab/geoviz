@@ -48,30 +48,31 @@ export function path(arg1, arg2) {
       id: unique(),
       latlong: true,
       strokeWidth: 1,
-      fill: "none",
-      stroke: "none",
     },
     newcontainer ? arg1 : arg2
   );
 
-  // ICI CA BUGGE
-  if (opts.datum) {
-    opts.fill = opts.fill
-      ? opts.fill
-      : implantation(opts.datum) == 2
-      ? "none"
-      : random();
-    opts.stroke = opts.stroke
-      ? opts.stroke
-      : implantation(opts.datum) == 2
-      ? random()
-      : "none";
-  }
+  // Default color
+  const randomcol = random();
   if (opts.data) {
-    // opts.fill = implantation(opts.data) == 2 ? "none" : random();
-    // opts.stroke = implantation(opts.data) == 2 ? random() : "white";
+    if (implantation(opts.data) == 2) {
+      opts.fill = opts.fill ? opts.fill : "none";
+      opts.stroke = opts.stroke ? opts.stroke : randomcol;
+    } else {
+      opts.fill = opts.fill ? opts.fill : randomcol;
+      opts.stroke = opts.stroke ? opts.stroke : "white";
+    }
   }
-  // ----------
+
+  if (opts.datum) {
+    if (implantation(opts.datum) == 2) {
+      opts.fill = opts.fill ? opts.fill : "none";
+      opts.stroke = opts.stroke ? opts.stroke : randomcol;
+    } else {
+      opts.fill = opts.fill ? opts.fill : randomcol;
+      opts.stroke = opts.stroke ? opts.stroke : "none";
+    }
+  }
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
