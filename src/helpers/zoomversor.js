@@ -43,13 +43,25 @@ export function zoomversor(svg) {
         case "clippath":
           svg.selectAll(`#${d.id} > path`).attr("d", path);
           break;
-        case "label":
-          if (!d.latlong) {
-            d._zoom = { k: t.k, x: t.x, y: t.y };
+        case "text":
+          if (d.data) {
+            svg
+              .selectAll(`#${d.id} > text`)
+              .attr("x", (d) => path.centroid(d.geometry)[0])
+              .attr("y", (d) => path.centroid(d.geometry)[1])
+              .attr("visibility", (d) =>
+                isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
+              );
+          } else if (d.latlong == true) {
+            const pos = path.centroid({ type: "Point", coordinates: d.pos });
+            svg
+              .selectAll(`#${d.id} > text`)
+              .attr("x", pos[0])
+              .attr("y", pos[1])
+              .attr("visibility", (d) =>
+                isNaN(pos[0]) ? "hidden" : "visible"
+              );
           }
-          label(svg, d);
-          break;
-        case "text": // TODO (possibilité de rentrer des lat lon comme position)
           break;
         case "outline":
           svg.selectAll(`#${d.id} > path`).attr("d", path({ type: "Sphere" }));
