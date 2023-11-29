@@ -1,6 +1,7 @@
 import { getDOMids } from "../helpers/getDOMids";
 import { zoomandpan } from "../helpers/zoomandpan";
 import { zoomversor } from "../helpers/zoomversor";
+import { getsize } from "../helpers/getsize";
 
 /**
  * The `render` function returns the svg document
@@ -14,6 +15,11 @@ import { zoomversor } from "../helpers/zoomversor";
 
  */
 export function render(svg, { order = [] } = {}) {
+  
+  // Adjust extent
+  //const size = getsize(svg);
+  //console.log(size);
+
   // Reorder layers
   if (order.length > 0) {
     order = order.flat();

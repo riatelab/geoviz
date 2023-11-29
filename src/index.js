@@ -100,4 +100,4 @@ export { tile } from "./mark/tile.js";
 export { triangle } from "./mark/triangle.js";
 
 // TESTS
-export { info } from "./tool/info.js";
+export { leg } from "./legend/leg.js";

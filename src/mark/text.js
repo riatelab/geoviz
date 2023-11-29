@@ -33,7 +33,11 @@ export function text(arg1, arg2) {
       descending: true,
       paintOrder: "stroke",
       strokeLinejoin: "round",
+      fontSize: 12,
+      lineSpacing: 0,
       fontFamily: svg.fontFamily,
+      dx: 0,
+      dy: 0,
       pos: [0, 0],
     },
     newcontainer ? arg1 : arg2
@@ -106,8 +110,6 @@ export function text(arg1, arg2) {
         "datum",
         "data",
         "latlong",
-        "tip",
-        "tipstyle",
         "sort",
         "descending",
       ].includes(d)
@@ -123,8 +125,38 @@ export function text(arg1, arg2) {
       layer.attr(camelcasetodash(d), opts[d]);
     });
 
-    const pos = path.centroid({ type: "Point", coordinates: opts.pos });
-    layer.append("text").text(opts.text).attr("x", pos[0]).attr("y", pos[1]);
+    let pos = path.centroid({ type: "Point", coordinates: opts.pos });
+    pos[0] = pos[0] + opts.dx;
+    pos[1] = pos[1] + opts.dy;
+
+    let delta = 0;
+    switch (opts.dominantBaseline) {
+      case "hanging":
+        delta = 0;
+        break;
+      case "middle":
+      case "center":
+        delta = (opts.text.split("\n").length - 1) * opts.fontSize;
+        delta = delta / 2;
+        break;
+      case "auto":
+      case "text-top":
+        delta = (opts.text.split("\n").length - 1) * opts.fontSize;
+        break;
+      default:
+        delta = 0;
+    }
+
+    layer
+      .selectAll("text")
+      .data(opts.text.split("\n"))
+      .join("text")
+      .attr("x", pos[0])
+      .attr(
+        "y",
+        (d, i) => pos[1] + i * (opts.fontSize + opts.lineSpacing) - delta
+      )
+      .text((d) => d);
   }
 
   // Labels
@@ -177,11 +209,11 @@ export function text(arg1, arg2) {
 
   // Output
   if (newcontainer) {
-    const newheight = getsize(layer).height + opts.pos[1];
+    const size = getsize(layer);
     svg
-      .attr("width", svg.width)
-      .attr("height", newheight)
-      .attr("viewBox", [0, 0, svg.width, newheight]);
+      .attr("width", size.width)
+      .attr("height", size.height)
+      .attr("viewBox", [size.x, size.y, size.width, size.height]);
     return render(svg);
   } else {
     return `#${opts.id}`;
