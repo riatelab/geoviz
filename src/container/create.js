@@ -97,6 +97,8 @@ export function create({
       margin,
       width,
       height,
+      height_header: 0,
+      height_footer: 0,
       fontFamily,
       zoomable,
       zoomablelayers: [],

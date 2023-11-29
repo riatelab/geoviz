@@ -1,39 +1,9 @@
-import { addattrprefix } from "../helpers/addattrprefix";
-import { addattr } from "../helpers/addattr";
-import { mergeoptions } from "../helpers/mergeoptions";
-import { unique } from "../helpers/unique";
-import { getsize } from "../helpers/getsize";
 import { create } from "../container/create";
 import { render } from "../container/render";
-
-/**
- * The `header` function allows to add a title at the top of the map
- *
- * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
- * @param {object} options - options and parameters
- * @param {string} options.id - id of the layer
- * @param {string} options.text - wtitle of the map
- * @param {string} options.fontFamily - font-family
- * @param {number} options.fontSize - font-size
- * @param {string} options.textAnchor - Position of the text ("start", "middle","end")
- * @param {number} options.lineSpacing - a positive number to increase spacing. A negative number to reduce it.
- * @param {number} options.dx - translate in x
- * @param {number} options.dy - translate in y
- * @param {*} options.foo - *other attributes that can be used to define the svg style of the text (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
- * @param {string} options.rect_fill - color background
- * @param {string} options.rect_fillOpacity - background opacity
- * @param {*} options.rect_foo - *other attributes that can be used to define the svg style of the background *
- * @param {number|number[]} options.step - gap between graticules. The value can be a number or an array of two values
- * @param {string} options.stroke - stroke color
- * @param {string} options.fill - fill color
- * @param {string} options.strokeWidth - stroke width
- * @param {string} options.strokeLinecap - stroke-inecap
- * @param {string} options.strokeLinejoin - stroke-Linejoin
- * @param {string} options.strokeDasharray - stroke-dasharray
- * @example
- * let title = geoviz.layer.header(main, { text: "World population", rect_fill: "black" })
- * @returns {SVGSVGElement|string} - the function adds a layer with the title to the SVG container and returns the layer identifier.
- */
+import { camelcasetodash } from "../helpers/camelcase";
+import { mergeoptions } from "../helpers/mergeoptions";
+import { getsize } from "../helpers/getsize";
+import { unique } from "../helpers/unique";
 
 export function header(arg1, arg2) {
   // Test if new container
@@ -42,21 +12,22 @@ export function header(arg1, arg2) {
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
   let svg = newcontainer ? create() : arg1;
-
   // Arguments
   let opts = mergeoptions(
     {
       mark: "header",
       id: unique(),
       text: "Map title",
-      rect_fill: "white",
-      rect_fillOpacity: 0.5,
-      fontSize: 30,
+      fill: "#9e9696",
+      background_fill: "none",
+      dominantBaseline: "central",
+      textAnchor: "middle",
+      lineSpacing: 0,
+      margin: 8,
+      fontSize: 26,
       dx: 0,
       dy: 0,
       fontFamily: svg.fontFamily,
-      lineSpacing: 0,
-      textAnchor: "middle",
     },
     newcontainer ? arg1 : arg2
   );
@@ -67,84 +38,90 @@ export function header(arg1, arg2) {
     : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 
-  // Height
-  let startdy = opts.fontSize / 4;
+  // Specific attributes
+  let entries = Object.entries(opts).map((d) => d[0]);
+  const notspecificattr = entries.filter((d) => !["mark", "id"].includes(d));
 
-  let tmp = layer
-    .append("g")
-    .attr("text-anchor", "middle")
-    .attr("font-family", svg.fontFamily || opts.fontFamily)
-    .attr("font-size", opts.fontSize);
-
-  tmp
-    .selectAll("text")
-    .data(opts.text.split("\n"))
-    .join("text")
-    .attr("y", (d, i) => i * opts.fontSize + i * opts.lineSpacing)
-    .text((d) => d);
-  let txt_height = getsize(tmp).height;
+  // Text size
+  const tmp = layer
+    .append("text")
+    .attr("font-family", opts.fontFamily)
+    .attr("font-size", opts.fontSize)
+    .text(opts.text.toString());
+  const lineheight = getsize(layer).height;
+  const nblines = opts.text.split("\n").length;
+  const textheight = lineheight * nblines;
+  const totalheight =
+    textheight + (nblines - 1) * opts.lineSpacing + opts.margin * 2;
   tmp.remove();
+  svg.height_header = Math.max(svg.height_header, totalheight);
 
-  // Background
-  let rect = layer
+  // Dipslay rect
+
+  const background = layer
     .append("rect")
     .attr("x", 0)
-    .attr("y", 0)
+    .attr("y", -totalheight)
     .attr("width", svg.width)
-    .attr("height", txt_height + startdy + opts.dy * 4)
-    .attr("fill", opts.rect_fill)
-    .attr("fill-opacity", opts.rect_fillOpacity);
+    .attr("height", totalheight);
 
-  // ...attr
-  addattrprefix({
-    params: opts,
-    layer: rect,
-    prefix: "rect",
-  });
+  notspecificattr
+    .filter((str) => str.includes("background_"))
+    .forEach((d) => {
+      background.attr(camelcasetodash(d.replace("background_", "")), opts[d]);
+    });
 
-  // text anchor
-  let xpos;
+  // Display text
+
+  let posx = svg.width / 2;
   switch (opts.textAnchor) {
     case "start":
-      xpos = opts.dx + startdy;
-      break;
-    case "middle":
-      xpos = svg.width / 2 + opts.dx;
+      posx = opts.margin;
       break;
     case "end":
-      xpos = svg.width - opts.dx - startdy;
+      posx = svg.width - opts.margin;
       break;
   }
 
-  let txt = layer
-    .append("g")
-    .attr("text-anchor", "middle")
-    .attr("font-family", svg.fontFamily || opts.fontFamily)
-    .attr("dominant-baseline", "hanging")
-    .attr("font-size", opts.fontSize)
-    .attr("fill", "#242323");
-
-  txt
+  const text = layer
     .selectAll("text")
     .data(opts.text.split("\n"))
     .join("text")
-    .attr("x", xpos)
+    .attr("x", posx)
     .attr(
       "y",
-      (d, i) => i * opts.fontSize + i * opts.lineSpacing + opts.dy + startdy
+      (d, i) =>
+        i * (lineheight + opts.lineSpacing) -
+        totalheight +
+        lineheight / 2 +
+        opts.margin
     )
     .attr("dy", opts.dy)
     .text((d) => d);
 
-  // ...attr
-  addattr({
-    layer: txt,
-    args: opts,
-    exclude: [],
-  });
+  notspecificattr
+    .filter((str) => !str.includes("background_"))
+    .forEach((d) => {
+      text.attr(camelcasetodash(d), opts[d]);
+    });
+
+  // Ajust svg height
+  svg
+    .attr("width", svg.width)
+    .attr("height", svg.height + svg.height_header + svg.height_footer)
+    .attr("viewBox", [
+      0,
+      -svg.height_header,
+      svg.width,
+      svg.height + svg.height_header + svg.height_footer,
+    ]);
 
   // Output
   if (newcontainer) {
+    svg
+      .attr("width", svg.width)
+      .attr("height", totalheight)
+      .attr("viewBox", [0, -totalheight, svg.width, totalheight]);
     return render(svg);
   } else {
     return `#${opts.id}`;

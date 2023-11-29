@@ -33,6 +33,7 @@ export function text(arg1, arg2) {
       descending: true,
       paintOrder: "stroke",
       strokeLinejoin: "round",
+      fontFamily: svg.fontFamily,
       pos: [0, 0],
     },
     newcontainer ? arg1 : arg2
