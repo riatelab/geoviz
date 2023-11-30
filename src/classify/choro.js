@@ -35,7 +35,7 @@ export function choro(
     middle,
     precision = 2,
     palette = "Algae",
-    missing = "white",
+    missing = true,
   } = {}
 ) {
   let data2 = data.filter((d) => isNumber(d));
@@ -55,11 +55,13 @@ export function choro(
       parseFloat(d)
     );
   };
+
+  const missingvalues = data.length - data2.length;
   return {
     breaks: bks,
     colors: cols,
-    missing,
-    nodata: data.length - data2.length,
+    missing: missingvalues == 0 ? false : true,
+    nodata: missingvalues,
     colorize,
   };
 }

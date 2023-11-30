@@ -98,6 +98,3 @@ export { spike } from "./layer/spike.js";
 export { render } from "./container/render";
 export { tile } from "./mark/tile.js";
 export { triangle } from "./mark/triangle.js";
-
-// TESTS
-export { leg } from "./legend/leg.js";

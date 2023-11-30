@@ -29,5 +29,10 @@ export function typo(
   let cols = colors || getColors(palette, types.length);
   let colorize = d3.scaleOrdinal().domain(types).range(cols).unknown(missing);
 
-  return { types, colors: cols, missing, nodata, colorize };
+  return {
+    types,
+    colors: cols,
+    missing: nodata == 0 ? false : true,
+    nodata: colorize,
+  };
 }

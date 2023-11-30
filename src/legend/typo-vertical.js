@@ -1,47 +1,17 @@
 import { create } from "../container/create";
 import { render } from "../container/render";
+import { camelcasetodash } from "../helpers/camelcase";
+import { mergeoptions } from "../helpers/mergeoptions";
 import { getsize } from "../helpers/getsize";
 import { unique } from "../helpers/unique";
-import { legtitle } from "../helpers/legtitle";
-import { addattrprefix } from "../helpers/addattrprefix";
-import { addbackground } from "../helpers/addbackground";
-
-/**
- * The `typo_vertical` function allows to create a legend with classes (boxes)
- *
- * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
- * @param {object} options - options and parameters
- * @param {string} options.id - id of the layer
- * @param {number[]} options.pos - position of the legend
- * @param {string[]} options.types - an array of types
- * @param {string[]} options.colors - an array of colors
- * @param {boolean} options.missing - to display a box for no data
- * @param {string} options.missing_text - label for no data
- * @param {string} options.missing_fill - color for no data
- * @param {number} options.gap - gap between title and boxes
- * @param {boolean} options.alphabetical - Sort by alphabetical order
- * @param {number|string} options.texts_foo - *svg attributes for all texts in the legend (texts_fill, texts_opacity...)*
- * @param {number|string} options.title_foo - *svg attributes for the title of the legend (title_text, title_fontSize, title_textDecoration...)*
- * @param {number|string} options.subtitle_foo - *svg attributes for the subtitle of the legend (subtitle_text, subtitle_fontSize, subtitle_textDecoration...)*
- * @param {number|string} options.note_foo - *svg attributes for the note bellow the legend (note_text, note_fontSize, note_textDecoration...)*
- * @param {number|string} options.values_foo - *svg attributes for the values of the legend (values_fontSize, values_textDecoration...)*
- * @param {number|string} options.rect_foo - *svg attributes for the boxes of the legend (rect_stroke, rect_strokeWidth...)*
- * @param {number} options.rect_width - width of the boxes
- * @param {number} options.rect_height - height of the boxes
- * @param {number} options.rect_gap - gap between boxes
- * @param {number} options.rect_stroke - stroke of the boxes
- * @param {number} options.rect_strokeWidth - stroke-width of the boxes
- * @param {number} options.values_round - rounding of legend values
- * @param {number} options.values_decimal - number of digits
- * @param {string} options.values_thousands - thousands separator
- * @param {number} options.values_dx - to move values to the right
- * @param {number} options.lineLength - length of line connecting circles to values
- * @param {number} options.gap - gap between texts and legend
- * @param {boolean|object} options.background - use true tu add a background behind the legend. You can set also an object to customize it {  margin, fill, stroke, fillOpacity, strokeWidth}
- * @example
- * let legend = geoviz.legend.typo_vertical(main, { types: [foo]), title_text: "GDP per capita", colors: [foo] })
- * @returns {SVGSVGElement|string} - the function adds a layer with a legend and its id
- */
+import {
+  addTitle,
+  addSubtitle,
+  addNote,
+  subsetobj,
+  addText,
+  addFrame,
+} from "./helpers.js";
 
 export function typo_vertical(arg1, arg2) {
   // Test if new container
@@ -50,54 +20,68 @@ export function typo_vertical(arg1, arg2) {
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
   let svg = newcontainer ? create() : arg1;
-  let options = newcontainer ? arg1 : arg2;
-
-  // Default values
-  let opts = {
-    pos: [0, 0],
-    id: unique(),
-    types: ["A", "B", "C", "D"],
-    colors: ["#e41a1c", "#377eb8", "#4daf4a", "#984ea3"],
-    missing: true,
-    missing_fill: "white",
-    missing_text: "no data",
-    title_text: "title_text",
-    gap: 5,
-    rect_gap: 3,
-    rect_width: 25,
-    rect_height: 17,
-    values_dx: 5,
-    rect_stroke: "black",
-    rect_strokeWidth: 0.3,
-    alphabetical: true,
-    background: false,
-  };
-
-  Object.keys(opts).forEach((d) => {
-    if (options[d] !== undefined) {
-      opts[d] = options[d];
-    }
-  });
-
-  Object.keys(options).forEach((d) => {
-    opts[d] = options[d];
-  });
+  // Arguments
+  let opts = mergeoptions(
+    {
+      mark: "legend",
+      id: unique(),
+      title: "Legend",
+      pos: [0, 0],
+      types: ["A", "B", "C", "D"],
+      colors: ["#e41a1c", "#377eb8", "#4daf4a", "#984ea3"],
+      alphabetical: true,
+      missing: true,
+      missing_fill: "white",
+      missing_text: "no data",
+      values_round: 2,
+      values_decimal: ".",
+      values_thousands: " ",
+      values_dx: 5,
+      values_dy: 0,
+      title_fill: "#363636",
+      subtitle_fill: "#363636",
+      note_fill: "#363636",
+      values_fill: "#363636",
+      values_fontSize: 10,
+      values_dominantBaseline: "central",
+      values_dx: 5,
+      title_fontSize: 16,
+      title_fontWeight: "bold",
+      subtitle_fontSize: 12,
+      note_fontSize: 10,
+      note_fontStyle: "italic",
+      rect_dx: 0,
+      rect_dy: 0,
+      rect_stroke: "#303030",
+      rect_strokeWidth: 0.1,
+      rect_spacing: 3,
+      gap: 2,
+      rect_width: 25,
+      rect_height: 17,
+      rect_fill: "#5d6266",
+      missing: true,
+      missing_fill: "white",
+      missing_text: "no data",
+      frame: false,
+      frame_fill: "white",
+      frame_fillOpacity: 0.5,
+      frame_margin: 15,
+      frame_stroke: "black",
+    },
+    newcontainer ? arg1 : arg2
+  );
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
-    ? svg.append("g").attr("id", opts.id).attr("pointer-events", "none")
+    ? svg.append("g").attr("id", opts.id)
     : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
-  layer.attr("transform", `translate(${opts.pos})`);
 
   // Title
-  let dy = legtitle(svg, layer, opts, "title", 0);
+  addTitle(layer, opts);
 
   // Subtitle
-  dy = legtitle(svg, layer, opts, "subtitle", dy);
-
-  // Vertical boxes layer
-  let verticaltypo = layer.append("g");
+  addSubtitle(layer, opts);
 
   // Sort
   if (opts.alphabetical) {
@@ -106,131 +90,109 @@ export function typo_vertical(arg1, arg2) {
     opts.colors = all.map((d) => d[1]);
   }
 
-  // Rect
+  // Boxes
+  let size = getsize(layer);
+  let rect = layer.append("g");
+  let opts_rect = subsetobj(opts, {
+    prefix: "rect_",
+    exclude: ["fill", "width", "height", "spacing"],
+  });
+  Object.entries(opts_rect).forEach((d) =>
+    rect.attr(camelcasetodash(d[0]), d[1])
+  );
 
-  let rect = verticaltypo
-    .append("g")
-    .attr("stroke", opts.rect_stroke)
-    .attr("stroke-opacity", opts.rect_strokeWidth);
+  let posy = opts.pos[1] + size.height + opts.gap + opts.rect_dy;
+  let posx = opts.pos[0] + opts.rect_dx;
 
   rect
     .selectAll("rect")
     .data(opts.colors)
     .join("rect")
-    .attr("x", 0)
+    .attr("x", posx)
     .attr(
       "y",
       (d, i) =>
-        opts.gap +
-        dy +
-        i * opts.rect_height +
-        opts.rect_gap * i +
-        opts.rect_gap / 2
+        posy +
+        opts.rect_spacing / 2 +
+        i * (opts.rect_height + opts.rect_spacing)
     )
     .attr("width", opts.rect_width)
     .attr("height", opts.rect_height)
     .attr("fill", (d) => d);
 
-  if (opts.missing) {
-    rect
-      .append("rect")
-      .attr("x", 0)
-      .attr(
-        "y",
-        dy +
-          opts.gap +
-          opts.colors.length * (opts.rect_height + opts.rect_gap) +
-          opts.gap +
-          opts.rect_gap / 2
-      )
-      .attr("width", opts.rect_width)
-      .attr("height", opts.rect_height)
-      .attr("fill", opts.missing_fill);
-  }
+  // values
+  let values = layer.append("g");
+  const opts_values = Object.assign(
+    subsetobj(opts, { prefix: "values_" }),
+    subsetobj(opts, { prefix: "text_" })
+  );
 
-  addattrprefix({
-    params: opts,
-    layer: rect,
-    prefix: "rect",
-  });
+  Object.entries(opts_values).forEach((d) =>
+    values.attr(camelcasetodash(d[0]), d[1])
+  );
 
-  // Values
-
-  let values = verticaltypo
-    .append("g")
-    .attr("dominant-baseline", "middle")
-    .attr("font-size", 10)
-    .attr("font-family", svg.fontFamily)
-    .attr("fill", "#363636");
   values
     .selectAll("text")
     .data(opts.types)
     .join("text")
-    .attr("x", opts.rect_width + opts.values_dx)
+    .attr("x", posx + opts.rect_width + opts.values_dx)
     .attr(
       "y",
       (d, i) =>
-        opts.gap +
-        dy +
-        i * opts.rect_height +
-        opts.rect_gap * i +
-        opts.rect_gap / 2 +
+        posy +
+        opts.rect_spacing / 2 +
+        i * (opts.rect_height + opts.rect_spacing) +
         opts.rect_height / 2
     )
     .text((d) => d);
 
-  if (opts.missing) {
-    values
-      .append("text")
-      .attr("x", opts.rect_width + opts.values_dx)
-      .attr(
-        "y",
-        dy +
-          opts.gap +
-          opts.colors.length * (opts.rect_height + opts.rect_gap) +
-          opts.gap +
-          opts.rect_gap / 2 +
-          opts.rect_height / 2
-      )
-      .text(opts.missing_text);
-  }
+  // Missing
 
-  addattrprefix({
-    params: opts,
-    layer: values,
-    prefix: "values",
-  });
+  if (opts.missing) {
+    let missing = layer.append("g");
+    let size = getsize(layer);
+    let opts_rect = subsetobj(opts, { prefix: "rect_", exclude: ["dx", "dy"] });
+    opts_rect.fill = opts.missing_fill;
+    opts_rect.x = opts.pos[0] + opts_rect.dx;
+    opts_rect.y =
+      size.y +
+      size.height +
+      opts.gap +
+      opts_rect.dy +
+      Math.max(opts.gap, opts.rect_spacing);
+    let box = missing.append("rect");
+    Object.entries(opts_rect).forEach((d) =>
+      box.attr(camelcasetodash(d[0]), d[1])
+    );
+
+    opts_values.text = opts.missing_text;
+    opts_values.pos = [
+      opts.pos[0] + opts.rect_width,
+      size.y +
+        size.height +
+        opts.gap +
+        opts_rect.dy +
+        opts_rect.height / 2 +
+        Math.max(opts.gap, opts.rect_spacing),
+    ];
+    addText(missing, opts_values);
+  }
 
   // Note
-  dy = legtitle(
-    svg,
-    layer,
-    opts,
-    "note",
-    dy +
-      opts.gap +
-      opts.colors.length * opts.rect_height +
-      opts.colors.length * opts.rect_gap +
-      opts.gap +
-      (opts.missing ? opts.rect_height + opts.rect_gap + opts.gap : 0)
-  );
+  addNote(layer, opts);
 
-  // Background
-  if (opts.background) {
-    addbackground({ node: layer, ...opts.background });
+  // Frame
+  if (opts.frame) {
+    addFrame(layer, opts);
   }
 
-  // Background
-  if (opts.background) {
-    addbackground({ node: layer, ...opts.background });
-  }
-  // Output
+  // Output;
   if (newcontainer) {
-    const newheight = getsize(layer).height + opts.pos[1];
+    const size = getsize(layer);
     svg
-      .attr("width", svg.width)
-      .attr("height", newheight)
-      .attr("viewBox", [0, 0, svg.width, newheight]);
+      .attr("width", size.width)
+      .attr("height", size.height)
+      .attr("viewBox", [size.x, size.y, size.width, size.height]);
     return render(svg);
   } else {
     return `#${opts.id}`;

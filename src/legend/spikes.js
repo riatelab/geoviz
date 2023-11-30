@@ -1,41 +1,21 @@
 import { create } from "../container/create";
 import { render } from "../container/render";
+import { camelcasetodash } from "../helpers/camelcase";
+import { datatoheight } from "../helpers/datatoheight";
+import { mergeoptions } from "../helpers/mergeoptions";
 import { getsize } from "../helpers/getsize";
 import { unique } from "../helpers/unique";
-import { legtitle } from "../helpers/legtitle";
-import { datatoheight } from "../helpers/datatoheight";
-import { addattrprefix } from "../helpers/addattrprefix";
-import { addbackground } from "../helpers/addbackground";
+import {
+  addTitle,
+  addSubtitle,
+  addNote,
+  subsetobj,
+  addText,
+  addFrame,
+} from "./helpers.js";
 import { formatLocale } from "d3-format";
 import { sum, cumsum } from "d3-array";
 const d3 = Object.assign({}, { formatLocale, sum, cumsum });
-
-/**
- * The `spikes` function allows to create a legend for spike layers
- *
- * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
- * @param {object} options - options and parameters
- * @param {object} options.data - an array of numerical values.
- * @param {string} options.id - id of the layer
- * @param {number[]} options.pos - position of the legend
- * @param {number} options.k - height of the highest spike (or corresponding to the value defined by `fixmax`)
- * @param {number} options.fixmax - value matching the spikes with height `k`. Setting this value is useful for making maps comparable with each other
- * @param {number} options.nb - number of spikes in the legend
- * @param {number} options.spikes_width - width of the spikes
- * @param {number|string} options.texts_foo - *svg attributes for all texts in the legend (texts_fill, texts_opacity...)*
- * @param {number|string} options.title_foo - *svg attributes for the title of the legend (title_text, title_fontSize, title_textDecoration...)*
- * @param {number|string} options.subtitle_foo - *svg attributes for the subtitle of the legend (subtitle_text, subtitle_fontSize, subtitle_textDecoration...)*
- * @param {number|string} options.note_foo - *svg attributes for the note bellow the legend (note_text, note_fontSize, note_textDecoration...)*
- * @param {number|string} options.values_foo - *svg attributes for the values of the legend (values_fontSize, values_textDecoration...)*
- * @param {number} options.values_round - rounding of legend values
- * @param {number} options.values_decimal - number of digits
- * @param {string} options.values_thousands - thousands separator
- * @param {number} options.gap - Gap between texts and legend
- * @param {boolean|object} options.background - use true tu add a background behind the legend. You can set also an object to customize it {  margin, fill, stroke, fillOpacity, strokeWidth}
- * @example
- * let legend = geoviz.legend.spikes(main, { data: world.features.map((d) => +d.properties.pop), title_text: "Number of inhabitants", k: 70 })
- * @returns {SVGSVGElement|string} - the function adds a layer with a legend and its id
- */
 
 export function spikes(arg1, arg2) {
   // Test if new container
@@ -44,47 +24,71 @@ export function spikes(arg1, arg2) {
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
   let svg = newcontainer ? create() : arg1;
-  let options = newcontainer ? arg1 : arg2;
-
-  // Default values
-  let opts = {
-    data: [1, 1000],
-    pos: [0, 0],
-    id: unique(),
-    k: 50,
-    fixmax: null,
-    title_text: "title_text",
-    spikes_width: 10,
-    nb: 4,
-    values_round: 2,
-    values_decimal: ".",
-    values_thousands: " ",
-    gap: 5,
-    background: false,
-  };
-
-  Object.keys(opts).forEach((d) => {
-    if (options[d] !== undefined) {
-      opts[d] = options[d];
-    }
-  });
-
-  Object.keys(options).forEach((d) => {
-    opts[d] = options[d];
-  });
+  // Arguments
+  let opts = mergeoptions(
+    {
+      mark: "legend",
+      id: unique(),
+      title: "Legend",
+      pos: [0, 0],
+      data: [1, 1000],
+      k: 50,
+      fixmax: null,
+      nb: 4,
+      spikes_width: 10,
+      spikes_dx: 0,
+      spikes_dy: 0,
+      spikes_spacing: 3,
+      spikes_fill: "none",
+      spikes_stroke: "black",
+      missing: true,
+      missing_fill: "white",
+      missing_text: "no data",
+      values_round: 2,
+      values_decimal: ".",
+      values_thousands: " ",
+      values_dx: 2,
+      values_dy: 0,
+      title_fill: "#363636",
+      subtitle_fill: "#363636",
+      note_fill: "#363636",
+      values_fill: "#363636",
+      values_fontSize: 10,
+      values_dominantBaseline: "central",
+      title_fontSize: 16,
+      title_fontWeight: "bold",
+      subtitle_fontSize: 12,
+      note_fontSize: 10,
+      note_fontStyle: "italic",
+      gap: 2,
+      missing: true,
+      missing_fill: "white",
+      missing_text: "no data",
+      line_fill: "none",
+      line_stroke: "#363636",
+      line_strokeDasharray: 2,
+      line_strokeWidth: 0.7,
+      line_length: 10,
+      frame: false,
+      frame_fill: "white",
+      frame_fillOpacity: 0.5,
+      frame_margin: 15,
+      frame_stroke: "black",
+    },
+    newcontainer ? arg1 : arg2
+  );
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
-    ? svg.append("g").attr("id", opts.id).attr("pointer-events", "none")
+    ? svg.append("g").attr("id", opts.id)
     : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
-  layer.attr("transform", `translate(${opts.pos})`);
 
   // Title
-  let dy = legtitle(svg, layer, opts, "title", 0);
+  addTitle(layer, opts);
 
   // Subtitle
-  dy = legtitle(svg, layer, opts, "subtitle", dy);
+  addSubtitle(layer, opts);
 
   // Spikes
   let arr = datatoheight(opts.data, {
@@ -98,8 +102,7 @@ export function spikes(arg1, arg2) {
   let hmax = arr[0][1];
   let leg = layer.append("g");
 
-  // Spikes
-
+  let size = getsize(layer);
   let spikes = leg
     .selectAll("path")
     .data(arr)
@@ -111,59 +114,37 @@ export function spikes(arg1, arg2) {
     .attr(
       "transform",
       (d, i) =>
-        `translate(${opts.spikes_width * i + i * opts.gap},${dy + hmax + 5})`
-    )
-    .attr("fill", "none")
-    .attr("stroke", "black");
-
-  addattrprefix({
-    params: opts,
-    layer: spikes,
-    prefix: "spikes",
-  });
-
-  //Values;
-  let locale = d3.formatLocale({
-    decimal: opts.values_decimal,
-    thousands: opts.values_thousands,
-    grouping: [3],
-  });
-
-  let values = leg
-    .selectAll("text")
-    .data(arr)
-    .join("text")
-    .text((d) => locale.format(",")(d[0]))
-    .attr("dominant-baseline", "central")
-    .attr("font-size", 10)
-    .attr("font-family", svg.fontFamily)
-    .attr("fill", "#363636")
-    .attr(
-      "transform",
-      (d, i) =>
-        `translate (${
-          opts.spikes_width * i + i * opts.gap + opts.spikes_width / 2
-        } ${dy + hmax + 10}) rotate(90)`
+        `translate(${
+          opts.pos[0] +
+          opts.spikes_dx +
+          +opts.spikes_width * i +
+          i * opts.spikes_spacing
+        },${opts.pos[1] + size.height + +opts.spikes_dy + hmax + opts.gap})`
     );
-  addattrprefix({
-    params: opts,
-    layer: values,
-    prefix: "values",
-    text: true,
-  });
 
-  //Background;
-  if (opts.background) {
-    addbackground({ node: layer, ...opts.background });
+  let opts_spikes = subsetobj(opts, {
+    prefix: "spikes_",
+    exclude: ["dx", "dy"],
+  });
+  Object.entries(opts_spikes).forEach((d) =>
+    spikes.attr(camelcasetodash(d[0]), d[1])
+  );
+
+  // Note
+  addNote(layer, opts);
+
+  // Frame
+  if (opts.frame) {
+    addFrame(layer, opts);
   }
 
-  // Output
+  // Output;
   if (newcontainer) {
-    const newheight = getsize(layer).height + opts.pos[1];
+    const size = getsize(layer);
     svg
-      .attr("width", svg.width)
-      .attr("height", newheight)
-      .attr("viewBox", [0, 0, svg.width, newheight]);
+      .attr("width", size.width)
+      .attr("height", size.height)
+      .attr("viewBox", [size.x, size.y, size.width, size.height]);
     return render(svg);
   } else {
     return `#${opts.id}`;

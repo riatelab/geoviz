@@ -129,34 +129,39 @@ export function text(arg1, arg2) {
     pos[0] = pos[0] + opts.dx;
     pos[1] = pos[1] + opts.dy;
 
-    let delta = 0;
-    switch (opts.dominantBaseline) {
-      case "hanging":
-        delta = 0;
-        break;
-      case "middle":
-      case "center":
-        delta = (opts.text.split("\n").length - 1) * opts.fontSize;
-        delta = delta / 2;
-        break;
-      case "auto":
-      case "text-top":
-        delta = (opts.text.split("\n").length - 1) * opts.fontSize;
-        break;
-      default:
-        delta = 0;
-    }
+    if (opts.text.split("\n").length == 1) {
+      console.log(pos);
+      layer.append("text").attr("x", pos[0]).attr("y", pos[1]).text(opts.text);
+    } else {
+      let delta = 0;
+      switch (opts.dominantBaseline) {
+        case "hanging":
+          delta = 0;
+          break;
+        case "middle":
+        case "central":
+          delta = (opts.text.split("\n").length - 1) * opts.fontSize;
+          delta = delta / 2;
+          break;
+        case "auto":
+        case "text-top":
+          delta = (opts.text.split("\n").length - 1) * opts.fontSize;
+          break;
+        default:
+          delta = 0;
+      }
 
-    layer
-      .selectAll("text")
-      .data(opts.text.split("\n"))
-      .join("text")
-      .attr("x", pos[0])
-      .attr(
-        "y",
-        (d, i) => pos[1] + i * (opts.fontSize + opts.lineSpacing) - delta
-      )
-      .text((d) => d);
+      layer
+        .selectAll("text")
+        .data(opts.text.split("\n"))
+        .join("text")
+        .attr("x", pos[0])
+        .attr(
+          "y",
+          (d, i) => pos[1] + i * (opts.fontSize + opts.lineSpacing) - delta
+        )
+        .text((d) => d);
+    }
   }
 
   // Labels

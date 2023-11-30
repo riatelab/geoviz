@@ -1,40 +1,20 @@
 import { create } from "../container/create";
 import { render } from "../container/render";
+import { camelcasetodash } from "../helpers/camelcase";
+import { datatoradius } from "../helpers/datatoradius";
+import { mergeoptions } from "../helpers/mergeoptions";
 import { getsize } from "../helpers/getsize";
 import { unique } from "../helpers/unique";
-import { legtitle } from "../helpers/legtitle";
-import { datatoradius } from "../helpers/datatoradius";
-import { addattrprefix } from "../helpers/addattrprefix";
+import {
+  addTitle,
+  addSubtitle,
+  addNote,
+  subsetobj,
+  addText,
+  addFrame,
+} from "./helpers.js";
 import { formatLocale } from "d3-format";
-import { addbackground } from "../helpers/addbackground";
-
 const d3 = Object.assign({}, { formatLocale });
-/**
- * The `circles_nested` function allows to create a nested proportional circles legend
- *
- * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
- * @param {object} options - options and parameters
- * @param {object} options.data - an array of numerical values.
- * @param {string} options.id - id of the layer
- * @param {number[]} options.pos - position of the legend
- * @param {number} options.k - dadius of the largest circle (or corresponding to the value defined by `fixmax`)
- * @param {number} options.fixmax - value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
- * @param {number} options.nb - lumber of circles in legend
- * @param {number|string} options.texts_foo - *svg attributes for all texts in the legend (texts_fill, texts_opacity...)*
- * @param {number|string} options.title_foo - *svg attributes for the title of the legend (title_text, title_fontSize, title_textDecoration...)*
- * @param {number|string} options.subtitle_foo - *svg attributes for the subtitle of the legend (subtitle_text, subtitle_fontSize, subtitle_textDecoration...)*
- * @param {number|string} options.note_foo - *svg attributes for the note bellow the legend (note_text, note_fontSize, note_textDecoration...)*
- * @param {number|string} options.values_foo - *svg attributes for the values of the legend (values_fontSize, values_textDecoration...)*
- * @param {number} options.values_round - rounding of legend values
- * @param {number} options.values_decimal - number of digits
- * @param {string} options.values_thousands - thousands separator
- * @param {number} options.lineLength - length of line connecting circles to values
- * @param {number} options.gap - Gap between texts and legend
- * @param {boolean|object} options.background - use true tu add a background behind the legend. You can set also an object to customize it {  margin, fill, stroke, fillOpacity, strokeWidth}
- * @example
- * let legend = geoviz.legend.circles_nested(main, { data: world.features.map((d) => +d.properties.pop), title_text: "Number of inhabitants", k: 70 })
- * @returns {SVGSVGElement|string} - the function adds a layer with a legend and its id
- */
 
 export function circles_nested(arg1, arg2) {
   // Test if new container
@@ -43,48 +23,69 @@ export function circles_nested(arg1, arg2) {
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
   let svg = newcontainer ? create() : arg1;
-  let options = newcontainer ? arg1 : arg2;
-
-  // Default values
-  let opts = {
-    data: [1, 1000],
-    pos: [0, 0],
-    id: unique(),
-    k: 50,
-    fixmax: null,
-    nb: 4,
-    title_text: "title_text",
-    lineLength: 10,
-    values_round: 2,
-    values_decimal: ".",
-    values_thousands: " ",
-    values_dx: 3,
-    gap: 7,
-    background: false,
-  };
-
-  Object.keys(opts).forEach((d) => {
-    if (options[d] !== undefined) {
-      opts[d] = options[d];
-    }
-  });
-
-  Object.keys(options).forEach((d) => {
-    opts[d] = options[d];
-  });
+  // Arguments
+  let opts = mergeoptions(
+    {
+      mark: "legend",
+      id: unique(),
+      title: "Legend",
+      pos: [0, 0],
+      data: [1, 1000],
+      k: 50,
+      fixmax: null,
+      nb: 4,
+      missing: true,
+      missing_fill: "white",
+      missing_text: "no data",
+      values_round: 2,
+      values_decimal: ".",
+      values_thousands: " ",
+      values_dx: 2,
+      values_dy: 0,
+      title_fill: "#363636",
+      subtitle_fill: "#363636",
+      note_fill: "#363636",
+      values_fill: "#363636",
+      values_fontSize: 10,
+      values_dominantBaseline: "central",
+      title_fontSize: 16,
+      title_fontWeight: "bold",
+      subtitle_fontSize: 12,
+      note_fontSize: 10,
+      note_fontStyle: "italic",
+      gap: 2,
+      missing: true,
+      missing_fill: "white",
+      missing_text: "no data",
+      circle_dx: 0,
+      circle_dy: 0,
+      circle_fill: "none",
+      circle_stroke: "#363636",
+      line_fill: "none",
+      line_stroke: "#363636",
+      line_strokeDasharray: 2,
+      line_strokeWidth: 0.7,
+      line_length: 10,
+      frame: false,
+      frame_fill: "white",
+      frame_fillOpacity: 0.5,
+      frame_margin: 15,
+      frame_stroke: "black",
+    },
+    newcontainer ? arg1 : arg2
+  );
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
-    ? svg.append("g").attr("id", opts.id).attr("pointer-events", "none")
+    ? svg.append("g").attr("id", opts.id)
     : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
-  layer.attr("transform", `translate(${opts.pos})`);
 
   // Title
-  let dy = legtitle(svg, layer, opts, "title", 0);
+  addTitle(layer, opts);
 
   // Subtitle
-  dy = legtitle(svg, layer, opts, "subtitle", dy);
+  addSubtitle(layer, opts);
 
   // Circles
   let arr = datatoradius(opts.data, {
@@ -94,10 +95,10 @@ export function circles_nested(arg1, arg2) {
     k: opts.k,
   });
   let rmax = arr[arr.length - 1][1];
-
   let nestedcircles = layer.append("g");
 
   // Circles
+  let size = getsize(layer);
   let circles = nestedcircles
     .selectAll("circle")
     .data(arr.reverse())
@@ -105,34 +106,61 @@ export function circles_nested(arg1, arg2) {
     .attr("r", (d) => d[1])
     .attr(
       "transform",
-      (d) => `translate(${rmax}, ${opts.gap + dy + rmax * 2 - d[1]})`
-    )
-    .attr("fill", "none")
-    .attr("stroke", "#363636");
-  addattrprefix({
-    params: opts,
-    layer: circles,
-    prefix: "circles",
+      (d) =>
+        `translate(${opts.pos[0] + rmax + opts.circle_dx}, ${
+          opts.pos[1] +
+          opts.circle_dy +
+          opts.gap +
+          size.height +
+          rmax * 2 -
+          d[1]
+        })`
+    );
+
+  let opts_circle = subsetobj(opts, {
+    prefix: "circle_",
+    exclude: ["dx", "dy"],
   });
+  Object.entries(opts_circle).forEach((d) =>
+    circles.attr(camelcasetodash(d[0]), d[1])
+  );
 
   // Lines
+
   let lines = nestedcircles
     .selectAll("line")
     .data(arr)
     .join("line")
-    .attr("x1", rmax)
-    .attr("x2", rmax + rmax + opts.lineLength)
-    .attr("y1", (d) => opts.gap + dy + rmax * 2 - d[1] * 2)
-    .attr("y2", (d) => opts.gap + dy + rmax * 2 - d[1] * 2)
-    .attr("fill", "none")
-    .attr("stroke", "#363636")
-    .attr("stroke-dasharray", 2)
-    .attr("stroke-width", 0.7);
-  addattrprefix({
-    params: opts,
-    layer: lines,
-    prefix: "lines",
+    .attr("x1", opts.pos[0] + rmax + opts.circle_dx)
+    .attr("x2", opts.pos[0] + rmax + rmax + opts.line_length + opts.circle_dx)
+    .attr(
+      "y1",
+      (d) =>
+        opts.pos[1] +
+        opts.circle_dy +
+        opts.gap +
+        size.height +
+        rmax * 2 -
+        d[1] * 2
+    )
+    .attr(
+      "y2",
+      (d) =>
+        opts.pos[1] +
+        opts.circle_dy +
+        opts.gap +
+        size.height +
+        rmax * 2 -
+        d[1] * 2
+    );
+
+  let opts_line = subsetobj(opts, {
+    prefix: "line_",
+    exclude: ["dx", "dy"],
   });
+  Object.entries(opts_line).forEach((d) =>
+    lines.attr(camelcasetodash(d[0]), d[1])
+  );
 
   // Values
   let locale = d3.formatLocale({
@@ -145,34 +173,50 @@ export function circles_nested(arg1, arg2) {
     .selectAll("text")
     .data(arr)
     .join("text")
-    .attr("x", rmax + rmax + opts.lineLength + opts.values_dx)
-    .attr("y", (d) => opts.gap + dy + rmax * 2 - d[1] * 2)
-    .text((d) => locale.format(",")(d[0]))
-    .attr("dominant-baseline", "middle")
-    .attr("font-size", 10)
-    .attr("font-family", svg.fontFamily)
-    .attr("fill", "#363636");
-  addattrprefix({
-    params: opts,
-    layer: values,
-    prefix: "values",
-    text: true,
+    .attr(
+      "x",
+      opts.pos[0] +
+        rmax +
+        rmax +
+        opts.line_length +
+        opts.circle_dx +
+        opts.values_dx
+    )
+    .attr(
+      "y",
+      (d) =>
+        opts.pos[1] +
+        opts.circle_dy +
+        opts.gap +
+        size.height +
+        rmax * 2 -
+        d[1] * 2
+    )
+    .text((d) => locale.format(",")(d[0]));
+
+  let opts_values = subsetobj(opts, {
+    prefix: "values_",
+    exclude: ["dx", "dy"],
   });
+  Object.entries(opts_values).forEach((d) =>
+    values.attr(camelcasetodash(d[0]), d[1])
+  );
 
   // Note
-  dy = legtitle(svg, layer, opts, "note", dy + rmax * 2 + opts.gap * 2);
+  addNote(layer, opts);
 
-  // Background
-  if (opts.background) {
-    addbackground({ node: layer, ...opts.background });
+  // Frame
+  if (opts.frame) {
+    addFrame(layer, opts);
   }
-  // Output
+
+  // Output;
   if (newcontainer) {
-    const newheight = getsize(layer).height + opts.pos[1];
+    const size = getsize(layer);
     svg
-      .attr("width", svg.width)
-      .attr("height", newheight)
-      .attr("viewBox", [0, 0, svg.width, newheight]);
+      .attr("width", size.width)
+      .attr("height", size.height)
+      .attr("viewBox", [size.x, size.y, size.width, size.height]);
     return render(svg);
   } else {
     return `#${opts.id}`;
