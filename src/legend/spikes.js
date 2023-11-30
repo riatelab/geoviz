@@ -47,7 +47,7 @@ export function spikes(arg1, arg2) {
       values_round: 2,
       values_decimal: ".",
       values_thousands: " ",
-      values_dx: 2,
+      values_dx: 0,
       values_dy: 0,
       title_fill: "#363636",
       subtitle_fill: "#363636",
@@ -119,7 +119,7 @@ export function spikes(arg1, arg2) {
           opts.spikes_dx +
           +opts.spikes_width * i +
           i * opts.spikes_spacing
-        },${opts.pos[1] + size.height + +opts.spikes_dy + hmax + opts.gap})`
+        },${opts.pos[1] + size.height + opts.spikes_dy + hmax + opts.gap})`
     );
 
   let opts_spikes = subsetobj(opts, {
@@ -128,6 +128,37 @@ export function spikes(arg1, arg2) {
   });
   Object.entries(opts_spikes).forEach((d) =>
     spikes.attr(camelcasetodash(d[0]), d[1])
+  );
+
+  // Values
+  size = getsize(layer);
+  let locale = d3.formatLocale({
+    decimal: opts.values_decimal,
+    thousands: opts.values_thousands,
+    grouping: [3],
+  });
+
+  let values = leg
+    .selectAll("text")
+    .data(arr)
+    .join("text")
+    .text((d) => locale.format(",")(d[0]))
+    .attr(
+      "transform",
+      (d, i) =>
+        `translate (${
+          opts.pos[0] +
+          opts.spikes_dx +
+          opts.spikes_width / 2 +
+          opts.spikes_width * i +
+          i * opts.spikes_spacing
+        } ${opts.pos[1] + size.height + opts.spikes_dy}) rotate(90)`
+    );
+  let opts_values = subsetobj(opts, {
+    prefix: "values_",
+  });
+  Object.entries(opts_values).forEach((d) =>
+    values.attr(camelcasetodash(d[0]), d[1])
   );
 
   // Note
