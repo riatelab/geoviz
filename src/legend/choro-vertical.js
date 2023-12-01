@@ -1,10 +1,8 @@
 import { create } from "../container/create";
 import { render } from "../container/render";
 import { camelcasetodash } from "../helpers/camelcase";
-import { mergeoptions } from "../helpers/mergeoptions";
 import { roundarray } from "../helpers/rounding";
 import { getsize } from "../helpers/getsize";
-import { unique } from "../helpers/unique";
 import {
   addTitle,
   addSubtitle,
@@ -12,6 +10,7 @@ import {
   subsetobj,
   addText,
   addFrame,
+  manageoptions,
 } from "./helpers.js";
 import { formatLocale } from "d3-format";
 const d3 = Object.assign({}, { formatLocale });
@@ -23,55 +22,13 @@ export function choro_vertical(arg1, arg2) {
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
   let svg = newcontainer ? create() : arg1;
+
   // Arguments
-  let opts = mergeoptions(
-    {
-      mark: "legend",
-      id: unique(),
-      title: "Legend",
-      pos: [0, 0],
-      breaks: [1, 2, 3, 4, 5],
-      colors: ["#fee5d9", "#fcae91", "#fb6a4a", "#cb181d"],
-      missing: true,
-      missing_fill: "white",
-      missing_text: "no data",
-      values_round: 2,
-      values_decimal: ".",
-      values_thousands: " ",
-      values_dx: 5,
-      values_dy: 0,
-      title_fill: "#363636",
-      subtitle_fill: "#363636",
-      note_fill: "#363636",
-      values_fill: "#363636",
-      values_fontSize: 10,
-      values_dominantBaseline: "central",
-      values_dx: 5,
-      title_fontSize: 16,
-      title_fontWeight: "bold",
-      subtitle_fontSize: 12,
-      note_fontSize: 10,
-      note_fontStyle: "italic",
-      rect_dx: 0,
-      rect_dy: 0,
-      rect_stroke: "#303030",
-      rect_strokeWidth: 0.1,
-      rect_spacing: 0,
-      gap: 2,
-      rect_width: 25,
-      rect_height: 17,
-      rect_fill: "#5d6266",
-      missing: true,
-      missing_fill: "white",
-      missing_text: "no data",
-      frame: false,
-      frame_fill: "white",
-      frame_fillOpacity: 0.5,
-      frame_margin: 15,
-      frame_stroke: "black",
-    },
-    newcontainer ? arg1 : arg2
-  );
+  const options = {
+    breaks: [1, 2, 3, 4, 5],
+    colors: ["#fee5d9", "#fcae91", "#fb6a4a", "#cb181d"],
+  };
+  let opts = manageoptions(options, newcontainer ? arg1 : arg2, svg.fontFamily);
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()

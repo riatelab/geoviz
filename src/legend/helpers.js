@@ -1,6 +1,87 @@
 import { getsize } from "../helpers/getsize";
 import { camelcasetodash } from "../helpers/camelcase";
-import { mergeoptions } from "../helpers/mergeoptions";
+import { mergeoptions } from "../helpers/mergeoptions"; // SUPPRIMER MERGEOPTIONS
+import { unique } from "../helpers/unique";
+
+export function manageoptions(options, args, fontFamily) {
+  const defaultoptions = {
+    // id and position
+    mark: "legend",
+    id: unique(),
+    pos: [0, 0],
+    gap: 2,
+    // title
+    title: "Legend",
+    title_fill: "#363636",
+    title_fontSize: 16,
+    title_fontWeight: "bold",
+    title_fontFamily: fontFamily,
+    // subtitle
+    subtitle_fill: "#363636",
+    subtitle_fontSize: 12,
+    subtitle_fontFamily: fontFamily,
+    // note
+    note_fill: "#363636",
+    note_fontSize: 10,
+    note_fontStyle: "italic",
+    note_fontFamily: fontFamily,
+    // values
+    values_fill: "#363636",
+    values_fontSize: 10,
+    values_fontFamily: fontFamily,
+    values_round: 2,
+    values_decimal: ".",
+    values_thousands: " ",
+    values_dx: 5,
+    values_dy: 0,
+    values_dominantBaseline: "central",
+    // label
+    label_fill: "#363636",
+    label_fontSize: 10,
+    label_dx: 5,
+    label_dominantBaseline: "central",
+    label_fontFamily: fontFamily,
+    // rect
+    rect_width: 25,
+    rect_height: 17,
+    rect_dx: 0,
+    rect_dy: 0,
+    rect_stroke: "#303030",
+    rect_strokeWidth: 0.1,
+    rect_spacing: 0,
+    // spike
+    spike_width: 10,
+    spike_dx: 0,
+    spike_dy: 0,
+    spike_spacing: 3,
+    spike_fill: "none",
+    spike_stroke: "black",
+    // line
+    line_fill: "none",
+    line_stroke: "#363636",
+    line_strokeDasharray: 2,
+    line_strokeWidth: 0.7,
+    line_length: 10,
+    // circle
+    circle_dx: 0,
+    circle_dy: 0,
+    circle_fill: "none",
+    circle_stroke: "#363636",
+    circle_spacing: 5,
+    // missing
+    missing: true,
+    missing_fill: "white",
+    missing_text: "no data",
+    // frame
+    frame: false,
+    frame_fill: "white",
+    frame_fillOpacity: 0.5,
+    frame_margin: 15,
+    frame_stroke: "black",
+  };
+
+  return { ...defaultoptions, ...options, ...args };
+}
 
 export function addTitle(layer, opts) {
   if (opts.title) {

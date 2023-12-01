@@ -2,15 +2,13 @@ import { create } from "../container/create";
 import { render } from "../container/render";
 import { camelcasetodash } from "../helpers/camelcase";
 import { datatoradius } from "../helpers/datatoradius";
-import { mergeoptions } from "../helpers/mergeoptions";
 import { getsize } from "../helpers/getsize";
-import { unique } from "../helpers/unique";
 import {
   addTitle,
   addSubtitle,
   addNote,
   subsetobj,
-  addText,
+  manageoptions,
   addFrame,
 } from "./helpers.js";
 import { formatLocale } from "d3-format";
@@ -24,58 +22,17 @@ export function circles(arg1, arg2) {
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
   let svg = newcontainer ? create() : arg1;
+
   // Arguments
-  let opts = mergeoptions(
-    {
-      mark: "legend",
-      id: unique(),
-      title: "Legend",
-      pos: [0, 0],
-      data: [1, 1000],
-      k: 50,
-      fixmax: null,
-      nb: 4,
-      missing: true,
-      missing_fill: "white",
-      missing_text: "no data",
-      values_round: 2,
-      values_decimal: ".",
-      values_thousands: " ",
-      values_dx: 2,
-      values_dy: 0,
-      title_fill: "#363636",
-      subtitle_fill: "#363636",
-      note_fill: "#363636",
-      values_fill: "#363636",
-      values_fontSize: 10,
-      values_dominantBaseline: "central",
-      title_fontSize: 16,
-      title_fontWeight: "bold",
-      subtitle_fontSize: 12,
-      note_fontSize: 10,
-      note_fontStyle: "italic",
-      gap: 2,
-      missing: true,
-      missing_fill: "white",
-      missing_text: "no data",
-      circle_dx: 0,
-      circle_dy: 0,
-      circle_fill: "none",
-      circle_stroke: "#363636",
-      circle_spacing: 5,
-      line_fill: "none",
-      line_stroke: "#363636",
-      line_strokeDasharray: 2,
-      line_strokeWidth: 0.7,
-      line_length: 10,
-      frame: false,
-      frame_fill: "white",
-      frame_fillOpacity: 0.5,
-      frame_margin: 15,
-      frame_stroke: "black",
-    },
-    newcontainer ? arg1 : arg2
-  );
+  let options = {
+    data: [1, 1000],
+    k: 50,
+    fixmax: null,
+    nb: 4,
+    values_dx: 2,
+    values_dominantBaseline: "middle",
+  };
+  let opts = manageoptions(options, newcontainer ? arg1 : arg2, svg.fontFamily);
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()

@@ -2,15 +2,13 @@ import { create } from "../container/create";
 import { render } from "../container/render";
 import { camelcasetodash } from "../helpers/camelcase";
 import { datatoheight } from "../helpers/datatoheight";
-import { mergeoptions } from "../helpers/mergeoptions";
 import { getsize } from "../helpers/getsize";
-import { unique } from "../helpers/unique";
 import {
   addTitle,
   addSubtitle,
   addNote,
   subsetobj,
-  addText,
+  manageoptions,
   addFrame,
 } from "./helpers.js";
 import { formatLocale } from "d3-format";
@@ -25,58 +23,17 @@ export function spikes(arg1, arg2) {
   arg2 = arg2 == undefined ? {} : arg2;
   let svg = newcontainer ? create() : arg1;
   // Arguments
-  let opts = mergeoptions(
-    {
-      mark: "legend",
-      id: unique(),
-      title: "Legend",
-      pos: [0, 0],
-      data: [1, 1000],
-      k: 50,
-      fixmax: null,
-      nb: 4,
-      spikes_width: 10,
-      spikes_dx: 0,
-      spikes_dy: 0,
-      spikes_spacing: 3,
-      spikes_fill: "none",
-      spikes_stroke: "black",
-      missing: true,
-      missing_fill: "white",
-      missing_text: "no data",
-      values_round: 2,
-      values_decimal: ".",
-      values_thousands: " ",
-      values_dx: 0,
-      values_dy: 0,
-      title_fill: "#363636",
-      subtitle_fill: "#363636",
-      note_fill: "#363636",
-      values_fill: "#363636",
-      values_fontSize: 10,
-      values_dominantBaseline: "central",
-      title_fontSize: 16,
-      title_fontWeight: "bold",
-      subtitle_fontSize: 12,
-      note_fontSize: 10,
-      note_fontStyle: "italic",
-      gap: 2,
-      missing: true,
-      missing_fill: "white",
-      missing_text: "no data",
-      line_fill: "none",
-      line_stroke: "#363636",
-      line_strokeDasharray: 2,
-      line_strokeWidth: 0.7,
-      line_length: 10,
-      frame: false,
-      frame_fill: "white",
-      frame_fillOpacity: 0.5,
-      frame_margin: 15,
-      frame_stroke: "black",
-    },
-    newcontainer ? arg1 : arg2
-  );
+
+  const options = {
+    data: [1, 1000],
+    k: 50,
+    fixmax: null,
+    nb: 4,
+    values_dx: 0,
+    values_dy: 0,
+    values_dominantBaseline: "middle",
+  };
+  let opts = manageoptions(options, newcontainer ? arg1 : arg2, svg.fontFamily);
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
@@ -109,21 +66,21 @@ export function spikes(arg1, arg2) {
     .join("path")
     .attr(
       "d",
-      (d) => `M 0,0 ${opts.spikes_width / 2},${-d[1]} ${opts.spikes_width},0`
+      (d) => `M 0,0 ${opts.spike_width / 2},${-d[1]} ${opts.spike_width},0`
     )
     .attr(
       "transform",
       (d, i) =>
         `translate(${
           opts.pos[0] +
-          opts.spikes_dx +
-          +opts.spikes_width * i +
-          i * opts.spikes_spacing
-        },${opts.pos[1] + size.height + opts.spikes_dy + hmax + opts.gap})`
+          opts.spike_dx +
+          +opts.spike_width * i +
+          i * opts.spike_spacing
+        },${opts.pos[1] + size.height + opts.spike_dy + hmax + opts.gap})`
     );
 
   let opts_spikes = subsetobj(opts, {
-    prefix: "spikes_",
+    prefix: "spike_",
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_spikes).forEach((d) =>
@@ -148,11 +105,11 @@ export function spikes(arg1, arg2) {
       (d, i) =>
         `translate (${
           opts.pos[0] +
-          opts.spikes_dx +
-          opts.spikes_width / 2 +
-          opts.spikes_width * i +
-          i * opts.spikes_spacing
-        } ${opts.pos[1] + size.height + opts.spikes_dy}) rotate(90)`
+          opts.spike_dx +
+          opts.spike_width / 2 +
+          opts.spike_width * i +
+          i * opts.spike_spacing
+        } ${opts.pos[1] + size.height + opts.spike_dy}) rotate(90)`
     );
   let opts_values = subsetobj(opts, {
     prefix: "values_",
