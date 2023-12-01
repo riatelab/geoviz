@@ -6,7 +6,7 @@ import { detectinput } from "../helpers/detectinput";
 import { create } from "../container/create";
 import { render } from "../container/render";
 import { tooltip } from "../helpers/tooltip";
-import { centroid } from "../transform/centroid";
+import { centroid } from "../tool/centroid";
 import { addattr } from "../helpers/addattr";
 import { random } from "../classify/random";
 import { unique } from "../helpers/unique";

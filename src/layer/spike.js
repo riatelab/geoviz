@@ -1,6 +1,6 @@
 import { create } from "../container/create";
 import { render } from "../container/render";
-import { centroid } from "../transform/centroid";
+import { centroid } from "../tool/centroid";
 import { implantation } from "../helpers/implantation";
 import { tooltip } from "../helpers/tooltip";
 import { addconst } from "../helpers/addconst";

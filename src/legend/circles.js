@@ -10,7 +10,7 @@ import {
   subsetobj,
   manageoptions,
   addFrame,
-} from "./helpers.js";
+} from "../helpers/utils_legend.js";
 import { formatLocale } from "d3-format";
 import { sum, cumsum } from "d3-array";
 const d3 = Object.assign({}, { formatLocale, sum, cumsum });

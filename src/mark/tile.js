@@ -1,9 +1,8 @@
-import { unique } from "../helpers/unique";
-import { mergeoptions } from "../helpers/mergeoptions";
 import { tile as d3tile } from "d3-tile";
 import { geoMercator } from "d3-geo";
 import { create } from "../container/create";
 import { render } from "../container/render";
+import { unique } from "../helpers/utils";
 
 /**
  * The `titke` function allows to display raster tiles
@@ -39,19 +38,17 @@ export function tile(arg1, arg2) {
     : arg1;
 
   // Arguments
-  let opts = mergeoptions(
-    {
-      mark: "tile",
-      id: unique(),
-      tileSize: 512,
-      zoomDelta: 1,
-      increasetilesize: 1,
-      opacity: 1,
-      clipPath: undefined,
-      url: (x, y, z) => `https://tile.openstreetmap.org/${z}/${x}/${y}.png`,
-    },
-    newcontainer ? arg1 : arg2
-  );
+  const options = {
+    mark: "tile",
+    id: unique(),
+    tileSize: 512,
+    zoomDelta: 1,
+    increasetilesize: 1,
+    opacity: 1,
+    clipPath: undefined,
+    url: (x, y, z) => `https://tile.openstreetmap.org/${z}/${x}/${y}.png`,
+  };
+  let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()

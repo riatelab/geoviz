@@ -1,10 +1,8 @@
 import { geoGraticule, geoPath } from "d3-geo";
 const d3 = Object.assign({}, { geoPath, geoGraticule });
-import { camelcasetodash } from "../helpers/camelcase";
-import { mergeoptions } from "../helpers/mergeoptions";
-import { unique } from "../helpers/unique";
 import { create } from "../container/create";
 import { render } from "../container/render";
+import { camelcasetodash, unique } from "../helpers/utils";
 
 /**
  * The `graticule` function allows to create a layer with lat/long lines
@@ -34,16 +32,14 @@ export function outline(arg1, arg2) {
   let svg = newcontainer ? create() : arg1;
 
   // Arguments
-  let opts = mergeoptions(
-    {
-      mark: "outline",
-      id: unique(),
-      fill: "#B5DFFD",
-      stroke: "none",
-      strokeWidth: 1,
-    },
-    newcontainer ? arg1 : arg2
-  );
+  const options = {
+    mark: "outline",
+    id: unique(),
+    fill: "#B5DFFD",
+    stroke: "none",
+    strokeWidth: 1,
+  };
+  let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()

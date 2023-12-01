@@ -19,10 +19,10 @@ import { header } from "../mark/header.js";
 import { footer } from "../mark/footer.js";
 import { scalebar as addscalebar } from "../mark/scalebar.js";
 import { north as addnorth } from "../mark/north.js";
+import { clippath as addclippath } from "../mark/clippath.js";
 
-import { blur as addblur } from "../style/blur";
-import { clippath as addclippath } from "../style/clippath";
-import { radialGradient as addradialGradient } from "../style/radialgradient";
+import { blur as addblur } from "../defs/blur.js";
+import { radialGradient as addradialGradient } from "../defs/radialgradient.js";
 
 import { circles_nested as addcircles_nested } from "../legend/circles-nested";
 import { circles as addcircles } from "../legend/circles";
@@ -152,6 +152,7 @@ export function create({
     { id: "footer", func: footer },
     { id: "scalebar", func: addscalebar },
     { id: "north", func: addnorth },
+    { id: "clippath", func: addclippath },
   ].forEach(
     (d) =>
       (mark[d.id] = function () {
@@ -176,16 +177,15 @@ export function create({
       })
   );
 
-  let style = {};
+  let defs = {};
   [
     { id: "blur", func: addblur },
-    { id: "clippath", func: addclippath },
     { id: "radialGradient", func: addradialGradient },
 
     ,
   ].forEach(
     (d) =>
-      (style[d.id] = function () {
+      (defs[d.id] = function () {
         return d.func(output, arguments[0]);
       })
   );
@@ -204,7 +204,7 @@ export function create({
     //...symbology,
     ...mark,
     legend,
-    style,
+    defs,
     render: function () {
       return addrender(output, arguments[0]);
     },

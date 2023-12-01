@@ -3,7 +3,7 @@ import { render } from "../container/render";
 import { mergeoptions } from "../helpers/mergeoptions";
 import { addattr } from "../helpers/addattr";
 import { unique } from "../helpers/unique";
-import { centroid } from "../transform/centroid";
+import { centroid } from "../tool/centroid";
 import { implantation } from "../helpers/implantation";
 import { check } from "../helpers/check";
 import { propertiesentries } from "../helpers/propertiesentries";

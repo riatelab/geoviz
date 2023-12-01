@@ -1,5 +1,3 @@
-import { propertiesentries } from "../helpers/propertiesentries";
-import { detectinput } from "../helpers/detectinput";
 import { forceX, forceY, forceCollide, forceSimulation } from "d3-force";
 import { max } from "d3-array";
 import { scaleSqrt } from "d3-scale";
@@ -7,6 +5,7 @@ const d3 = Object.assign(
   {},
   { forceX, forceY, forceCollide, forceSimulation, max, scaleSqrt }
 );
+import { propertiesentries, detectinput } from "../helpers/utils";
 
 /**
  * This function use d3.forceSimulation to spread dots or circles of  given in a GeoJSON FeatureCollection (points).

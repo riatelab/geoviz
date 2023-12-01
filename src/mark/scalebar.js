@@ -1,18 +1,8 @@
+import * as geoScaleBar from "d3-geo-scale-bar";
+const d3 = Object.assign({}, geoScaleBar);
 import { create } from "../container/create";
 import { render } from "../container/render";
-import { mergeoptions } from "../helpers/mergeoptions";
-import * as geoScaleBar from "d3-geo-scale-bar";
-import { zoom, zoomTransform } from "d3-zoom";
-
-const d3 = Object.assign(
-  {},
-
-  geoScaleBar,
-  { zoom, zoomTransform }
-);
-
-import { unique } from "../helpers/unique";
-import { addattr } from "../helpers/addattr";
+import { unique, camelcasetodash } from "../helpers/utils";
 
 /**
  * The `scalebar` function allows add a scalebar.
@@ -44,23 +34,21 @@ export function scalebar(arg1, arg2) {
   let svg = newcontainer ? create() : arg1;
 
   // Arguments
-  let opts = mergeoptions(
-    {
-      mark: "scalebar",
-      id: unique(),
-      pos: [10, svg.height - 20],
-      translate: null,
-      units: "km",
-      label: undefined,
-      tickPadding: 5,
-      tickSize: 0.2,
-      distance: undefined,
-      tickFormat: (d) => d,
-      tickValues: undefined,
-      labelAnchor: "start",
-    },
-    newcontainer ? arg1 : arg2
-  );
+  const options = {
+    mark: "scalebar",
+    id: unique(),
+    pos: [10, svg.height - 20],
+    translate: null,
+    units: "km",
+    label: undefined,
+    tickPadding: 5,
+    tickSize: 0.2,
+    distance: undefined,
+    tickFormat: (d) => d,
+    tickValues: undefined,
+    labelAnchor: "start",
+  };
+  let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
@@ -81,11 +69,17 @@ export function scalebar(arg1, arg2) {
   }
 
   //...attr
-  addattr({
-    layer,
-    args: opts,
-    exclude: [],
-  });
+  Object.entries(opts)
+    .map((d) => d[0])
+    .forEach((d) => {
+      layer.attr(camelcasetodash(d), opts[d]);
+    });
+
+  // addattr({
+  //   layer,
+  //   args: opts,
+  //   exclude: [],
+  // });
 
   let units = new Map([
     ["ft", d3.geoScaleFeet],

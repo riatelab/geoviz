@@ -1,7 +1,5 @@
 // Imports
-
 import { geoArea, geoCentroid, geoIdentity, geoPath } from "d3-geo";
-
 const d3 = Object.assign({}, { geoArea, geoCentroid, geoIdentity, geoPath });
 
 /**

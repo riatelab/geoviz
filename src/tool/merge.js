@@ -1,4 +1,4 @@
-import { columns } from "../helpers/columns";
+import { columns } from "../helpers/utils";
 
 /**
  * `merge` is a function to join a geoJSON and a data file.

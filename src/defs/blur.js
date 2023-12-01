@@ -1,4 +1,4 @@
-import { unique } from "../helpers/unique";
+import { unique } from "../helpers/utils";
 
 /**
  * The `blur` function allows to create a svg filte

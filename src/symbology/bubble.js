@@ -1,8 +1,8 @@
 import { create } from "../container/create";
-import { geopath } from "../mark/geopath";
+import { path } from "../mark/path";
 import { circle } from "../mark/circle";
 import { render } from "../container/render";
-import { unique } from "../helpers/unique";
+import { unique } from "../helpers/utils";
 import { circles as leg_circles } from "../legend/circles";
 import { circles_nested as leg_circles_nested } from "../legend/circles-nested";
 

@@ -1,17 +1,19 @@
-import { create } from "../container/create";
-import { render } from "../container/render";
-import { centroid } from "../transform/centroid";
-import { camelcasetodash } from "../helpers/camelcase";
-import { mergeoptions } from "../helpers/mergeoptions";
-import { propertiesentries } from "../helpers/propertiesentries";
-import { detectinput } from "../helpers/detectinput";
-import { implantation } from "../helpers/implantation";
-import { getsize } from "../helpers/getsize";
-import { order } from "../helpers/order";
-import { check } from "../helpers/check";
-import { unique } from "../helpers/unique";
 import { geoPath, geoIdentity, geoCentroid } from "d3-geo";
 const d3 = Object.assign({}, { geoPath, geoIdentity, geoCentroid });
+import { create } from "../container/create";
+import { render } from "../container/render";
+import { centroid } from "../tool/centroid";
+
+import {
+  camelcasetodash,
+  unique,
+  implantation,
+  propertiesentries,
+  detectinput,
+  getsize,
+  check,
+  order,
+} from "../helpers/utils";
 
 export function text(arg1, arg2) {
   // Test if new container
@@ -22,26 +24,25 @@ export function text(arg1, arg2) {
   let svg = newcontainer
     ? create({ zoomable: true, domain: arg1.data || arg1.datum })
     : arg1;
+
   // Arguments
-  let opts = mergeoptions(
-    {
-      mark: "text",
-      id: unique(),
-      strokeWidth: 1,
-      text: "text",
-      sort: undefined,
-      descending: true,
-      paintOrder: "stroke",
-      strokeLinejoin: "round",
-      fontSize: 12,
-      lineSpacing: 0,
-      fontFamily: svg.fontFamily,
-      dx: 0,
-      dy: 0,
-      pos: [0, 0],
-    },
-    newcontainer ? arg1 : arg2
-  );
+  const options = {
+    mark: "text",
+    id: unique(),
+    strokeWidth: 1,
+    text: "text",
+    sort: undefined,
+    descending: true,
+    paintOrder: "stroke",
+    strokeLinejoin: "round",
+    fontSize: 12,
+    lineSpacing: 0,
+    fontFamily: svg.fontFamily,
+    dx: 0,
+    dy: 0,
+    pos: [0, 0],
+  };
+  let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
   if (!opts.data) {
     opts.latlong = opts.latlong ? opts.latlong : false;

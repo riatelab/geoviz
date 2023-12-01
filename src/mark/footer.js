@@ -1,9 +1,6 @@
 import { create } from "../container/create";
 import { render } from "../container/render";
-import { camelcasetodash } from "../helpers/camelcase";
-import { mergeoptions } from "../helpers/mergeoptions";
-import { getsize } from "../helpers/getsize";
-import { unique } from "../helpers/unique";
+import { camelcasetodash, getsize, unique } from "../helpers/utils";
 
 export function footer(arg1, arg2) {
   // Test if new container
@@ -13,24 +10,22 @@ export function footer(arg1, arg2) {
   arg2 = arg2 == undefined ? {} : arg2;
   let svg = newcontainer ? create() : arg1;
   // Arguments
-  let opts = mergeoptions(
-    {
-      mark: "footer",
-      id: unique(),
-      text: "Author, source...",
-      fill: "#9e9696",
-      background_fill: "none",
-      dominantBaseline: "central",
-      textAnchor: "middle",
-      lineSpacing: 0,
-      margin: 2,
-      fontSize: 10,
-      dx: 0,
-      dy: 0,
-      fontFamily: svg.fontFamily,
-    },
-    newcontainer ? arg1 : arg2
-  );
+  const options = {
+    mark: "footer",
+    id: unique(),
+    text: "Author, source...",
+    fill: "#9e9696",
+    background_fill: "none",
+    dominantBaseline: "central",
+    textAnchor: "middle",
+    lineSpacing: 0,
+    margin: 2,
+    fontSize: 10,
+    dx: 0,
+    dy: 0,
+    fontFamily: svg.fontFamily,
+  };
+  let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()

@@ -1,7 +1,7 @@
-import { getsize } from "../helpers/getsize";
-import { camelcasetodash } from "../helpers/camelcase";
-import { mergeoptions } from "../helpers/mergeoptions"; // SUPPRIMER MERGEOPTIONS
-import { unique } from "../helpers/unique";
+import { getsize } from "./getsize";
+import { camelcasetodash } from "./camelcase";
+import { mergeoptions } from "./mergeoptions"; // SUPPRIMER MERGEOPTIONS
+import { unique } from "./unique";
 
 export function manageoptions(options, args, fontFamily) {
   const defaultoptions = {

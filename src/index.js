@@ -7,28 +7,26 @@ export let container = {
 };
 
 // Tool
+import { centroid } from "./tool/centroid";
+import { ridge } from "./tool/ridge";
+import { dissolve } from "./tool/dissolve";
+import { project } from "./tool/project";
+import { unproject } from "./tool/unproject";
+import { dodge } from "./tool/dodge";
+import { replicate } from "./tool/replicate";
 import { rewind } from "./tool/rewind";
 import { featurecollection } from "./tool/featurecollection";
 import { merge } from "./tool/merge";
 import { geotable } from "./tool/geotable";
 import { proj4d3 } from "./tool/proj4d3";
+import { addfonts } from "./tool/addfonts.js";
 export let tool = {
+  addfonts,
   rewind,
   featurecollection,
   merge,
   geotable,
   proj4d3,
-};
-
-// Transform
-import { centroid } from "./transform/centroid";
-import { ridge } from "./transform/ridge";
-import { dissolve } from "./transform/dissolve";
-import { project } from "./transform/project";
-import { unproject } from "./transform/unproject";
-import { dodge } from "./transform/dodge";
-import { replicate } from "./transform/replicate";
-export let transform = {
   dissolve,
   centroid,
   project,
@@ -43,11 +41,13 @@ import { choro } from "./classify/choro";
 import { typo } from "./classify/typo";
 import { random } from "./classify/random";
 import { radius } from "./classify/radius";
+import { radius2 } from "./classify/radius2";
 export let classify = {
   choro,
   typo,
   random,
   radius,
+  radius2,
 };
 
 // Legend
@@ -71,18 +71,15 @@ export let legend = {
 };
 
 // style
-import { blur } from "./style/blur";
-import { radialGradient } from "./style/radialgradient";
-import { clippath } from "./style/clippath";
-import { addfonts } from "./style/addfonts";
-export let style = {
-  clippath,
+import { blur } from "./defs/blur.js";
+import { radialGradient } from "./defs/radialgradient.js";
+export let defs = {
   blur,
-  addfonts,
   radialGradient,
 };
 
 // main
+export { clippath } from "./mark/clippath.js";
 export { create } from "./container/create";
 export { graticule } from "./mark/graticule.js";
 export { header } from "./mark/header.js";
@@ -98,3 +95,11 @@ export { spike } from "./layer/spike.js";
 export { render } from "./container/render";
 export { tile } from "./mark/tile.js";
 export { triangle } from "./mark/triangle.js";
+
+// Symbology
+import { choropleth } from "./symbology/choropleth.js";
+import { bubble } from "./symbology/bubble.js";
+export let symbology = {
+  choropleth,
+  bubble,
+};

@@ -1,9 +1,6 @@
-import { unique } from "../helpers/unique";
-import { northangle } from "../helpers/northangle";
-import { mergeoptions } from "../helpers/mergeoptions";
-import { camelcasetodash } from "../helpers/camelcase";
 import { create } from "../container/create";
 import { render } from "../container/render";
+import { camelcasetodash, unique, northangle } from "../helpers/utils";
 
 /**
  * The `north` function allows add a North arrow.
@@ -30,18 +27,16 @@ export function north(arg1, arg2) {
   let svg = newcontainer ? create() : arg1;
 
   // Arguments
-  let opts = mergeoptions(
-    {
-      mark: "north",
-      id: unique(),
-      pos: [svg.width - 30, 30],
-      rotate: null,
-      scale: 1,
-      fill: "black",
-      fillOpacity: 1,
-    },
-    newcontainer ? arg1 : arg2
-  );
+  const options = {
+    mark: "north",
+    id: unique(),
+    pos: [svg.width - 30, 30],
+    rotate: null,
+    scale: 1,
+    fill: "black",
+    fillOpacity: 1,
+  };
+  let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()

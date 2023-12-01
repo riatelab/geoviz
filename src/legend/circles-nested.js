@@ -10,7 +10,7 @@ import {
   subsetobj,
   manageoptions,
   addFrame,
-} from "./helpers.js";
+} from "../helpers/utils_legend.js";
 import { formatLocale } from "d3-format";
 const d3 = Object.assign({}, { formatLocale });
 

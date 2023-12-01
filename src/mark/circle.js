@@ -1,17 +1,3 @@
-import { radius as computeradius } from "../classify/radius";
-import { mergeoptions } from "../helpers/mergeoptions";
-import { dodge } from "../transform/dodge";
-import { order } from "../helpers/order";
-import { detectinput } from "../helpers/detectinput";
-import { propertiesentries } from "../helpers/propertiesentries";
-import { create } from "../container/create";
-import { render } from "../container/render";
-import { tooltip } from "../helpers/tooltip";
-import { centroid } from "../transform/centroid";
-import { addattr } from "../helpers/addattr";
-import { random } from "../classify/random";
-import { unique } from "../helpers/unique";
-import { implantation } from "../helpers/implantation";
 import { scaleSqrt } from "d3-scale";
 import { max, descending } from "d3-array";
 import { geoPath, geoIdentity } from "d3-geo";
@@ -19,6 +5,23 @@ const d3 = Object.assign(
   {},
   { scaleSqrt, max, descending, geoPath, geoIdentity }
 );
+import { create } from "../container/create";
+import { render } from "../container/render";
+import { random } from "../classify/random";
+import { radius as computeradius } from "../classify/radius";
+import { dodge } from "../tool/dodge";
+import { centroid } from "../tool/centroid";
+import { tooltip } from "../helpers/tooltip";
+import {
+  camelcasetodash,
+  unique,
+  getsize,
+  check,
+  implantation,
+  propertiesentries,
+  detectinput,
+  order,
+} from "../helpers/utils";
 
 /**
  * The `circle` function allows to create a layer with circles from a geoJSON (points)
@@ -50,43 +53,36 @@ export function circle(arg1, arg2) {
   let svg = newcontainer ? create({ zoomable: true, domain: arg1.data }) : arg1;
 
   // Arguments
-  let opts = mergeoptions(
-    {
-      mark: "circle",
-      id: unique(),
-      latlong: true,
-      data: undefined,
-      r: 10,
-      k: 50,
-      anchor: "middle",
-      baseline: "middle",
-      sort: undefined,
-      dodge: false,
-      dodgegap: 0,
-      iteration: 200,
-      descending: true,
-      fixmax: null,
-      fill: random(),
-      stroke: "white",
-      dx: 0,
-      dy: 0,
-      tip: undefined,
-      tipstyle: undefined,
-    },
-    newcontainer ? arg1 : arg2
-  );
+  const options = {
+    mark: "circle",
+    id: unique(),
+    latlong: true,
+    data: undefined,
+    r: 10,
+    k: 50,
+    pos: [0, 0],
+    anchor: "middle",
+    baseline: "middle",
+    sort: undefined,
+    dodge: false,
+    dodgegap: 0,
+    iteration: 200,
+    descending: true,
+    fixmax: null,
+    fill: random(),
+    stroke: "white",
+    dx: 0,
+    dy: 0,
+    tip: undefined,
+    tipstyle: undefined,
+  };
+  let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
     ? svg.append("g").attr("id", opts.id)
     : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
-
-  // Centroid
-  opts.data =
-    implantation(opts.data) == 3
-      ? centroid(opts.data, { latlong: opts.latlong })
-      : opts.data;
 
   // zoomable layer
   if (svg.zoomable && !svg.parent) {
@@ -100,123 +96,191 @@ export function circle(arg1, arg2) {
     }
   }
 
-  // ...attr
-  addattr({
-    layer,
-    args: opts,
-    exclude: ["fill", "stroke", "r", "sort"],
-  });
+  // Specific attributes
+  let entries = Object.entries(opts).map((d) => d[0]);
+  const notspecificattr = entries.filter(
+    (d) =>
+      ![
+        "mark",
+        "id",
+        "latlong",
+        "data",
+        "r",
+        "k",
+        "sort",
+        "dodge",
+        "dodgegap",
+        "iteration",
+        "descending",
+        "fixmax",
+        "tip",
+        "tipstyle",
+        "pos",
+      ].includes(d)
+  );
 
   // Projection
-  let projection =
-    opts.latlong == false
-      ? d3.geoIdentity().scale(svg.zoom.k).translate([svg.zoom.x, svg.zoom.y])
-      : svg.projection;
+  let projection = opts.latlong ? svg.projection : d3.geoIdentity();
+  let path = d3.geoPath(projection);
 
-  // Dodge
-  let data;
-  if (opts.dodge) {
-    data = JSON.parse(JSON.stringify(opts.data));
-
-    // PB FILTER (dodge on globe) // TODO
-    // let fet = {
-    //   features: data.features
-    //     .filter(
-    //       (d) => !isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[0])
-    //     )
-    //     .filter(
-    //       (d) => !isNaN(d3.geoPath(svg.projection).centroid(d.geometry)[1])
-    //     ),
-    // };
-
-    data = dodge(data, {
-      projection,
-      gap: opts.dodgegap,
-      r: opts.r,
-      k: opts.k,
-      fixmax: opts.fixmax,
-      iteration: opts.iteration,
+  // Simple circle
+  if (!opts.data) {
+    opts.latlong = opts.latlong ? opts.latlong : false;
+    notspecificattr.forEach((d) => {
+      layer.attr(camelcasetodash(d), opts[d]);
     });
-    projection = d3.geoIdentity();
+
+    let pos = path.centroid({ type: "Point", coordinates: opts.pos });
+    pos[0] = pos[0] + opts.dx;
+    pos[1] = pos[1] + opts.dy;
+
+    layer
+      .append("circle")
+      .attr("cx", pos[0])
+      .attr("cy", pos[1])
+      .attr("r", opts.r);
   } else {
-    data = opts.data;
-  }
+    // Centroid
+    opts.data =
+      implantation(opts.data) == 3
+        ? centroid(opts.data, { latlong: opts.latlong })
+        : opts.data;
 
-  // Radius
-  let columns = propertiesentries(opts.data);
-  let radius = attr2radius(opts.r, {
-    columns,
-    geojson: opts.data,
-    fixmax: opts.fixmax,
-    k: opts.k,
-  });
-
-  // Sort & filter
-  data = data.features
-    .filter((d) => d.geometry)
-    .filter((d) => d.geometry.coordinates != undefined);
-  if (detectinput(opts.r, columns) == "field") {
-    data = data.filter((d) => d.properties[opts.r] != undefined);
-  }
-  data = order(data, opts.sort || opts.r, {
-    fields: columns,
-    descending: opts.descending,
-  });
-
-  // DominantBeseline
-  let baseline = 0;
-  switch (opts.baseline) {
-    case "bottom":
-      baseline = -1;
-      break;
-    case "top":
-      baseline = 1;
-      break;
-  }
-  // Anchor
-  let anchor = 0;
-  switch (opts.anchor) {
-    case "start":
-      anchor = -1;
-      break;
-    case "end":
-      anchor = 1;
-      break;
-  }
-
-  // Draw circles
-  layer
-    .selectAll("circle")
-    .data(data)
-    .join("circle")
-    .attr(
-      "cx",
-      (d) =>
-        d3.geoPath(projection).centroid(d.geometry)[0] +
-        radius(d, opts.r) * anchor
-    )
-    .attr(
-      "cy",
-      (d) =>
-        d3.geoPath(projection).centroid(d.geometry)[1] +
-        radius(d, opts.r) * baseline
-    )
-    .attr("r", (d) => radius(d, opts.r))
-    .attr("fill", opts.fill)
-    .attr("stroke", opts.stroke)
-    .attr("visibility", (d) =>
-      isNaN(d3.geoPath(projection).centroid(d.geometry)[0])
-        ? "hidden"
-        : "visible"
+    // layer attributes
+    let fields = propertiesentries(opts.data);
+    const layerattr = notspecificattr.filter(
+      (d) => detectinput(opts[d], fields) == "value"
     );
+    layerattr.forEach((d) => {
+      layer.attr(camelcasetodash(d), opts[d]);
+    });
 
-  // Tooltip
-  if (opts.tip) {
-    tooltip(layer, opts.data, svg, opts.tip, opts.tipstyle);
+    // features attributes (iterate on)
+    const eltattr = notspecificattr.filter((d) => !layerattr.includes(d));
+    eltattr.forEach((d) => {
+      opts[d] = check(opts[d], fields);
+    });
+
+    // Projection
+    // let projection =
+    //   opts.latlong == false
+    //     ? d3.geoIdentity().scale(svg.zoom.k).translate([svg.zoom.x, svg.zoom.y])
+    //     : svg.projection;
+    // let projection = opts.latlong ? svg.projection : d3.geoIdentity();
+
+    // Dodge
+    let data;
+    if (opts.dodge) {
+      data = JSON.parse(JSON.stringify(opts.data));
+
+      let fet = {
+        features: data.features
+          .filter((d) => !isNaN(d3.geoPath(projection).centroid(d.geometry)[0]))
+          .filter(
+            (d) => !isNaN(d3.geoPath(projection).centroid(d.geometry)[1])
+          ),
+      };
+
+      data = dodge(fet, {
+        projection,
+        gap: opts.dodgegap,
+        r: opts.r,
+        k: opts.k,
+        fixmax: opts.fixmax,
+        iteration: opts.iteration,
+      });
+      projection = d3.geoIdentity();
+    } else {
+      data = opts.data;
+    }
+
+    // Radius
+    let columns = propertiesentries(opts.data);
+    let radius = attr2radius(opts.r, {
+      columns,
+      geojson: opts.data,
+      fixmax: opts.fixmax,
+      k: opts.k,
+    });
+
+    // Sort & filter
+    data = data.features
+      .filter((d) => d.geometry)
+      .filter((d) => d.geometry.coordinates != undefined);
+    if (detectinput(opts.r, columns) == "field") {
+      data = data.filter((d) => d.properties[opts.r] != undefined);
+    }
+    data = order(data, opts.sort || opts.r, {
+      fields: columns,
+      descending: opts.descending,
+    });
+
+    // DominantBeseline
+    let baseline = 0;
+    switch (opts.baseline) {
+      case "bottom":
+        baseline = -1;
+        break;
+      case "top":
+        baseline = 1;
+        break;
+    }
+    // Anchor
+    let anchor = 0;
+    switch (opts.anchor) {
+      case "start":
+        anchor = -1;
+        break;
+      case "end":
+        anchor = 1;
+        break;
+    }
+
+    // Drawing
+    path = d3.geoPath(projection);
+    layer
+      .selectAll("circle")
+      .data(data)
+      .join((d) => {
+        let n = d
+          .append("circle")
+          .attr(
+            "cx",
+            (d) =>
+              d3.geoPath(projection).centroid(d.geometry)[0] +
+              radius(d, opts.r) * anchor
+          )
+          .attr(
+            "cy",
+            (d) =>
+              d3.geoPath(projection).centroid(d.geometry)[1] +
+              radius(d, opts.r) * baseline
+          )
+          .attr("r", (d) => radius(d, opts.r))
+
+          .attr("visibility", (d) =>
+            isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
+          );
+
+        eltattr.forEach((e) => {
+          n.attr(camelcasetodash(e), opts[e]);
+        });
+        return n;
+      });
+
+    // Tooltip
+    if (opts.tip) {
+      tooltip(layer, opts.data, svg, opts.tip, opts.tipstyle);
+    }
   }
 
   // Output
   if (newcontainer) {
+    const size = getsize(layer);
+    svg
+      .attr("width", size.width)
+      .attr("height", size.height)
+      .attr("viewBox", [size.x, size.y, size.width, size.height]);
     return render(svg);
   } else {
     return `#${opts.id}`;

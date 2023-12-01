@@ -11,7 +11,7 @@ import {
   addText,
   addFrame,
   manageoptions,
-} from "./helpers.js";
+} from "../helpers/utils_legend.js";
 
 export function box(arg1, arg2) {
   // Test if new container

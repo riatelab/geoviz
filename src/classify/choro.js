@@ -35,7 +35,7 @@ export function choro(
     middle,
     precision = 2,
     palette = "Algae",
-    missing = true,
+    missing_fill = "white",
   } = {}
 ) {
   let data2 = data.filter((d) => isNumber(d));
@@ -51,7 +51,7 @@ export function choro(
 
   const cols = colors || getColors(palette, bks.length - 1);
   const colorize = function (d) {
-    return d3.scaleThreshold(bks.slice(1, -1), cols).unknown(missing)(
+    return d3.scaleThreshold(bks.slice(1, -1), cols).unknown(missing_fill)(
       parseFloat(d)
     );
   };
@@ -61,6 +61,7 @@ export function choro(
     breaks: bks,
     colors: cols,
     missing: missingvalues == 0 ? false : true,
+    missing_fill,
     nodata: missingvalues,
     colorize,
   };

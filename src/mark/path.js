@@ -1,16 +1,17 @@
-import { create } from "../container/create";
-import { render } from "../container/render";
-import { camelcasetodash } from "../helpers/camelcase";
-import { tooltip } from "../helpers/tooltip";
-import { mergeoptions } from "../helpers/mergeoptions";
-import { propertiesentries } from "../helpers/propertiesentries";
-import { random } from "../classify/random";
-import { check } from "../helpers/check";
-import { detectinput } from "../helpers/detectinput";
-import { implantation } from "../helpers/implantation";
-import { unique } from "../helpers/unique";
 import { geoPath, geoIdentity } from "d3-geo";
 const d3 = Object.assign({}, { geoPath, geoIdentity });
+import { create } from "../container/create";
+import { render } from "../container/render";
+import { tooltip } from "../helpers/tooltip";
+import { random } from "../classify/random";
+import {
+  camelcasetodash,
+  unique,
+  implantation,
+  propertiesentries,
+  detectinput,
+  check,
+} from "../helpers/utils";
 
 /**
  * The `geopath` function generates SVG paths from a geoJSON
@@ -41,16 +42,15 @@ export function path(arg1, arg2) {
   let svg = newcontainer
     ? create({ zoomable: true, domain: arg1.data || arg1.datum })
     : arg1;
+
   // Arguments
-  let opts = mergeoptions(
-    {
-      mark: "path",
-      id: unique(),
-      latlong: true,
-      strokeWidth: 1,
-    },
-    newcontainer ? arg1 : arg2
-  );
+  const options = {
+    mark: "path",
+    id: unique(),
+    latlong: true,
+    strokeWidth: 1,
+  };
+  let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
   // Default color
   const randomcol = random();

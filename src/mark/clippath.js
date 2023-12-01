@@ -1,4 +1,4 @@
-import { unique } from "../helpers/unique";
+import { unique } from "../helpers/utils";
 import { geoPath } from "d3-geo";
 const d3 = Object.assign({}, { geoPath });
 

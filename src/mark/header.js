@@ -1,9 +1,6 @@
 import { create } from "../container/create";
 import { render } from "../container/render";
-import { camelcasetodash } from "../helpers/camelcase";
-import { mergeoptions } from "../helpers/mergeoptions";
-import { getsize } from "../helpers/getsize";
-import { unique } from "../helpers/unique";
+import { camelcasetodash, getsize, unique } from "../helpers/utils";
 
 export function header(arg1, arg2) {
   // Test if new container
@@ -13,24 +10,23 @@ export function header(arg1, arg2) {
   arg2 = arg2 == undefined ? {} : arg2;
   let svg = newcontainer ? create() : arg1;
   // Arguments
-  let opts = mergeoptions(
-    {
-      mark: "header",
-      id: unique(),
-      text: "Map title",
-      fill: "#9e9696",
-      background_fill: "none",
-      dominantBaseline: "central",
-      textAnchor: "middle",
-      lineSpacing: 0,
-      margin: 8,
-      fontSize: 26,
-      dx: 0,
-      dy: 0,
-      fontFamily: svg.fontFamily,
-    },
-    newcontainer ? arg1 : arg2
-  );
+
+  const options = {
+    mark: "header",
+    id: unique(),
+    text: "Map title",
+    fill: "#9e9696",
+    background_fill: "none",
+    dominantBaseline: "central",
+    textAnchor: "middle",
+    lineSpacing: 0,
+    margin: 8,
+    fontSize: 26,
+    dx: 0,
+    dy: 0,
+    fontFamily: svg.fontFamily,
+  };
+  let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()

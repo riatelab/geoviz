@@ -10,7 +10,7 @@ import {
   addText,
   addFrame,
   manageoptions,
-} from "./helpers.js";
+} from "../helpers/utils_legend.js";
 
 export function typo_horizontal(arg1, arg2) {
   // Test if new container

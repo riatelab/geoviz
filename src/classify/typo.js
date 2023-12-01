@@ -17,7 +17,7 @@ const d3 = Object.assign({}, { scaleOrdinal });
 
 export function typo(
   data,
-  { colors = null, palette = "Set3", missing = "white" } = {}
+  { colors = null, palette = "Set3", missing_fill = "white" } = {}
 ) {
   let types = Array.from(new Set(data)).filter(
     (d) => d !== "" && d != null && d != undefined
@@ -27,12 +27,18 @@ export function typo(
     data.length -
     data.filter((d) => d !== "" && d != null && d != undefined).length;
   let cols = colors || getColors(palette, types.length);
-  let colorize = d3.scaleOrdinal().domain(types).range(cols).unknown(missing);
+  let colorize = d3
+    .scaleOrdinal()
+    .domain(types)
+    .range(cols)
+    .unknown(missing_fill);
 
   return {
     types,
     colors: cols,
     missing: nodata == 0 ? false : true,
-    nodata: colorize,
+    missing_fill,
+    nodata,
+    colorize,
   };
 }
