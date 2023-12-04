@@ -1,18 +1,10 @@
 import { select, pointers } from "d3-selection";
 const d3 = Object.assign({}, { select, pointers });
 
-export function tooltip(layer, data, container, tip, tip_style = {}, fields) {
-  //if input == string
-  if (typeof tip === "string") {
-    const sortfields = fields.sort((a, b) => b.length - a.length);
-    fields.forEach((d) => {
-      tip = tip.replace(`$${d}`, `\${d.properties.${d}}`);
-      console.log(tip);
-    });
-    tip = "d => `" + tip + "`";
-  }
-  //if input == true
-  else if (tip === true) {
+export function tooltip(layer, data, container, tip, tip_style = {}) {
+  // tip function
+
+  if (tip === true) {
     let x = { ...data };
     let keys = [];
     x.features
@@ -27,7 +19,6 @@ export function tooltip(layer, data, container, tip, tip_style = {}, fields) {
     tip = eval("(d) => `" + str.join("\n") + "`");
   }
 
-  // style
   let style = {
     fontSize: 13,
     fill: "#4d4545",
