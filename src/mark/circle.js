@@ -270,7 +270,7 @@ export function circle(arg1, arg2) {
 
     // Tooltip
     if (opts.tip) {
-      tooltip(layer, opts.data, svg, opts.tip, opts.tipstyle);
+      tooltip(layer, opts.data, svg, opts.tip, opts.tipstyle, fields);
     }
   }
 

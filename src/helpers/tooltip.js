@@ -7,10 +7,18 @@ export function tooltip(layer, data, container, tip, tip_style = {}, fields) {
     const sortfields = fields.sort((a, b) => b.length - a.length);
     fields.forEach((d) => {
       tip = tip.replace(`$${d}`, `\${d.properties.${d}}`);
-      console.log(tip);
     });
-    tip = "d => `" + tip + "`";
+    tip = eval("d => `" + tip + "`");
   }
+
+  // if function
+  else if (typeof tip == "function") {
+    const arrstr = tip.toString().split("=>");
+    if (!arrstr[1].includes("`${")) {
+      tip = eval(arrstr[0] + " => `${" + tip.toString().split("=>")[1] + "}`");
+    }
+  }
+
   //if input == true
   else if (tip === true) {
     let x = { ...data };
@@ -38,6 +46,9 @@ export function tooltip(layer, data, container, tip, tip_style = {}, fields) {
     fontWeight: "normal",
     fontStyle: "normal",
     textDecoration: "none",
+    hoverOpacity: 0.5,
+    hoverFill: undefined,
+    hoverStroke: undefined,
   };
 
   let formerOpacity = layer.attr("fill-opacity");
@@ -84,7 +95,6 @@ export function tooltip(layer, data, container, tip, tip_style = {}, fields) {
   layer
     .selectAll("*")
     .on("touchmove mousemove", function (event, d) {
-      //formerOpacity = d3.select(this);
       geoviztooltip.style("visibility", "visible");
       const xy = d3.pointers(event, this)[0];
       d3.select(this).attr("fill-opacity", 0.5);
