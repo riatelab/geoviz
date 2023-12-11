@@ -1,4 +1,4 @@
-// Container
+// Containerutils/
 import { create } from "./container/create";
 import { render } from "./container/render";
 export let container = {
@@ -7,19 +7,25 @@ export let container = {
 };
 
 // Tool
-import { centroid } from "./tool/centroid";
-import { ridge } from "./tool/ridge";
-import { dissolve } from "./tool/dissolve";
-import { project } from "./tool/project";
-import { unproject } from "./tool/unproject";
-import { dodge } from "./tool/dodge";
-import { replicate } from "./tool/replicate";
-import { rewind } from "./tool/rewind";
-import { featurecollection } from "./tool/featurecollection";
-import { merge } from "./tool/merge";
-import { geotable } from "./tool/geotable";
-import { proj4d3 } from "./tool/proj4d3";
+import { centroid } from "./tool/centroid.js";
+import { ridge } from "./tool/ridge.js";
+import { dissolve } from "./tool/dissolve.js";
+import { project } from "./tool/project.js";
+import { unproject } from "./tool/unproject.js";
+import { dodge } from "./tool/dodge.js";
+import { replicate } from "./tool/replicate.js";
+import { rewind } from "./tool/rewind.js";
+import { featurecollection } from "./tool/featurecollection.js";
+import { merge } from "./tool/merge.js";
+import { geotable } from "./tool/geotable.js";
+import { proj4d3 } from "./tool/proj4d3.js";
 import { addfonts } from "./tool/addfonts.js";
+import { choro } from "./tool/choro.js";
+import { typo } from "./tool/typo.js";
+import { random } from "./tool/random.js";
+import { radius } from "./tool/radius.js";
+import { blur } from "./tool/blur.js";
+import { radialGradient } from "./tool/radialgradient.js";
 export let tool = {
   addfonts,
   rewind,
@@ -34,20 +40,12 @@ export let tool = {
   dodge,
   replicate,
   ridge,
-};
-
-// Classify
-import { choro } from "./classify/choro";
-import { typo } from "./classify/typo";
-import { random } from "./classify/random";
-import { radius } from "./classify/radius";
-import { radius2 } from "./classify/radius2";
-export let classify = {
   choro,
   typo,
   random,
   radius,
-  radius2,
+  blur,
+  radialGradient,
 };
 
 // Legend
@@ -70,14 +68,6 @@ export let legend = {
   spikes,
 };
 
-// style
-import { blur } from "./defs/blur.js";
-import { radialGradient } from "./defs/radialgradient.js";
-export let defs = {
-  blur,
-  radialGradient,
-};
-
 // main
 export { clippath } from "./mark/clippath.js";
 export { create } from "./container/create";
@@ -97,9 +87,9 @@ export { tile } from "./mark/tile.js";
 export { triangle } from "./mark/triangle.js";
 
 // Symbology
-import { choropleth } from "./symbology/choropleth.js";
-import { bubble } from "./symbology/bubble.js";
-export let symbology = {
-  choropleth,
-  bubble,
-};
+// import { choropleth } from "./symbology/choropleth.js";
+// import { bubble } from "./symbology/bubble.js";
+// export let symbology = {
+//   choropleth,
+//   bubble,
+// };

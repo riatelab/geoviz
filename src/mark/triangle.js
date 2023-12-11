@@ -8,7 +8,7 @@ import { render } from "../container/render";
 import { tooltip } from "../helpers/tooltip";
 import { centroid } from "../tool/centroid";
 import { addattr } from "../helpers/addattr";
-import { random } from "../classify/random";
+import { random } from "../tool/random";
 import { unique } from "../helpers/unique";
 import { implantation } from "../helpers/implantation";
 import { scaleLinear } from "d3-scale";

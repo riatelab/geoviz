@@ -21,8 +21,8 @@ import { scalebar as addscalebar } from "../mark/scalebar.js";
 import { north as addnorth } from "../mark/north.js";
 import { clippath as addclippath } from "../mark/clippath.js";
 
-import { blur as addblur } from "../tool/blur.js";
-import { radialGradient as addradialGradient } from "../tool/radialgradient.js";
+import { blur as addblur } from "../defs/blur.js";
+import { radialGradient as addradialGradient } from "../defs/radialgradient.js";
 
 import { circles_nested as addcircles_nested } from "../legend/circles-nested";
 import { circles as addcircles } from "../legend/circles";

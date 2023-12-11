@@ -139,3 +139,12 @@ export function order(features, arg, { fields, descending = true } = {}) {
       }
   }
 }
+
+export function isNumber(value) {
+  return (
+    value !== null &&
+    value !== "" &&
+    typeof value !== "boolean" &&
+    isFinite(value)
+  );
+}

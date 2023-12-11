@@ -45,7 +45,7 @@ export function text(arg1, arg2) {
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
   if (!opts.data) {
-    opts.latlong = opts.latlong ? opts.latlong : false;
+    opts.latlong = opts.latlong !== undefined ? opts.latlong : false;
     if (opts.latlong) {
       opts.dominantBaseline = opts.dominantBaseline
         ? opts.dominantBaseline
@@ -60,7 +60,7 @@ export function text(arg1, arg2) {
   }
 
   if (opts.data) {
-    opts.latlong = opts.latlong ? opts.latlong : true;
+    opts.latlong = opts.latlong !== undefined ? opts.latlong : true;
     opts.textAnchor = opts.textAnchor ? opts.textAnchor : "middle";
     opts.dominantBaseline = opts.dominantBaseline
       ? opts.dominantBaseline
@@ -71,6 +71,7 @@ export function text(arg1, arg2) {
         : opts.data;
   }
 
+  console.log(opts.latlong);
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
     ? svg.append("g").attr("id", opts.id)
@@ -131,7 +132,6 @@ export function text(arg1, arg2) {
     pos[1] = pos[1] + opts.dy;
 
     if (opts.text.split("\n").length == 1) {
-      console.log(pos);
       layer.append("text").attr("x", pos[0]).attr("y", pos[1]).text(opts.text);
     } else {
       let delta = 0;
@@ -193,6 +193,7 @@ export function text(arg1, arg2) {
     });
 
     // Drawing
+
     layer
       .selectAll("text")
       .data(data)

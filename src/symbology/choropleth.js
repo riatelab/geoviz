@@ -1,4 +1,4 @@
-import { choro } from "../classify/choro";
+import { choro } from "../tool/choro";
 import { create } from "../container/create";
 import { path } from "../mark/path";
 import { render } from "../container/render";

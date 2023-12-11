@@ -3,7 +3,7 @@ const d3 = Object.assign({}, { geoPath, geoIdentity });
 import { create } from "../container/create";
 import { render } from "../container/render";
 import { tooltip } from "../helpers/tooltip";
-import { random } from "../classify/random";
+import { random } from "../tool/random";
 import {
   camelcasetodash,
   unique,
@@ -11,6 +11,7 @@ import {
   propertiesentries,
   detectinput,
   check,
+  getsize,
 } from "../helpers/utils";
 
 /**
@@ -151,8 +152,14 @@ export function path(arg1, arg2) {
     }
   }
 
+  console.log(svg.projection);
   // Output
   if (newcontainer) {
+    const size = getsize(layer);
+    svg
+      .attr("width", size.width)
+      .attr("height", size.height)
+      .attr("viewBox", [size.x, size.y, size.width, size.height]);
     return render(svg);
   } else {
     return `#${opts.id}`;

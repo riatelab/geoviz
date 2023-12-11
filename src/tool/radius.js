@@ -8,18 +8,21 @@
  * @return {string} a color
  */
 
-import { max } from "d3-array";
+import { isNumber } from "../helpers/utils";
+import { max, extent } from "d3-array";
 import { scaleSqrt } from "d3-scale";
-const d3 = Object.assign({}, { scaleSqrt, max });
+const d3 = Object.assign({}, { scaleSqrt, max, extent });
 
-export function radius2(data, { fixmax = undefined, k = 50 } = {}) {
+export function radius(data, { fixmax = undefined, k = 50 } = {}) {
   const valmax =
     fixmax != undefined ? fixmax : d3.max(data.map((d) => Math.abs(+d)));
 
   return {
-    data,
+    data: d3.extent(
+      data.filter((d) => isNumber(d)).map((d) => Math.abs(Number(d)))
+    ),
     k,
     fixmax,
-    colorize: d3.scaleSqrt([0, valmax], [0, k]),
+    r: d3.scaleSqrt([0, valmax], [0, k]),
   };
 }

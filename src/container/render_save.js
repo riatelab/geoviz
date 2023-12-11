@@ -15,13 +15,14 @@ import { getsize } from "../helpers/utils";
 
  */
 export function render(svg, { order = [] } = {}) {
-  
-  // Adjust extent // TODO
-  // const size = getsize(svg);
-  // svg
-  //   .attr("width", size.width)
-  //   .attr("height", size.height)
-  //   .attr("viewBox", [size.x, size.y, size.width, size.height]);
+  // Adjust extent
+  const size = getsize(svg);
+  svg
+    .attr("width", size.width)
+    .attr("height", size.height)
+    .attr("viewBox", [size.x, size.y, size.width, size.height]);
+
+  //console.log(size);
 
   // Reorder layers
   if (order.length > 0) {
@@ -51,7 +52,6 @@ export function render(svg, { order = [] } = {}) {
   Object.assign(svg.node(), {
     metadata: "Map designed with https://github.com/neocarto/geoviz",
   });
-
   // render
   return svg.node();
 }
