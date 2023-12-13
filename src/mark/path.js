@@ -152,7 +152,6 @@ export function path(arg1, arg2) {
     }
   }
 
-  console.log(svg.projection);
   // Output
   if (newcontainer) {
     const size = getsize(layer);

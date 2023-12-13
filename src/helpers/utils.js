@@ -148,3 +148,27 @@ export function isNumber(value) {
     isFinite(value)
   );
 }
+
+// convert svg trtansform attribute to an object
+export function transform2obj(str) {
+  if (str) {
+    const arr = str
+      .trim()
+      .split(/\(|\)/)
+      .map((d) => d.replace(" ", ""))
+      .filter((d) => d != "");
+
+    let obj = {};
+
+    ["translate", "rotate", "scale", "skewX", "skewY"].forEach((d) => {
+      obj = {
+        ...obj,
+        [d]:
+          arr.indexOf(d) !== -1
+            ? arr[arr.indexOf(d) + 1].split(",").map((d) => +d)
+            : undefined,
+      };
+    });
+    return obj;
+  } else return undefined;
+}

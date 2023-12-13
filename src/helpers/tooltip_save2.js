@@ -1,10 +1,34 @@
 import { select, pointers } from "d3-selection";
 const d3 = Object.assign({}, { select, pointers });
 
-export function tooltip(layer, data, container, tip, tip_style = {}) {
-  // tip function
+export function tooltip(
+  layer,
+  data,
+  container,
+  tip,
+  tip_style = {},
+  fields,
+  context
+) {
+  //if input == string
+  if (typeof tip === "string") {
+    const sortfields = fields.sort((a, b) => b.length - a.length);
+    fields.forEach((d) => {
+      tip = tip.replace(`$${d}`, `\${d.properties.${d}}`);
+    });
+    tip = eval("d => `" + tip + "`");
+  }
 
-  if (tip === true) {
+  // if function
+  else if (typeof tip == "function") {
+    const arrstr = tip.toString().split("=>");
+    if (!arrstr[1].includes("`${")) {
+      tip = eval(arrstr[0] + " => `${" + tip.toString().split("=>")[1] + "}`");
+    }
+  }
+
+  //if input == true
+  else if (tip === true) {
     let x = { ...data };
     let keys = [];
     x.features
@@ -19,6 +43,7 @@ export function tooltip(layer, data, container, tip, tip_style = {}) {
     tip = eval("(d) => `" + str.join("\n") + "`");
   }
 
+  // style
   let style = {
     fontSize: 13,
     fill: "#4d4545",
@@ -29,6 +54,9 @@ export function tooltip(layer, data, container, tip, tip_style = {}) {
     fontWeight: "normal",
     fontStyle: "normal",
     textDecoration: "none",
+    hoverOpacity: 0.5,
+    hoverFill: undefined,
+    hoverStroke: undefined,
   };
 
   let formerOpacity = layer.attr("fill-opacity");
@@ -75,9 +103,8 @@ export function tooltip(layer, data, container, tip, tip_style = {}) {
   layer
     .selectAll("*")
     .on("touchmove mousemove", function (event, d) {
-      //formerOpacity = d3.select(this);
       geoviztooltip.style("visibility", "visible");
-      const xy = d3.pointers(event, this)[0];
+      const xy = d3.pointers(event, context)[0];
       d3.select(this).attr("fill-opacity", 0.5);
       text
         .selectAll("text")
@@ -85,7 +112,7 @@ export function tooltip(layer, data, container, tip, tip_style = {}) {
         .join("text")
         .attr("dy", (d, i) => i * style.fontSize)
         .text((d) => d);
-      path.attr("transform", `translate(${d3.pointers(event, this)[0]})`);
+      path.attr("transform", `translate(${d3.pointers(event, context)[0]})`);
       const { x, y, width: w, height: h } = text.node().getBBox();
 
       const x_margin = 0.33 * container.width;

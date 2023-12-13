@@ -48,7 +48,9 @@ export function tile(arg1, arg2) {
     clipPath: undefined,
     url: (x, y, z) => `https://tile.openstreetmap.org/${z}/${x}/${y}.png`,
   };
+
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
+  opts.url = geturl(opts.url);
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
@@ -94,3 +96,63 @@ export function tile(arg1, arg2) {
     return `#${opts.id}`;
   }
 }
+
+function geturl(x) {
+  let url = (x, y, z) => `https://tile.openstreetmap.org/${z}/${x}/${y}.png`;
+  switch (typeof x) {
+    case "function":
+      url = x;
+      break;
+    case "string":
+      url =
+        providers.find((d) => d.name == x)?.url ||
+        ((x, y, z) => `https://tile.openstreetmap.org/${z}/${x}/${y}.png`);
+      break;
+  }
+  return url;
+}
+
+const providers = [
+  {
+    name: "openstreetmap",
+    provider: "OpenStreetMap contributors",
+    url: (x, y, z) => `https://tile.openstreetmap.org/${z}/${x}/${y}.png`,
+  },
+  {
+    name: "opentopomap",
+    provider: "OpenStreetMap contributors",
+    url: (x, y, z) => `https://tile.opentopomap.org/${z}/${x}/${y}.png`,
+  },
+  {
+    name: "worldterrain",
+    provider: "USGS, Esri, TANA, DeLorme, and NPS",
+    url: (x, y, z) =>
+      `https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/${z}/${y}/${x}.png`,
+  },
+  {
+    name: "worldimagery",
+    provider:
+      "Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+    url: (x, y, z) =>
+      `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}.png`,
+  },
+  {
+    name: "worldStreet",
+    provider:
+      "Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012",
+    url: (x, y, z) =>
+      `https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}.png`,
+  },
+  {
+    name: "worldphysical",
+    provider: "Esri, US National Park Service",
+    url: (x, y, z) =>
+      `https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/${z}/${y}/${x}`,
+  },
+  {
+    name: "shadedrelief",
+    provider: "ESRI",
+    url: (x, y, z) =>
+      `https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/${z}/${y}/${x}.png`,
+  },
+];

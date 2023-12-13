@@ -15,7 +15,6 @@ import { getsize } from "../helpers/utils";
 
  */
 export function render(svg, { order = [] } = {}) {
-  
   // Adjust extent // TODO
   // const size = getsize(svg);
   // svg
@@ -46,7 +45,7 @@ export function render(svg, { order = [] } = {}) {
   }
 
   // raise tooltips
-  svg.select("#geoviztooltip").raise();
+  svg.selectAll("#geoviztooltip").raise();
   // Add metadata
   Object.assign(svg.node(), {
     metadata: "Map designed with https://github.com/neocarto/geoviz",

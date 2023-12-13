@@ -71,8 +71,6 @@ export function circle(arg1, arg2) {
     fixmax: null,
     fill: random(),
     stroke: "white",
-    dx: 0,
-    dy: 0,
     tip: undefined,
     tipstyle: undefined,
   };
@@ -142,8 +140,8 @@ export function circle(arg1, arg2) {
     });
 
     let pos = path.centroid({ type: "Point", coordinates: opts.pos });
-    pos[0] = pos[0] + opts.dx;
-    pos[1] = pos[1] + opts.dy;
+    pos[0] = pos[0] + (opts.dx || 0);
+    pos[1] = pos[1] + (opts.dy || 0);
 
     layer
       .append("circle")
@@ -226,16 +224,45 @@ export function circle(arg1, arg2) {
       descending: opts.descending,
     });
 
+    // Circle position
+    // let cx = (d) => d3.geoPath(projection).centroid(d.geometry)[0];
+    // let cy = (d) => d3.geoPath(projection).centroid(d.geometry)[1];
+    // switch (typeof opts.dx) {
+    //   case "number":
+    //     cx = (d) => d3.geoPath(projection).centroid(d.geometry)[0] + opts.dx;
+    //   case "function":
+    //     break;
+    // }
+    // switch (typeof opts.dy) {
+    //   case "number":
+    //     cy = (d) => d3.geoPath(projection).centroid(d.geometry)[1] + opts.dx;
+    //     break;
+    //   case "function":
+    //     break;
+    // }
+
     // Drawing
+
     path = d3.geoPath(projection);
+    // const cx = opts.dx
+    //   ? (d) =>
+    //       path.centroid(d.geometry)[0] +
+    //       eval(opts.dx.toString().split("=>").slice(-1)[0])
+    //   : (d) => path.centroid(d.geometry)[0];
+    // const cy = opts.dy
+    //   ? (d) =>
+    //       path.centroid(d.geometry)[1] +
+    //       eval(opts.dy.toString().split("=>").slice(-1)[0])
+    //   : (d) => path.centroid(d.geometry)[1];
+
     layer
       .selectAll("circle")
       .data(data)
       .join((d) => {
         let n = d
           .append("circle")
-          .attr("cx", (d) => d3.geoPath(projection).centroid(d.geometry)[0])
-          .attr("cy", (d) => d3.geoPath(projection).centroid(d.geometry)[1])
+          .attr("cx", (d) => path.centroid(d.geometry)[0])
+          .attr("cy", (d) => path.centroid(d.geometry)[1])
           .attr("r", (d) => radius(d, opts.r))
           .attr("visibility", (d) =>
             isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"

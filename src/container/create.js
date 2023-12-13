@@ -1,10 +1,9 @@
 import { extent } from "../helpers/extent";
 import { create as create2 } from "d3-selection";
-import { zoomIdentity } from "d3-zoom";
-import { geoPath, geoBounds, geoEquirectangular } from "d3-geo";
+import { geoPath, geoBounds, geoEquirectangular, geoMercator } from "d3-geo";
 const d3 = Object.assign(
   {},
-  { create2, geoPath, geoBounds, geoEquirectangular, zoomIdentity }
+  { create2, geoPath, geoBounds, geoEquirectangular, geoMercator }
 );
 
 import { outline as addoutline } from "../mark/outline.js";
@@ -20,9 +19,8 @@ import { footer } from "../mark/footer.js";
 import { scalebar as addscalebar } from "../mark/scalebar.js";
 import { north as addnorth } from "../mark/north.js";
 import { clippath as addclippath } from "../mark/clippath.js";
-
-import { blur as addblur } from "../tool/blur.js";
-import { radialGradient as addradialGradient } from "../tool/radialgradient.js";
+import { blur as addblur } from "../defs/blur.js";
+import { radialGradient as addradialGradient } from "../defs/radialgradient.js";
 
 import { circles_nested as addcircles_nested } from "../legend/circles-nested";
 import { circles as addcircles } from "../legend/circles";
@@ -68,8 +66,12 @@ export function create({
   fontFamily = "Arial",
   zoomable = false,
 } = {}) {
-  // Font
+  // projection
+  if (projection == "mercator") {
+    projection = d3.geoMercator();
+  }
 
+  // Font
   let output;
   let info;
   if (height !== null) {

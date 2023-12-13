@@ -24,8 +24,6 @@ import { choro } from "./tool/choro.js";
 import { typo } from "./tool/typo.js";
 import { random } from "./tool/random.js";
 import { radius } from "./tool/radius.js";
-import { blur } from "./tool/blur.js";
-import { radialGradient } from "./tool/radialgradient.js";
 export let tool = {
   addfonts,
   rewind,
@@ -44,8 +42,6 @@ export let tool = {
   typo,
   random,
   radius,
-  blur,
-  radialGradient,
 };
 
 // Legend
@@ -66,6 +62,14 @@ export let legend = {
   typo_horizontal,
   box,
   spikes,
+};
+
+// Legend
+import { blur } from "./defs/blur.js";
+import { radialGradient } from "./defs/radialgradient.js";
+export let defs = {
+  blur,
+  radialGradient,
 };
 
 // main
