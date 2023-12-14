@@ -11,6 +11,7 @@
  */
 
 export function rewind(data, options = {}) {
+  data = JSON.parse(JSON.stringify(data));
   let outer = options.outer === false ? false : true;
   let mutate = options.mutate === false ? false : true;
   let geo = mutate === true ? data : JSON.parse(JSON.stringify(x));

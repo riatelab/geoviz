@@ -2,7 +2,6 @@ import versor from "versor@0.2";
 
 import { circle } from "../mark/circle";
 import { triangle } from "../mark/triangle";
-import { label } from "../mark/label";
 import { tile } from "../mark/tile";
 import { scalebar } from "../mark/scalebar";
 import { north } from "../mark/north";

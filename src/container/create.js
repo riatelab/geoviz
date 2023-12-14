@@ -12,15 +12,14 @@ import { text as addtext } from "../mark/text.js";
 import { circle as addcircle } from "../mark/circle.js";
 import { triangle as addtriangle } from "../mark/triangle.js";
 import { path as addpath } from "../mark/path.js";
-import { label as addlabel } from "../mark/label.js";
 import { tile } from "../mark/tile.js";
 import { header } from "../mark/header.js";
 import { footer } from "../mark/footer.js";
 import { scalebar as addscalebar } from "../mark/scalebar.js";
 import { north as addnorth } from "../mark/north.js";
-import { clippath as addclippath } from "../mark/clippath.js";
-import { blur as addblur } from "../defs/blur.js";
-import { radialGradient as addradialGradient } from "../defs/radialgradient.js";
+import { clipPath as addclippath } from "../effect/clippath.js";
+import { blur as addblur } from "../effect/blur.js";
+import { radialGradient as addradialGradient } from "../effect/radialgradient.js";
 
 import { circles_nested as addcircles_nested } from "../legend/circles-nested";
 import { circles as addcircles } from "../legend/circles";
@@ -147,14 +146,12 @@ export function create({
     { id: "graticule", func: addgraticule },
     { id: "circle", func: addcircle },
     { id: "triangle", func: addtriangle },
-    { id: "label", func: addlabel },
     { id: "text", func: addtext },
     { id: "tile", func: tile },
     { id: "header", func: header },
     { id: "footer", func: footer },
     { id: "scalebar", func: addscalebar },
     { id: "north", func: addnorth },
-    { id: "clippath", func: addclippath },
   ].forEach(
     (d) =>
       (mark[d.id] = function () {
@@ -179,15 +176,16 @@ export function create({
       })
   );
 
-  let defs = {};
+  let effect = {};
   [
     { id: "blur", func: addblur },
     { id: "radialGradient", func: addradialGradient },
+    { id: "clipPath", func: addclippath },
 
     ,
   ].forEach(
     (d) =>
-      (defs[d.id] = function () {
+      (effect[d.id] = function () {
         return d.func(output, arguments[0]);
       })
   );
@@ -206,7 +204,7 @@ export function create({
     //...symbology,
     ...mark,
     legend,
-    defs,
+    effect,
     render: function () {
       return addrender(output, arguments[0]);
     },

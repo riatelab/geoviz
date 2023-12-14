@@ -140,8 +140,6 @@ export function circle(arg1, arg2) {
     });
 
     let pos = path.centroid({ type: "Point", coordinates: opts.pos });
-    pos[0] = pos[0] + (opts.dx || 0);
-    pos[1] = pos[1] + (opts.dy || 0);
 
     layer
       .append("circle")
@@ -224,36 +222,9 @@ export function circle(arg1, arg2) {
       descending: opts.descending,
     });
 
-    // Circle position
-    // let cx = (d) => d3.geoPath(projection).centroid(d.geometry)[0];
-    // let cy = (d) => d3.geoPath(projection).centroid(d.geometry)[1];
-    // switch (typeof opts.dx) {
-    //   case "number":
-    //     cx = (d) => d3.geoPath(projection).centroid(d.geometry)[0] + opts.dx;
-    //   case "function":
-    //     break;
-    // }
-    // switch (typeof opts.dy) {
-    //   case "number":
-    //     cy = (d) => d3.geoPath(projection).centroid(d.geometry)[1] + opts.dx;
-    //     break;
-    //   case "function":
-    //     break;
-    // }
-
     // Drawing
 
     path = d3.geoPath(projection);
-    // const cx = opts.dx
-    //   ? (d) =>
-    //       path.centroid(d.geometry)[0] +
-    //       eval(opts.dx.toString().split("=>").slice(-1)[0])
-    //   : (d) => path.centroid(d.geometry)[0];
-    // const cy = opts.dy
-    //   ? (d) =>
-    //       path.centroid(d.geometry)[1] +
-    //       eval(opts.dy.toString().split("=>").slice(-1)[0])
-    //   : (d) => path.centroid(d.geometry)[1];
 
     layer
       .selectAll("circle")

@@ -15,7 +15,7 @@ const d3 = Object.assign({}, { geoPath });
  * let myclip = geoviz.style.clippath(main, { datum: world })
  * @returns {SVGSVGElement|string} - the function adds a clip layer to the SVG container and returns the id like "url(#id)".
  */
-export function clippath(
+export function clipPath(
   svg,
   { id = unique(), datum = { type: "Sphere" }, permanent = false } = {}
 ) {

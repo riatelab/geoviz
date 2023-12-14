@@ -65,22 +65,22 @@ export let legend = {
 };
 
 // Legend
-import { blur } from "./defs/blur.js";
-import { radialGradient } from "./defs/radialgradient.js";
-export let defs = {
+import { blur } from "./effect/blur.js";
+import { radialGradient } from "./effect/radialgradient.js";
+import { clipPath } from "./effect/clippath.js";
+export let effect = {
   blur,
   radialGradient,
+  clipPath,
 };
 
 // main
-export { clippath } from "./mark/clippath.js";
 export { create } from "./container/create";
 export { graticule } from "./mark/graticule.js";
 export { header } from "./mark/header.js";
 export { north } from "./mark/north.js";
 export { scalebar } from "./mark/scalebar.js";
 export { text } from "./mark/text.js";
-export { label } from "./mark/label.js";
 export { circle } from "./mark/circle.js";
 export { footer } from "./mark/footer.js";
 export { outline } from "./mark/outline.js";

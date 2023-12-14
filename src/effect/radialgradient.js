@@ -13,7 +13,7 @@ import { unique } from "../helpers/utils";
  * @param {Number} options.fx - fx
  * @param {Number} options.fy - fy
  * @example
- * let filter = viz.style.radialGradient(svg, { id: "radial", color1: "red", color2: "blue" })
+ * let filter = viz.defs.radialGradient(svg, { id: "radial", color1: "red", color2: "blue" })
  * @returns {SVGSVGElement|string} - the function adds a filter to the defs and returns the id like "url(#id)".
  */
 export function radialGradient(

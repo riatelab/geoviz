@@ -1,6 +1,5 @@
 import { whatisit } from "../helpers/whatisit";
 import { coords2geo } from "../helpers/coords2geo";
-import { geotabletogeojson } from "../helpers/geotabletogeojson";
 import { bbox } from "../helpers/bbox";
 
 /**
@@ -24,7 +23,6 @@ export function featurecollection(data, options = {}) {
     return coords2geo(x, options);
   } else if (whatisit(x) == "table" && checkGeoTable(options) == true) {
     console.log("geotable");
-    console.log(options);
     return geotabletogeojson(x, options);
   } else {
     switch (whatisit(x)) {
@@ -87,4 +85,17 @@ function checkGeoTable(options) {
   } else {
     return false;
   }
+}
+
+function geotabletogeojson(geotable, { geometry = "geometry" } = {}) {
+  let properties = JSON.parse(JSON.stringify(geotable));
+  let geom = properties.map((d) => d[geometry]);
+  properties.forEach((d) => delete d[geometry]);
+  let features = properties.map((d, i) => ({
+    type: "Feature",
+    properties: d,
+    geometry: geom[i],
+  }));
+
+  return { type: "FeatureCollection", features };
 }
