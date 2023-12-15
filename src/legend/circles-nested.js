@@ -14,6 +14,50 @@ import {
 import { formatLocale } from "d3-format";
 const d3 = Object.assign({}, { formatLocale });
 
+/**
+ * @description The `circles_nested` function allows to add an legend for proprtionnal circles
+ * @see {@link https://observablehq.com/@neocartocnrs/legends}
+ *
+ * @param {SVGSVGElement} arg1 - SVG container (optional)
+ * @param {object} arg2 - options and parameters
+ * @param {"string"} arg2.id - unique id
+ * @param {number[]} arg2.pos - legend position (default:[0,0])
+ * @param {number} arg2.gap - gap between elements
+ 
+ * @param {number[]} arg2.data - input values 
+ * @param {number} arg2.k - radius of the largest circle (or corresponding to the value defined by fixmax ) (default: 50)
+ * @param {string[]} arg2.fixmax - value matching the circle with radius k . Setting this value is useful for making maps comparable with each other
+ * @param {number} arg2.nb - number of circles
+
+  * @param {string} arg2.circle_fill - fill color for the circles
+  * @param {string} arg2.circle_stroke - stroke color for the circles
+  * @param {*} arg2.circle_foo - *SVG attributes that can be applied on this circle element *
+  * @param {string} arg2.line_stroke - stroke color for the lines
+  * @param {*} arg2.line_foo - *SVG attributes that can be applied on this line element *
+
+ * @param {string} arg2.values_textAnchor - text-anchor (default: "middle")
+ * @param {number} arg2.values_dx - shift in x (default: 0)
+ * @param {number} arg2.values_dx - shift in y (default: 5)
+ * @param {*} arg2.values_foo - *SVG attributes that can be applied on this text element (fill, fontSize...)*
+
+* @param {string} arg2.title - title of the legend
+ * @param {string|number} arg2.title_foo - *SVG attributes that can be applied on this text element*
+ * @param {string} arg2.subtitle - subtitle of the legend
+ * @param {string|number} arg2.subtitle_foo - *SVG attributes that can be applied on this text element*
+ * @param {string} arg2.note - note displayed above the legend
+ * @param {string|number} arg2.note_foo - *SVG attributes that can be applied on this text element*
+ * @param {boolean} arg2.frame - frame around the legend (default: false)
+ * @param {string|number} arg2.frame_foo - *SVG attributes that can be applied on this frame element (rect)*
+ * @param {string|number} arg2.text_foo - *SVG attributes that can be applied directly on all text elements of this legend*
+
+* @example
+ * geoviz.legend.circles_nested(svg, { pos: [10,20], data, nb:5}) // where svg is the container
+ * svg.legend.circles_nested(svg, {pos: [10,20], data, nb: 5} }) // where svg is the container
+ * geoviz.legend.circles_nested({ pos: [10,20], data, nb: 5}) // no container
+ *
+ * @returns {SVGSVGElement|string} - the function adds a layer with a circle legend to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
+ */
+
 export function circles_nested(arg1, arg2) {
   // Test if new container
   let newcontainer =

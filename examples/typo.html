@@ -11,20 +11,20 @@
 let geojson =   "./world.json"
 
 d3.json(geojson).then(data => {
-let svg = geoviz.container.create({projection: d3.geoEqualEarth(), margin: [40,0,0,0]})
-svg.layer.outline()
-svg.layer.graticule({stroke: "white", strokeWidth: 0.4})
-let typo = geoviz.classify.typo(data.features.map((d) => d.properties.region), {palette: "Set3"});
-svg.layer.geopath({data: data, fill: (d) => typo.colorize(d.properties.region), stroke: "white", strokeWidth:0.5, tip:d => `${d.properties.NAMEen} (${d.properties.region})`})
+let svg = geoviz.create({projection: d3.geoEqualEarth()})
+svg.outline()
+svg.graticule({stroke: "white", strokeWidth: 0.4})
+let typo = geoviz.tool.typo(data.features.map((d) => d.properties.region), {palette: "Set3"});
+svg.path({data: data, fill: (d) => typo.colorize(d.properties.region), stroke: "white", strokeWidth:0.5, tip:d => `${d.properties.NAMEen} (${d.properties.region})`})
 svg.legend.typo_vertical({
     pos: [670, 300],
     alphabetical: true,
-    title_text: "Continents",
+    title: "Continents",
     title_fontSize: 18,
     ...typo,
     missing: false
   });
-svg.layer.text({pos:[svg.width/2, 30], textAnchor: "middle", fontSize: 30, text: "A Typo World Map", fill: "#267A8A", fontWeight: "bold", fontFamily: "Tangerine"})
+svg.header({fontSize: 30, text: "A Typo World Map", fill: "#267A8A", fontWeight: "bold", fontFamily: "Tangerine"})
 document.body.appendChild(svg.render())
 })
 

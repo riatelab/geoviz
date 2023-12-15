@@ -1,14 +1,15 @@
 import { columns } from "../helpers/utils";
 
 /**
- * `merge` is a function to join a geoJSON and a data file.
+ * @description `merge` is a function to join a geoJSON and a data file.
+ * @see {@link https://observablehq.com/@neocartocnrs/handle-geometries}
  *
- * @param {object} options - options and parameters
- * @param {string} options.geom - a GeoJSON FeatureCollection
- * @param {Array} options.geom_id - geom id
- * @param {Array} options.data - array containg data
- * @param {string} options.data_id - data id
- * @param {string} options.id - id (same in data and geometries)
+ * @param {object} arg - options and parameters
+ * @param {string} arg.geom - a GeoJSON FeatureCollection
+ * @param {Array} arg.geom_id - geom id
+ * @param {Array} arg.data - array containg data
+ * @param {string} arg.data_id - data id
+ * @param {string} arg.id - id (same in data and geometries)
  * @returns {object} - a GeoJSON FeatureCollection
  */
 

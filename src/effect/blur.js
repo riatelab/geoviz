@@ -1,15 +1,16 @@
 import { unique } from "../helpers/utils";
 
 /**
- * The `blur` function allows to create a svg filte
- * It can be use ta add a shadow effect
+ * @description The `blur` function allows to create a svg filte. It can be use ta add a shadow effect
+ * @see {@link https://observablehq.com/@neocartocnrs/effect}
  *
  * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
- * @param {object} options - options and parameters
- * @param {string} options.id - id
- * @param {number} options.stdDeviation - standard deviation
+ * @param {object} arg - options and parameters
+ * @param {string} arg.id - id
+ * @param {number} arg.stdDeviation - standard deviation
  * @example
- * let filter = viz.style.blur(svg, { stdDeviation: 0, id: "blur" })
+ * geoviz.effect.blur(svg, { stdDeviation: 0, id: "blur" }) // where svg is the container
+ * svg.effect.blur({ stdDeviation: 0, id: "blur" }) // where svg is the container
  * @returns {SVGSVGElement|string} - the function adds a filter to the defs and returns the id like "url(#id)".
  */
 export function blur(svg, { id = unique(), stdDeviation = 1.5 } = {}) {

@@ -15,23 +15,26 @@ import {
 } from "../helpers/utils";
 
 /**
- * The `geopath` function generates SVG paths from a geoJSON
+ * @description The `path` function generates SVG paths from a geoJSON
+ * @see {@link https://observablehq.com/@neocartocnrs/path-mark}
  *
- * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
- * @param {object} options - options and parameters
- * @param {object} options.data - GeoJSON FeatureCollection. Use data to be able to iterate
- * @param {object} options.datum - GeoJSON FeatureCollection. Use datum if you don't need to iterate.
- * @param {string} options.id - id of the layer
- * @param {string|function} options.projection - use "none" if the coordinates are already in the plan of the page. If this field is left blank, the global container projection is applied.
- * @param {string|function} options.fill - fill color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
- * @param {string|function} options.stroke - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
- * @param {string|function} options.strokeWidth - stroke-width
- * @param {boolean|function} options.tip - a function to display the tip. Use true tu display all fields
- * @param {object} options.tipstyle - tooltip style
- * @param {*} options.foo - *other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ * @param {SVGSVGElement} arg1 - SVG container (optional)
+ * @param {object} arg2 - options and parameters
+ * @param {object} arg2.data - GeoJSON FeatureCollection. Use data to be able to iterate
+ * @param {object} arg2.datum - GeoJSON FeatureCollection. Use datum if you don't need to iterate.
+ * @param {string} arg2.id - id of the layer
+ * @param {boolean} arg2.latlong - use false if the coordinates are already in the plan of the page (default: true)
+ * @param {string|function} arg2.fill - fill color. To create choropleth maps or typologies, use the `tool.choro` and `tool.typo` functions
+ * @param {string|function} arg2.stroke - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
+ * @param {string|function} arg2.strokeWidth - stroke-width (default: 1)
+ * @param {boolean|function} arg2.tip - a function to display the tip. Use true tu display all fields
+ * @param {object} arg2.tipstyle - tooltip style
+ * @param {*} arg2.foo - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @example
- * let circles = geoviz.layer.geopath(main, { data: world, fill: "red" })
- * @returns {SVGSVGElement|string} - the function adds a layer with SVG paths to the SVG container and returns the layer identifier.
+ * geoviz.path(svg, { data: world, fill: "red" }) // where svg is the container
+ * svg.path({ data: world, fill: "red" }) // where svg is the container
+ * geoviz.path({ data: world, fill: "red" }) // no container
+ * @returns {SVGSVGElement|string} - the function adds a layer with SVG paths to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  */
 
 export function path(arg1, arg2) {

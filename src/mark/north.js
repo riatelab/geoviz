@@ -3,19 +3,23 @@ import { render } from "../container/render";
 import { camelcasetodash, unique, northangle } from "../helpers/utils";
 
 /**
- * The `north` function allows add a North arrow.
+ * @description The `north` function allows add a North arrow.
+ * @see {@link https://observablehq.com/@neocartocnrs/layout-marks}
+ * @see {@link  https://observablehq.com/@neocartocnrs/geoviz-scalebar}
  *
- * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
- * @param {object} options - options and parameters
- * @param {string} options.id - id of the layer
- * @param {number[]} options.pos - position [x,y] on the page. The scale value is relevant for this location on the map
- * @param {number} options.scale - a number to rescale the arrow
- * @param {number} options.rotate - an angle to rotate the arrow. By dedault, il is automaticaly calculated
- * @param {string} options.fill - fill color
- * @param {string} options.fillOpacity - fill-opacity
+ * @param {SVGSVGElement} arg1 - SVG container (optional)
+ * @param {object} arg2 - options and parameters
+ * @param {string} arg2.id - id of the layer
+ * @param {number[]} arg2.pos - position [x,y] on the page. The scale value is relevant for this location on the map (default: svg.width - 30, 30])
+ * @param {number} arg2.scale - a number to rescale the arrow (default: 1)
+ * @param {number} arg2.rotate - an angle to rotate the arrow. By dedault, il is automaticaly calculated (default: null)
+ * @param {string} arg2.fill - fill color (default: "black")
+ * @param {string} arg2.fillOpacity - fill-opacity (default: 1)
  * @example
- * geoviz.layer.north(svg, { pos: [100, 300], fill: "brown" })
- * @returns {SVGSVGElement|string} - the function adds a layer with a north arrow
+ * geoviz.north(svg, { pos: [100, 300], fill: "brown" }) // where svg is the container
+ * svg.north({ pos: [100, 300], fill: "brown" }) // where svg is the container
+ * geoviz.north( { pos: [100, 300], fill: "brown" }) // no container
+ * @returns {SVGSVGElement|string} - the function adds a layer with a north arrow. If the container is not defined, then the layer is displayed directly.
  */
 
 export function north(arg1, arg2) {

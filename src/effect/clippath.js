@@ -3,16 +3,17 @@ import { geoPath } from "d3-geo";
 const d3 = Object.assign({}, { geoPath });
 
 /**
- * The `clippath` function allows to create a clip layer
- * WARNING - the clip is valid for the entireweb  page, not just the map
+ * @description The `clipPath` function allows to create a clip layer. WARNING - the clip is valid for the entireweb  page, not just the map
+ * @see {@link https://observablehq.com/@neocartocnrs/effect}
  *
  * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
- * @param {object} options - options and parameters
- * @param {string} options.id - clip id. In another layer
- * @param {object} options.datum - datum to clip
- * @param {string} options.permanent - boolean to have ore not a static clippath
+ * @param {object} arg - options and parameters
+ * @param {string} arg.id - clip id. In another layer
+ * @param {object} arg.datum - datum to clip
+ * @param {string} arg.permanent - boolean to have ore not a static clippath
  * @example
- * let myclip = geoviz.style.clippath(main, { datum: world })
+ * geoviz.effect.clipPath(svg, { datum: world })  // where svg is the container
+ * svg.effect.clipPath({ datum: world })  // where svg is the container
  * @returns {SVGSVGElement|string} - the function adds a clip layer to the SVG container and returns the id like "url(#id)".
  */
 export function clipPath(

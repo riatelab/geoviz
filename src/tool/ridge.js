@@ -2,6 +2,21 @@ import { scaleLinear } from "d3-scale";
 import { min, max, mean, mode } from "d3-array";
 const d3 = Object.assign({}, { scaleLinear, min, max, mean, mode });
 
+/**
+ * @description Calculate the centroid of all the geometries given in a GeoJSON FeatureCollection
+ * @see {@link https://observablehq.com/@neocartocnrs/ridge-lines}
+ *
+ * @param {array} grid - an arry of object containig x,y,z values
+ * @param {object} arg - options and parameters
+ * @param {string} arg.x - field containg x values
+ * @param {string} arg.y - field containg y values
+ * @param {string} arg.z - field containg z values
+ * @param {number} arg.k - height of highest peak
+ * @param {number} arg.fixmax - a fixed value corresponding to the k
+ * @param {boolean} arg.projection - projection
+ * @returns {object} - a GeoJSON FeatureCollection (LineString)
+ */
+
 export function ridge(
   grid,
   {

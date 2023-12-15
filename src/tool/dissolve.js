@@ -2,13 +2,14 @@ import { geoArea } from "d3-geo";
 const d3 = Object.assign({}, { geoArea });
 
 /**
- * Transform multi part features into single parts features
+ * @description Transform multi part features into single parts feature
+ * @see {@link https://observablehq.com/@neocartocnrs/handle-geometries}
  *
  * @param {object} data - a GeoJSON FeatureCollection
- * @param {object} options - options and parameters
- * @param {boolean} options.areashare - name of the field containing the share area of the part
+ * @param {object} arg - options and parameters
+ * @param {boolean} arg.areashare - name of the field containing the share area of the part
  * @example
- * let dots = geoviz.transform.dissolve(world)
+ * let dots = geoviz.tool.dissolve(world)
  * @returns {object} - a GeoJSON FeatureCollection (without multi part features)
  */
 export function dissolve(geojson, options = { areashare: "_share" }) {

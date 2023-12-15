@@ -5,15 +5,14 @@
 
 let geojson =   "./world.json"
 d3.json(geojson).then(data => {
-let svg = geoviz.container.create({projection: d3.geoMercator(), zoomable:true})
-svg.layer.tile({url: (x, y, z) =>
+let svg = geoviz.create({projection: d3.geoMercator(), zoomable:true})
+svg.tile({url: (x, y, z) =>
         `https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}.png`
     })
-svg.layer.graticule({stroke: "white", strokeWidth: 0.4})
-let centroids = geoviz.transform.centroid(data)
-svg.layer.circle({data: centroids, r: "pop", fill: "#f07d75", tip:d => `${d.properties.NAMEen}
+svg.graticule({stroke: "white", strokeWidth: 0.4})
+svg.circle({data: data, r: "pop", fill: "#f07d75", tip:d => `${d.properties.NAMEen}
 ${d.properties.pop / 1000} thousands inh.`})
-svg.legend.circles_nested({pos:[20, 20], data: centroids.features.map(d => d.properties.pop), title_text: "Word Population" })
+svg.legend.circles_nested({pos:[20, 20], data: data.features.map(d => d.properties.pop), title: "Word Population" })
 document.body.appendChild(svg.render())
 })
 

@@ -5,39 +5,22 @@ toc:
     children:
       - create
       - render  
-  - name: layer
+  - name: marks
     description: |
-      This section contains functions for designing layers to be added to the svg container. 
+      This section contains functions to display map layers (i.e. marks)
     children:
-      - geopath
+      - path
       - circle
-      - spike
-      - graticule
-      - outline
-      - label
       - text
       - tile
       - header
       - footer
+      - outline
+      - graticule
+      - header
+      - footer
       - scalebar
       - north
-  - name: transform
-    description: |
-      This section contains functions for altering a geographic layer: changing its projection, calculating centroids, etc.
-    children:
-      - centroid
-      - dissolve
-      - dodge
-      - project
-      - unproject
-      - replicate
-  - name: classify
-    description: |
-      This section contains classification operations that can be used, for example, to create choropleth maps or typologies. 
-    children:
-      - choro
-      - typo
-      - random
   - name: legend
     description: |
       This section contains functions for designing legends to be added to the svg container.
@@ -45,23 +28,34 @@ toc:
       - box   
       - circles
       - circles_nested
-      - spikes
       - choro_vertical
       - choro_horizontal
       - typo_vertical
       - typo_horizontal
-  - name: style
+      - spikes
+  - name: effect
     description: |
-      This section contains helpers to bluid svg filters or clipaths
+      This section contains helpers to build svg filters or clipaths
     children:
       - blur
-      - clippath
       - radialGradient
-      - addfonts
+      - clipPath
   - name: tool
     description: |
-      This section contains useful geoJSON functions.
+      This section contains useful tools to handle geometries or ti help you to build complex maps
     children:
+      - centroid
+      - dissolve
+      - dodge
+      - project
+      - unproject
+      - replicate
+      - addfonts
+      - choro
+      - typo
+      - radius
+      - random
+      - ridge
       - featurecollection
       - merge
       - rewind

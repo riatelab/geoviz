@@ -15,6 +15,42 @@ import {
   order,
 } from "../helpers/utils";
 
+/**
+ * @description The `text` function allows to add a text on the map. It allow also to create a layer with labels from a geoJSON
+ * @see {@link https://observablehq.com/@neocartocnrs/text-mark}
+ *
+ * @param {SVGSVGElement} arg1 - SVG container (optional)
+ * @param {object} arg2 - options and parameters
+ * @param {object} arg2.data - GeoJSON FeatureCollection
+ * @param {string} arg2.id - id of the layer
+ * @param {string|function} arg2.text - text to be displayed
+ * @param {string|function} arg2.textAnchor - text anchor ("start", "middle", "end")
+ * @param {string|function} arg2.dominantBaseline - dominant-baseline ("auto", "middle", "central", "hanging")
+ * @param {string} arg2.fontFamily - font-family (default: font defined in the svg container)
+ * @param {number} arg2.fontSize - font-size (default: 12)
+ * @param {number} arg2.lineSpacing - line spacinf (default: 0)
+ * @param {number[]} arg2.pos - position to display a single text element (default [0,0])
+ * @param {number} arg2.dx - shift in x (default 0)
+ * @param {number} arg2.dy - shift in y (default: 0)
+ * @param {string|function} arg2.sort - the field to sort labels or a sort function
+ * @param {boolean} arg2.descending - text sorting order
+ * @param {boolean} arg2.latlong - use false if the coordinates are already in the plan of the page (default: true)
+ * @param {string|function} arg2.fill - fill color
+ * @param {string|function} arg2.stroke - stroke color
+ * @param {number} arg2.strokeWidth - stroke width (default: 1)
+ * @param {string|function} arg2.strokeLinejoin - stroke-linejoin (default: "round")
+ * @param {boolean|function} arg2.tip - a function to display the tip. Use true tu display all fields
+ * @param {object} arg2.tipstyle - tooltip style
+ * @param {*} arg2.foo - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ * @example
+ * geoviz.text(svg, { pos: [10,20], text: "Hello World" }) // a single text
+ * geoviz.text(svg, { data: cities, text: "name" }) // labels where svg is the container
+ * svg.text({ data: cities, text: "name" }) // labels where svg is the container
+ * geoviz.text({ data: cities, text: "name" }) // labels with no container
+ *
+ * @returns {SVGSVGElement|string} - the function adds a layer with texts to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
+ */
+
 export function text(arg1, arg2) {
   // Test if new container
   let newcontainer =

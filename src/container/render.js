@@ -4,13 +4,15 @@ import { zoomversor } from "../helpers/zoomversor";
 import { getsize } from "../helpers/utils";
 
 /**
- * The `render` function returns the svg document
+ * @description The `render` function returns the svg document
+ * @see {@link https://observablehq.com/@neocartocnrs/geoviz}
  *
  * @param {SVGSVGElement} svg - SVG container to display. This can be generated using the `container.init` function.
- * @param {object} options - options and parameters
- * @param {object[]} options.order - array determining the order of layers. This option is only useful in Observable (because of its topological nature). 
+ * @param {object} arg - options and parameters
+ * @param {object[]} arg.order - array determining the order of layers. This option is only useful in Observable (because of its topological nature). 
  * @example
- * geoviz.container.render(svg, {order: [basemap, roads, cities]})
+ * geoviz.render(svg, {order: [basemap, roads, cities]}) // where svg is the container
+ * svg.render({order: [basemap, roads, cities]}) // where svg is the container
  * @returns {SVGSVGElement} - a pretty map in SVG format :-)
 
  */

@@ -3,14 +3,15 @@ import { coords2geo } from "../helpers/coords2geo";
 import { bbox } from "../helpers/bbox";
 
 /**
- * `featurecollection` is a function to create a valid GeoJSON FeatureCollection, from geometries, features or coordinates.
+ * @description `featurecollection` is a function to create a valid GeoJSON FeatureCollection, from geometries, features or coordinates.
+ * @see {@link https://observablehq.com/@neocartocnrs/handle-geometries}
  *
  * @param {object|Array} data - A GeoJSON FeatureCollection, an array of GeoJSON features, a single feature, an array of geometries, a single geometry or a array defining a bbox. You can also use an array of properties containing latitude and longitude coordinates. In this case, you need to specify the field names in the options.
- * @param {object} options - options and parameters
- * @param {string} options.latitude - name of field containing latitudes. You can also use `lat`
- * @param {string} options.longitude - name of field containing longitudes. You can also use `lon`
- * @param {string} options.coordinates - name of field containing géographic coordinates. You can also use `coords`
- * @param {string} options.geometry - name of field containing GEOJSON geometries
+ * @param {object} arg - options and parameters
+ * @param {string} arg.latitude - name of field containing latitudes. You can also use `lat`
+ * @param {string} arg.longitude - name of field containing longitudes. You can also use `lon`
+ * @param {string} arg.coordinates - name of field containing géographic coordinates. You can also use `coords`
+ * @param {string} arg.geometry - name of field containing GEOJSON geometries
  *
  * @returns {object} a GeoJSON FeatureCollection
  */

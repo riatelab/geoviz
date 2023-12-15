@@ -15,6 +15,47 @@ import {
 import { formatLocale } from "d3-format";
 const d3 = Object.assign({}, { formatLocale });
 
+/**
+ * @description The `choro_horizontal` function allows to add an horizontal legend on a map for choropleth layers
+ * @see {@link https://observablehq.com/@neocartocnrs/legends}
+ *
+ * @param {SVGSVGElement} arg1 - SVG container (optional)
+ * @param {object} arg2 - options and parameters
+ * @param {"string"} arg2.id - unique id
+ * @param {number[]} arg2.pos - legend position (default:[0,0])
+ * @param {number} arg2.gap - gap between elements
+ 
+ * @param {number[]} arg2.breaks - breaks (default: [1, 2, 3, 4, 5])
+ * @param {string[]} arg2.colors - colors (default: ["#fee5d9", "#fcae91", "#fb6a4a", "#cb181d"])
+ 
+ * @param {string} arg2.rect_width - width of the box (default: 50)
+ * @param {string} arg2.rect_height - height of the box (default: 14)
+ * @param {number} arg2.rect_spacing - spacing between boxes
+  * @param {*} arg2.rect_foo - *other SVG attributes that can be applied on this rect element (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ 
+ * @param {string} arg2.values_textAnchor - text-anchor (default: "middle")
+ * @param {number} arg2.values_dx - shift in x (default: 0)
+ * @param {number} arg2.values_dx - shift in y (default: 5)
+ * @param {*} arg2.values_foo - *SVG attributes that can be applied on this text element (fill, fontSize...)*
+
+* @param {string} arg2.title - title of the legend
+ * @param {string|number} arg2.title_foo - *SVG attributes that can be applied on this text element*
+ * @param {string} arg2.subtitle - subtitle of the legend
+ * @param {string|number} arg2.subtitle_foo - *SVG attributes that can be applied on this text element*
+ * @param {string} arg2.note - note displayed above the legend
+ * @param {string|number} arg2.note_foo - *SVG attributes that can be applied on this text element*
+ * @param {boolean} arg2.frame - frame around the legend (default: false)
+ * @param {string|number} arg2.frame_foo - *SVG attributes that can be applied on this frame element (rect)*
+ * @param {string|number} arg2.text_foo - *SVG attributes that can be applied directly on all text elements of this legend*
+
+* @example
+ * geoviz.legend.choro_horizontal(svg, { pos: [10,20], breaks, colors}) // where svg is the container
+ * svg.legend.choro_horizontal(svg, {pos: [10,20], breaks, colors} }) // where svg is the container
+ * geoviz.legend.choro_horizontal({ pos: [10,20], breaks, colors}) // no container
+ *
+ * @returns {SVGSVGElement|string} - the function adds a layer with a choro legend to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
+ */
+
 export function choro_horizontal(arg1, arg2) {
   // Test if new container
   let newcontainer =

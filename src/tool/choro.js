@@ -5,23 +5,23 @@ import { scaleThreshold } from "d3-scale";
 const d3 = Object.assign({}, { scaleThreshold });
 
 /**
- * This function discretizes an array of numbers
+ * @description This function discretizes an array of numbers
  *
  * @param {number[]} data - an array of numerical values.
- * @param {object} options - options and parameters
- * @param {number[]} options.breaks - class breaks including min and max
- * @param {string[]} options.colors - an array of colors
- * @param {string} options.missing - a color for missings values
- * @param {string[]} options.palette - name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library)
- * @param {string} options.method - classification method ('quantile', 'q6', 'equal', 'jenks', 'msd', 'geometric', 'headtail', 'pretty' or 'arithmetic')
- * @param {number} options.nb - number of classes desired
- * @param {number} options.precision - number of digits
- * @param {boolean} options.minmax - to keep or delete min and max
- * @param {number} options.k - number of standard deviations taken into account (msd method only)
- * @param {boolean} options.middle - o have the average as a class center (msd method only)
+ * @param {object} arg - options and parameters
+ * @param {number[]} arg.breaks - class breaks including min and max
+ * @param {string[]} arg.colors - an array of colors
+ * @param {string} arg.missing - a color for missings values
+ * @param {string[]} arg.palette - name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library)
+ * @param {string} arg.method - classification method ('quantile', 'q6', 'equal', 'jenks', 'msd', 'geometric', 'headtail', 'pretty' or 'arithmetic')
+ * @param {number} arg.nb - number of classes desired
+ * @param {number} arg.precision - number of digits
+ * @param {boolean} arg.minmax - to keep or delete min and max
+ * @param {number} arg.k - number of standard deviations taken into account (msd method only)
+ * @param {boolean} arg.middle - to have the average as a class center (msd method only)
  * @example
- * geoviz.classify.choro(world.features.map((d) => d.properties.gdppc))
- * @return {object} an object containg breaks, colors, the color of the missing value and a function.
+ * geoviz.tool.choro(world.features.map((d) => d.properties.gdppc))
+ * @return {object} an object containing breaks, colors, the color of the missing value and a function.
  */
 
 export function choro(

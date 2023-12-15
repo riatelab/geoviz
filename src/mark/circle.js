@@ -24,24 +24,34 @@ import {
 } from "../helpers/utils";
 
 /**
- * The `circle` function allows to create a layer with circles from a geoJSON (points)
+ * @description The `circle` function allows to create a layer with circles from a geoJSON
+ * @see {@link https://observablehq.com/@neocartocnrs/circle-mark}
  *
- * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
- * @param {object} options - options and parameters
- * @param {object} options.data - GeoJSON FeatureCollection (points)
- * @param {string} options.id - id of the layer
- * @param {number|string} options.r - a number or the name of a property containing numerical values.
- * @param {number} options.k - radius of the largest circle (or corresponding to the value defined by `fixmax`)
- * @param {number} options.fixmax - value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
- * @param {string|function} options.projection - use "none" if the coordinates are already in the plan of the page. If this field is left blank, the global container projection is applied.
- * @param {string|function} options.fill - fill color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
- * @param {string|function} options.stroke - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
- * @param {boolean|function} options.tip - a function to display the tip. Use true tu display all fields
- * @param {object} options.tipstyle - tooltip style
- * @param {*} options.foo - *other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ * @param {SVGSVGElement} arg1 - SVG container (optional)
+ * @param {object} arg2 - options and parameters
+ * @param {object} arg2.data - GeoJSON FeatureCollection
+ * @param {string} arg2.id - id of the layer
+ * @param {number[]} arg2.pos - position of the circle to display a single circle (default [0,0])
+ * @param {number|string} arg2.r - a number or the name of a property containing numerical values (default: 10)
+ * @param {number} arg2.k - radius of the largest circle (or corresponding to the value defined by `fixmax`)  (default: 50)
+ * @param {number} arg2.fixmax - value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
+ * @param {boolean} arg2.dodge - to avoid circle overlap
+ * @param {number} arg2.iteration - number of iteration to dodge circles (default: 200)
+ * @param {string|function} arg2.sort - the field to sort circles or a sort function
+ * @param {boolean} arg2.descending - circle sorting order
+ * @param {boolean} arg2.latlong - use false if the coordinates are already in the plan of the page (default: true)
+ * @param {string|function} arg2.fill - fill color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
+ * @param {string|function} arg2.stroke - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
+ * @param {boolean|function} arg2.tip - a function to display the tip. Use true tu display all fields
+ * @param {object} arg2.tipstyle - tooltip style
+ * @param {*} arg2.foo - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @example
- * let circles = geoviz.layer.bubble(main, { data: cities, r: "population" })
- * @returns {SVGSVGElement|string} - the function adds a layer with circles to the SVG container and returns the layer identifier.
+ * geoviz.circle(svg, { pos: [10,20], r: 15 }) // a single circle
+ * geoviz.circle(svg, { data: cities, r: "population" }) // where svg is the container
+ * svg.circle({ data: cities, r: "population" }) // where svg is the container
+ * geoviz.circle({ data: cities, r: "population" }) // no container
+ *
+ * @returns {SVGSVGElement|string} - the function adds a layer with circles to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  */
 
 export function circle(arg1, arg2) {

@@ -1,11 +1,12 @@
 /**
- * This function allow to unproject geometries.
+ * @description This function allow to unproject geometries.
+ * @see {@link https://observablehq.com/@neocartocnrs/handle-geometries}
  *
  * @param {object} data - a GeoJSON FeatureCollection
- * @param {object} options - options and parameters
- * @param {function} options.projection - projection definition. See [d3-geo](https://github.com/d3/d3-geo) & [d3-geo-projection](https://github.com/d3/d3-geo-projection)
+ * @param {object} arg - options and parameters
+ * @param {function} options.arg - projection definition. See [d3-geo](https://github.com/d3/d3-geo) & [d3-geo-projection](https://github.com/d3/d3-geo-projection)
  * @example
- * let newGeoJSON = geoviz.transform.unproject(world, { projection: d3.geoOrthographic()})
+ * let newGeoJSON = geoviz.tool.unproject(world, { projection: d3.geoOrthographic()})
  * @returns {object} - a GeoJSON FeatureCollection with wgs84 coordinates
  */
 export function unproject(geojson, options = {}) {

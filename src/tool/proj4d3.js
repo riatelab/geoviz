@@ -2,7 +2,8 @@ import { geoProjection } from "d3-geo";
 const d3 = Object.assign({}, { geoProjection });
 
 /**
- * `proj4d3` is a function developped by Philippe Rivière to allow tu use proj4js projections with d3. See https://observablehq.com/@fil/proj4js-d3
+ * @description `proj4d3` is a function developped by Philippe Rivière to allow tu use proj4js projections with d3. See https://observablehq.com/@fil/proj4js-d3
+ * @see {@link https://observablehq.com/@neocartocnrs/handle-geometries}
  *
  * @param {string} proj4 - the proj4 lib that you have to load
  * @param {string} proj4string - a proj4 projection

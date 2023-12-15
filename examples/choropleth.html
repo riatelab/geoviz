@@ -9,24 +9,23 @@
 <script>
 
 let geojson =   "./world.json"
-
 d3.json(geojson).then(data => {
-let svg = geoviz.container.create({projection: d3.geoEqualEarth(), margin: [40,0,0,0]})
-svg.layer.outline()
-svg.layer.graticule({stroke: "white", strokeWidth: 0.4})
-let choro = geoviz.classify.choro(data.features.map((d) => d.properties.gdppc), {method: "quantile", palette: "Matter"})
-svg.layer.geopath({data: data, fill: d =>  choro.colorize(d.properties.gdppc), stroke: "white", strokeWidth:0.5, tip:d => `${d.properties.NAMEen}
+let svg = geoviz.create({projection: d3.geoEqualEarth()})
+svg.outline()
+svg.graticule({stroke: "white", strokeWidth: 0.4})
+let choro = geoviz.tool.choro(data.features.map((d) => d.properties.gdppc), {method: "quantile", palette: "Matter"})
+svg.path({data: data, fill: d =>  choro.colorize(d.properties.gdppc), stroke: "white", strokeWidth:0.5, tip:d => `${d.properties.NAMEen}
 ${d.properties.gdppc} $ per inh.`})
 svg.legend.choro_horizontal({
     pos: [410, 390],
-    title_text: "GDP per capita",
+    title: "GDP per capita",
     title_fontSize: 18,
     subtitle_text: "($ per inh.)",
     note_text: "Source: worldbank, 2020",
     values_round: 0,
     ...choro
   });
-svg.layer.text({pos:[svg.width/2, 30], textAnchor: "middle", fontSize: 30, text: "A Choropleth World Map", fill: "#267A8A", fontWeight: "bold", fontFamily: "Tangerine"})
+svg.header({fontSize: 30, text: "A Choropleth World Map", fill: "#267A8A", fontWeight: "bold", fontFamily: "Tangerine"})
 document.body.appendChild(svg.render())
 })
 

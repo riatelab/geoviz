@@ -1,10 +1,10 @@
 /**
- * `geotable` is a function to create an array on objects containing properties and geomeytries, froam a GeoJSON FeatureCollection.
- * This makes it easy to sort, extract data, etc. tool.featurecollection(geotable, { geometry: "geometry" }) can be used to rebuild a valid geoJSON.
+ * @description `geotable` is a function to create an array on objects containing properties and geomeytries, froam a GeoJSON FeatureCollection. This makes it easy to sort, extract data, etc. tool.featurecollection(geotable, { geometry: "geometry" }) can be used to rebuild a valid geoJSON.
+ * @see {@link https://observablehq.com/@neocartocnrs/handle-geometries}
  *
  * @param {object} data - A GeoJSON FeatureCollection
- * @param {object} options - options and parameters
- * @param {string} options.geometry - name of field containing GEOJSON geometries
+ * @param {object} arg - options and parameters
+ * @param {string} arg.geometry - name of field containing GEOJSON geometries
  *
  * @returns {object} an array of  FeatureCollection
  */

@@ -34,22 +34,22 @@ import { render as addrender } from "../container/render";
 import { choropleth as addchoropleth } from "../symbology/choropleth.js";
 
 /**
- * The `create` function is the first step in map construction.
- * It creates an svg container into which the various layers can be added.
+ * @description The `create` function is the first step in map construction. t creates an svg container into which the various layers can be added.
+ * @see {@link https://observablehq.com/@neocartocnrs/geoviz}
  *
- * @param {object} options - options and parameters
- * @param {number} options.height - height of the container
- * @param {number} options.width - width of the container. This value is automatically calculated according to `domain`. But it can be forced by entering a value.
- * @param {object|object[]} options.domain - the domain corresponds to the geographical area to be displayed. It is defined by a geoJSON or an array containing geoJSONs. By default, the entire world is represented.
- * @param {function} options.projection - projection definition. See [d3-geo](https://github.com/d3/d3-geo) & [d3-geo-projection](https://github.com/d3/d3-geo-projection)
- * @param {number[]} options.pos - position of the container (if contained in another svg container)
- * @param {string} options.background - background color
- * @param {string} options.fontFamily - font-family for the entire map
- * @param {number|number[]} options.margin - margins around the map. A number to set the same margin everywhere or an array [top, right, bottom, left] to set different margins.
- * @param {object} options.parent - name of parent container into which this child container is to be included. In this case, the options.pos parameter is also used.
- * @param {boolean|number|string} options.zoomable - activates the map zoom function. If you set an array of 2 values, it defines the scaleExtent (default: [1,8]). Use "versor" to activate [versor zoom](https://github.com/d3/versor). "Versor" is only available for vector geometries in wgs84.
+ * @param {object} arg - options and parameters
+ * @param {number} arg.height - height of the container
+ * @param {number} arg.width - width of the container. This value is automatically calculated according to `domain`. But it can be forced by entering a value.
+ * @param {object|object[]} arg.domain - the domain corresponds to the geographical area to be displayed. It is defined by a geoJSON or an array containing geoJSONs. By default, the entire world is represented.
+ * @param {function|string} arg.projection - projection definition. See [d3-geo](https://github.com/d3/d3-geo) & [d3-geo-projection](https://github.com/d3/d3-geo-projection). You can aslo write "mercator" tu use tiles.
+ * @param {number[]} arg.pos - position of the container (if contained in another svg container)
+ * @param {string} arg.background - background color
+ * @param {string} arg.fontFamily - font-family for the entire map
+ * @param {number|number[]} arg.margin - margins around the map. A number to set the same margin everywhere or an array [top, right, bottom, left] to set different margins.
+ * @param {object} arg.parent - name of parent container into which this child container is to be included. In this case, the options.pos parameter is also used.
+ * @param {boolean|number|string} arg.zoomable - activates the map zoom function. If you set an array of 2 values, it defines the scaleExtent (default: [1,8]). Use "versor" to activate [versor zoom](https://github.com/d3/versor). "Versor" is only available for vector geometries in wgs84.
  * @example
- * let main = geoviz.container.create({width: 500, background: "lightblue"})
+ * let svg = geoviz.create({width: 500, background: "lightblue"})
  * @returns {SVGSVGElement} - the function returns a svg container + some information about this container:`projection`, `margin`, `width`, `height` and `bbox`
  */
 

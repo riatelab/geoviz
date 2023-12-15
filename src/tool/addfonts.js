@@ -1,5 +1,5 @@
 /**
- * The `addonts` function allows add font to the document from an url
+ * @description The `addonts` function allows add font to the document from an url
  *
  * @param {string} fontFamily - font family name
  * @param {string} url - tff- file url

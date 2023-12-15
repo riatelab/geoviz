@@ -12,6 +12,49 @@ import {
   manageoptions,
 } from "../helpers/utils_legend.js";
 
+/**
+ * @description The `typo_vertical` function allows to add an vertical legend on a map for typo layers
+ * @see {@link https://observablehq.com/@neocartocnrs/legends}
+ *
+ * @param {SVGSVGElement} arg1 - SVG container (optional)
+ * @param {object} arg2 - options and parameters
+ * @param {"string"} arg2.id - unique id
+ * @param {number[]} arg2.pos - legend position (default:[0,0])
+ * @param {number} arg2.gap - gap between elements
+ 
+ * @param {string[]} arg2.types - types (default: ["A", "B", "C", "D"])
+ * @param {string[]} arg2.colors - colors (default: ["#e41a1c", "#377eb8", "#4daf4a", "#984ea3"])
+ * @param {boolean} arg2.alphabetical - alphabetical order (default: true) 
+
+
+ * @param {string} arg2.rect_width - width of the box (default: 25)
+ * @param {string} arg2.rect_height - height of the box (default: 17)
+ * @param {number} arg2.rect_spacing - spacing between boxes
+ * @param {*} arg2.rect_foo - *other SVG attributes that can be applied on this rect element (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ 
+ * @param {string} arg2.values_textAnchor - text-anchor (default: "middle")
+ * @param {number} arg2.values_dx - shift in x (default: 0)
+ * @param {number} arg2.values_dx - shift in y (default: 5)
+ * @param {*} arg2.values_foo - *SVG attributes that can be applied on this text element (fill, fontSize...)*
+
+* @param {string} arg2.title - title of the legend
+ * @param {string|number} arg2.title_foo - *SVG attributes that can be applied on this text element*
+ * @param {string} arg2.subtitle - subtitle of the legend
+ * @param {string|number} arg2.subtitle_foo - *SVG attributes that can be applied on this text element*
+ * @param {string} arg2.note - note displayed above the legend
+ * @param {string|number} arg2.note_foo - *SVG attributes that can be applied on this text element*
+ * @param {boolean} arg2.frame - frame around the legend (default: false)
+ * @param {string|number} arg2.frame_foo - *SVG attributes that can be applied on this frame element (rect)*
+ * @param {string|number} arg2.text_foo - *SVG attributes that can be applied directly on all text elements of this legend*
+
+* @example
+ * geoviz.legend.typo_vertical(svg, { pos: [10,20], types, colors}) // where svg is the container
+ * svg.legend.typo_vertical(svg, {pos: [10,20], types, colors} }) // where svg is the container
+ * geoviz.legend.typo_vertical({ pos: [10,20], types, colors}) // no container
+ *
+ * @returns {SVGSVGElement|string} - the function adds a layer with a typo legend to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
+ */
+
 export function typo_vertical(arg1, arg2) {
   // Test if new container
   let newcontainer =

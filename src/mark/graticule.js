@@ -5,22 +5,25 @@ import { geoGraticule, geoPath } from "d3-geo";
 const d3 = Object.assign({}, { geoPath, geoGraticule });
 
 /**
- * The `graticule` function allows to create a layer with lat/long lines
+ * @description The `graticule` function allows to create a layer with lat/long lines
+ * @see {@link https://observablehq.com/@neocartocnrs/layout-marks}
  *
- * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
- * @param {object} options - options and parameters
- * @param {string} options.id - id of the layer
- * @param {number|number[]} options.step - gap between graticules. The value can be a number or an array of two values
- * @param {string} options.stroke - stroke color
- * @param {string} options.fill - fill color
- * @param {string} options.strokeWidth - stroke width
- * @param {string} options.strokeLinecap - stroke-inecap
- * @param {string} options.strokeLinejoin - stroke-Linejoin
- * @param {string} options.strokeDasharray - stroke-dasharray
- * @param {*} options.foo - *other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ * @param {SVGSVGElement} arg1 - SVG container (optional)
+ * @param {object} arg2 - options and parameters
+ * @param {string} arg2.id - id of the layer
+ * @param {number|number[]} arg2.step - gap between graticules. The value can be a number or an array of two values (default: 10)
+ * @param {string} arg2.stroke - stroke color (default: "#9ad5e6")
+ * @param {string} arg2.fill - fill color (default: "none")
+ * @param {string} arg2.strokeWidth - stroke width (default: 0.8)
+ * @param {string} arg2.strokeLinecap - stroke-inecap (default: "square")
+ * @param {string} arg2.strokeLinejoin - stroke-Linejoin (default: "round")
+ * @param {number|number[]} arg2.strokeDasharray - stroke-dasharray (default: 2)
+ * @param {*} arg2.foo - *other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @example
- * let graticule = geoviz.layer.graticule(main, { step: 2 })
- * @returns {SVGSVGElement|string} - the function adds a layer with graticule lines to the SVG container and returns the layer identifier.
+ * geoviz.graticule(svg, { step: 2 }) // where svg is the container
+ * svg.graticule({ step: [10,2] }) // where svg is the container
+ * geoviz.graticule({ step: 2 }) // no container
+ * @returns {SVGSVGElement|string} - the function adds a layer with graticule lines to the SVG container and returns the layer identifier.  If the container is not defined, then the layer is displayed directly.
  */
 
 export function graticule(arg1, arg2) {
