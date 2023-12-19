@@ -24,6 +24,7 @@ import {
  * @param {object} arg2.datum - GeoJSON FeatureCollection. Use datum if you don't need to iterate.
  * @param {string} arg2.id - id of the layer
  * @param {boolean} arg2.latlong - use false if the coordinates are already in the plan of the page (default: true)
+ * @param {boolean} arg2.clip - use true to clip the path with the outline (default; true)
  * @param {string|function} arg2.fill - fill color. To create choropleth maps or typologies, use the `tool.choro` and `tool.typo` functions
  * @param {string|function} arg2.stroke - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
  * @param {string|function} arg2.strokeWidth - stroke-width (default: 1)
@@ -52,6 +53,7 @@ export function path(arg1, arg2) {
     mark: "path",
     id: unique(),
     latlong: true,
+    clip: true,
     strokeWidth: 1,
   };
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
@@ -108,6 +110,7 @@ export function path(arg1, arg2) {
 
   // Projection
   let projection = opts.latlong ? svg.projection : d3.geoIdentity();
+  let path = d3.geoPath(projection);
 
   // Specific attributes
   let entries = Object.entries(opts).map((d) => d[0]);
@@ -131,9 +134,20 @@ export function path(arg1, arg2) {
     opts[d] = check(opts[d], fields);
   });
 
+  // Clip-path
+  if (opts.clip == true && opts.latlong == true) {
+    const clipid = "clippath_" + unique();
+    svg
+      .append("clipPath")
+      .attr("id", clipid)
+      .append("path")
+      .attr("d", path({ type: "Sphere" }));
+
+    layer.attr("clip-path", `url(#${clipid})`);
+  }
+
   // Draw each features with its attributes
 
-  let path = d3.geoPath(projection);
   if (opts.datum) {
     layer.append("path").datum(opts.datum).attr("d", path);
   }
