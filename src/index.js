@@ -66,10 +66,12 @@ export let legend = {
 
 // Legend
 import { blur } from "./effect/blur.js";
+import { shadow } from "./effect/shadow.js";
 import { radialGradient } from "./effect/radialgradient.js";
 import { clipPath } from "./effect/clippath.js";
 export let effect = {
   blur,
+  shadow,
   radialGradient,
   clipPath,
 };

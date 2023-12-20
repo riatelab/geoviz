@@ -25,6 +25,7 @@ import { scalebar as addscalebar } from "../mark/scalebar.js";
 import { north as addnorth } from "../mark/north.js";
 import { clipPath as addclippath } from "../effect/clippath.js";
 import { blur as addblur } from "../effect/blur.js";
+import { shadow as addshadow } from "../effect/shadow.js";
 import { radialGradient as addradialGradient } from "../effect/radialgradient.js";
 
 import { circles_nested as addcircles_nested } from "../legend/circles-nested";
@@ -101,8 +102,6 @@ export function create({
     ]);
 
     height = Math.ceil(y1 - y0) + margin[0] + margin[2];
-
-
 
     let trans = projection.translate();
     projection.translate([trans[0] + margin[3], trans[1] + margin[0]]);
@@ -198,6 +197,7 @@ export function create({
   let effect = {};
   [
     { id: "blur", func: addblur },
+    { id: "shadow", func: addshadow },
     { id: "radialGradient", func: addradialGradient },
     { id: "clipPath", func: addclippath },
 
