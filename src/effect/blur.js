@@ -1,7 +1,7 @@
 import { unique } from "../helpers/utils";
 
 /**
- * @description The `blur` function allows to create a svg filte. It can be use ta add a shadow effect
+ * @description The `blur` function allows to create a svg blur filter.
  * @see {@link https://observablehq.com/@neocartocnrs/effect}
  *
  * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.

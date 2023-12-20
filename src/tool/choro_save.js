@@ -1,16 +1,8 @@
 import { isNumber } from "../helpers/isnuber";
 import * as discr from "statsbreaks";
-import { getColors, getPalettes } from "dicopal";
+import { getColors } from "dicopal";
 import { scaleThreshold } from "d3-scale";
-import { interpolateRgbBasis } from "d3-interpolate";
-import { min, range } from "d3-array";
-const d3 = Object.assign(
-  {},
-  { scaleThreshold, min, interpolateRgbBasis, range }
-);
-
-range;
-interpolateRgbBasis;
+const d3 = Object.assign({}, { scaleThreshold });
 
 /**
  * @description This function discretizes an array of numbers
@@ -18,10 +10,10 @@ interpolateRgbBasis;
  * @param {number[]} data - an array of numerical values.
  * @param {object} arg - options and parameters
  * @param {number[]} arg.breaks - class breaks including min and max
- * @param {string|string[]} arg.colors - an array of colors or name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library)
- * @param {boolean} arg.reverse  reverse colors
+ * @param {string[]} arg.colors - an array of colors
  * @param {string} arg.missing - a color for missings values
- * @param {string} arg.method - classification method ('quantile', 'q6', 'equal', 'jenks', 'msd', 'geometric', 'headtail', 'pretty', 'arithmetic' or 'nestedmeans')
+ * @param {string[]} arg.palette - name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library)
+ * @param {string} arg.method - classification method ('quantile', 'q6', 'equal', 'jenks', 'msd', 'geometric', 'headtail', 'pretty' or 'arithmetic')
  * @param {number} arg.nb - number of classes desired
  * @param {number} arg.precision - number of digits
  * @param {boolean} arg.minmax - to keep or delete min and max
@@ -37,12 +29,12 @@ export function choro(
   {
     method = "quantile",
     breaks = null,
-    colors = "Algae",
-    reverse = false,
+    colors = null,
     nb = 6,
     k = 1,
     middle,
     precision = 2,
+    palette = "Algae",
     missing_fill = "white",
   } = {}
 ) {
@@ -57,12 +49,7 @@ export function choro(
       precision,
     });
 
-  let cols = palette(colors, bks.length - 1);
-
-  if (reverse) {
-    cols = [...cols].reverse();
-  }
-
+  const cols = colors || getColors(palette, bks.length - 1);
   const colorize = function (d) {
     return d3.scaleThreshold(bks.slice(1, -1), cols).unknown(missing_fill)(
       parseFloat(d)
@@ -78,30 +65,4 @@ export function choro(
     nodata: missingvalues,
     colorize,
   };
-}
-
-function palette(colors, nb) {
-  let cols;
-
-  if (typeof colors == "string") {
-    cols = getColors(colors, nb);
-
-    // ramp color
-    if (cols == undefined) {
-      const arr = getPalettes({ name: colors }).map((d) => d.number);
-      const min = d3.min(arr.map((d) => Math.abs(d - nb)));
-      const indexpal = arr.findIndex((d) => Math.abs(d - nb) == min);
-      const proxy = getColors(colors, arr[indexpal]);
-      return d3.range(nb).map((d) => d3.interpolateRgbBasis(proxy)(d / nb));
-    }
-  }
-  if (typeof colors == "object") {
-    if (colors.length != nb) {
-      cols = d3.range(nb).map((d) => d3.interpolateRgbBasis(colors)(d / nb));
-    } else {
-      cols = colors;
-    }
-  }
-
-  return cols;
 }
