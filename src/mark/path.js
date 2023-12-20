@@ -136,7 +136,12 @@ export function path(arg1, arg2) {
 
   // Clip-path
   if (opts.clip == true && opts.latlong == true) {
-    const clipid = "clippath_" + unique();
+    const clipid = unique();
+
+    if (svg.zoomable && !svg.parent) {
+      svg.zoomablelayers.push({ mark: "outline", id: clipid });
+    }
+
     svg
       .append("clipPath")
       .attr("id", clipid)

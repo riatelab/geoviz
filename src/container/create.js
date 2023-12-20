@@ -1,9 +1,15 @@
 import { extent } from "../helpers/extent";
 import { create as create2 } from "d3-selection";
-import { geoPath, geoBounds, geoEquirectangular, geoMercator } from "d3-geo";
+import {
+  geoPath,
+  geoBounds,
+  geoEquirectangular,
+  geoMercator,
+  geoIdentity,
+} from "d3-geo";
 const d3 = Object.assign(
   {},
-  { create2, geoPath, geoBounds, geoEquirectangular, geoMercator }
+  { create2, geoPath, geoBounds, geoEquirectangular, geoMercator, geoIdentity }
 );
 
 import { outline as addoutline } from "../mark/outline.js";
@@ -66,8 +72,13 @@ export function create({
   zoomable = false,
 } = {}) {
   // projection
-  if (projection == "mercator") {
-    projection = d3.geoMercator();
+  switch (projection) {
+    case "mercator":
+      projection = d3.geoMercator();
+      break;
+    case "none":
+      projection = d3.geoIdentity();
+      break;
   }
 
   // Font
@@ -78,12 +89,20 @@ export function create({
   } else {
     //adapt scale
     let ref = extent(domain);
+
     margin = Array.isArray(margin) ? margin : Array(4).fill(margin);
     const [[x0, y0], [x1, y1]] = d3
       .geoPath(projection.fitWidth(width - margin[1] - margin[3], ref))
       .bounds(ref);
 
+    console.log([
+      [x0, y0],
+      [x1, y1],
+    ]);
+
     height = Math.ceil(y1 - y0) + margin[0] + margin[2];
+
+
 
     let trans = projection.translate();
     projection.translate([trans[0] + margin[3], trans[1] + margin[0]]);
