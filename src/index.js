@@ -64,7 +64,7 @@ export let legend = {
   spikes,
 };
 
-// Legend
+// effects
 import { blur } from "./effect/blur.js";
 import { shadow } from "./effect/shadow.js";
 import { radialGradient } from "./effect/radialgradient.js";
@@ -84,10 +84,10 @@ export { north } from "./mark/north.js";
 export { scalebar } from "./mark/scalebar.js";
 export { text } from "./mark/text.js";
 export { circle } from "./mark/circle.js";
+export { spike } from "./mark/spike.js";
 export { footer } from "./mark/footer.js";
 export { outline } from "./mark/outline.js";
 export { path } from "./mark/path.js";
-export { spike } from "./layer/spike.js";
 export { render } from "./container/render";
 export { tile } from "./mark/tile.js";
 export { triangle } from "./mark/triangle.js";

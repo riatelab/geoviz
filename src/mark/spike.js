@@ -7,9 +7,7 @@ const d3 = Object.assign(
 );
 import { create } from "../container/create";
 import { render } from "../container/render";
-import { random } from "../tool/random";
-import { radius as computeradius } from "../tool/radius";
-import { dodge } from "../tool/dodge";
+import { height as computeheight } from "../tool/height";
 import { centroid } from "../tool/centroid";
 import { tooltip } from "../helpers/tooltip";
 import {
@@ -23,38 +21,7 @@ import {
   order,
 } from "../helpers/utils";
 
-/**
- * @description The `circle` function allows to create a layer with circles from a geoJSON
- * @see {@link https://observablehq.com/@neocartocnrs/circle-mark}
- *
- * @param {SVGSVGElement} arg1 - SVG container (optional)
- * @param {object} arg2 - options and parameters
- * @param {object} arg2.data - GeoJSON FeatureCollection
- * @param {string} arg2.id - id of the layer
- * @param {number[]} arg2.pos - position of the circle to display a single circle (default [0,0])
- * @param {number|string} arg2.r - a number or the name of a property containing numerical values (default: 10)
- * @param {number} arg2.k - radius of the largest circle (or corresponding to the value defined by `fixmax`)  (default: 50)
- * @param {number} arg2.fixmax - value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
- * @param {boolean} arg2.dodge - to avoid circle overlap
- * @param {number} arg2.iteration - number of iteration to dodge circles (default: 200)
- * @param {string|function} arg2.sort - the field to sort circles or a sort function
- * @param {boolean} arg2.descending - circle sorting order
- * @param {boolean} arg2.latlong - use false if the coordinates are already in the plan of the page (default: true)
- * @param {string|function} arg2.fill - fill color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
- * @param {string|function} arg2.stroke - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
- * @param {boolean|function} arg2.tip - a function to display the tip. Use true tu display all fields
- * @param {object} arg2.tipstyle - tooltip style
- * @param {*} arg2.foo - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
- * @example
- * geoviz.circle(svg, { pos: [10,20], r: 15 }) // a single circle
- * geoviz.circle(svg, { data: cities, r: "population" }) // where svg is the container
- * svg.circle({ data: cities, r: "population" }) // where svg is the container
- * geoviz.circle({ data: cities, r: "population" }) // no container
- *
- * @returns {SVGSVGElement|string} - the function adds a layer with circles to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
- */
-
-export function circle(arg1, arg2) {
+export function spike(arg1, arg2) {
   // Test if new container
   let newcontainer =
     arguments.length <= 1 && !arguments[0]?._groups ? true : false;
@@ -64,21 +31,22 @@ export function circle(arg1, arg2) {
 
   // Arguments
   const options = {
-    mark: "circle",
+    mark: "spike",
     id: unique(),
     //latlong: true,
     data: undefined,
-    r: 10,
     k: 50,
+    w: 30,
+    h: 100,
     pos: [0, 0],
+    curve: 0,
     sort: undefined,
-    dodge: false,
-    dodgegap: 0,
-    iteration: 200,
     descending: true,
     fixmax: null,
-    fill: random(),
-    stroke: "white",
+    fill: "#c72e94",
+    stroke: "black",
+    fillOpacity: 0.3,
+    strokeWidth: 0.5,
     tip: undefined,
     tipstyle: undefined,
   };
@@ -126,9 +94,6 @@ export function circle(arg1, arg2) {
         "r",
         "k",
         "sort",
-        "dodge",
-        "dodgegap",
-        "iteration",
         "descending",
         "fixmax",
         "tip",
@@ -141,7 +106,8 @@ export function circle(arg1, arg2) {
   let projection = opts.latlong ? svg.projection : d3.geoIdentity();
   let path = d3.geoPath(projection);
 
-  // Simple circle
+  // Simple spike
+  // TODO
   if (!opts.data) {
     notspecificattr.forEach((d) => {
       layer.attr(camelcasetodash(d), opts[d]);
@@ -149,12 +115,12 @@ export function circle(arg1, arg2) {
 
     let pos = path.centroid({ type: "Point", coordinates: opts.pos });
 
-    layer
-      .append("circle")
-      .attr("cx", pos[0])
-      .attr("cy", pos[1])
-      .attr("r", opts.r)
-      .attr("visibility", isNaN(pos[0]) ? "hidden" : "visible");
+    // layer
+    //   .append("circle")
+    //   .attr("cx", pos[0])
+    //   .attr("cy", pos[1])
+    //   .attr("r", opts.r)
+    //   .attr("visibility", isNaN(pos[0]) ? "hidden" : "visible");
   } else {
     // Centroid
     opts.data =
@@ -183,37 +149,14 @@ export function circle(arg1, arg2) {
         ? d3.geoIdentity().scale(svg.zoom.k).translate([svg.zoom.x, svg.zoom.y])
         : svg.projection;
 
-    // Dodge
-    let data;
-    if (opts.dodge) {
-      data = JSON.parse(JSON.stringify(opts.data));
+    // data
+    let data = opts.data;
 
-      let fet = {
-        features: data.features
-          .filter((d) => !isNaN(d3.geoPath(projection).centroid(d.geometry)[0]))
-          .filter(
-            (d) => !isNaN(d3.geoPath(projection).centroid(d.geometry)[1])
-          ),
-      };
-
-      data = dodge(fet, {
-        projection,
-        gap: opts.dodgegap,
-        r: opts.r,
-        k: opts.k,
-        fixmax: opts.fixmax,
-        iteration: opts.iteration,
-      });
-      projection = d3.geoIdentity();
-    } else {
-      data = opts.data;
-    }
-
-    // Radius
+    // Height
     let columns = propertiesentries(opts.data);
-    let radius = attr2radius(opts.r, {
+    let yscale = attr2yscale(opts.h, {
       columns,
-      geojson: opts.data,
+      geojson: data,
       fixmax: opts.fixmax,
       k: opts.k,
     });
@@ -222,10 +165,10 @@ export function circle(arg1, arg2) {
     data = data.features
       .filter((d) => d.geometry)
       .filter((d) => d.geometry.coordinates != undefined);
-    if (detectinput(opts.r, columns) == "field") {
-      data = data.filter((d) => d.properties[opts.r] != undefined);
+    if (detectinput(opts.h, columns) == "field") {
+      data = data.filter((d) => d.properties[opts.h] != undefined);
     }
-    data = order(data, opts.sort || opts.r, {
+    data = order(data, opts.sort || opts.h, {
       fields: columns,
       descending: opts.descending,
     });
@@ -235,14 +178,27 @@ export function circle(arg1, arg2) {
     path = d3.geoPath(projection);
 
     layer
-      .selectAll("circle")
+      .selectAll("path")
       .data(data)
       .join((d) => {
         let n = d
-          .append("circle")
-          .attr("cx", (d) => path.centroid(d.geometry)[0])
-          .attr("cy", (d) => path.centroid(d.geometry)[1])
-          .attr("r", (d) => radius(d, opts.r))
+          .append("path")
+          .attr(
+            "d",
+            (d) =>
+              `m ${path.centroid(d.geometry)[0] - opts.w / 2},${
+                path.centroid(d.geometry)[1]
+              } Q ${path.centroid(d.geometry)[0]},${
+                path.centroid(d.geometry)[1] - yscale(d, opts.h) * opts.curve
+              },${path.centroid(d.geometry)[0]} ${
+                path.centroid(d.geometry)[1] - yscale(d, opts.h)
+              }
+               Q ${path.centroid(d.geometry)[0]}, ${
+                path.centroid(d.geometry)[1] - yscale(d, opts.h) * opts.curve
+              } ${path.centroid(d.geometry)[0] + opts.w / 2},${
+                path.centroid(d.geometry)[1]
+              }`
+          )
           .attr("visibility", (d) =>
             isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
           );
@@ -272,21 +228,21 @@ export function circle(arg1, arg2) {
   }
 }
 
-// convert r attrubute to radius function
+// convert h attribute to yscale function
 
-function attr2radius(attr, { columns, geojson, fixmax, k } = {}) {
+function attr2yscale(attr, { columns, geojson, fixmax, k } = {}) {
   switch (detectinput(attr, columns)) {
     case "function":
       return attr;
     case "field":
-      let radius = computeradius(
+      let height = computeheight(
         geojson.features.map((d) => d.properties[attr]),
         {
           fixmax,
           k,
         }
       );
-      return (d, rr) => radius.r(d.properties[rr]);
+      return (d, hh) => height.h(d.properties[hh]);
     case "value":
       return (d) => attr;
   }
