@@ -23,6 +23,6 @@ export function height(data, { fixmax = undefined, k = 50 } = {}) {
     ),
     k,
     fixmax,
-    h: d3.scaleLinear().domain([0, valmax]).range([0, k]),
+    h: d3.scaleLinear().domain([0, valmax]).range([0, k]).unknown(0),
   };
 }

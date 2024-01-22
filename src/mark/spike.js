@@ -91,7 +91,7 @@ export function spike(arg1, arg2) {
         "id",
         "latlong",
         "data",
-        "r",
+        "h",
         "k",
         "sort",
         "descending",
@@ -149,17 +149,56 @@ export function spike(arg1, arg2) {
         ? d3.geoIdentity().scale(svg.zoom.k).translate([svg.zoom.x, svg.zoom.y])
         : svg.projection;
 
-    // data
-    let data = opts.data;
-
     // Height
-    let columns = propertiesentries(opts.data);
-    let yscale = attr2yscale(opts.h, {
-      columns,
-      geojson: data,
-      fixmax: opts.fixmax,
-      k: opts.k,
-    });
+    let data = opts.data;
+    let columns = propertiesentries(data);
+
+    const type = detectinput(opts.h, columns);
+    console.log(type);
+    let drawspike;
+    switch (type) {
+      case "value":
+        drawspike = (d) =>
+          `m ${path.centroid(d.geometry)[0] - opts.w / 2},${
+            path.centroid(d.geometry)[1]
+          } Q ${path.centroid(d.geometry)[0]},${
+            path.centroid(d.geometry)[1] - opts.h * opts.curve
+          },${path.centroid(d.geometry)[0]} ${
+            path.centroid(d.geometry)[1] - opts.h
+          }
+         Q ${path.centroid(d.geometry)[0]}, ${
+            path.centroid(d.geometry)[1] - opts.h * opts.curve
+          } ${path.centroid(d.geometry)[0] + opts.w / 2},${
+            path.centroid(d.geometry)[1]
+          }`;
+        break;
+      case "field":
+        const yscale = computeheight(
+          data.features.map((d) => d.properties[opts.h]),
+          {
+            fixmax: opts.fixmax,
+            k: opts.k,
+          }
+        ).h;
+
+        drawspike = (d) =>
+          `m ${path.centroid(d.geometry)[0] - opts.w / 2},${
+            path.centroid(d.geometry)[1]
+          } Q ${path.centroid(d.geometry)[0]},${
+            path.centroid(d.geometry)[1] -
+            yscale(d.properties[opts.h]) * opts.curve
+          },${path.centroid(d.geometry)[0]} ${
+            path.centroid(d.geometry)[1] - yscale(d.properties[opts.h])
+          }
+         Q ${path.centroid(d.geometry)[0]}, ${
+            path.centroid(d.geometry)[1] -
+            yscale(d.properties[opts.h]) * opts.curve
+          } ${path.centroid(d.geometry)[0] + opts.w / 2},${
+            path.centroid(d.geometry)[1]
+          }`;
+
+        break;
+    }
 
     // Sort & filter
     data = data.features
@@ -183,22 +222,7 @@ export function spike(arg1, arg2) {
       .join((d) => {
         let n = d
           .append("path")
-          .attr(
-            "d",
-            (d) =>
-              `m ${path.centroid(d.geometry)[0] - opts.w / 2},${
-                path.centroid(d.geometry)[1]
-              } Q ${path.centroid(d.geometry)[0]},${
-                path.centroid(d.geometry)[1] - yscale(d, opts.h) * opts.curve
-              },${path.centroid(d.geometry)[0]} ${
-                path.centroid(d.geometry)[1] - yscale(d, opts.h)
-              }
-               Q ${path.centroid(d.geometry)[0]}, ${
-                path.centroid(d.geometry)[1] - yscale(d, opts.h) * opts.curve
-              } ${path.centroid(d.geometry)[0] + opts.w / 2},${
-                path.centroid(d.geometry)[1]
-              }`
-          )
+          .attr("d", drawspike)
           .attr("visibility", (d) =>
             isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
           );
@@ -225,25 +249,5 @@ export function spike(arg1, arg2) {
     return render(svg);
   } else {
     return `#${opts.id}`;
-  }
-}
-
-// convert h attribute to yscale function
-
-function attr2yscale(attr, { columns, geojson, fixmax, k } = {}) {
-  switch (detectinput(attr, columns)) {
-    case "function":
-      return attr;
-    case "field":
-      let height = computeheight(
-        geojson.features.map((d) => d.properties[attr]),
-        {
-          fixmax,
-          k,
-        }
-      );
-      return (d, hh) => height.h(d.properties[hh]);
-    case "value":
-      return (d) => attr;
   }
 }
