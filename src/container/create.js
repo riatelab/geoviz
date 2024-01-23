@@ -97,11 +97,6 @@ export function create({
       .geoPath(projection.fitWidth(width - margin[1] - margin[3], ref))
       .bounds(ref);
 
-    console.log([
-      [x0, y0],
-      [x1, y1],
-    ]);
-
     height = Math.ceil(y1 - y0) + margin[0] + margin[2];
 
     let trans = projection.translate();

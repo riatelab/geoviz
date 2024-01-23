@@ -131,9 +131,7 @@ export function addNote(layer, opts) {
 export function addFrame(layer, opts) {
   if (opts.frame) {
     const opts_frame = subsetobj(opts, { prefix: "frame_" });
-    console.log(opts_frame);
     const size = getsize(layer);
-    console.log(size);
     const frame = layer
       .append("rect")
       .attr("x", size.x - opts_frame.margin)

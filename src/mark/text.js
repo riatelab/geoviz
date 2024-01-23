@@ -107,7 +107,6 @@ export function text(arg1, arg2) {
         : opts.data;
   }
 
-  console.log(opts.latlong);
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
     ? svg.append("g").attr("id", opts.id)

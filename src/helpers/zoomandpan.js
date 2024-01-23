@@ -1,5 +1,5 @@
 import { circle } from "../mark/circle";
-import { triangle } from "../mark/triangle";
+import { spike } from "../mark/spike";
 import { tile } from "../mark/tile";
 import { scalebar } from "../mark/scalebar";
 import { north } from "../mark/north";
@@ -56,11 +56,9 @@ export function zoomandpan(svg) {
           d.zoom = { k: t.k, x: t.x, y: t.y };
           circle(svg, d);
           break;
-        case "triangle":
-          if (!d.latlong) {
-            d.zoom = { k: t.k, x: t.x, y: t.y };
-          }
-          triangle(svg, d);
+        case "spike":
+          d.zoom = { k: t.k, x: t.x, y: t.y };
+          spike(svg, d);
           break;
         case "path":
           svg.selectAll(`#${d.id} > path`).attr("d", d.latlong ? path : path2);
@@ -68,6 +66,7 @@ export function zoomandpan(svg) {
         case "clippath":
           svg.selectAll(`#${d.id} > path`).attr("d", path);
           break;
+
         case "text":
           if (d.data && d.latlong == true) {
             svg

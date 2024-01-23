@@ -1,7 +1,7 @@
 import versor from "versor@0.2";
 
 import { circle } from "../mark/circle";
-import { triangle } from "../mark/triangle";
+import { spike } from "../mark/spike";
 import { tile } from "../mark/tile";
 import { scalebar } from "../mark/scalebar";
 import { north } from "../mark/north";
@@ -33,8 +33,8 @@ export function zoomversor(svg) {
         case "circle":
           circle(svg, d);
           break;
-        case "triangle":
-          triangle(svg, d);
+        case "spike":
+          spike(svg, d);
           break;
         case "path":
           svg.selectAll(`#${d.id} > path`).attr("d", path);

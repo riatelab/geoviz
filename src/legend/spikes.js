@@ -73,6 +73,8 @@ export function spikes(arg1, arg2) {
     k: 50,
     fixmax: null,
     nb: 4,
+    width: 30,
+    straight: 0,
     values_dx: 0,
     values_dy: 0,
     values_dominantBaseline: "middle",
@@ -100,9 +102,12 @@ export function spikes(arg1, arg2) {
   })
     .slice()
     .reverse();
+
+  console.log(arr);
   let hmax = arr[0][1];
   let leg = layer.append("g");
 
+  console.log(arr);
   let size = getsize(layer);
   let spikes = leg
     .selectAll("path")
@@ -110,12 +115,24 @@ export function spikes(arg1, arg2) {
     .join("path")
     .attr(
       "d",
-      (d) => `M 0,0 ${opts.spike_width / 2},${-d[1]} ${opts.spike_width},0`
+      // (d) => `M 0,0 ${opts.spike_width / 2},${-d[1]} ${opts.spike_width},0`
+      (d) => `m ${0 - opts.spike_width / 2},${0} Q 0,${
+        0 - d[1] * opts.straight
+      },0 ${0 - d[1]}
+   Q 0, ${0 - d[1] * opts.straight} ${0 + opts.spike_width / 2},0`
+
+      //       `m ${0 - opts.spike_width / 2},0 Q 0,${
+      //         0 - opts.spike_height * opts.spike_straight
+      //       },0 ${0 - opts.spike_height}
+      //  Q 0, ${0 - opts.spike_height * opts.spike_straight} ${
+      //         0 + opts.spike_width / 2
+      //       },0`
     )
     .attr(
       "transform",
       (d, i) =>
         `translate(${
+          opts.spike_width / 2 +
           opts.pos[0] +
           opts.spike_dx +
           +opts.spike_width * i +

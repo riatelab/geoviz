@@ -35,16 +35,17 @@ export function spike(arg1, arg2) {
     id: unique(),
     //latlong: true,
     data: undefined,
-    k: 50,
-    w: 30,
-    h: 100,
     pos: [0, 0],
-    curve: 0,
+    k: 50,
+    width: 30,
+    height: 100,
+    pos: [0, 0],
+    straight: 0,
     sort: undefined,
     descending: true,
     fixmax: null,
-    fill: "#c72e94",
-    stroke: "black",
+    fill: "#F13C47",
+    stroke: "#F13C47",
     fillOpacity: 0.3,
     strokeWidth: 0.5,
     tip: undefined,
@@ -91,7 +92,8 @@ export function spike(arg1, arg2) {
         "id",
         "latlong",
         "data",
-        "h",
+        "height",
+        "width",
         "k",
         "sort",
         "descending",
@@ -107,20 +109,23 @@ export function spike(arg1, arg2) {
   let path = d3.geoPath(projection);
 
   // Simple spike
-  // TODO
   if (!opts.data) {
     notspecificattr.forEach((d) => {
       layer.attr(camelcasetodash(d), opts[d]);
     });
-
     let pos = path.centroid({ type: "Point", coordinates: opts.pos });
-
-    // layer
-    //   .append("circle")
-    //   .attr("cx", pos[0])
-    //   .attr("cy", pos[1])
-    //   .attr("r", opts.r)
-    //   .attr("visibility", isNaN(pos[0]) ? "hidden" : "visible");
+    layer
+      .append("path")
+      .attr(
+        "d",
+        `m ${pos[0] - opts.width / 2},${pos[1]} Q ${pos[0]},${
+          pos[1] - opts.height * opts.straight
+        },${pos[0]} ${pos[1] - opts.height}
+     Q ${pos[0]}, ${pos[1] - opts.height * opts.straight} ${
+          pos[0] + opts.width / 2
+        },${pos[1]}`
+      )
+      .attr("visibility", isNaN(pos[0]) ? "hidden" : "visible");
   } else {
     // Centroid
     opts.data =
@@ -153,28 +158,27 @@ export function spike(arg1, arg2) {
     let data = opts.data;
     let columns = propertiesentries(data);
 
-    const type = detectinput(opts.h, columns);
-    console.log(type);
+    const type = detectinput(opts.height, columns);
     let drawspike;
     switch (type) {
       case "value":
         drawspike = (d) =>
-          `m ${path.centroid(d.geometry)[0] - opts.w / 2},${
+          `m ${path.centroid(d.geometry)[0] - opts.width / 2},${
             path.centroid(d.geometry)[1]
           } Q ${path.centroid(d.geometry)[0]},${
-            path.centroid(d.geometry)[1] - opts.h * opts.curve
+            path.centroid(d.geometry)[1] - opts.height * opts.straight
           },${path.centroid(d.geometry)[0]} ${
-            path.centroid(d.geometry)[1] - opts.h
+            path.centroid(d.geometry)[1] - opts.height
           }
          Q ${path.centroid(d.geometry)[0]}, ${
-            path.centroid(d.geometry)[1] - opts.h * opts.curve
-          } ${path.centroid(d.geometry)[0] + opts.w / 2},${
+            path.centroid(d.geometry)[1] - opts.height * opts.straight
+          } ${path.centroid(d.geometry)[0] + opts.width / 2},${
             path.centroid(d.geometry)[1]
           }`;
         break;
       case "field":
         const yscale = computeheight(
-          data.features.map((d) => d.properties[opts.h]),
+          data.features.map((d) => d.properties[opts.height]),
           {
             fixmax: opts.fixmax,
             k: opts.k,
@@ -182,18 +186,18 @@ export function spike(arg1, arg2) {
         ).h;
 
         drawspike = (d) =>
-          `m ${path.centroid(d.geometry)[0] - opts.w / 2},${
+          `m ${path.centroid(d.geometry)[0] - opts.width / 2},${
             path.centroid(d.geometry)[1]
           } Q ${path.centroid(d.geometry)[0]},${
             path.centroid(d.geometry)[1] -
-            yscale(d.properties[opts.h]) * opts.curve
+            yscale(d.properties[opts.height]) * opts.straight
           },${path.centroid(d.geometry)[0]} ${
-            path.centroid(d.geometry)[1] - yscale(d.properties[opts.h])
+            path.centroid(d.geometry)[1] - yscale(d.properties[opts.height])
           }
          Q ${path.centroid(d.geometry)[0]}, ${
             path.centroid(d.geometry)[1] -
-            yscale(d.properties[opts.h]) * opts.curve
-          } ${path.centroid(d.geometry)[0] + opts.w / 2},${
+            yscale(d.properties[opts.height]) * opts.straight
+          } ${path.centroid(d.geometry)[0] + opts.width / 2},${
             path.centroid(d.geometry)[1]
           }`;
 
@@ -204,10 +208,10 @@ export function spike(arg1, arg2) {
     data = data.features
       .filter((d) => d.geometry)
       .filter((d) => d.geometry.coordinates != undefined);
-    if (detectinput(opts.h, columns) == "field") {
-      data = data.filter((d) => d.properties[opts.h] != undefined);
+    if (detectinput(opts.height, columns) == "field") {
+      data = data.filter((d) => d.properties[opts.height] != undefined);
     }
-    data = order(data, opts.sort || opts.h, {
+    data = order(data, opts.sort || opts.height, {
       fields: columns,
       descending: opts.descending,
     });
