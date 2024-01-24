@@ -16,7 +16,7 @@ export function datatoradius(
   let radius = d3.scaleSqrt([0, valmax], [0, k]);
 
   let rad = [];
-  if (nb) {
+  if (arr.length != nb && nb != null) {
     let rmin = radius(d3.min(arr));
     let rmax = radius(d3.max(arr));
     let rextent = rmax - rmin;

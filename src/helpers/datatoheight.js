@@ -17,7 +17,7 @@ export function datatoheight(
   let yScale = d3.scaleLinear().domain([0, valmax]).range([0, k]);
 
   let rad = [];
-  if (nb) {
+  if (arr.length != nb && nb != null) {
     let rmin = yScale(d3.min(arr));
     let rmax = yScale(d3.max(arr));
     let rextent = rmax - rmin;

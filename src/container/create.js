@@ -31,7 +31,7 @@ import { radialGradient as addradialGradient } from "../effect/radialgradient.js
 
 import { circles_nested as addcircles_nested } from "../legend/circles-nested";
 import { circles as addcircles } from "../legend/circles";
-import { spikes as addspikes } from "../legend/spikes";
+import { spikes as addspikes } from "../legend/spikes.js";
 import { choro_vertical as addchoro_vertical } from "../legend/choro-vertical";
 import { choro_horizontal as addchoro_horizontal } from "../legend/choro-horizontal";
 import { typo_vertical as addtypo_vertical } from "../legend/typo-vertical";
