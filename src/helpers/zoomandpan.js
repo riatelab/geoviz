@@ -79,37 +79,41 @@ export function zoomandpan(svg) {
   );
 
   function handleClickZoom(direction) {
+    const zoomextent = Array.isArray(svg.zoomable) ? svg.zoomable : [1, 8];
     const factor = 0.2;
     const center = [svg.width / 2, svg.height / 2];
     const transform = d3.zoomTransform(svg.node());
-    const view = { ...transform };
+    if (transform.k <= zoomextent[1] && transform.k >= zoomextent[0]) {
+      const view = { ...transform };
 
-    //if (view.k <= 8 && view.k >= 1) {
-    view.k = transform.k * (1 + factor * direction);
-    // Compute new x and y values
-    const translate0 = [
-      (center[0] - transform.x) / transform.k,
-      (center[1] - transform.y) / transform.k,
-    ];
-    view.x += center[0] - (translate0[0] * view.k + view.x);
-    view.y += center[1] - (translate0[1] * view.k + view.y);
+      view.k = transform.k * (1 + factor * direction);
+      view.k = view.k < zoomextent[0] ? zoomextent[0] : view.k;
+      view.k = view.k > zoomextent[1] ? zoomextent[1] : view.k;
 
-    transform.k = view.k;
-    transform.x = view.x;
-    transform.y = view.y;
+      // Compute new x and y values
+      const translate0 = [
+        (center[0] - transform.x) / transform.k,
+        (center[1] - transform.y) / transform.k,
+      ];
+      view.x += center[0] - (translate0[0] * view.k + view.x);
+      view.y += center[1] - (translate0[1] * view.k + view.y);
 
-    svg.projection
-      .scale(transform.k * svg.baseScale)
-      .translate([
-        svg.baseTranslate[0] * transform.k + transform.x,
-        svg.baseTranslate[1] * transform.k + transform.y,
-      ]);
+      transform.k = view.k;
+      transform.x = view.x;
+      transform.y = view.y;
 
-    noproj.scale(transform.k).translate([transform.x, transform.y]);
-    svg.zoom = { k: transform.k, x: transform.x, y: transform.y };
+      svg.projection
+        .scale(transform.k * svg.baseScale)
+        .translate([
+          svg.baseTranslate[0] * transform.k + transform.x,
+          svg.baseTranslate[1] * transform.k + transform.y,
+        ]);
 
-    render(transform);
-    //}
+      noproj.scale(transform.k).translate([transform.x, transform.y]);
+      svg.zoom = { k: transform.k, x: transform.x, y: transform.y };
+
+      render(transform);
+    }
   }
 
   // const baseScale = svg.projection.scale();

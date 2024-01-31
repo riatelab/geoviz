@@ -55,8 +55,10 @@ import { choropleth as addchoropleth } from "../symbology/choropleth.js";
  * @param {string} arg.fontFamily - font-family for the entire map
  * @param {number|number[]} arg.margin - margins around the map. A number to set the same margin everywhere or an array [top, right, bottom, left] to set different margins.
  * @param {object} arg.parent - name of parent container into which this child container is to be included. In this case, the options.pos parameter is also used.
- * @param {boolean|number|string} arg.zoomable - activates the map zoom function. If you set an array of 2 values, it defines the scaleExtent (default: [1,8]). Use "versor" to activate [versor zoom](https://github.com/d3/versor). "Versor" is only available for vector geometries in wgs84.
- * @example
+ * @param {boolean|number|string} arg.zoomable - activates the map zoom function. If you set an array of 2 values, it defines the scaleExtent (default: [1,8]). Use "versor" to activate [versor zoom](https://github.com/d3/versor). "versor" is only available for vector geometries in wgs84.
+* @param {boolean|number[]} arg.control - If zoomable is enabled, set the control parameter as true displays control buttons to zoom on the map. You can also define an array of 2 values to locate the panel in the position you want (e.g. [100, 200]). This setting is not available with the Versor zoom.
+  
+* @example
  * let svg = geoviz.create({width: 500, background: "lightblue"})
  * @returns {SVGSVGElement} - the function returns a svg container + some information about this container:`projection`, `margin`, `width`, `height` and `bbox`
  */
