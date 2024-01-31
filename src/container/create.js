@@ -72,6 +72,7 @@ export function create({
   parent = null,
   fontFamily = "Arial",
   zoomable = false,
+  control = true,
 } = {}) {
   // projection
   switch (projection) {
@@ -116,6 +117,7 @@ export function create({
       height_footer: 0,
       fontFamily,
       zoomable,
+      control,
       zoomablelayers: [],
       zoom: { k: 1, x: 0, y: 0 },
       bbox: d3.geoBounds(ref),
