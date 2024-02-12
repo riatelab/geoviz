@@ -25,7 +25,9 @@ export function triangle(arg1, arg2) {
     arguments.length <= 1 && !arguments[0]?._groups ? true : false;
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
-  let svg = newcontainer ? create({ zoomable: true, domain: arg1.data }) : arg1;
+  let svg = newcontainer
+    ? create({ zoomable: true, control: false, domain: arg1.data })
+    : arg1;
 
   // Arguments
   let opts = mergeoptions(

@@ -58,7 +58,11 @@ export function text(arg1, arg2) {
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
   let svg = newcontainer
-    ? create({ zoomable: true, domain: arg1.data || arg1.datum })
+    ? create({
+        zoomable: true,
+        control: false,
+        domain: arg1.data || arg1.datum,
+      })
     : arg1;
 
   // Arguments

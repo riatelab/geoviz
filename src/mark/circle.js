@@ -60,7 +60,9 @@ export function circle(arg1, arg2) {
     arguments.length <= 1 && !arguments[0]?._groups ? true : false;
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
-  let svg = newcontainer ? create({ zoomable: true, domain: arg1.data }) : arg1;
+  let svg = newcontainer
+    ? create({ zoomable: true, domain: arg1.data, control: false })
+    : arg1;
 
   // Arguments
   const options = {
