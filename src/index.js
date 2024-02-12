@@ -91,6 +91,7 @@ export { path } from "./mark/path.js";
 export { render } from "./container/render";
 export { tile } from "./mark/tile.js";
 export { triangle } from "./mark/triangle.js";
+export { halfcircle } from "./mark/halfcircle.js";
 
 // Symbology
 // import { choropleth } from "./symbology/choropleth.js";

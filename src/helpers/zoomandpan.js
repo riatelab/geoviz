@@ -1,4 +1,5 @@
 import { circle } from "../mark/circle";
+import { halfcircle } from "../mark/halfcircle";
 import { spike } from "../mark/spike";
 import { tile } from "../mark/tile";
 import { scalebar } from "../mark/scalebar";
@@ -136,6 +137,10 @@ export function zoomandpan(svg) {
         case "circle":
           d.zoom = { k: t.k, x: t.x, y: t.y };
           circle(svg, d);
+          break;
+        case "halfcircle":
+          d.zoom = { k: t.k, x: t.x, y: t.y };
+          halfcircle(svg, d);
           break;
         case "spike":
           d.zoom = { k: t.k, x: t.x, y: t.y };

@@ -1,6 +1,7 @@
 import versor from "versor@0.2";
 
 import { circle } from "../mark/circle";
+import { halfcircle } from "../mark/halfcircle";
 import { spike } from "../mark/spike";
 import { tile } from "../mark/tile";
 import { scalebar } from "../mark/scalebar";
@@ -32,6 +33,9 @@ export function zoomversor(svg) {
       switch (d.mark) {
         case "circle":
           circle(svg, d);
+          break;
+        case "halfcircle":
+          halfcircle(svg, d);
           break;
         case "spike":
           spike(svg, d);

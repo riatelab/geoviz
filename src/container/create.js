@@ -16,6 +16,7 @@ import { outline as addoutline } from "../mark/outline.js";
 import { graticule as addgraticule } from "../mark/graticule.js";
 import { text as addtext } from "../mark/text.js";
 import { circle as addcircle } from "../mark/circle.js";
+import { halfcircle as addhalfcircle } from "../mark/halfcircle.js";
 import { spike as addspike } from "../mark/spike.js";
 import { triangle as addtriangle } from "../mark/triangle.js";
 import { path as addpath } from "../mark/path.js";
@@ -163,6 +164,7 @@ export function create({
     { id: "path", func: addpath },
     { id: "graticule", func: addgraticule },
     { id: "circle", func: addcircle },
+    { id: "halfcircle", func: addhalfcircle },
     { id: "spike", func: addspike },
     { id: "triangle", func: addtriangle },
     { id: "text", func: addtext },
