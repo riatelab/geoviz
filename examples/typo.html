@@ -4,8 +4,7 @@
 </head>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="https://cdn.jsdelivr.net/npm/geoviz" charset="utf-8"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/geoviz@0.4.6" charset="utf-8"></script>
 <script>
 
 let geojson =   "./world.json"
@@ -14,7 +13,7 @@ d3.json(geojson).then(data => {
 let svg = geoviz.create({projection: d3.geoEqualEarth()})
 svg.outline()
 svg.graticule({stroke: "white", strokeWidth: 0.4})
-let typo = geoviz.tool.typo(data.features.map((d) => d.properties.region), {palette: "Set3"});
+let typo = geoviz.tool.typo(data.features.map((d) => d.properties.region), {colors: "Set3"});
 svg.path({data: data, fill: (d) => typo.colorize(d.properties.region), stroke: "white", strokeWidth:0.5, tip:d => `${d.properties.NAMEen} (${d.properties.region})`})
 svg.legend.typo_vertical({
     pos: [670, 300],

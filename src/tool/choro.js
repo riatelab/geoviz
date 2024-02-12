@@ -1,6 +1,7 @@
 import { isNumber } from "../helpers/isnuber";
 import * as discr from "statsbreaks";
 import { getColors, getPalettes } from "dicopal";
+// import { getColors } from "dicopal";
 import { scaleThreshold } from "d3-scale";
 import { interpolateRgbBasis } from "d3-interpolate";
 import { min, range } from "d3-array";

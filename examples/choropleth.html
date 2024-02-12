@@ -4,7 +4,7 @@
 </head>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="https://cdn.jsdelivr.net/npm/geoviz" charset="utf-8"></script>
+<script src="https://cdn.jsdelivr.net/npm/geoviz@0.4.6" charset="utf-8"></script>
 
 <script>
 
@@ -12,8 +12,8 @@ let geojson =   "./world.json"
 d3.json(geojson).then(data => {
 let svg = geoviz.create({projection: d3.geoEqualEarth()})
 svg.outline()
-svg.graticule({stroke: "white", strokeWidth: 0.4})
-let choro = geoviz.tool.choro(data.features.map((d) => d.properties.gdppc), {method: "quantile", palette: "Matter"})
+svg.graticule({stroke: "red", strokeWidth: 0.4})
+let choro = geoviz.tool.choro(data.features.map((d) => d.properties.gdppc), {method: "quantile", colors: "PinkYl"})
 svg.path({data: data, fill: d =>  choro.colorize(d.properties.gdppc), stroke: "white", strokeWidth:0.5, tip:d => `${d.properties.NAMEen}
 ${d.properties.gdppc} $ per inh.`})
 svg.legend.choro_horizontal({
