@@ -87,6 +87,12 @@
                       </a></li>
                     
                       <li><a
+                        href='#halfcircle'
+                        class='regular pre-open'>
+                        .halfcircle
+                      </a></li>
+                    
+                      <li><a
                         href='#spike'
                         class='regular pre-open'>
                         .spike
@@ -181,6 +187,12 @@
                       </a></li>
                     
                       <li><a
+                        href='#circles_half'
+                        class='regular pre-open'>
+                        .circles_half
+                      </a></li>
+                    
+                      <li><a
                         href='#choro_vertical'
                         class='regular pre-open'>
                         .choro_vertical
@@ -208,6 +220,12 @@
                         href='#spikes'
                         class='regular pre-open'>
                         .spikes
+                      </a></li>
+                    
+                      <li><a
+                        href='#mushrooms'
+                        class='regular pre-open'>
+                        .mushrooms
                       </a></li>
                     
                     </ul>
@@ -248,6 +266,12 @@
                         href='#clippath'
                         class='regular pre-open'>
                         .clipPath
+                      </a></li>
+                    
+                      <li><a
+                        href='#shadow'
+                        class='regular pre-open'>
+                        .shadow
                       </a></li>
                     
                     </ul>
@@ -380,32 +404,18 @@
                         .proj4d3
                       </a></li>
                     
+                      <li><a
+                        href='#height'
+                        class='regular pre-open'>
+                        .height
+                      </a></li>
+                    
                     </ul>
                   
                   
                   
                   
                 </div>
-                
-                </li>
-              
-                
-                <li><a
-                  href='#shadow'
-                  class="">
-                  shadow
-                  
-                </a>
-                
-                </li>
-              
-                
-                <li><a
-                  href='#height'
-                  class="">
-                  height
-                  
-                </a>
                 
                 </li>
               
@@ -475,7 +485,7 @@
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/container/create.js#L66-L232'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/container/create.js#L69-L238'>
       <span>src/container/create.js</span>
       </a>
     
@@ -722,7 +732,7 @@
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/container/render.js#L19-L58'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/container/render.js#L19-L58'>
       <span>src/container/render.js</span>
       </a>
     
@@ -912,7 +922,7 @@ svg.<span class="hljs-title function_">render</span>({<span class="hljs-attr">or
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/mark/path.js#L41-L192'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/mark/path.js#L41-L192'>
       <span>src/mark/path.js</span>
       </a>
     
@@ -1140,7 +1150,7 @@ geoviz.<span class="hljs-title function_">path</span>({ <span class="hljs-attr">
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/mark/circle.js#L57-L275'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/mark/circle.js#L57-L275'>
       <span>src/mark/circle.js</span>
       </a>
     
@@ -1404,6 +1414,311 @@ geoviz.<span class="hljs-title function_">circle</span>({ <span class="hljs-attr
       </div>
     </div>
   
+    <div class='border-bottom' id='halfcircle'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>halfcircle(arg1, arg2)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/mark/halfcircle.js#L60-L287'>
+      <span>src/mark/halfcircle.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>The <code>halfcircle</code> function allows to create a layer with rotable half-circles from a geoJSON</p>
+
+    <div class='pre p1 fill-light mt0'>halfcircle(arg1: <a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a>, arg2: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): (<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>arg1</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a>)</code>
+	    SVG container (optional)
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>arg2</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    options and parameters
+
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.data</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></code>
+  </td>
+  <td class='break-word'><span>GeoJSON FeatureCollection
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.id</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>id of the layer
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.pos</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>></code>
+  </td>
+  <td class='break-word'><span>position of the half-circle to display a single circle (default [0,0])
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.dx</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>shift in x (delault: 0)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.dy</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>shift in y (delault: 0)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.angle</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>angle of the half circle (delault: 0)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.r</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+  </td>
+  <td class='break-word'><span>a number or the name of a property containing numerical values (default: 10)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.innerRadius</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>inner radius (default: 10)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.cornerRadius</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>corner radius (default: 2)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.k</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>radius of the largest half-circle (or corresponding to the value defined by 
+<code>fixmax</code>
+)  (default: 50)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.fixmax</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>value matching the half-circle with radius 
+<code>k</code>
+. Setting this value is useful for making maps comparable with each other
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.sort</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
+  </td>
+  <td class='break-word'><span>the field to sort circles or a sort function
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.descending</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>
+  </td>
+  <td class='break-word'><span>circle sorting order
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.latlong</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>
+  </td>
+  <td class='break-word'><span>use false if the coordinates are already in the plan of the page (default: true)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.fill</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
+  </td>
+  <td class='break-word'><span>fill color. To create choropleth maps or typologies, use the 
+<code>classify.choro</code>
+ and 
+<code>classify.topo</code>
+ functions
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.stroke</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
+  </td>
+  <td class='break-word'><span>stroke color. To create choropleth maps or typologies, use the 
+<code>classify.choro</code>
+ and 
+<code>classify.topo</code>
+ functions
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.tip</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
+  </td>
+  <td class='break-word'><span>a function to display the tip. Use true tu display all fields
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.tipstyle</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></code>
+  </td>
+  <td class='break-word'><span>tooltip style
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.foo</span> <code class='quiet'>any</code>
+  </td>
+  <td class='break-word'><span><em>other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)</em>
+</span></td>
+</tr>
+
+
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>(<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>:
+        the function adds a layer with circles to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
+
+      
+    
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Related</div>
+    
+      
+        <a href="https://observablehq.com/@neocartocnrs/circle-mark">https://observablehq.com/@neocartocnrs/circle-mark</a>
+
+      
+    
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>geoviz.<span class="hljs-title function_">halfcircle</span>(svg, { <span class="hljs-attr">pos</span>: [<span class="hljs-number">10</span>,<span class="hljs-number">20</span>], <span class="hljs-attr">r</span>: <span class="hljs-number">15</span> }) <span class="hljs-comment">// a single half-circle</span>
+geoviz.<span class="hljs-title function_">halfcircle</span>(svg, { <span class="hljs-attr">data</span>: cities, <span class="hljs-attr">r</span>: <span class="hljs-string">&quot;population&quot;</span> }) <span class="hljs-comment">// where svg is the container</span>
+svg.<span class="hljs-title function_">halfcircle</span>({ <span class="hljs-attr">data</span>: cities, <span class="hljs-attr">r</span>: <span class="hljs-string">&quot;population&quot;</span> }) <span class="hljs-comment">// where svg is the container</span>
+geoviz.<span class="hljs-title function_">halfcircle</span>({ <span class="hljs-attr">data</span>: cities, <span class="hljs-attr">r</span>: <span class="hljs-string">&quot;population&quot;</span> }) <span class="hljs-comment">// no container</span></pre>
+    
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
     <div class='border-bottom' id='spike'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
@@ -1418,7 +1733,7 @@ geoviz.<span class="hljs-title function_">circle</span>({ <span class="hljs-attr
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/mark/spike.js#L55-L290'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/mark/spike.js#L55-L290'>
       <span>src/mark/spike.js</span>
       </a>
     
@@ -1696,7 +2011,7 @@ geoviz.<span class="hljs-title function_">spike</span>({ <span class="hljs-attr"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/mark/text.js#L54-L267'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/mark/text.js#L54-L267'>
       <span>src/mark/text.js</span>
       </a>
     
@@ -2007,7 +2322,7 @@ geoviz.<span class="hljs-title function_">text</span>({ <span class="hljs-attr">
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/mark/tile.js#L26-L99'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/mark/tile.js#L26-L99'>
       <span>src/mark/tile.js</span>
       </a>
     
@@ -2184,7 +2499,7 @@ svg.<span class="hljs-title function_">tile</span>({<span class="hljs-attr">url<
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/mark/outline.js#L26-L86'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/mark/outline.js#L26-L86'>
       <span>src/mark/outline.js</span>
       </a>
     
@@ -2359,7 +2674,7 @@ geoviz.<span class="hljs-title function_">outline</span>({ <span class="hljs-att
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/mark/graticule.js#L29-L101'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/mark/graticule.js#L29-L101'>
       <span>src/mark/graticule.js</span>
       </a>
     
@@ -2561,7 +2876,7 @@ geoviz.<span class="hljs-title function_">graticule</span>({ <span class="hljs-a
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/mark/header.js#L33-L155'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/mark/header.js#L33-L155'>
       <span>src/mark/header.js</span>
       </a>
     
@@ -2808,7 +3123,7 @@ geoviz.<span class="hljs-title function_">header</span>({ <span class="hljs-attr
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/mark/footer.js#L33-L154'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/mark/footer.js#L33-L154'>
       <span>src/mark/footer.js</span>
       </a>
     
@@ -3055,7 +3370,7 @@ geoviz.<span class="hljs-title function_">footer</span>({ <span class="hljs-attr
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/mark/scalebar.js#L31-L129'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/mark/scalebar.js#L31-L129'>
       <span>src/mark/scalebar.js</span>
       </a>
     
@@ -3279,7 +3594,7 @@ svg.<span class="hljs-title function_">scalebar</span>({ <span class="hljs-attr"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/mark/north.js#L25-L97'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/mark/north.js#L25-L97'>
       <span>src/mark/north.js</span>
       </a>
     
@@ -3515,7 +3830,7 @@ geoviz.<span class="hljs-title function_">north</span>( { <span class="hljs-attr
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/legend/box.js#L52-L127'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/legend/box.js#L52-L127'>
       <span>src/legend/box.js</span>
       </a>
     
@@ -3798,7 +4113,7 @@ geoviz.<span class="hljs-property">legend</span>.<span class="hljs-title functio
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/legend/circles.js#L62-L233'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/legend/circles.js#L62-L233'>
       <span>src/legend/circles.js</span>
       </a>
     
@@ -4144,7 +4459,7 @@ geoviz.<span class="hljs-property">legend</span>.<span class="hljs-title functio
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/legend/circles-nested.js#L61-L226'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/legend/circles-nested.js#L61-L226'>
       <span>src/legend/circles-nested.js</span>
       </a>
     
@@ -4476,6 +4791,361 @@ geoviz.<span class="hljs-property">legend</span>.<span class="hljs-title functio
       </div>
     </div>
   
+    <div class='border-bottom' id='circles_half'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>circles_half(arg1, arg2)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/legend/circles-half.js#L63-L240'>
+      <span>src/legend/circles-half.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>The <code>mushrooms</code> function allows to add an legend for mushroom maps</p>
+
+    <div class='pre p1 fill-light mt0'>circles_half(arg1: <a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a>, arg2: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): (<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>arg1</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a>)</code>
+	    SVG container (optional)
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>arg2</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    options and parameters
+
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.id</span> <code class='quiet'><code>"string"</code></code>
+  </td>
+  <td class='break-word'><span>unique id
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.pos</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>></code>
+  </td>
+  <td class='break-word'><span>legend position (default:[0,0])
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.gap</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>gap between elements
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.data</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>></code>
+  </td>
+  <td class='break-word'><span>input values
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.k</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>radius of the largest half-circle (or corresponding to the value defined by fixmax ) (default: 50)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.fixmax</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>
+  </td>
+  <td class='break-word'><span>value matching the circle with radius k . Setting this value is useful for making maps comparable with each other
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.nb</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>number of half-circles
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.circle_fill</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>fill color for the half-circles
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.circle_stroke</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>stroke color for the half-circles
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.circle_foo</span> <code class='quiet'>any</code>
+  </td>
+  <td class='break-word'><span><em>SVG attributes that can be applied on this half-circle element</em>
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.line_stroke</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>stroke color for the lines
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.circle_cornerRadius</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>circle_cornerRadius (default: 5)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.line_foo</span> <code class='quiet'>any</code>
+  </td>
+  <td class='break-word'><span><em>SVG attributes that can be applied on this line element</em>
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.values_textAnchor</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>text-anchor (default: "middle")
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.values_dx</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>shift in x (default: 0)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.values_dx</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>shift in y (default: 5)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.values_foo</span> <code class='quiet'>any</code>
+  </td>
+  <td class='break-word'><span><em>SVG attributes that can be applied on this text element (fill, fontSize...)</em>
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.title</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>title of the legend
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.title_foo</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+  </td>
+  <td class='break-word'><span><em>SVG attributes that can be applied on this text element</em>
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.subtitle</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>subtitle of the legend
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.subtitle_foo</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+  </td>
+  <td class='break-word'><span><em>SVG attributes that can be applied on this text element</em>
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.note</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>note displayed above the legend
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.note_foo</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+  </td>
+  <td class='break-word'><span><em>SVG attributes that can be applied on this text element</em>
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.frame</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>
+  </td>
+  <td class='break-word'><span>frame around the legend (default: false)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.frame_foo</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+  </td>
+  <td class='break-word'><span><em>SVG attributes that can be applied on this frame element (rect)</em>
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.text_foo</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+  </td>
+  <td class='break-word'><span><em>SVG attributes that can be applied directly on all text elements of this legend</em>
+</span></td>
+</tr>
+
+
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>(<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>:
+        the function adds a layer with a circles_half legend to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
+
+      
+    
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Related</div>
+    
+      
+        <a href="https://observablehq.com/@neocartocnrs/legends">https://observablehq.com/@neocartocnrs/legends</a>
+
+      
+    
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>geoviz.<span class="hljs-property">legend</span>.<span class="hljs-title function_">circles_half</span>(svg, { <span class="hljs-attr">pos</span>: [<span class="hljs-number">10</span>,<span class="hljs-number">20</span>], data, <span class="hljs-attr">nb</span>:<span class="hljs-number">5</span>}) <span class="hljs-comment">// where svg is the container</span>
+svg.<span class="hljs-property">legend</span>.<span class="hljs-title function_">circles_half</span>(svg, {<span class="hljs-attr">pos</span>: [<span class="hljs-number">10</span>,<span class="hljs-number">20</span>], data, <span class="hljs-attr">nb</span>: <span class="hljs-number">5</span>} }) <span class="hljs-comment">// where svg is the container</span>
+geoviz.<span class="hljs-property">legend</span>.<span class="hljs-title function_">circles_half</span>({ <span class="hljs-attr">pos</span>: [<span class="hljs-number">10</span>,<span class="hljs-number">20</span>], data, <span class="hljs-attr">nb</span>: <span class="hljs-number">5</span>}) <span class="hljs-comment">// no container</span></pre>
+    
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
     <div class='border-bottom' id='choro_vertical'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
@@ -4490,7 +5160,7 @@ geoviz.<span class="hljs-property">legend</span>.<span class="hljs-title functio
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/legend/choro-vertical.js#L59-L206'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/legend/choro-vertical.js#L59-L206'>
       <span>src/legend/choro-vertical.js</span>
       </a>
     
@@ -4809,7 +5479,7 @@ geoviz.<span class="hljs-property">legend</span>.<span class="hljs-title functio
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/legend/choro-horizontal.js#L59-L201'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/legend/choro-horizontal.js#L59-L201'>
       <span>src/legend/choro-horizontal.js</span>
       </a>
     
@@ -5128,7 +5798,7 @@ geoviz.<span class="hljs-property">legend</span>.<span class="hljs-title functio
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/legend/typo-vertical.js#L58-L200'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/legend/typo-vertical.js#L58-L200'>
       <span>src/legend/typo-vertical.js</span>
       </a>
     
@@ -5456,7 +6126,7 @@ geoviz.<span class="hljs-property">legend</span>.<span class="hljs-title functio
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/legend/typo-horizontal.js#L58-L203'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/legend/typo-horizontal.js#L58-L203'>
       <span>src/legend/typo-horizontal.js</span>
       </a>
     
@@ -5784,7 +6454,7 @@ geoviz.<span class="hljs-property">legend</span>.<span class="hljs-title functio
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/legend/spikes.js#L61-L191'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/legend/spikes.js#L61-L191'>
       <span>src/legend/spikes.js</span>
       </a>
     
@@ -6125,6 +6795,483 @@ geoviz.<span class="hljs-property">legend</span>.<span class="hljs-title functio
       </div>
     </div>
   
+    <div class='border-bottom' id='mushrooms'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>mushrooms(arg1, arg2)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/legend/mushrooms.js#L77-L409'>
+      <span>src/legend/mushrooms.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>The <code>circles_half</code> function allows to add an legend for proprtionnal half-circles</p>
+
+    <div class='pre p1 fill-light mt0'>mushrooms(arg1: <a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a>, arg2: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): (<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>arg1</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a>)</code>
+	    SVG container (optional)
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>arg2</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    options and parameters
+
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.id</span> <code class='quiet'><code>"string"</code></code>
+  </td>
+  <td class='break-word'><span>unique id
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.pos</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>></code>
+  </td>
+  <td class='break-word'><span>legend position (default:[0,0])
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.gap</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>gap between elements
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.line_stroke</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>stroke color for the lines
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.line_foo</span> <code class='quiet'>any</code>
+  </td>
+  <td class='break-word'><span><em>SVG attributes that can be applied on this line element</em>
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.title</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>title of the legend
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.title_foo</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+  </td>
+  <td class='break-word'><span><em>SVG attributes that can be applied on this text element</em>
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.subtitle</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>subtitle of the legend
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.subtitle_foo</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+  </td>
+  <td class='break-word'><span><em>SVG attributes that can be applied on this text element</em>
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.note</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>note displayed above the legend
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.note_foo</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+  </td>
+  <td class='break-word'><span><em>SVG attributes that can be applied on this text element</em>
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.frame</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>
+  </td>
+  <td class='break-word'><span>frame around the legend (default: false)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.frame_foo</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+  </td>
+  <td class='break-word'><span><em>SVG attributes that can be applied on this frame element (rect)</em>
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.top_data</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>></code>
+  </td>
+  <td class='break-word'><span>input values (top for circles)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.top_k</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>radius of the largest top half-circle (or corresponding to the value defined by fixmax ) (default: 50)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.top_fixmax</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>
+  </td>
+  <td class='break-word'><span>value matching the top circle with radius k . Setting this value is useful for making maps comparable with each other
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.top_nb</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>number of top half-circles
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.top_circle_fill</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>fill color for the top half-circles
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.top_circle_stroke</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>stroke color for the top half-circles
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.top_circle_cornerRadius</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>top circle_cornerRadius (default: 5)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.top_circle_foo</span> <code class='quiet'>any</code>
+  </td>
+  <td class='break-word'><span><em>SVG attributes that can be applied on this top half-circle element</em>
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.top_values_textAnchor</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>top text-anchor (default: "middle")
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.top_values_dx</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>shift in x (default: 0)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.top_values_dx</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>shift in y (default: 5)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.top_values_foo</span> <code class='quiet'>any</code>
+  </td>
+  <td class='break-word'><span><em>SVG attributes that can be applied on this text element (fill, fontSize...)</em>
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.top_title</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>title of the top elment
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.bottom_data</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>></code>
+  </td>
+  <td class='break-word'><span>input values (bottom for circles)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.bottom_k</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>radius of the largest bottom half-circle (or corresponding to the value defined by fixmax ) (default: 50)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.bottom_fixmax</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>
+  </td>
+  <td class='break-word'><span>value matching the bottom circle with radius k . Setting this value is useful for making maps comparable with each other
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.bottom_nb</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>number of bottom half-circles
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.bottom_circle_fill</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>fill color for the bottom half-circles
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.bottom_circle_stroke</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>stroke color for the bottom half-circles
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.bottom_circle_cornerRadius</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>bottom circle_cornerRadius (default: 5)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.bottom_circle_foo</span> <code class='quiet'>any</code>
+  </td>
+  <td class='break-word'><span><em>SVG attributes that can be applied on this bottom half-circle element</em>
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.bottom_values_textAnchor</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>bottom text-anchor (default: "middle")
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.bottom_values_dx</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>shift in x (default: 0)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.bottom_values_dx</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  </td>
+  <td class='break-word'><span>shift in y (default: 5)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.bottom_values_foo</span> <code class='quiet'>any</code>
+  </td>
+  <td class='break-word'><span><em>SVG attributes that can be applied on this text element (fill, fontSize...)</em>
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg2.bottom_title</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  </td>
+  <td class='break-word'><span>title of the bottom elment
+</span></td>
+</tr>
+
+
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>(<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>:
+        the function adds a layer with a half-circle legend to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
+
+      
+    
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Related</div>
+    
+      
+        <a href="https://observablehq.com/@neocartocnrs/legends">https://observablehq.com/@neocartocnrs/legends</a>
+
+      
+    
+      
+        <a href="https://observablehq.com/@neocartocnrs/half-circle-mark">https://observablehq.com/@neocartocnrs/half-circle-mark</a>
+
+      
+    
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>geoviz.<span class="hljs-property">legend</span>.<span class="hljs-title function_">mushrooms</span>(svg, { <span class="hljs-attr">pos</span>: [<span class="hljs-number">10</span>,<span class="hljs-number">20</span>],top_data, bottom_data}) <span class="hljs-comment">// where svg is the container</span>
+svg.<span class="hljs-property">legend</span>.<span class="hljs-title function_">mushrooms</span>(svg, {<span class="hljs-attr">pos</span>: [<span class="hljs-number">10</span>,<span class="hljs-number">20</span>], top_data, bottom_data} }) <span class="hljs-comment">// where svg is the container</span>
+geoviz.<span class="hljs-property">legend</span>.<span class="hljs-title function_">mushrooms</span>({ <span class="hljs-attr">pos</span>: [<span class="hljs-number">10</span>,<span class="hljs-number">20</span>], top_data, bottom_data}) <span class="hljs-comment">// no container</span></pre>
+    
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
 </div>
 
   
@@ -6195,7 +7342,7 @@ geoviz.<span class="hljs-property">legend</span>.<span class="hljs-title functio
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/effect/blur.js#L16-L29'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/effect/blur.js#L16-L29'>
       <span>src/effect/blur.js</span>
       </a>
     
@@ -6340,7 +7487,7 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/effect/radialgradient.js#L22-L53'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/effect/radialgradient.js#L22-L53'>
       <span>src/effect/radialgradient.js</span>
       </a>
     
@@ -6540,7 +7687,7 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/effect/clippath.js#L19-L45'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/effect/clippath.js#L19-L45'>
       <span>src/effect/clippath.js</span>
       </a>
     
@@ -6682,6 +7829,205 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
       </div>
     </div>
   
+    <div class='border-bottom' id='shadow'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>shadow(svg, arg)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/effect/shadow.js#L20-L49'>
+      <span>src/effect/shadow.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>The <code>shadow</code> function allows to create a svg filter. It can be use ta add a shadow effect</p>
+
+    <div class='pre p1 fill-light mt0'>shadow(svg: <a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a>, arg: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): (<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>svg</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a>)</code>
+	    SVG container as defined with the
+<code>container.init</code>
+ function.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>arg</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>
+            = <code>{}</code>)</code>
+	    options and parameters
+
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg.id</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  
+    (default <code>unique()</code>)
+  </td>
+  <td class='break-word'><span>id
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg.stdDeviation</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  
+    (default <code>1.5</code>)
+  </td>
+  <td class='break-word'><span>standard deviation
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg.dx</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  
+    (default <code>4</code>)
+  </td>
+  <td class='break-word'><span>shift in x
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg.dy</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  
+    (default <code>4</code>)
+  </td>
+  <td class='break-word'><span>shift in y
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg.fill</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  
+    (default <code>&quot;black&quot;</code>)
+  </td>
+  <td class='break-word'><span>fill color
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg.fillOpacity</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+  
+    (default <code>0.5</code>)
+  </td>
+  <td class='break-word'><span>fill-opacity (you can use also opacity)
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>arg.opacity</span> <code class='quiet'>any</code>
+  
+    (default <code>undefined</code>)
+  </td>
+  <td class='break-word'><span></span></td>
+</tr>
+
+
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>(<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>:
+        the function adds a filter to the defs and returns the id like "url(#id)".
+
+      
+    
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Related</div>
+    
+      
+        <a href="https://observablehq.com/@neocartocnrs/effect">https://observablehq.com/@neocartocnrs/effect</a>
+
+      
+    
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>geoviz.<span class="hljs-property">effect</span>.<span class="hljs-title function_">shadow</span>(svg, { <span class="hljs-attr">stdDeviation</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">id</span>: <span class="hljs-string">&quot;blur&quot;</span> }) <span class="hljs-comment">// where svg is the container</span>
+svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_">shadow</span>({ <span class="hljs-attr">stdDeviation</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">id</span>: <span class="hljs-string">&quot;shadow&quot;</span> }) <span class="hljs-comment">// where svg is the container</span></pre>
+    
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
 </div>
 
   
@@ -6752,7 +8098,7 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/tool/centroid.js#L17-L63'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/tool/centroid.js#L17-L63'>
       <span>src/tool/centroid.js</span>
       </a>
     
@@ -6898,7 +8244,7 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/tool/dissolve.js#L15-L31'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/tool/dissolve.js#L15-L31'>
       <span>src/tool/dissolve.js</span>
       </a>
     
@@ -7043,7 +8389,7 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/tool/dodge.js#L27-L109'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/tool/dodge.js#L27-L109'>
       <span>src/tool/dodge.js</span>
       </a>
     
@@ -7233,7 +8579,7 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/tool/project.js#L15-L17'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/tool/project.js#L15-L17'>
       <span>src/tool/project.js</span>
       </a>
     
@@ -7363,7 +8709,7 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/tool/unproject.js#L12-L22'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/tool/unproject.js#L12-L22'>
       <span>src/tool/unproject.js</span>
       </a>
     
@@ -7483,7 +8829,7 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/tool/replicate.js#L17-L33'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/tool/replicate.js#L17-L33'>
       <span>src/tool/replicate.js</span>
       </a>
     
@@ -7621,7 +8967,7 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/tool/addfonts.js#L7-L21'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/tool/addfonts.js#L7-L21'>
       <span>src/tool/addfonts.js</span>
       </a>
     
@@ -7710,7 +9056,7 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/tool/choro_save.js#L27-L68'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/tool/choro_save.js#L27-L68'>
       <span>src/tool/choro_save.js</span>
       </a>
     
@@ -7937,7 +9283,7 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/tool/choro.js#L36-L82'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/tool/choro.js#L36-L82'>
       <span>src/tool/choro.js</span>
       </a>
     
@@ -8164,7 +9510,7 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/tool/typo.js#L17-L42'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/tool/typo.js#L17-L42'>
       <span>src/tool/typo.js</span>
       </a>
     
@@ -8307,7 +9653,7 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/tool/radius.js#L16-L28'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/tool/radius.js#L16-L28'>
       <span>src/tool/radius.js</span>
       </a>
     
@@ -8435,7 +9781,7 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/tool/random.js#L6-L30'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/tool/random.js#L6-L30'>
       <span>src/tool/random.js</span>
       </a>
     
@@ -8501,7 +9847,7 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/tool/ridge.js#L20-L41'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/tool/ridge.js#L20-L41'>
       <span>src/tool/ridge.js</span>
       </a>
     
@@ -8681,7 +10027,7 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/tool/featurecollection.js#L19-L68'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/tool/featurecollection.js#L19-L68'>
       <span>src/tool/featurecollection.js</span>
       </a>
     
@@ -8842,7 +10188,7 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/tool/merge.js#L16-L81'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/tool/merge.js#L16-L81'>
       <span>src/tool/merge.js</span>
       </a>
     
@@ -8992,7 +10338,7 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/tool/rewind.js#L13-L28'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/tool/rewind.js#L13-L28'>
       <span>src/tool/rewind.js</span>
       </a>
     
@@ -9132,7 +10478,7 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/tool/geotable.js#L12-L18'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/tool/geotable.js#L12-L18'>
       <span>src/tool/geotable.js</span>
       </a>
     
@@ -9257,7 +10603,7 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/tool/proj4d3.js#L15-L30'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/tool/proj4d3.js#L15-L30'>
       <span>src/tool/proj4d3.js</span>
       </a>
     
@@ -9354,226 +10700,21 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
       </div>
     </div>
   
-</div>
-
-  
-
-  
-
-  
-
-  
-</section>
-
-          
-        
-          
-          <section class='p2 mb2 clearfix bg-white minishadow'>
+    <div class='border-bottom' id='height'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>height(data, arg)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
   <div class='clearfix'>
     
-    <h3 class='fl m0' id='shadow'>
-      shadow
-    </h3>
     
-    
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/effect/shadow.js#L20-L49'>
-      <span>src/effect/shadow.js</span>
-      </a>
-    
-  </div>
-  
-
-  <p>The <code>shadow</code> function allows to create a svg filter. It can be use ta add a shadow effect</p>
-
-    <div class='pre p1 fill-light mt0'>shadow(svg: <a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a>, arg: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): (<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>svg</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a>)</code>
-	    SVG container as defined with the
-<code>container.init</code>
- function.
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>arg</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>
-            = <code>{}</code>)</code>
-	    options and parameters
-
-          </div>
-          
-          <table class='mt1 mb2 fixed-table h5 col-12'>
-            <colgroup>
-              <col width='30%' />
-              <col width='70%' />
-            </colgroup>
-            <thead>
-              <tr class='bold fill-light'>
-                <th>Name</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody class='mt1'>
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>arg.id</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
-  
-    (default <code>unique()</code>)
-  </td>
-  <td class='break-word'><span>id
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>arg.stdDeviation</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
-  
-    (default <code>1.5</code>)
-  </td>
-  <td class='break-word'><span>standard deviation
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>arg.dx</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
-  
-    (default <code>4</code>)
-  </td>
-  <td class='break-word'><span>shift in x
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>arg.dy</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
-  
-    (default <code>4</code>)
-  </td>
-  <td class='break-word'><span>shift in y
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>arg.fill</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
-  
-    (default <code>&quot;black&quot;</code>)
-  </td>
-  <td class='break-word'><span>fill color
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>arg.fillOpacity</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
-  
-    (default <code>0.5</code>)
-  </td>
-  <td class='break-word'><span>fill-opacity (you can use also opacity)
-</span></td>
-</tr>
-
-
-              
-                <tr>
-  <td class='break-word'><span class='code bold'>arg.opacity</span> <code class='quiet'>any</code>
-  
-    (default <code>undefined</code>)
-  </td>
-  <td class='break-word'><span></span></td>
-</tr>
-
-
-              
-            </tbody>
-          </table>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code>(<a href="https://developer.mozilla.org/docs/Web/API/SVGSVGElement">SVGSVGElement</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>:
-        the function adds a filter to the defs and returns the id like "url(#id)".
-
-      
-    
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Related</div>
-    
-      
-        <a href="https://observablehq.com/@neocartocnrs/effect">https://observablehq.com/@neocartocnrs/effect</a>
-
-      
-    
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Example</div>
-    
-      
-      <pre class='p1 overflow-auto round fill-light'>geoviz.<span class="hljs-property">effect</span>.<span class="hljs-title function_">shadow</span>(svg, { <span class="hljs-attr">stdDeviation</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">id</span>: <span class="hljs-string">&quot;blur&quot;</span> }) <span class="hljs-comment">// where svg is the container</span>
-svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_">shadow</span>({ <span class="hljs-attr">stdDeviation</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">id</span>: <span class="hljs-string">&quot;shadow&quot;</span> }) <span class="hljs-comment">// where svg is the container</span></pre>
-    
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-          
-        
-          
-          <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    <h3 class='fl m0' id='height'>
-      height
-    </h3>
-    
-    
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/3638319dc47071b6e967acb60e08464a81794419/src/tool/height.js#L16-L28'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/neocarto/geoviz/blob/81841153732c68582916320ebf25e61a86c8d817/src/tool/height.js#L16-L28'>
       <span>src/tool/height.js</span>
       </a>
     
@@ -9674,6 +10815,20 @@ svg.<span class="hljs-property">effect</span>.<span class="hljs-title function_"
   
 
   
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
 
   
 

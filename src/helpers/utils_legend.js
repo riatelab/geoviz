@@ -35,6 +35,43 @@ export function manageoptions(options, args, fontFamily) {
     values_dx: 5,
     values_dy: 0,
     values_dominantBaseline: "central",
+
+    // top values
+    top_values_fill: "#363636",
+    top_values_fontSize: 10,
+    top_values_fontFamily: fontFamily,
+    top_values_round: 2,
+    top_values_decimal: ".",
+    top_values_thousands: " ",
+    top_values_dx: 5,
+    top_values_dy: 0,
+    top_values_dominantBaseline: "central",
+
+    // top title
+    top_title_fill: "#363636",
+    top_title_fontSize: 12,
+    top_title_fontFamily: fontFamily,
+    top_title_textAnchor: "middle",
+    top_title_dominantBaseline: "hanging",
+
+    // bottom title
+    bottom_title_fill: "#363636",
+    bottom_title_fontSize: 12,
+    bottom_title_fontFamily: fontFamily,
+    bottom_title_textAnchor: "middle",
+    bottom_title_dominantBaseline: "hanging",
+
+    // bottom values
+    bottom_values_fill: "#363636",
+    bottom_values_fontSize: 10,
+    bottom_values_fontFamily: fontFamily,
+    bottom_values_round: 2,
+    bottom_values_decimal: ".",
+    bottom_values_thousands: " ",
+    bottom_values_dx: 5,
+    bottom_values_dy: 0,
+    bottom_values_dominantBaseline: "central",
+
     // label
     label_fill: "#363636",
     label_fontSize: 10,
@@ -68,6 +105,21 @@ export function manageoptions(options, args, fontFamily) {
     circle_fill: "none",
     circle_stroke: "#363636",
     circle_spacing: 5,
+
+    // top_circle
+    top_circle_dx: 0,
+    top_circle_dy: 0,
+    top_circle_fill: "none",
+    top_circle_stroke: "#363636",
+    top_circle_spacing: 5,
+
+    // top_circle
+    bottom_circle_dx: 0,
+    bottom_circle_dy: 0,
+    bottom_circle_fill: "none",
+    bottom_circle_stroke: "#363636",
+    bottom_circle_spacing: 5,
+
     // missing
     missing: true,
     missing_fill: "white",

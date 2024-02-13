@@ -11,6 +11,7 @@ toc:
     children:
       - path
       - circle
+      - halfcircle
       - spike
       - text
       - tile
@@ -29,11 +30,13 @@ toc:
       - box   
       - circles
       - circles_nested
+      - circles_half
       - choro_vertical
       - choro_horizontal
       - typo_vertical
       - typo_horizontal
       - spikes
+      - mushrooms
   - name: effect
     description: |
       This section contains helpers to build svg filters or clipaths
@@ -41,6 +44,7 @@ toc:
       - blur
       - radialGradient
       - clipPath
+      - shadow
   - name: tool
     description: |
       This section contains useful tools to handle geometries or ti help you to build complex maps
@@ -62,3 +66,4 @@ toc:
       - rewind
       - geotable
       - proj4d3
+      - height

@@ -24,22 +24,22 @@ import {
 } from "../helpers/utils";
 
 /**
- * @description The `halfcircle` function allows to create a layer with circles from a geoJSON
+ * @description The `halfcircle` function allows to create a layer with rotable half-circles from a geoJSON
  * @see {@link https://observablehq.com/@neocartocnrs/circle-mark}
  *
  * @param {SVGSVGElement} arg1 - SVG container (optional)
  * @param {object} arg2 - options and parameters
  * @param {object} arg2.data - GeoJSON FeatureCollection
  * @param {string} arg2.id - id of the layer
- * @param {number[]} arg2.pos - position of the circle to display a single circle (default [0,0])
+ * @param {number[]} arg2.pos - position of the half-circle to display a single circle (default [0,0])
  * @param {number} arg2.dx - shift in x (delault: 0)
  * @param {number} arg2.dy - shift in y (delault: 0)
  * @param {number} arg2.angle - angle of the half circle (delault: 0)
  * @param {number|string} arg2.r - a number or the name of a property containing numerical values (default: 10)
- * @param {number|string} arg2.innerRadius - inner radius (default: 10)
+ * @param {number} arg2.innerRadius - inner radius (default: 10)
  * @param {number} arg2.cornerRadius - corner radius (default: 2)
- * @param {number} arg2.k - radius of the largest circle (or corresponding to the value defined by `fixmax`)  (default: 50)
- * @param {number} arg2.fixmax - value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
+ * @param {number} arg2.k - radius of the largest half-circle (or corresponding to the value defined by `fixmax`)  (default: 50)
+ * @param {number} arg2.fixmax - value matching the half-circle with radius `k`. Setting this value is useful for making maps comparable with each other
  * @param {string|function} arg2.sort - the field to sort circles or a sort function
  * @param {boolean} arg2.descending - circle sorting order
  * @param {boolean} arg2.latlong - use false if the coordinates are already in the plan of the page (default: true)
@@ -49,10 +49,10 @@ import {
  * @param {object} arg2.tipstyle - tooltip style
  * @param {*} arg2.foo - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @example
- * geoviz.circle(svg, { pos: [10,20], r: 15 }) // a single circle
- * geoviz.circle(svg, { data: cities, r: "population" }) // where svg is the container
- * svg.circle({ data: cities, r: "population" }) // where svg is the container
- * geoviz.circle({ data: cities, r: "population" }) // no container
+ * geoviz.halfcircle(svg, { pos: [10,20], r: 15 }) // a single half-circle
+ * geoviz.halfcircle(svg, { data: cities, r: "population" }) // where svg is the container
+ * svg.halfcircle({ data: cities, r: "population" }) // where svg is the container
+ * geoviz.halfcircle({ data: cities, r: "population" }) // no container
  *
  * @returns {SVGSVGElement|string} - the function adds a layer with circles to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  */
@@ -252,7 +252,7 @@ export function halfcircle(arg1, arg2) {
             d3
               .arc()
               .outerRadius(radius(d, opts.r))
-              .innerRadius(radius(d, opts.innerRadius))
+              .innerRadius(opts.innerRadius)
               .startAngle(-Math.PI / 2)
               .endAngle(Math.PI / 2)
               .cornerRadius(opts.cornerRadius)()
