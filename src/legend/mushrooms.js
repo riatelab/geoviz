@@ -267,7 +267,7 @@ export function mushrooms(arg1, arg2) {
   let top_title = mushlayer
     .append("text")
     .attr("x", opts.pos[0] + rmax)
-    .attr("y", size.height + opts.gap)
+    .attr("y", opts.pos[1] + size.height + opts.gap)
     .text(opts.top_title);
   let opts_top_title = subsetobj(opts, {
     prefix: "top_title_",
@@ -282,7 +282,7 @@ export function mushrooms(arg1, arg2) {
   let bottom_title = mushlayer
     .append("text")
     .attr("x", opts.pos[0] + rmax)
-    .attr("y", size.height + opts.gap)
+    .attr("y", opts.pos[1] + size.height + opts.gap)
     .text(opts.bottom_title);
   let opts_bottom_title = subsetobj(opts, {
     prefix: "bottom_title_",
