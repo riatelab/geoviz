@@ -42,7 +42,7 @@ import { typo_horizontal as addtypo_horizontal } from "../legend/typo-horizontal
 import { box as addbox } from "../legend/box";
 import { render as addrender } from "../container/render";
 
-import { choropleth as addchoropleth } from "../symbology/choropleth.js";
+import { choropleth as addchoropleth } from "../make/choropleth.js";
 
 /**
  * @description The `create` function is the first step in map construction. t creates an svg container into which the various layers can be added.

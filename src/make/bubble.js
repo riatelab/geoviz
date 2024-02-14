@@ -1,10 +1,6 @@
 import { create } from "../container/create";
-import { path } from "../mark/path";
-import { circle } from "../mark/circle";
 import { render } from "../container/render";
-import { unique } from "../helpers/utils";
-import { circles as leg_circles } from "../legend/circles";
-import { circles_nested as leg_circles_nested } from "../legend/circles-nested";
+import { unique, implantation } from "../helpers/utils";
 
 export function bubble(arg1, arg2) {
   // Test if new container
@@ -21,9 +17,12 @@ export function bubble(arg1, arg2) {
   let opts = {
     leg_type: "nested",
     leg_pos: [10, 10],
-    dorling: false,
     id: unique(),
+    var: 10,
     leg_id: unique(),
+    leg_type: "nested",
+    leg_title: "leg_title",
+    leg_subtitle: "leg_subtitle",
   };
 
   Object.keys(opts).forEach((d) => {
@@ -36,13 +35,24 @@ export function bubble(arg1, arg2) {
     opts[d] = options[d];
   });
 
+  // Rename some fields
+  const rename = (oldKey, newKey) =>
+    delete Object.assign(opts, { [newKey]: opts[oldKey] })[oldKey];
+  rename("var", "r");
+
+  // Path
+
+  if (implantation(opts.data) == 3 && newcontainer) {
+    svg.path({ datum: opts.data, fill: "#CCC", fillOpacity: 0.2 });
+  }
+
   // Circles
   let layeropts = {};
   Object.keys(opts)
     .filter((str) => str.slice(0, 4) != "leg_")
     .forEach((d) => Object.assign(layeropts, { [d]: opts[d] }));
 
-  circle(svg, layeropts);
+  svg.circle(layeropts);
 
   // Legend
   let legopts = {};
@@ -57,7 +67,11 @@ export function bubble(arg1, arg2) {
     ? legopts["data"]
     : opts.data.features.map((d) => d.properties[layeropts.r]);
 
-  leg_circles(svg, legopts);
+  if (opts.leg_type == "nested") {
+    svg.legend.circles_nested(legopts);
+  } else {
+    svg.legend.circles(legopts);
+  }
 
   // Output
   if (newcontainer) {

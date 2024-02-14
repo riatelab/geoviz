@@ -98,9 +98,7 @@ export { triangle } from "./mark/triangle.js";
 export { halfcircle } from "./mark/halfcircle.js";
 
 // Symbology
-// import { choropleth } from "./symbology/choropleth.js";
-// import { bubble } from "./symbology/bubble.js";
-// export let symbology = {
-//   choropleth,
-//   bubble,
-// };
+import { bubble } from "./make/bubble.js";
+export let make = {
+  bubble,
+};
