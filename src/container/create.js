@@ -1,4 +1,5 @@
 import { extent } from "../helpers/extent";
+import { unique } from "../helpers/utils";
 import { create as create2 } from "d3-selection";
 import {
   geoPath,
@@ -18,7 +19,6 @@ import { text as addtext } from "../mark/text.js";
 import { circle as addcircle } from "../mark/circle.js";
 import { halfcircle as addhalfcircle } from "../mark/halfcircle.js";
 import { spike as addspike } from "../mark/spike.js";
-import { triangle as addtriangle } from "../mark/triangle.js";
 import { path as addpath } from "../mark/path.js";
 import { tile } from "../mark/tile.js";
 import { header } from "../mark/header.js";
@@ -42,8 +42,6 @@ import { typo_horizontal as addtypo_horizontal } from "../legend/typo-horizontal
 import { box as addbox } from "../legend/box";
 import { render as addrender } from "../container/render";
 
-import { choropleth as addchoropleth } from "../make/choropleth.js";
-
 /**
  * @description The `create` function is the first step in map construction. t creates an svg container into which the various layers can be added.
  * @see {@link https://observablehq.com/@neocartocnrs/geoviz}
@@ -52,23 +50,25 @@ import { choropleth as addchoropleth } from "../make/choropleth.js";
  * @param {number} arg.height - height of the container
  * @param {number} arg.width - width of the container. This value is automatically calculated according to `domain`. But it can be forced by entering a value.
  * @param {object|object[]} arg.domain - the domain corresponds to the geographical area to be displayed. It is defined by a geoJSON or an array containing geoJSONs. By default, the entire world is represented.
- * @param {function|string} arg.projection - projection definition. See [d3-geo](https://github.com/d3/d3-geo) & [d3-geo-projection](https://github.com/d3/d3-geo-projection). You can aslo write "mercator" tu use tiles.
+ * @param {function|string} arg.projection - d3 function of projection. See [d3-geo](https://github.com/d3/d3-geo) & [d3-geo-projection](https://github.com/d3/d3-geo-projection). You can aslo write "mercator" tu use tiles. (default: "none")
  * @param {number[]} arg.pos - position of the container (if contained in another svg container)
  * @param {string} arg.background - background color
  * @param {string} arg.fontFamily - font-family for the entire map
  * @param {number|number[]} arg.margin - margins around the map. A number to set the same margin everywhere or an array [top, right, bottom, left] to set different margins.
  * @param {object} arg.parent - name of parent container into which this child container is to be included. In this case, the options.pos parameter is also used.
  * @param {boolean|number|string} arg.zoomable - activates the map zoom function. If you set an array of 2 values, it defines the scaleExtent (default: [1,8]). Use "versor" to activate [versor zoom](https://github.com/d3/versor). "versor" is only available for vector geometries in wgs84.
-* @param {boolean|number[]} arg.control - If zoomable is enabled, set the control parameter as true displays control buttons to zoom on the map. You can also define an array of 2 values to locate the panel in the position you want (e.g. [100, 200]). This setting is not available with the Versor zoom.
-  
-* @example
+ * @param {boolean|number[]} arg.control - If zoomable is enabled, set the control parameter as true displays control buttons to zoom on the map. You can also define an array of 2 values to locate the panel in the position you want (e.g. [100, 200]). This setting is not available with the Versor zoom.
+ * @param {boolean} arg.warning - display or not warnings on the map
+ *
+ * @example
  * let svg = geoviz.create({width: 500, background: "lightblue"})
  * @returns {SVGSVGElement} - the function returns a svg container + some information about this container:`projection`, `margin`, `width`, `height` and `bbox`
  */
 
 export function create({
   height = null,
-  projection = d3.geoEquirectangular(),
+  //projection = d3.geoEquirectangular(),
+  projection = "none",
   domain,
   pos = [0, 0],
   background = "none",
@@ -78,14 +78,17 @@ export function create({
   fontFamily = "Arial",
   zoomable = false,
   control = true,
+  warning = true,
+  warning_message = [],
 } = {}) {
   // projection
+  const initproj = projection;
   switch (projection) {
     case "mercator":
       projection = d3.geoMercator();
       break;
     case "none":
-      projection = d3.geoIdentity();
+      projection = d3.geoIdentity().reflectY(true);
       break;
   }
 
@@ -96,7 +99,7 @@ export function create({
     info = { width, height, fontFamily };
   } else {
     //adapt scale
-    let ref = extent(domain);
+    let ref = extent(domain, initproj);
 
     margin = Array.isArray(margin) ? margin : Array(4).fill(margin);
     const [[x0, y0], [x1, y1]] = d3
@@ -112,21 +115,28 @@ export function create({
       [width, height],
     ]);
     info = {
+      initproj,
+      domain,
       projection,
       baseScale: projection.scale(),
       baseTranslate: projection.translate(),
       margin,
       width,
       height,
+      viewbox: [],
       height_header: 0,
       height_footer: 0,
       fontFamily,
       zoomable,
       control,
+      controlid: "control_" + unique(),
       zoomablelayers: [],
       zoom: { k: 1, x: 0, y: 0 },
       bbox: d3.geoBounds(ref),
       inset: parent ? true : false,
+      warning,
+      warning_message,
+      data: false,
     };
   }
 
@@ -168,7 +178,6 @@ export function create({
     { id: "circle", func: addcircle },
     { id: "halfcircle", func: addhalfcircle },
     { id: "spike", func: addspike },
-    { id: "triangle", func: addtriangle },
     { id: "text", func: addtext },
     { id: "tile", func: tile },
     { id: "header", func: header },

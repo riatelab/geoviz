@@ -34,7 +34,7 @@ import {
  * @param {number} arg2.dy - shift in y (default: 0)
  * @param {string|function} arg2.sort - the field to sort labels or a sort function
  * @param {boolean} arg2.descending - text sorting order
- * @param {boolean} arg2.latlong - use false if the coordinates are already in the plan of the page (default: true)
+ * @param {string} arg2.coords - use "svg" if the coordinates are already in the plan of the svg document (default: "geo")
  * @param {string|function} arg2.fill - fill color
  * @param {string|function} arg2.stroke - stroke color
  * @param {number} arg2.strokeWidth - stroke width (default: 1)
@@ -62,6 +62,7 @@ export function text(arg1, arg2) {
         zoomable: true,
         control: false,
         domain: arg1.data || arg1.datum,
+        projection: "none",
       })
     : arg1;
 
@@ -85,8 +86,8 @@ export function text(arg1, arg2) {
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
   if (!opts.data) {
-    opts.latlong = opts.latlong !== undefined ? opts.latlong : false;
-    if (opts.latlong) {
+    opts.coords = opts.coords !== undefined ? opts.coords : "svg";
+    if (opts.coords !== "svg") {
       opts.dominantBaseline = opts.dominantBaseline
         ? opts.dominantBaseline
         : "middle";
@@ -100,14 +101,18 @@ export function text(arg1, arg2) {
   }
 
   if (opts.data) {
-    opts.latlong = opts.latlong !== undefined ? opts.latlong : true;
+    svg.data = true;
+    opts.coords = opts.coords !== undefined ? opts.coords : "geo";
     opts.textAnchor = opts.textAnchor ? opts.textAnchor : "middle";
     opts.dominantBaseline = opts.dominantBaseline
       ? opts.dominantBaseline
       : "middle";
     opts.data =
       implantation(opts.data) == 3
-        ? centroid(opts.data, { latlong: opts.latlong })
+        ? centroid(opts.data, {
+            latlong:
+              svg.initproj == "none" || opts.coords == "svg" ? false : true,
+          })
         : opts.data;
   }
 
@@ -120,24 +125,12 @@ export function text(arg1, arg2) {
   // zoomable layer
   if (svg.zoomable && !svg.parent) {
     if (!svg.zoomablelayers.map((d) => d.id).includes(opts.id)) {
-      svg.zoomablelayers.push({
-        id: opts.id,
-        mark: opts.mark,
-        pos: opts.pos,
-        latlong: opts.latlong,
-        data: opts.data ? true : false,
-      });
+      svg.zoomablelayers.push(opts);
     } else {
       let i = svg.zoomablelayers.indexOf(
         svg.zoomablelayers.find((d) => d.id == opts.id)
       );
-      svg.zoomablelayers[i] = {
-        id: opts.id,
-        mark: opts.mark,
-        pos: opts.pos,
-        latlong: opts.latlong,
-        data: opts.data ? true : false,
-      };
+      svg.zoomablelayers[i] = opts;
     }
   }
 
@@ -145,23 +138,16 @@ export function text(arg1, arg2) {
   let entries = Object.entries(opts).map((d) => d[0]);
   const notspecificattr = entries.filter(
     (d) =>
-      ![
-        "mark",
-        "id",
-        "datum",
-        "data",
-        "latlong",
-        "sort",
-        "descending",
-      ].includes(d)
+      !["mark", "id", "datum", "data", "coords", "sort", "descending"].includes(
+        d
+      )
   );
-
-  // Projection
-  let projection = opts.latlong ? svg.projection : d3.geoIdentity();
-  let path = d3.geoPath(projection);
 
   // Simple text
   if (!opts.data) {
+    let projection = opts.coords == "svg" ? d3.geoIdentity() : svg.projection;
+    let path = d3.geoPath(projection);
+
     notspecificattr.forEach((d) => {
       layer.attr(camelcasetodash(d), opts[d]);
     });
@@ -171,7 +157,12 @@ export function text(arg1, arg2) {
     pos[1] = pos[1] + opts.dy;
 
     if (opts.text.split("\n").length == 1) {
-      layer.append("text").attr("x", pos[0]).attr("y", pos[1]).text(opts.text);
+      layer
+        .append("text")
+        .attr("x", pos[0])
+        .attr("y", pos[1])
+        .text(opts.text)
+        .attr("visibility", isNaN(pos[0]) ? "hidden" : "visible");
     } else {
       let delta = 0;
       switch (opts.dominantBaseline) {
@@ -200,12 +191,19 @@ export function text(arg1, arg2) {
           "y",
           (d, i) => pos[1] + i * (opts.fontSize + opts.lineSpacing) - delta
         )
-        .text((d) => d);
+        .text((d) => d)
+        .attr("visibility", isNaN(pos[0]) ? "hidden" : "visible");
     }
   }
 
   // Labels
   if (opts.data) {
+    let projection =
+      opts.coords == "svg"
+        ? d3.geoIdentity().scale(svg.zoom.k).translate([svg.zoom.x, svg.zoom.y])
+        : svg.projection;
+    let path = d3.geoPath(projection);
+
     // layer attributes
     let fields = propertiesentries(opts.data);
     const layerattr = notspecificattr.filter(

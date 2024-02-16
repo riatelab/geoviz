@@ -37,7 +37,7 @@ import {
  * @param {number} arg2.fixmax - value matching the spikes with height `k`. Setting this value is useful for making maps comparable with each other
  * @param {string|function} arg2.sort - the field to sort spikes or a sort function
  * @param {boolean} arg2.descending - spikes sorting order
- * @param {boolean} arg2.latlong - use false if the coordinates are already in the plan of the page (default: true)
+ * @param {string} arg2.coords - use "svg" if the coordinates are already in the plan of the svg document (default: "geo")
  * @param {string|function} arg2.fill - fill color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
  * @param {string|function} arg2.stroke - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
  * @param {boolean|function} arg2.tip - a function to display the tip. Use true tu display all fields
@@ -59,14 +59,18 @@ export function spike(arg1, arg2) {
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
   let svg = newcontainer
-    ? create({ zoomable: true, control: false, domain: arg1.data })
+    ? create({
+        zoomable: true,
+        control: false,
+        domain: arg1.data,
+        projection: "none",
+      })
     : arg1;
 
   // Arguments
   const options = {
     mark: "spike",
     id: unique(),
-    //latlong: true,
     data: undefined,
     pos: [0, 0],
     k: 50,
@@ -93,14 +97,18 @@ export function spike(arg1, arg2) {
   layer.selectAll("*").remove();
 
   if (!opts.data) {
-    opts.latlong = opts.latlong !== undefined ? opts.latlong : false;
+    opts.coords = opts.coords !== undefined ? opts.coords : "svg";
   }
 
   if (opts.data) {
-    opts.latlong = opts.latlong !== undefined ? opts.latlong : true;
+    svg.data = true;
+    opts.coords = opts.coords !== undefined ? opts.coords : "geo";
     opts.data =
       implantation(opts.data) == 3
-        ? centroid(opts.data, { latlong: opts.latlong })
+        ? centroid(opts.data, {
+            latlong:
+              svg.initproj == "none" || opts.coords == "svg" ? false : true,
+          })
         : opts.data;
   }
 
@@ -123,7 +131,7 @@ export function spike(arg1, arg2) {
       ![
         "mark",
         "id",
-        "latlong",
+        "coords",
         "data",
         "height",
         "width",
@@ -138,11 +146,12 @@ export function spike(arg1, arg2) {
   );
 
   // Projection
-  let projection = opts.latlong ? svg.projection : d3.geoIdentity();
-  let path = d3.geoPath(projection);
 
   // Simple spike
   if (!opts.data) {
+    let projection = opts.coords == "svg" ? d3.geoIdentity() : svg.projection;
+    let path = d3.geoPath(projection);
+
     notspecificattr.forEach((d) => {
       layer.attr(camelcasetodash(d), opts[d]);
     });
@@ -160,10 +169,19 @@ export function spike(arg1, arg2) {
       )
       .attr("visibility", isNaN(pos[0]) ? "hidden" : "visible");
   } else {
+    let projection =
+      opts.coords == "svg"
+        ? d3.geoIdentity().scale(svg.zoom.k).translate([svg.zoom.x, svg.zoom.y])
+        : svg.projection;
+    let path = d3.geoPath(projection);
+
     // Centroid
     opts.data =
       implantation(opts.data) == 3
-        ? centroid(opts.data, { latlong: opts.latlong })
+        ? centroid(opts.data, {
+            latlong:
+              svg.initproj == "none" || opts.coords == "svg" ? false : trueg,
+          })
         : opts.data;
 
     // layer attributes
@@ -180,12 +198,6 @@ export function spike(arg1, arg2) {
     eltattr.forEach((d) => {
       opts[d] = check(opts[d], fields);
     });
-
-    // Projection
-    let projection =
-      opts.latlong == false
-        ? d3.geoIdentity().scale(svg.zoom.k).translate([svg.zoom.x, svg.zoom.y])
-        : svg.projection;
 
     // Height
     let data = opts.data;
@@ -250,9 +262,6 @@ export function spike(arg1, arg2) {
     });
 
     // Drawing
-
-    path = d3.geoPath(projection);
-
     layer
       .selectAll("path")
       .data(data)

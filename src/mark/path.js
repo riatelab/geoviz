@@ -23,7 +23,7 @@ import {
  * @param {object} arg2.data - GeoJSON FeatureCollection. Use data to be able to iterate
  * @param {object} arg2.datum - GeoJSON FeatureCollection. Use datum if you don't need to iterate.
  * @param {string} arg2.id - id of the layer
- * @param {boolean} arg2.latlong - use false if the coordinates are already in the plan of the page (default: true)
+ * @param {string} arg2.coords - use "svg" if the coordinates are already in the plan of the svg document (default: "geo")))
  * @param {boolean} arg2.clip - use true to clip the path with the outline (default; true)
  * @param {string|function} arg2.fill - fill color. To create choropleth maps or typologies, use the `tool.choro` and `tool.typo` functions
  * @param {string|function} arg2.stroke - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
@@ -48,6 +48,7 @@ export function path(arg1, arg2) {
     ? create({
         zoomable: true,
         control: false,
+        projection: "none",
         domain: arg1.data || arg1.datum,
       })
     : arg1;
@@ -56,11 +57,15 @@ export function path(arg1, arg2) {
   const options = {
     mark: "path",
     id: unique(),
-    latlong: true,
+    coords: "geo",
     clip: true,
     strokeWidth: 1,
   };
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
+
+  if (opts.data || opts.datum) {
+    svg.data = true;
+  }
 
   // Default color
   const randomcol = random();
@@ -97,7 +102,7 @@ export function path(arg1, arg2) {
       svg.zoomablelayers.push({
         mark: opts.mark,
         id: opts.id,
-        latlong: opts.latlong,
+        coords: opts.coords,
       });
     } else {
       let i = svg.zoomablelayers.indexOf(
@@ -107,20 +112,23 @@ export function path(arg1, arg2) {
       svg.zoomablelayers[i] = {
         mark: opts.mark,
         id: opts.id,
-        latlong: opts.latlong,
+        coords: opts.coords,
       };
     }
   }
 
   // Projection
-  let projection = opts.latlong ? svg.projection : d3.geoIdentity();
+  let projection =
+    opts.coords == "svg"
+      ? d3.geoIdentity().scale(svg.zoom.k).translate([svg.zoom.x, svg.zoom.y])
+      : svg.projection;
   let path = d3.geoPath(projection);
 
   // Specific attributes
   let entries = Object.entries(opts).map((d) => d[0]);
   const notspecificattr = entries.filter(
     (d) =>
-      !["mark", "id", "datum", "data", "latlong", "tip", "tipstyle"].includes(d)
+      !["mark", "id", "datum", "data", "coords", "tip", "tipstyle"].includes(d)
   );
 
   // layer attributes
@@ -139,7 +147,7 @@ export function path(arg1, arg2) {
   });
 
   // Clip-path
-  if (opts.clip == true && opts.latlong == true) {
+  if (opts.clip == true && opts.coords != "svg" && svg.initproj !== "none") {
     const clipid = unique();
 
     if (svg.zoomable && !svg.parent) {
@@ -177,6 +185,9 @@ export function path(arg1, arg2) {
       tooltip(layer, opts.data, svg, opts.tip, opts.tipstyle, fields);
     }
   }
+
+  // viewbox
+  svg = Object.assign(svg, { viewbox: getsize(layer) });
 
   // Output
   if (newcontainer) {

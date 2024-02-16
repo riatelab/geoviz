@@ -53,6 +53,14 @@ export function scalebar(arg1, arg2) {
   };
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
+  // Warning
+  if (svg.initproj == "none" && svg.warning) {
+    svg.warning_message.push(`Scalebar mark`);
+    svg.warning_message.push(
+      `The scale bar is not relevant without defining a projection function function in the SVG container`
+    );
+  }
+
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
     ? svg.append("g").attr("id", opts.id)

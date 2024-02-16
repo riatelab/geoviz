@@ -3,6 +3,7 @@ import versor from "versor@0.2";
 import { circle } from "../mark/circle";
 import { halfcircle } from "../mark/halfcircle";
 import { spike } from "../mark/spike";
+import { text } from "../mark/text";
 import { tile } from "../mark/tile";
 import { scalebar } from "../mark/scalebar";
 import { north } from "../mark/north";
@@ -47,24 +48,7 @@ export function zoomversor(svg) {
           svg.selectAll(`#${d.id} > path`).attr("d", path);
           break;
         case "text":
-          if (d.data) {
-            svg
-              .selectAll(`#${d.id} > text`)
-              .attr("x", (d) => path.centroid(d.geometry)[0])
-              .attr("y", (d) => path.centroid(d.geometry)[1])
-              .attr("visibility", (d) =>
-                isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
-              );
-          } else if (d.latlong == true) {
-            const pos = path.centroid({ type: "Point", coordinates: d.pos });
-            svg
-              .selectAll(`#${d.id} > text`)
-              .attr("x", pos[0])
-              .attr("y", pos[1])
-              .attr("visibility", (d) =>
-                isNaN(pos[0]) ? "hidden" : "visible"
-              );
-          }
+          text(svg, d);
           break;
         case "outline":
           svg.selectAll(`#${d.id} > path`).attr("d", path({ type: "Sphere" }));

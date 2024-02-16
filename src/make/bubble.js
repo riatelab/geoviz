@@ -1,6 +1,5 @@
 import { create } from "../container/create";
-import { render } from "../container/render";
-import { unique, implantation } from "../helpers/utils";
+import { unique, implantation, getsize } from "../helpers/utils";
 
 export function bubble(arg1, arg2) {
   // Test if new container
@@ -8,13 +7,12 @@ export function bubble(arg1, arg2) {
     arguments.length <= 1 && !arguments[0]?._groups ? true : false;
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
-  let svg = newcontainer
-    ? create({ zoomable: true, domain: arg1.data || arg1.datum })
-    : arg1;
   let options = newcontainer ? arg1 : arg2;
 
   // Additionnal default values (see also circle and lgends)
   let opts = {
+    projection: "none",
+    title: "title",
     leg_type: "nested",
     leg_pos: [10, 10],
     id: unique(),
@@ -40,6 +38,15 @@ export function bubble(arg1, arg2) {
     delete Object.assign(opts, { [newKey]: opts[oldKey] })[oldKey];
   rename("var", "r");
 
+  // Container
+  let svg = newcontainer
+    ? create({
+        zoomable: true,
+        domain: arg1.data || arg1.datum,
+        projection: opts.projection,
+      })
+    : arg1;
+
   // Path
 
   if (implantation(opts.data) == 3 && newcontainer) {
@@ -55,6 +62,12 @@ export function bubble(arg1, arg2) {
   svg.circle(layeropts);
 
   // Legend
+  let size = getsize(svg);
+  svg
+    .attr("width", size.width)
+    .attr("height", size.height)
+    .attr("viewBox", [size.x, size.y, size.width, size.height]);
+
   let legopts = {};
   Object.keys(opts)
     .filter((str) => str.slice(0, 4) == "leg_" || ["k", "fixmax"].includes(str))
@@ -67,15 +80,24 @@ export function bubble(arg1, arg2) {
     ? legopts["data"]
     : opts.data.features.map((d) => d.properties[layeropts.r]);
 
+  let legend;
   if (opts.leg_type == "nested") {
-    svg.legend.circles_nested(legopts);
+    legend = svg.legend.circles_nested(legopts);
   } else {
-    svg.legend.circles(legopts);
+    legend = svg.legend.circles(legopts);
   }
+  svg.select(legend).attr("transform", `translate(${size.x} ${size.y})`);
+
+  size = getsize(svg);
+  svg.select(svg.controlid).attr("transform", `translate(${size.x} ${size.y})`);
 
   // Output
   if (newcontainer) {
-    return render(svg);
+    svg
+      .attr("width", size.width)
+      .attr("height", size.height)
+      .attr("viewBox", [size.x, size.y, size.width, size.height]);
+    return svg.render();
   } else {
     return [`#${layeropts.id}`, `#${legopts.id}`];
   }

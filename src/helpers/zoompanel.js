@@ -7,7 +7,11 @@ export function zoompanel(svg) {
     pos = `translate(${svg.control[0]},${svg.control[1]})`;
   }
 
-  const control = svg.append("g").attr("transform", pos);
+  const control = svg
+    .append("g")
+    .attr("transform", pos)
+    .attr("id", svg.controlid);
+
   control
     .append("rect")
     .attr("x", 0)

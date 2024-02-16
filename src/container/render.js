@@ -1,7 +1,9 @@
 import { getDOMids } from "../helpers/getDOMids";
 import { zoomandpan } from "../helpers/zoomandpan";
 import { zoomversor } from "../helpers/zoomversor";
-import { getsize } from "../helpers/utils";
+import { select, pointers } from "d3-selection";
+const d3 = Object.assign({}, { select, pointers });
+//import { warning } from "../helpers/warning";
 
 /**
  * @description The `render` function returns the svg document
@@ -32,6 +34,76 @@ export function render(svg, { order = [] } = {}) {
         svg.select(`${d}`).raise();
       });
     }
+  }
+
+  // Warning
+  if (svg.data && svg.initproj == "none" && !svg.domain && svg.warning) {
+    svg.warning_message.push(
+      `You must specify a projection and/or the domain in the SVG container`
+    );
+  }
+
+  if (svg.warning && svg.warning_message.length > 0) {
+    let style = {
+      fontSize: 13,
+      fill: "#594A2F",
+      background: "#FDD66C",
+      stroke: "#FDD66C",
+      strokeWidth: 1,
+    };
+
+    let warningtooltip = svg
+      .append("g")
+      .attr("id", "warningtooltip")
+      .attr("pointer-events", "none")
+      .style("visibility", "hidden")
+      .attr("transform", `translate(30,10)`);
+
+    const h = svg.warning_message.length * style.fontSize;
+    const w = svg.width - 80;
+
+    let warningpath = warningtooltip
+      .append("g")
+      .attr("fill", style.background)
+      .attr("stroke", style.stroke)
+      .attr("stroke-width", style.strokeWidth);
+
+    warningpath
+      .append("path")
+      .attr("d", `M0,0v${+h + 5 + 20}h${w + 20}v${-h - 20}h${-w - 15}z`)
+      .attr("transform", "translate(-10,20)");
+
+    let warningtext = warningtooltip
+      .append("g")
+      .attr("font-size", `${style.fontSize}px`)
+      .attr("fill", style.fill)
+      .attr("font-family", style.fontFamily)
+      .attr("text-anchor", "middle")
+      .attr("font-weight", "bold")
+      .attr("transform", `translate(${(svg.width - 70) / 2},${45})`);
+
+    warningtext
+      .selectAll("text")
+      .data(svg.warning_message)
+      .join("text")
+      .attr("dy", (d, i) => i * style.fontSize)
+      .text((d) => d);
+
+    svg
+      .append("g")
+      .attr("font-size", `${15}px`)
+      .append("text")
+      .attr("x", 10)
+      .attr("y", 20)
+      .text("⚠️")
+      .on("touchmove mousemove", function (event, d) {
+        d3.select(this).style("cursor", "pointer");
+        warningtooltip.style("visibility", "visible");
+      })
+      .on("touchend mouseleave", function () {
+        warningtooltip.style("visibility", "hidden");
+        d3.select(this).style("cursor", "default");
+      });
   }
 
   // Zoom

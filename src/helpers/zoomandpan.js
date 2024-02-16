@@ -1,6 +1,7 @@
 import { circle } from "../mark/circle";
 import { halfcircle } from "../mark/halfcircle";
 import { spike } from "../mark/spike";
+import { text } from "../mark/text";
 import { tile } from "../mark/tile";
 import { scalebar } from "../mark/scalebar";
 import { north } from "../mark/north";
@@ -147,39 +148,16 @@ export function zoomandpan(svg) {
           spike(svg, d);
           break;
         case "path":
-          svg.selectAll(`#${d.id} > path`).attr("d", d.latlong ? path : path2);
+          svg
+            .selectAll(`#${d.id} > path`)
+            .attr("d", d.coords == "svg" ? path2 : path);
           break;
         case "clippath":
           svg.selectAll(`#${d.id} > path`).attr("d", path);
           break;
-
         case "text":
-          if (d.data && d.latlong == true) {
-            svg
-              .selectAll(`#${d.id} > text`)
-              .attr("x", (d) => path.centroid(d.geometry)[0])
-              .attr("y", (d) => path.centroid(d.geometry)[1])
-              .attr("visibility", (d) =>
-                isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
-              );
-          } else if (d.data && d.latlong == false) {
-            svg
-              .selectAll(`#${d.id} > text`)
-              .attr("x", (d) => path2.centroid(d.geometry)[0])
-              .attr("y", (d) => path2.centroid(d.geometry)[1])
-              .attr("visibility", (d) =>
-                isNaN(path2.centroid(d.geometry)[0]) ? "hidden" : "visible"
-              );
-          } else if (!d.data && d.latlong == true) {
-            const pos = path.centroid({ type: "Point", coordinates: d.pos });
-            svg
-              .selectAll(`#${d.id} > text`)
-              .attr("x", pos[0])
-              .attr("y", pos[1])
-              .attr("visibility", (d) =>
-                isNaN(pos[0]) ? "hidden" : "visible"
-              );
-          }
+          d.zoom = { k: t.k, x: t.x, y: t.y };
+          text(svg, d);
           break;
         case "outline":
           svg.selectAll(`#${d.id} > path`).attr("d", path({ type: "Sphere" }));

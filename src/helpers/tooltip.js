@@ -108,7 +108,7 @@ export function tooltip(layer, data, container, tip, tip_style = {}, fields) {
         .text((d) => d);
       path.attr("transform", `translate(${xy})`);
       const { x, y, width: w, height: h } = text.node().getBBox();
-
+      
       const x_margin = 0.33 * container.width;
       const y_margin = 0.25 * container.height;
 

@@ -1,9 +1,16 @@
 import { bbox } from "./bbox";
 import { whatisit } from "../helpers/whatisit";
 
-export function extent(x) {
-  if (x == null || x == "") {
+export function extent(x, proj) {
+  if ((x == null || x == "") && proj !== "none") {
     return { type: "Sphere" };
+  }
+
+  if ((x == null || x == "") && proj == "none") {
+    return bbox([
+      [0, 0],
+      [0, 0],
+    ]);
   }
 
   if (whatisit(x) == "bbox") {

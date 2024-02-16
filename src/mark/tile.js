@@ -24,11 +24,6 @@ import { unique } from "../helpers/utils";
  */
 
 export function tile(arg1, arg2) {
-  // Warning
-  console.log(
-    "WARNING - to display tiles, you must use the projection d3.geoMercator()"
-  );
-
   // Test if new container
   let newcontainer =
     arguments.length <= 1 && !arguments[0]?._groups ? true : false;
@@ -52,6 +47,13 @@ export function tile(arg1, arg2) {
 
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
   opts.url = geturl(opts.url);
+
+  // Warning
+  if (svg.initproj == "none" && svg.warning) {
+    svg.warning_message.push(
+      `You must use projection: "mercator" in the svg container to display tile marks`
+    );
+  }
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()

@@ -42,6 +42,14 @@ export function north(arg1, arg2) {
   };
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
+  // Warning
+  if (svg.initproj == "none" && svg.warning) {
+    svg.warning_message.push(`North mark`);
+    svg.warning_message.push(
+      `The North arrow is not relevant without defining a projection function in the SVG container`
+    );
+  }
+
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
     ? svg.append("g").attr("id", opts.id)
