@@ -68,7 +68,7 @@ Demo: [bubble.html](https://neocarto.github.io/geoviz/examples/bubble.html) & [d
 let geojson =   "./world.json"
 d3.json(geojson).then(data => {
 let svg = geoviz.create({projection: d3.geoEqualEarth()})
-let choro = geoviz.tool.choro(data.features.map((d) => d.properties.gdppc), {method: "quantile", palette: "Matter"})
+let choro = geoviz.tool.choro(data.features.map((d) => d.properties.gdppc), {method: "quantile", colors: "Matter"})
 svg.path({data: data, fill: d =>  choro.colorize(d.properties.gdppc), stroke: "white", strokeWidth:0.5})
 document.body.appendChild(svg.render())
 })
@@ -83,7 +83,7 @@ let geojson =   "./world.json"
 
 d3.json(geojson).then(data => {
 let svg = geoviz.create({projection: d3.geoEqualEarth()})
-let typo = geoviz.tool.typo(data.features.map((d) => d.properties.region), {palette: "Set3"});
+let typo = geoviz.tool.typo(data.features.map((d) => d.properties.region), {colors: "Set3"});
 svg.path({data: data, fill: (d) => typo.colorize(d.properties.region), stroke: "white", strokeWidth:0.5})
 document.body.appendChild(svg.render())
 })
@@ -96,7 +96,7 @@ Demo: [typo.html](https://neocarto.github.io/geoviz/examples/typo.html)
 ~~~js
 let geojson =   "./world.json"
 d3.json(geojson).then(data => {
-let svg = geoviz.create({projection: d3.geoMercator(), zoomable:true})
+let svg = geoviz.create({projection:"mercator", zoomable:true})
 svg.tile({url: (x, y, z) =>
         `https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/${z}/${y}/${x}.png`
     })
