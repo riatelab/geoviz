@@ -120,10 +120,6 @@ export function render(svg, { order = [] } = {}) {
 
   // raise tooltips
   svg.selectAll("#geoviztooltip").raise();
-  // Add metadata
-  Object.assign(svg.node(), {
-    metadata: "Map designed with https://github.com/neocarto/geoviz",
-  });
 
   // render
   return svg.node();

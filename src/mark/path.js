@@ -3,6 +3,7 @@ const d3 = Object.assign({}, { geoPath, geoIdentity });
 import { create } from "../container/create";
 import { render } from "../container/render";
 import { tooltip } from "../helpers/tooltip";
+import { viewof } from "../helpers/viewof";
 import { random } from "../tool/random";
 import {
   camelcasetodash,
@@ -29,6 +30,7 @@ import {
  * @param {string|function} arg2.stroke - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
  * @param {string|function} arg2.strokeWidth - stroke-width (default: 1)
  * @param {boolean|function} arg2.tip - a function to display the tip. Use true tu display all fields
+ * @param {boolean} arg2.view - use true and viewof in Observable for this layer to act as Input
  * @param {object} arg2.tipstyle - tooltip style
  * @param {*} arg2.foo - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @example
@@ -180,9 +182,20 @@ export function path(arg1, arg2) {
         return n;
       });
 
-    // Tooltip
+    // Tooltip & view
     if (opts.tip) {
-      tooltip(layer, opts.data, svg, opts.tip, opts.tipstyle, fields);
+      tooltip(
+        layer,
+        opts.data,
+        svg,
+        opts.tip,
+        opts.tipstyle,
+        fields,
+        opts.view
+      );
+    }
+    if (!opts.tip && opts.view) {
+      viewof(layer, svg);
     }
   }
 

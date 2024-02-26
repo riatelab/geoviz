@@ -1,7 +1,18 @@
 import { select, pointers } from "d3-selection";
 const d3 = Object.assign({}, { select, pointers });
 
-export function tooltip(layer, data, container, tip, tip_style = {}, fields) {
+export function tooltip(
+  layer,
+  data,
+  container,
+  tip,
+  tip_style = {},
+  fields,
+  view
+) {
+  // view
+  let dataview;
+
   //if input == string
   if (typeof tip === "string") {
     const sortfields = fields.sort((a, b) => b.length - a.length);
@@ -97,6 +108,12 @@ export function tooltip(layer, data, container, tip, tip_style = {}, fields) {
   layer
     .selectAll("*")
     .on("touchmove mousemove", function (event, d) {
+      // view
+      if (view) {
+        dataview = d.properties;
+        container.dispatch("input");
+      }
+
       geoviztooltip.style("visibility", "visible");
       const xy = d3.pointers(event, context)[0];
       d3.select(this).attr("fill-opacity", 0.5);
@@ -108,7 +125,7 @@ export function tooltip(layer, data, container, tip, tip_style = {}, fields) {
         .text((d) => d);
       path.attr("transform", `translate(${xy})`);
       const { x, y, width: w, height: h } = text.node().getBBox();
-      
+
       const x_margin = 0.33 * container.width;
       const y_margin = 0.25 * container.height;
 
@@ -188,5 +205,15 @@ export function tooltip(layer, data, container, tip, tip_style = {}, fields) {
     .on("touchend mouseleave", function (event, d) {
       d3.select(this).attr("fill-opacity", formerOpacity);
       geoviztooltip.style("visibility", "hidden");
+      if (view) {
+        dataview = {};
+        container.dispatch("input");
+      }
     });
+
+  if (view) {
+    Object.defineProperty(container.node(), "value", {
+      get: () => dataview,
+    });
+  }
 }
