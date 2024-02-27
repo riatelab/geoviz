@@ -48,6 +48,8 @@
     "d3-transition": "^3.0.1",
     "d3-zoom": "^3.0.0",
     "dicopal": "^0.6.4",
+    "docs": "^0.3.2-canary.0",
+    "documentation": "^14.0.3",
     "rollup": "^4.10.0",
     "statsbreaks": "^1.0.6",
     "versor": "^0.2.0"
