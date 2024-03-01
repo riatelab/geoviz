@@ -27,7 +27,7 @@ geoviz = require("geoviz")
 ## Documentation
 
 - [Documentation](https://observablehq.com/@neocartocnrs/geoviz)
-- [API reference](https://neocarto.github.io/geoviz/docs)
+- [API reference](https://riatelab.github.io/geoviz/docs)
 
 ## Usage
 
