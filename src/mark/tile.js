@@ -14,7 +14,7 @@ import { unique } from "../helpers/utils";
  * @param {number} arg2.tileSize - tile size (default: 512)
  * @param {number} arg2.zoomDelta - zoom offset (default:1)
  * @param {number} arg2.opacity - tile opacity (default: 1)
- * @param {function|string} arg2.url - function like (x, y, z) => \`https://something/\${z}/\${x}/\${y}.png`. You can also enter the following strings directly: "openstreetmap", "opentopomap", "worldterrain", "worldimagery", "worldStreet", "worldphysical" or "shadedrelief".
+ * @param {function|string} arg2.url - function like (x, y, z) => \`https://something/\${z}/\${x}/\${y}.png`. You can also enter the following strings directly: "openstreetmap", "opentopomap", "worldterrain", "worldimagery", "worldStreet", "worldphysical", "shadedrelief", "stamenterrain", "cartodbvoyager", "stamentoner","stamentonerbackground","stamentonerlite","stamenwatercolor","hillshade","worldocean","natgeo" or "worldterrain".
  * @param {string} arg2.clipPath - clip-path. e.g. "url(#myclipid)"
  * @example
  * geoviz.tile() // no container
@@ -157,5 +157,82 @@ const providers = [
     provider: "ESRI",
     url: (x, y, z) =>
       `https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/${z}/${y}/${x}.png`,
+  },
+
+  {
+    name: "stamenterrain",
+    provider: "stadiamaps",
+    url: (x, y, z) =>
+      `https://tiles.stadiamaps.com/tiles/stamen_terrain/${z}/${x}/${y}${
+        devicePixelRatio > 1 ? "@2x" : ""
+      }.png`,
+  },
+
+  {
+    name: "cartodbvoyager",
+    provider: "CartoDB",
+    url: (x, y, z) =>
+      `https://${
+        "abc"[Math.abs(x + y) % 3]
+      }.basemaps.cartocdn.com/rastertiles/voyager/${z}/${x}/${y}${
+        devicePixelRatio > 1 ? "@2x" : ""
+      }.png`,
+  },
+
+  {
+    name: "stamentoner",
+    provider: "stadiamaps",
+    url: (x, y, z) =>
+      `https://tiles.stadiamaps.com/tiles/stamen_toner/${z}/${x}/${y}${
+        devicePixelRatio > 1 ? "@2x" : ""
+      }.png`,
+  },
+  {
+    name: "stamentonerbackground",
+    provider: "stadiamaps",
+    url: (x, y, z) =>
+      `https://tiles.stadiamaps.com/tiles/stamen_toner_background/${z}/${x}/${y}${
+        devicePixelRatio > 1 ? "@2x" : ""
+      }.png`,
+  },
+  {
+    name: "stamentonerlite",
+    provider: "stadiamaps",
+    url: (x, y, z) =>
+      `https://tiles.stadiamaps.com/tiles/stamen_toner_lite/${z}/${x}/${y}${
+        devicePixelRatio > 1 ? "@2x" : ""
+      }.png`,
+  },
+  {
+    name: "stamenwatercolor",
+    provider: "stadiamaps",
+    url: (x, y, z) =>
+      `https://tiles.stadiamaps.com/tiles/stamen_watercolor/${z}/${x}/${y}.jpg`,
+  },
+  {
+    name: "hillshade",
+    provider: "ESRI",
+    url: (x, y, z) =>
+      `https://server.arcgisonline.com/ArcGIS/rest/services/Elevation/World_Hillshade/MapServer/tile/${z}/${y}/${x}.png`,
+  },
+
+  {
+    name: "worldocean",
+    provider: "ESRI",
+    url: (x, y, z) =>
+      `https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/${z}/${y}/${x}`,
+  },
+  {
+    name: "natgeo",
+    provider: "ESRI",
+    url: (x, y, z) =>
+      `https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/${z}/${y}/${x}`,
+  },
+
+  {
+    name: "worldterrain",
+    provider: "ESRI",
+    url: (x, y, z) =>
+      `  https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/${z}/${y}/${x}`,
   },
 ];
