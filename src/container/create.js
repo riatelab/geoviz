@@ -42,6 +42,8 @@ import { typo_horizontal as addtypo_horizontal } from "../legend/typo-horizontal
 import { box as addbox } from "../legend/box";
 import { render as addrender } from "../container/render";
 
+import { plot as addplot } from "../plot/plot.js";
+
 /**
  * @description The `create` function is the first step in map construction. t creates an svg container into which the various layers can be added.
  * @see {@link https://observablehq.com/@neocartocnrs/geoviz}
@@ -184,6 +186,7 @@ export function create({
     { id: "footer", func: footer },
     { id: "scalebar", func: addscalebar },
     { id: "north", func: addnorth },
+    { id: "plot", func: addplot },
   ].forEach(
     (d) =>
       (mark[d.id] = function () {
@@ -216,7 +219,6 @@ export function create({
     { id: "shadow", func: addshadow },
     { id: "radialGradient", func: addradialGradient },
     { id: "clipPath", func: addclippath },
-
     ,
   ].forEach(
     (d) =>
@@ -225,18 +227,9 @@ export function create({
       })
   );
 
-  // let symbology = {};
-  // [{ id: "choropleth", func: addchoropleth }, ,].forEach(
-  //   (d) =>
-  //     (symbology[d.id] = function () {
-  //       return d.func(output, arguments[0]);
-  //     })
-  // );
-
   // Output
 
   return Object.assign(output, {
-    //...symbology,
     ...mark,
     legend,
     effect,

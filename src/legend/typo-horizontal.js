@@ -58,7 +58,10 @@ import {
 export function typo_horizontal(arg1, arg2) {
   // Test if new container
   let newcontainer =
-    arguments.length <= 1 && !arguments[0]?._groups ? true : false;
+    (arguments.length <= 1 || arguments[1] == undefined) &&
+    !arguments[0]?._groups
+      ? true
+      : false;
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
   let svg = newcontainer ? create() : arg1;

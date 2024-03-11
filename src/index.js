@@ -96,8 +96,5 @@ export { render } from "./container/render";
 export { tile } from "./mark/tile.js";
 export { halfcircle } from "./mark/halfcircle.js";
 
-// Symbology
-import { bubble } from "./make/bubble.js";
-export let make = {
-  bubble,
-};
+// Plot
+export { plot } from "./plot/plot.js";

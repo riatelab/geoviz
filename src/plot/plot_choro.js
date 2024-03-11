@@ -4,12 +4,16 @@ import { path } from "../mark/path";
 import { render } from "../container/render";
 import { choro_vertical } from "../legend/choro-vertical";
 import { choro_horizontal } from "../legend/choro-horizontal";
-export function choropleth(arg1, arg2) {
-  // Test if new container
+export function plot_choro(arg1, arg2) {
   let newcontainer =
-    arguments.length == 1 && typeof arguments[0] == "object" ? true : false;
-  let svg = newcontainer ? create() : arg1;
+    (arguments.length <= 1 || arguments[1] == undefined) &&
+    !arguments[0]?._groups
+      ? true
+      : false;
+
+  // New container
   let options = newcontainer ? arg1 : arg2;
+  let svg = newcontainer ? create({ domain: options.data }) : arg1;
 
   // Default values
   let opts = {
@@ -18,12 +22,11 @@ export function choropleth(arg1, arg2) {
     fill: undefined,
     method: "quantile",
     breaks: undefined,
-    colors: undefined,
+    colors: "Algae",
     nb: 6,
     k: 1,
     middle: undefined,
     precision: 2,
-    palette: "Algae",
     missing: "white",
     // Path
     projection: undefined,
@@ -36,12 +39,7 @@ export function choropleth(arg1, arg2) {
     leg_type: "vertical",
     leg_pos: [10, svg.height / 2],
   };
-
-  Object.keys(opts).forEach((d) => {
-    if (options[d] !== undefined) {
-      opts[d] = options[d];
-    }
-  });
+  opts = { ...opts, ...options };
 
   // classif
   let classif = choro(
@@ -56,23 +54,40 @@ export function choropleth(arg1, arg2) {
           "k",
           "middle",
           "precision",
-          "palette",
           "missing",
         ].includes(key)
       )
     )
   );
 
-  // geometries
+  // Path
+  let layeropts = {};
+  Object.keys(opts)
+    .filter((str) => str.slice(0, 4) != "leg_")
+    .forEach((d) => Object.assign(layeropts, { [d]: opts[d] }));
+
   path(svg, {
-    data: opts["data"],
+    ...layeropts,
+    data: layeropts["data"],
     fill: (d) => classif.colorize(d.properties[opts.fill]),
     tip: opts.tip,
   });
+
   // Legend
+
+  let legopts = {};
+  Object.keys(opts)
+    .filter((str) => str.slice(0, 4) == "leg_" || ["k", "fixmax"].includes(str))
+    .forEach((d) =>
+      Object.assign(legopts, {
+        [d.slice(0, 4) == "leg_" ? d.slice(4) : d]: opts[d],
+      })
+    );
+
   let funclegend =
     opts.leg_type == "vertical" ? choro_vertical : choro_horizontal;
   funclegend(svg, {
+    ...legopts,
     pos: opts.leg_pos,
     breaks: classif.breaks,
     colors: classif.colors,
