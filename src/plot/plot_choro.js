@@ -17,25 +17,6 @@ export function plot_choro(arg1, arg2) {
 
   // Default values
   let opts = {
-    // Discretization
-    data: null,
-    fill: undefined,
-    method: "quantile",
-    breaks: undefined,
-    colors: "Algae",
-    nb: 6,
-    k: 1,
-    middle: undefined,
-    precision: 2,
-    missing: "white",
-    // Path
-    projection: undefined,
-    tip: undefined,
-    tipstyle: undefined,
-    stroke: "white",
-    strokeWidth: 1,
-    fillOpacity: 1,
-    // Legend
     leg_type: "vertical",
     leg_pos: [10, svg.height / 2],
   };
@@ -68,9 +49,7 @@ export function plot_choro(arg1, arg2) {
 
   path(svg, {
     ...layeropts,
-    data: layeropts["data"],
     fill: (d) => classif.colorize(d.properties[opts.fill]),
-    tip: opts.tip,
   });
 
   // Legend
