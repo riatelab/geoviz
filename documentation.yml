@@ -5,6 +5,9 @@ toc:
     children:
       - create
       - render  
+  - name: plot
+    description : |
+      This section describe the plot function that allows to display all layers types in geoviz
   - name: marks
     description: |
       This section contains functions to display map layers (i.e. marks)

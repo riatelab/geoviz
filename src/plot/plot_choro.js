@@ -4,6 +4,7 @@ import { path } from "../mark/path";
 import { render } from "../container/render";
 import { choro_vertical } from "../legend/choro-vertical";
 import { choro_horizontal } from "../legend/choro-horizontal";
+import { implantation, columns } from "../helpers/utils";
 export function plot_choro(arg1, arg2) {
   let newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
@@ -22,9 +23,38 @@ export function plot_choro(arg1, arg2) {
   };
   opts = { ...opts, ...options };
 
+  // Fill or stroke ?
+
+  let fig = "poly";
+  const figuration = implantation(opts.data);
+  if (figuration == 2) {
+    opts.fill = opts.fill ? opts.fill : "none";
+    opts.stroke = opts.stroke ? opts.stroke : "#CCC";
+  }
+  if (figuration != 2) {
+    opts.fill = opts.fill ? opts.fill : "#CCC";
+    opts.stroke = opts.stroke ? opts.stroke : "white";
+  }
+
+  if (opts.var !== undefined) {
+    if (figuration == 2) {
+      fig = "line";
+    }
+  } else {
+    const col = columns(opts.data.features.map((d) => d.properties));
+    if (col.includes(opts.stroke)) {
+      opts.var = opts.stroke;
+      fig = "line";
+    }
+    if (col.includes(opts.fill)) {
+      opts.var = opts.fill;
+      fig = "poly";
+    }
+  }
+
   // classif
   let classif = choro(
-    opts["data"].features.map((d) => d.properties[opts.fill]),
+    opts["data"].features.map((d) => d.properties[opts.var]),
     Object.fromEntries(
       Object.entries(opts).filter(([key]) =>
         [
@@ -49,7 +79,10 @@ export function plot_choro(arg1, arg2) {
 
   path(svg, {
     ...layeropts,
-    fill: (d) => classif.colorize(d.properties[opts.fill]),
+    stroke: (d) =>
+      fig == "line" ? classif.colorize(d.properties[opts.var]) : opts.stroke,
+    fill: (d) =>
+      fig == "poly" ? classif.colorize(d.properties[opts.var]) : opts.fill,
   });
 
   // Legend
