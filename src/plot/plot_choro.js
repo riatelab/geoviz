@@ -4,7 +4,7 @@ import { path } from "../mark/path";
 import { render } from "../container/render";
 import { choro_vertical } from "../legend/choro-vertical";
 import { choro_horizontal } from "../legend/choro-horizontal";
-import { implantation, columns } from "../helpers/utils";
+import { implantation, columns, unique } from "../helpers/utils";
 export function plot_choro(arg1, arg2) {
   let newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
@@ -18,6 +18,7 @@ export function plot_choro(arg1, arg2) {
 
   // Default values
   let opts = {
+    id: unique(),
     missing: "white",
     leg_type: "vertical",
     leg_pos: [10, svg.height / 2],
@@ -74,9 +75,6 @@ export function plot_choro(arg1, arg2) {
     )
   );
 
-  console.log(classif.nodata);
-  console.log(opts.missing);
-
   if (classif.nodata == 0 && opts.missing !== true) {
     opts.missing = false;
   }
@@ -101,15 +99,15 @@ export function plot_choro(arg1, arg2) {
   Object.keys(opts)
     .filter(
       (str) =>
-        str.slice(0, 4) == "leg_" || ["k", "fixmax", "missing"].includes(str)
+        str.slice(0, 4) == "leg_" ||
+        ["k", "fixmax", "missing", "id"].includes(str)
     )
     .forEach((d) =>
       Object.assign(legopts, {
         [d.slice(0, 4) == "leg_" ? d.slice(4) : d]: opts[d],
       })
     );
-
-  console.log(opts);
+  legopts.id = "leg_" + legopts.id;
 
   let funclegend =
     opts.leg_type == "vertical" ? choro_vertical : choro_horizontal;
@@ -124,5 +122,7 @@ export function plot_choro(arg1, arg2) {
 
   if (newcontainer) {
     return render(svg);
+  } else {
+    return [`#${opts.id}`, `#${legopts.id}`];
   }
 }
