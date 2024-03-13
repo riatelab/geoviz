@@ -40,6 +40,9 @@ const d3 = Object.assign({}, { formatLocale, arc });
  * @param {string} arg2.values_textAnchor - text-anchor (default: "middle")
  * @param {number} arg2.values_dx - shift in x (default: 0)
  * @param {number} arg2.values_dx - shift in y (default: 5)
+ * @param {number} arg2.values_factor - allow to multiply values to display in the legend. e.g 0.001 to convert into thousands
+ * @param {string} arg2.values_decimal - separator for decimals
+ * @param {string} arg2.values_thousands -  separator for thousands
  * @param {*} arg2.values_foo - *SVG attributes that can be applied on this text element (fill, fontSize...)*
 
 * @param {string} arg2.title - title of the legend
@@ -98,6 +101,7 @@ export function circles_half(arg1, arg2) {
   // Circles
   let arr = datatoradius(opts.data, {
     nb: opts.nb,
+    factor: opts.values_factor,
     round: opts.values_round,
     fixmax: opts.fixmax,
     k: opts.k,
@@ -180,7 +184,6 @@ export function circles_half(arg1, arg2) {
     lines.attr(camelcasetodash(d[0]), d[1])
   );
 
-  // Values
   let locale = d3.formatLocale({
     decimal: opts.values_decimal,
     thousands: opts.values_thousands,

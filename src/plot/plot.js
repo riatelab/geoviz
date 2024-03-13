@@ -26,12 +26,13 @@ import { mushrooms } from "../legend/mushrooms";
 
 // Symbology
 import { plot_choro } from "./plot_choro";
+import { plot_typo } from "./plot_typo";
 
 /**
- * @description The `plot` function allows to display all types of layers with geoviz. You can use the same parameters as for marks and legends. But there are also some specific parameters. See explanations here: https://observablehq.com/@neocartocnrs/geoviz
+ * @description The `plot` function allows to display all types of layers with geoviz. You can use the same parameters as for marks and legends. But there are also some specific parameters. See explanations here: https://observablehq.com/@neocartocnrs/geoviz-plot
  * @param {SVGSVGElement} arg1 - SVG container (optional)
  * @param {object} arg2 - options and parameters
- * @param {string} arg2.type - available types: "graticule", "outline" , "path" (or "base", "simple"), "text" (or "label"), "circle", "halfcircle", "spike", "tile", "header", "footer", "scalebar", "north", "leg_box" (or "legbox"), "leg_choro_horizontal" (or "legchorohorizontal", "leg_choro_vertical" (or "legchorovertical", "leg_choro", legchoro"), "leg_typo_horizontal" (or "legtypohorizontal"), "leg_typo_vertical" (or "legtypovertical", "leg_typo", "legtypo"), "leg_spikes" (or "leg_spike", "legspike", "legspikes"), "leg_circles" (or "leg_circle", "legcircle", "legcircles"), "leg_circles_nested" (or "leg_circle_nested", "legcirclenested", "legcirclesnested"), "leg_mushrooms" (or "leg_mushroom", "legmushrooms", "legmushroom"), "choro" (or "choropleth")
+ * @param {string} arg2.type - available types: "graticule", "outline" , "path" (or "base", "simple"), "text" (or "label"), "circle", "halfcircle", "spike", "tile", "header", "footer", "scalebar", "north", "leg_box" (or "legbox"), "leg_choro_horizontal" (or "legchorohorizontal", "leg_choro_vertical" (or "legchorovertical", "leg_choro", legchoro"), "leg_typo_horizontal" (or "legtypohorizontal"), "leg_typo_vertical" (or "legtypovertical", "leg_typo", "legtypo"), "leg_spikes" (or "leg_spike", "legspike", "legspikes"), "leg_circles" (or "leg_circle", "legcircle", "legcircles"), "leg_circles_nested" (or "leg_circle_nested", "legcirclenested", "legcirclesnested"), "leg_mushrooms" (or "leg_mushroom", "legmushrooms", "legmushroom"), "choro" (or "choropleth"), "typo" (or "typology")
  * @example geoviz.plot({type:"choro", data: world, var; "pop", nd: 5, colors: "Reds"})
  * geoviz.plot({type:"graticule", step:10})
  * geoviz.plot({type:"path", data: world, fill: "#CCC"})
@@ -140,6 +141,10 @@ export function plot(arg1, arg2) {
     case "choro":
     case "choropleth":
       return plot_choro(arg1, arg2);
+      break;
+    case "typo":
+    case "typology":
+      return plot_typo(arg1, arg2);
       break;
   }
 }

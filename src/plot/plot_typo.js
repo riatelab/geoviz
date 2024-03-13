@@ -1,11 +1,11 @@
-import { choro } from "../tool/choro";
+import { typo } from "../tool/typo";
 import { create } from "../container/create";
 import { path } from "../mark/path";
 import { render } from "../container/render";
-import { choro_vertical } from "../legend/choro-vertical";
-import { choro_horizontal } from "../legend/choro-horizontal";
+import { typo_vertical } from "../legend/typo-vertical";
+import { typo_horizontal } from "../legend/typo-horizontal";
 import { implantation, columns } from "../helpers/utils";
-export function plot_choro(arg1, arg2) {
+export function plot_typo(arg1, arg2) {
   let newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
     !arguments[0]?._groups
@@ -55,27 +55,14 @@ export function plot_choro(arg1, arg2) {
 
   // classif
   opts.missing_fill = opts.missing;
-  let classif = choro(
-    opts["data"].features.map((d) => d.properties[opts.var]),
+  let classif = typo(
+    opts.order || opts["data"].features.map((d) => d.properties[opts.var]),
     Object.fromEntries(
       Object.entries(opts).filter(([key]) =>
-        [
-          "method",
-          "break",
-          "colors",
-          "nb",
-          "k",
-          "reverse",
-          "middle",
-          "precision",
-          "missing_fill",
-        ].includes(key)
+        ["colors", "missing", "missing_fill"].includes(key)
       )
     )
   );
-
-  console.log(classif.nodata);
-  console.log(opts.missing);
 
   if (classif.nodata == 0 && opts.missing !== true) {
     opts.missing = false;
@@ -101,7 +88,7 @@ export function plot_choro(arg1, arg2) {
   Object.keys(opts)
     .filter(
       (str) =>
-        str.slice(0, 4) == "leg_" || ["k", "fixmax", "missing"].includes(str)
+        str.slice(0, 4) == "leg_" || ["alphabetical", "missing"].includes(str)
     )
     .forEach((d) =>
       Object.assign(legopts, {
@@ -109,16 +96,15 @@ export function plot_choro(arg1, arg2) {
       })
     );
 
-  console.log(opts);
-
   let funclegend =
-    opts.leg_type == "vertical" ? choro_vertical : choro_horizontal;
+    opts.leg_type == "vertical" ? typo_vertical : typo_horizontal;
   funclegend(svg, {
     ...legopts,
     missing: opts.missing === false ? false : true,
     missing_fill: opts.missing,
+    alphabetical: opts.alphabetical,
     pos: opts.leg_pos,
-    breaks: classif.breaks,
+    types: classif.types,
     colors: classif.colors,
   });
 

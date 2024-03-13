@@ -36,6 +36,9 @@ const d3 = Object.assign({}, { formatLocale });
  * @param {string} arg2.values_textAnchor - text-anchor (default: "middle")
  * @param {number} arg2.values_dx - shift in x (default: 0)
  * @param {number} arg2.values_dx - shift in y (default: 5)
+ * @param {number} arg2.values_factor - allow to multiply values to display in the legend. e.g 0.001 to convert into thousands
+ * @param {string} arg2.values_decimal - separator for decimals
+ * @param {string} arg2.values_thousands -  separator for thousands
  * @param {*} arg2.values_foo - *SVG attributes that can be applied on this text element (fill, fontSize...)*
 
 * @param {string} arg2.title - title of the legend
@@ -73,6 +76,9 @@ export function choro_vertical(arg1, arg2) {
     colors: ["#fee5d9", "#fcae91", "#fb6a4a", "#cb181d"],
   };
   let opts = manageoptions(options, newcontainer ? arg1 : arg2, svg.fontFamily);
+
+  // factor
+  opts.breaks = opts.breaks.map((d) => d * (opts.values_factor || 1));
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()

@@ -47,6 +47,9 @@ const d3 = Object.assign({}, { formatLocale, arc });
  * @param {string} arg2.top_values_textAnchor - top text-anchor (default: "middle")
  * @param {number} arg2.top_values_dx - shift in x (default: 0)
  * @param {number} arg2.top_values_dx - shift in y (default: 5)
+  * @param {number} arg2.top_values_factor - allow to multiply values to display in the legend. e.g 0.001 to convert into thousands
+ * @param {string} arg2.top_values_decimal - separator for decimals
+ * @param {string} arg2.top_values_thousands -  separator for thousands
  * @param {*} arg2.top_values_foo - *SVG attributes that can be applied on this text element (fill, fontSize...)*
 * @param {string} arg2.top_title - title of the top elment
 
@@ -62,6 +65,9 @@ const d3 = Object.assign({}, { formatLocale, arc });
  * @param {string} arg2.bottom_values_textAnchor - bottom text-anchor (default: "middle")
  * @param {number} arg2.bottom_values_dx - shift in x (default: 0)
  * @param {number} arg2.bottom_values_dx - shift in y (default: 5)
+ * @param {number} arg2.bottom_values_factor - allow to multiply values to display in the legend. e.g 0.001 to convert into thousands
+ * @param {string} arg2.bottom_values_decimal - separator for decimals
+ * @param {string} arg2.bottom_values_thousands -  separator for thousands
  * @param {*} arg2.bottom_values_foo - *SVG attributes that can be applied on this text element (fill, fontSize...)*
 * @param {string} arg2.bottom_title - title of the bottom elment
 
@@ -125,6 +131,7 @@ export function mushrooms(arg1, arg2) {
 
   let top_arr = datatoradius(opts.top_data, {
     nb: opts.top_nb,
+    factor: opts.top_values_factor,
     round: opts.top_values_round,
     fixmax: opts.top_fixmax,
     k: opts.top_k,
@@ -132,6 +139,7 @@ export function mushrooms(arg1, arg2) {
 
   let bottom_arr = datatoradius(opts.bottom_data, {
     nb: opts.bottom_nb,
+    factor: opts.bottom_values_factor,
     round: opts.bottom_values_round,
     fixmax: opts.bottom_fixmax,
     k: opts.bottom_k,

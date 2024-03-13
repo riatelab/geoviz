@@ -6,7 +6,7 @@ import { roundarray } from "./rounding";
 
 export function datatoradius(
   data,
-  { nb = 4, k = 50, round = 2, fixmax = null } = {}
+  { nb = 4, k = 50, round = 2, fixmax = null, factor = 1 } = {}
 ) {
   let arr = data
     .filter((d) => isNumber(d))
@@ -33,6 +33,9 @@ export function datatoradius(
   let values = rad.map((d) => radius.invert(d));
   values[0] = d3.min(arr);
   values[values.length - 1] = d3.max(arr);
-  values = roundarray(values, round);
+  values = roundarray(
+    values.map((d) => d * factor),
+    round
+  );
   return values.map((d, i) => [d, rad[i]]);
 }
