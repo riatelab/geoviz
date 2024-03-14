@@ -5,9 +5,9 @@ const d3 = Object.assign({}, { geoArea });
  * @description Transform multi part features into single parts feature
  * @see {@link https://observablehq.com/@neocartocnrs/handle-geometries}
  *
- * @param {object} data - a GeoJSON FeatureCollection
- * @param {object} arg - options and parameters
- * @param {boolean} arg.areashare - name of the field containing the share area of the part
+ * @property {object} data - a GeoJSON FeatureCollection
+ * @property {object} arg - options and parameters
+ * @property {boolean} arg.areashare - name of the field containing the share area of the part
  * @example
  * let dots = geoviz.tool.dissolve(world)
  * @returns {object} - a GeoJSON FeatureCollection (without multi part features)

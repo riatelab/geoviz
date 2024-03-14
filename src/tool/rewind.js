@@ -2,10 +2,10 @@
  * @description Rewind a FeatureCollection counterclockwise and inner rings. Adapted from MapBox geojson-rewind code (https://github.com/mapbox/grojson-rewind) under ISC license
  * @see {@link https://observablehq.com/@neocartocnrs/handle-geometries}
  *
- * @param {object} data - a GeoJSON FeatureCollection
- * @param {object} arg - options and parameters
- * @param {boolean} arg.outer - rewind Rings Outer
- * @param {boolean} arg.mutate - mutate the Input geoJSON
+ * @property {object} data - a GeoJSON FeatureCollection
+ * @property {object} arg - options and parameters
+ * @property {boolean} arg.outer - rewind Rings Outer
+ * @property {boolean} arg.mutate - mutate the Input geoJSON
  * @returns {object} - a GeoJSON FeatureCollection
  *
  */

@@ -5,21 +5,23 @@ import { render } from "../container/render";
 import { unique } from "../helpers/utils";
 
 /**
+ * @function tile
+ * @static
  * @description The `tile` function allows to display raster tiles. To use this mark, you must use the projection d3.geoMercator()
  * @see {@link https://observablehq.com/@neocartocnrs/tile-mark}
  *
- * @param {SVGSVGElement} arg1 - SVG container (optional)
- * @param {object} arg2 - options and parameters
- * @param {string} arg2.id - id of the layer
- * @param {number} arg2.tileSize - tile size (default: 512)
- * @param {number} arg2.zoomDelta - zoom offset (default:1)
- * @param {number} arg2.opacity - tile opacity (default: 1)
- * @param {function|string} arg2.url - function like (x, y, z) => \`https://something/\${z}/\${x}/\${y}.png`. You can also enter the following strings directly: "openstreetmap", "opentopomap", "worldterrain", "worldimagery", "worldStreet", "worldphysical", "shadedrelief", "stamenterrain", "cartodbvoyager", "stamentoner","stamentonerbackground","stamentonerlite","stamenwatercolor","hillshade","worldocean","natgeo" or "worldterrain".
- * @param {string} arg2.clipPath - clip-path. e.g. "url(#myclipid)"
+ * @property {string} id - id of the layer
+ * @property {number} tileSize - tile size (default: 512)
+ * @property {number} zoomDelta - zoom offset (default:1)
+ * @property {number} opacity - tile opacity (default: 1)
+ * @property {function|string} url - function like (x, y, z) => \`https://something/\${z}/\${x}/\${y}.png`. You can also enter the following strings directly: "openstreetmap", "opentopomap", "worldterrain", "worldimagery", "worldStreet", "worldphysical", "shadedrelief", "stamenterrain", "cartodbvoyager", "stamentoner","stamentonerbackground","stamentonerlite","stamenwatercolor","hillshade","worldocean","natgeo" or "worldterrain".
+ * @property {string} clipPath - clip-path. e.g. "url(#myclipid)"
  * @example
+ * // There are several ways to use this function
  * geoviz.tile() // no container
  * geoviz.tile(svg, {url: "worldterrain"}) // where svg is the container
  * svg.tile({url: "worldterrain"}) // where svg is the container
+ * svg.plot({type: "tile", url: "worldterrain"}) // where svg is the container
  * @returns {SVGSVGElement|string} - the function adds a layer with mercator tiles to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  */
 

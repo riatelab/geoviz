@@ -6,10 +6,10 @@ const d3 = Object.assign({}, { scaleLinear, max, extent });
 /**
  * @description This function return a function to calculate radius of circles from data
  *
- * @param {number[]} data - an array of numerical values.
- * @param {object} arg - options and parameters
- * @param {string[]} arg.fixmax - to fix the value corresponding to the circle with radius = k
- * @param {string[]} arg.k - radius if the greater circle
+ * @property {number[]} data - an array of numerical values.
+ * @property {object} arg - options and parameters
+ * @property {string[]} arg.fixmax - to fix the value corresponding to the circle with radius = k
+ * @property {string[]} arg.k - radius if the greater circle
  * @return {string} an object containing a radius function.
  */
 

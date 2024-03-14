@@ -1,0 +1,30 @@
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
+</head>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/geoviz@0.5.0" charset="utf-8"></script>
+<script>
+
+let geojson =   "./world.json"
+
+d3.json(geojson).then(data => {
+let svg = geoviz.create({projection: d3.geoEqualEarth()})
+svg.outline()
+svg.graticule({stroke: "white", strokeWidth: 0.4})
+let typo = geoviz.tool.typo(data.features.map((d) => d.properties.region), {colors: "Set3"});
+svg.path({data: data, fill: (d) => typo.colorize(d.properties.region), stroke: "white", strokeWidth:0.5, tip:d => `${d.properties.NAMEen} (${d.properties.region})`})
+svg.legend.typo_vertical({
+    pos: [670, 300],
+    alphabetical: true,
+    title: "Continents",
+    title_fontSize: 18,
+    ...typo,
+    missing: false
+  });
+svg.header({fontSize: 30, text: "A Typo World Map", fill: "#267A8A", fontWeight: "bold", fontFamily: "Tangerine"})
+document.body.appendChild(svg.render())
+})
+
+</script>

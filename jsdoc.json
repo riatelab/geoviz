@@ -1,0 +1,28 @@
+{
+    "source": {
+        "include": ["src", "README.md"],
+        "includePattern": ".js$",
+        "excludePattern": "(node_modules/|docs)"
+    },
+    "plugins": ["plugins/markdown"],
+
+    "opts": {
+        "encoding": "utf8",
+        "readme": "./index.md",
+        "destination": "docs/",
+        "recurse": true,
+        "verbose": true,
+        "template": "node_modules/clean-jsdoc-theme",
+        "theme_opts": {
+            "static_dir": ["./img", "./examples"],
+            "includeFilesListInHomepage": true, // by default it is false.
+            "homepageTitle": "Geoviz",
+            "default_theme": "dark" // "light", "fallback-dark", "fallback-light"
+          }
+    },
+    "markdown": {
+        "hardwrap": false,
+        "idInHeadings": true
+    }
+}
+

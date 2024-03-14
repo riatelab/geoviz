@@ -29,15 +29,40 @@ import { plot_choro } from "./plot_choro";
 import { plot_typo } from "./plot_typo";
 
 /**
- * @description The `plot` function allows to display all types of layers with geoviz. You can use the same parameters as for marks and legends. But there are also some specific parameters. See explanations here: https://observablehq.com/@neocartocnrs/geoviz-plot
- * @param {SVGSVGElement} arg1 - SVG container (optional)
- * @param {object} arg2 - options and parameters
- * @param {string} arg2.type - available types: "graticule", "outline" , "path" (or "base", "simple"), "text" (or "label"), "circle", "halfcircle", "spike", "tile", "header", "footer", "scalebar", "north", "leg_box" (or "legbox"), "leg_choro_horizontal" (or "legchorohorizontal", "leg_choro_vertical" (or "legchorovertical", "leg_choro", legchoro"), "leg_typo_horizontal" (or "legtypohorizontal"), "leg_typo_vertical" (or "legtypovertical", "leg_typo", "legtypo"), "leg_spikes" (or "leg_spike", "legspike", "legspikes"), "leg_circles" (or "leg_circle", "legcircle", "legcircles"), "leg_circles_nested" (or "leg_circle_nested", "legcirclenested", "legcirclesnested"), "leg_mushrooms" (or "leg_mushroom", "legmushrooms", "legmushroom"), "choro" (or "choropleth"), "typo" (or "typology")
- * @example geoviz.plot({type:"choro", data: world, var; "pop", nd: 5, colors: "Reds"})
- * geoviz.plot({type:"graticule", step:10})
- * geoviz.plot({type:"path", data: world, fill: "#CCC"})
- *
- * @returns {SVGSVGElement|string} - the function adds a layer to th SVG container. If the container is not defined, then the layer is displayed directly.
+ * @function plot
+ * @description The `plot()` function in geoviz allows you to call up all the layer types available in the library via a single function. To do this, you need to define the type in the parameter.
+ * <br/><br/>For example: `geoviz.plot({type: "graticule", step: 30})`
+ * @property {string} choro - Usage: `geoviz.plot({type: "choro", ...})` or `{type: "choropleth"}`. See [choro (plot)](#plot_choro)
+ * @property {string} typo - Usage: `geoviz.plot({type: "typo", ...})` or `{type: "typology"}`. See [typo (plot)](#plot_typo)
+ * @property {string} outline - Usage: `geoviz.plot({type: "outline", ...})`. See {@link outline}
+ * @property {string} graticule - Usage: `geoviz.plot({type: "graticule", ...})`. See {@link graticule}
+ * @property {string} path - Usage: `geoviz.plot({type: "path", ...})` or `{type: "base"}` or `{type: "simple"}`. See {@link path}
+ * @property {string} text - Usage: `geoviz.plot({type: "text", ...})` or `{type: "label"}`. See {@link text}
+ * @property {string} circle - Usage: `geoviz.plot({type: "circle", ...})`. See {@link circle}
+ * @property {string} halfcircle - Usage: `geoviz.plot({type: "halfcircle", ...})`. See {@link halfcircle}
+ * @property {string} spike - Usage: `geoviz.plot({type: "spike", ...})`. See {@link spike}
+ * @property {string} tile - Usage: `geoviz.plot({type: "tile", ...})`. See {@link tile}
+ * @property {string} header - Usage: `geoviz.plot({type: "header", ...})`. See {@link header}
+ * @property {string} footer - Usage: `geoviz.plot({type: "footer", ...})`. See {@link footer}
+ * @property {string} scalebar - Usage: `geoviz.plot({type: "scalebar", ...})`. See {@link scalebar}
+ * @property {string} north - Usage: `geoviz.plot({type: "north", ...})`. See {@link north}
+ * @property {string} leg_box - Usage: `geoviz.plot({type: "leg_box", ...})` or `{type: "legbox"}`. See [box (legend)](#boxlegend)
+ * @property {string} leg_choro_horizontal - Usage: `geoviz.plot({type: "leg_choro_horizontal", ...})` or `{type: "legchorohorizontal"}`. See [choro_horizontal (legend)](#choro_horizontallegend)
+ * @property {string} leg_choro_vertical - Usage: `geoviz.plot({type: "leg_choro_vertical", ...})` or `{type: "legchorovertical"}` or `{type: "leg_choro"}` or `{type: "legchoro"}`. See [choro_vertical (legend)](#choroverticallegend)
+ * @property {string} leg_typo_horizontal - Usage: `geoviz.plot({type: "leg_typo_horizontal", ...})` or `{type: "legtypohorizontal"}`. See [typo_horizontal (legend)](#typohorizontallegend)
+ * @property {string} leg_typo_vertical - Usage: `geoviz.plot({type: "leg_typo_vertical", ...})` or `{type: "legtypovertical"}` or `{type: "leg_typo"}` or `{type: "legtypo"}`. See [choro_vertical (legend)](#choroverticallegend)
+ * @property {string} leg_spikes - Usage: `geoviz.plot({type: "leg_spikes", ...})` or `{type: "leg_spikes"}` or `{type: "legspikes"}` or `{type: "legspike"}`. See [spikes (legend)](#spikeslegend)
+ * @property {string} leg_circles - Usage: `geoviz.plot({type: "leg_circles", ...})` or `{type: "legcircle"}` or `{type: "legcircle"}` or `{type: "legcircles"}`. See [circles (legend)](#circleslegend)
+ * @property {string} leg_circle_nested - Usage: `geoviz.plot({type: "leg_circle_nested", ...})` or `{type: "legcirclenested"}` or `{type: "legcirclesnested"}`. See [circles_nested (legend)](#circlesnestedlegend)
+ * @property {string} leg_mushrooms - Usage: `geoviz.plot({type: "leg_mushrooms", ...})` or `{type: "leg_mushroom"}` or `{type: "legmushrooms"}` or `{type: "legmushroom"}`. See [mushrooms (legend)](#mushroomslegend)
+
+ * @example
+ * let svg = geoviz.create({projection: d3.geoNaturalEarth1()})
+ * svg.plot({ type = "outline" }) // outline layer
+ * svg.plot({ type = "graticule", step:30, stroke: "white" }) // graticule layer
+ * svg.plot({ type = "path", datum: world, fill: "white", fillOpacity:0.3 }) // path layer
+ * svg.plot({ type = "header", text: "Hello World" }) // Map title
+ * return svg.render()
  */
 
 export function plot(arg1, arg2) {

@@ -23,37 +23,36 @@ import {
   detectinput,
   order,
 } from "../helpers/utils";
-
 /**
- * @description The `circle` function allows to create a layer with circles from a geoJSON
+ * @function circle
+ * @description The `circle` function allows to add circles on a map
  * @see {@link https://observablehq.com/@neocartocnrs/circle-mark}
  *
- * @param {SVGSVGElement} arg1 - SVG container (optional)
- * @param {object} arg2 - options and parameters
- * @param {object} arg2.data - GeoJSON FeatureCollection
- * @param {string} arg2.id - id of the layer
- * @param {number[]} arg2.pos - position of the circle to display a single circle (default [0,0])
- * @param {number|string} arg2.r - a number or the name of a property containing numerical values (default: 10)
- * @param {number} arg2.k - radius of the largest circle (or corresponding to the value defined by `fixmax`)  (default: 50)
- * @param {number} arg2.fixmax - value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
- * @param {boolean} arg2.dodge - to avoid circle overlap
- * @param {number} arg2.iteration - number of iteration to dodge circles (default: 200)
- * @param {string|function} arg2.sort - the field to sort circles or a sort function
- * @param {boolean} arg2.descending - circle sorting order
- * @param {string} arg2.coords - use "svg" if the coordinates are already in the plan of the svg document (default: "geo")
- * @param {string|function} arg2.fill - fill color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
- * @param {string|function} arg2.stroke - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
- * @param {boolean|function} arg2.tip - a function to display the tip. Use true tu display all fields
- * @param {boolean} arg2.view - use true and viewof in Observable for this layer to act as Input
- * @param {object} arg2.tipstyle - tooltip style
- * @param {*} arg2.foo - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ * @property {object} data - GeoJSON FeatureCollection
+ * @property {string} [id = random] - id of the layer
+ * @property {number[]} [pos = [0,0]] - position of the circle to display a single circle
+ * @property {number|string} [r = 10] - a number or the name of a property containing numerical values
+ * @property {number} [k = 50] - radius of the largest circle (or corresponding to the value defined by `fixmax`)
+ * @property {number} [fixmax = null] - value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
+ * @property {boolean} [dodge = false] - to avoid circle overlap
+ * @property {number} [iteration = 200] - number of iteration to dodge circles
+ * @property {string|function} [sort] - the field to sort circles or a sort function
+ * @property {boolean} [descending] - circle sorting order
+ * @property {string} [coords = "geo"] - use "svg" if the coordinates are already in the plan of the svg document
+ * @property {string|function} [fill = random] - fill color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
+ * @property {string|function} [stroke = "white"] - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
+ * @property {boolean|function} [tip = false] - a function to display the tip. Use true tu display all fields
+ * @property {boolean} [view] - use true and viewof in Observable for this layer to act as Input
+ * @property {object} [tipstyle] - tooltip style
+ * @property {*} [foo] - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @example
+ * // There are several ways to use this function
  * geoviz.circle(svg, { pos: [10,20], r: 15 }) // a single circle
  * geoviz.circle(svg, { data: cities, r: "population" }) // where svg is the container
  * svg.circle({ data: cities, r: "population" }) // where svg is the container
+ * svg.plot({ type: "circle", data: cities, r: "population" }) // where svg is the container
  * geoviz.circle({ data: cities, r: "population" }) // no container
- *
- * @returns {SVGSVGElement|string} - the function adds a layer with circles to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
+ * geoviz.plot({ type = "circle", data: cities, r: "population" }) // no container
  */
 
 export function circle(arg1, arg2) {

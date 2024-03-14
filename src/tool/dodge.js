@@ -11,14 +11,14 @@ import { propertiesentries, detectinput } from "../helpers/utils";
  * @description This function use d3.forceSimulation to spread dots or circles of  given in a GeoJSON FeatureCollection (points). It returns the coordinates in the page map. It can be used to create a dorling cartogram
  * @see {@link https://observablehq.com/@neocartocnrs/world-population}
  *
- * @param {object} data - a GeoJSON FeatureCollection
- * @param {object} arg - options and parameters
- * @param {function} arg.projection - d3 projection function
- * @param {number|string} arg.r - a number or the name of a property containing numerical values.
- * @param {number} arg.k - radius of the largest circle (or corresponding to the value defined by `fixmax`)
- * @param {number} arg.fixmax - value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
- * @param {number} arg.iteration - number of iterations
- * @param {number} arg.gap - space between points/circles
+ * @property {object} data - a GeoJSON FeatureCollection
+ * @property {object} arg - options and parameters
+ * @property {function} arg.projection - d3 projection function
+ * @property {number|string} arg.r - a number or the name of a property containing numerical values.
+ * @property {number} arg.k - radius of the largest circle (or corresponding to the value defined by `fixmax`)
+ * @property {number} arg.fixmax - value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
+ * @property {number} arg.iteration - number of iterations
+ * @property {number} arg.gap - space between points/circles
  * @example
  * let dots = geoviz.tool.dodge(world, { projection: d3.geoOrthographic(), r: "population", k: 40 })
  * @returns {object} - a GeoJSON FeatureCollection (points) with coordinates in the page map.

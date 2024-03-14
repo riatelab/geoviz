@@ -16,65 +16,66 @@ import { arc } from "d3-shape";
 const d3 = Object.assign({}, { formatLocale, arc });
 
 /**
+ * @function mushrooms (legend)
  * @description The `circles_half` function allows to add an legend for proprtionnal half-circles
  * @see {@link https://observablehq.com/@neocartocnrs/legends}
  * @see {@link https://observablehq.com/@neocartocnrs/half-circle-mark}
  *
- * @param {SVGSVGElement} arg1 - SVG container (optional)
- * @param {object} arg2 - options and parameters
- * @param {"string"} arg2.id - unique id
- * @param {number[]} arg2.pos - legend position (default:[0,0])
- * @param {number} arg2.gap - gap between elements
- * @param {string} arg2.line_stroke - stroke color for the lines
- * @param {*} arg2.line_foo - *SVG attributes that can be applied on this line element*
-* @param {string} arg2.title - title of the legend  
- * @param {string|number} arg2.title_foo - *SVG attributes that can be applied on this text element*
- * @param {string} arg2.subtitle - subtitle of the legend
- * @param {string|number} arg2.subtitle_foo - *SVG attributes that can be applied on this text element*
- * @param {string} arg2.note - note displayed above the legend
- * @param {string|number} arg2.note_foo - *SVG attributes that can be applied on this text element*
- * @param {boolean} arg2.frame - frame around the legend (default: false)
- * @param {string|number} arg2.frame_foo - *SVG attributes that can be applied on this frame element (rect)*
+ * @property {string} id - unique id
+ * @property {number[]} pos - legend position (default:[0,0])
+ * @property {number} gap - gap between elements
+ * @property {string} line_stroke - stroke color for the lines
+ * @property {*} line_foo - *SVG attributes that can be applied on this line element*
+* @property {string} title - title of the legend  
+ * @property {string|number} title_foo - *SVG attributes that can be applied on this text element*
+ * @property {string} subtitle - subtitle of the legend
+ * @property {string|number} subtitle_foo - *SVG attributes that can be applied on this text element*
+ * @property {string} note - note displayed above the legend
+ * @property {string|number} note_foo - *SVG attributes that can be applied on this text element*
+ * @property {boolean} frame - frame around the legend (default: false)
+ * @property {string|number} frame_foo - *SVG attributes that can be applied on this frame element (rect)*
 
- * @param {number[]} arg2.top_data - input values (top for circles)
- * @param {number} arg2.top_k - radius of the largest top half-circle (or corresponding to the value defined by fixmax ) (default: 50)
- * @param {string[]} arg2.top_fixmax - value matching the top circle with radius k . Setting this value is useful for making maps comparable with each other
- * @param {number} arg2.top_nb - number of top half-circles
-  * @param {string} arg2.top_circle_fill - fill color for the top half-circles
-  * @param {string} arg2.top_circle_stroke - stroke color for the top half-circles
-  * @param {number} arg2.top_circle_cornerRadius - top circle_cornerRadius (default: 5)
-  * @param {*} arg2.top_circle_foo - *SVG attributes that can be applied on this top half-circle element*
- * @param {string} arg2.top_values_textAnchor - top text-anchor (default: "middle")
- * @param {number} arg2.top_values_dx - shift in x (default: 0)
- * @param {number} arg2.top_values_dx - shift in y (default: 5)
-  * @param {number} arg2.top_values_factor - allow to multiply values to display in the legend. e.g 0.001 to convert into thousands
- * @param {string} arg2.top_values_decimal - separator for decimals
- * @param {string} arg2.top_values_thousands -  separator for thousands
- * @param {*} arg2.top_values_foo - *SVG attributes that can be applied on this text element (fill, fontSize...)*
-* @param {string} arg2.top_title - title of the top elment
+ * @property {number[]} top_data - input values (top for circles)
+ * @property {number} top_k - radius of the largest top half-circle (or corresponding to the value defined by fixmax ) (default: 50)
+ * @property {string[]} top_fixmax - value matching the top circle with radius k . Setting this value is useful for making maps comparable with each other
+ * @property {number} top_nb - number of top half-circles
+  * @property {string} top_circle_fill - fill color for the top half-circles
+  * @property {string} top_circle_stroke - stroke color for the top half-circles
+  * @property {number} top_circle_cornerRadius - top circle_cornerRadius (default: 5)
+  * @property {*} top_circle_foo - *SVG attributes that can be applied on this top half-circle element*
+ * @property {string} top_values_textAnchor - top text-anchor (default: "middle")
+ * @property {number} top_values_dx - shift in x (default: 0)
+ * @property {number} top_values_dx - shift in y (default: 5)
+  * @property {number} top_values_factor - allow to multiply values to display in the legend. e.g 0.001 to convert into thousands
+ * @property {string} top_values_decimal - separator for decimals
+ * @property {string} top_values_thousands -  separator for thousands
+ * @property {*} top_values_foo - *SVG attributes that can be applied on this text element (fill, fontSize...)*
+* @property {string} top_title - title of the top elment
 
 
- * @param {number[]} arg2.bottom_data - input values (bottom for circles)
- * @param {number} arg2.bottom_k - radius of the largest bottom half-circle (or corresponding to the value defined by fixmax ) (default: 50)
- * @param {string[]} arg2.bottom_fixmax - value matching the bottom circle with radius k . Setting this value is useful for making maps comparable with each other
- * @param {number} arg2.bottom_nb - number of bottom half-circles
-  * @param {string} arg2.bottom_circle_fill - fill color for the bottom half-circles
-  * @param {string} arg2.bottom_circle_stroke - stroke color for the bottom half-circles
-  * @param {number} arg2.bottom_circle_cornerRadius - bottom circle_cornerRadius (default: 5)
-  * @param {*} arg2.bottom_circle_foo - *SVG attributes that can be applied on this bottom half-circle element*
- * @param {string} arg2.bottom_values_textAnchor - bottom text-anchor (default: "middle")
- * @param {number} arg2.bottom_values_dx - shift in x (default: 0)
- * @param {number} arg2.bottom_values_dx - shift in y (default: 5)
- * @param {number} arg2.bottom_values_factor - allow to multiply values to display in the legend. e.g 0.001 to convert into thousands
- * @param {string} arg2.bottom_values_decimal - separator for decimals
- * @param {string} arg2.bottom_values_thousands -  separator for thousands
- * @param {*} arg2.bottom_values_foo - *SVG attributes that can be applied on this text element (fill, fontSize...)*
-* @param {string} arg2.bottom_title - title of the bottom elment
+ * @property {number[]} bottom_data - input values (bottom for circles)
+ * @property {number} bottom_k - radius of the largest bottom half-circle (or corresponding to the value defined by fixmax ) (default: 50)
+ * @property {string[]} bottom_fixmax - value matching the bottom circle with radius k . Setting this value is useful for making maps comparable with each other
+ * @property {number} bottom_nb - number of bottom half-circles
+  * @property {string} bottom_circle_fill - fill color for the bottom half-circles
+  * @property {string} bottom_circle_stroke - stroke color for the bottom half-circles
+  * @property {number} bottom_circle_cornerRadius - bottom circle_cornerRadius (default: 5)
+  * @property {*} bottom_circle_foo - *SVG attributes that can be applied on this bottom half-circle element*
+ * @property {string} bottom_values_textAnchor - bottom text-anchor (default: "middle")
+ * @property {number} bottom_values_dx - shift in x (default: 0)
+ * @property {number} bottom_values_dx - shift in y (default: 5)
+ * @property {number} bottom_values_factor - allow to multiply values to display in the legend. e.g 0.001 to convert into thousands
+ * @property {string} bottom_values_decimal - separator for decimals
+ * @property {string} bottom_values_thousands -  separator for thousands
+ * @property {*} bottom_values_foo - *SVG attributes that can be applied on this text element (fill, fontSize...)*
+* @property {string} bottom_title - title of the bottom elment
 
 
 * @example
+ * // There are several ways to use this function
  * geoviz.legend.mushrooms(svg, { pos: [10,20],top_data, bottom_data}) // where svg is the container
- * svg.legend.mushrooms(svg, {pos: [10,20], top_data, bottom_data} }) // where svg is the container
+ * svg.legend.mushrooms({pos: [10,20], top_data, bottom_data} }) // where svg is the container
+ * svg.plot({ type: "leg_mushrooms", pos: [10,20], top_data, bottom_data} }) // where svg is the container
  * geoviz.legend.mushrooms({ pos: [10,20], top_data, bottom_data}) // no container
  *
  * @returns {SVGSVGElement|string} - the function adds a layer with a half-circle legend to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.

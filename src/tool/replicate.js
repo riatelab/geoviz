@@ -5,10 +5,10 @@ const d3 = Object.assign({}, { sum });
  * @description Data-driven features replication. This function can be used to create "dots cartograms"
  * @see {@link https://observablehq.com/@neocartocnrs/geoviz-dotscartogram }
  *
- * @param {object} data - a GeoJSON FeatureCollection
- * @param {object} arg - options and parameters
- * @param {string} arg.field - property name containing numeric data
- * @param {number} arg.targetvalue - Feature target value
+ * @property {object} data - a GeoJSON FeatureCollection
+ * @property {object} arg - options and parameters
+ * @property {string} arg.field - property name containing numeric data
+ * @property {number} arg.targetvalue - Feature target value
  * @example
  * let dots = geoviz.tool.replicate(world, { field: "population", targetvalue: 10000 })
  * @returns {object} - a GeoJSON FeatureCollection with overlapping features

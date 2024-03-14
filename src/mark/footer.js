@@ -3,29 +3,30 @@ import { render } from "../container/render";
 import { camelcasetodash, getsize, unique } from "../helpers/utils";
 
 /**
+ * @function footer
  * @description The `footer` function allows add a source below the map
  * @see {@link https://observablehq.com/@neocartocnrs/layout-marks}
  *
- * @param {SVGSVGElement} arg1 - SVG container (optional)
- * @param {object} arg2 - options and parameters
- * @param {string} arg2.id - id of the layer
- * @param {string} arg2.text - text to be displayed (default: "Author, source...")
- * @param {string} arg2.fill - text fill (default: "#9e9696")
- * @param {string} arg2.background_fill - background fill (default: "white")
- * @param {string} arg2.background_stroke - background stroke (default: "white")
- * @param {string} arg2.background_strokeWidth - background stroke-width (default: 1)
- * @param {string} arg2.dominantBaseline - text dominant-baseline ("hanging", "middle", "central", "bottom") (default: "central")
- * @param {string} arg2.textAnchor - text text-anchore ("start", "middle", "end") (default: "middle")
- * @param {number} arg2.lineSpacing - space between lines (default: 0)
- * @param {number} arg2.margin - margin (default: 1)
- * @param {number} arg2.fontSize - text font-size (default: 10)
- * @param {string} arg2.fontFamily - text font-family (default: fontFamily defined in the contrainer)
- * @param {number} arg2.dx - shift in x (default: 0)
- * @param {number} arg2.dy - shift in y (default: 0)
+ * @property {string} id - id of the layer
+ * @property {string} text - text to be displayed (default: "Author, source...")
+ * @property {string} fill - text fill (default: "#9e9696")
+ * @property {string} background_fill - background fill (default: "white")
+ * @property {string} background_stroke - background stroke (default: "white")
+ * @property {string} background_strokeWidth - background stroke-width (default: 1)
+ * @property {string} dominantBaseline - text dominant-baseline ("hanging", "middle", "central", "bottom") (default: "central")
+ * @property {string} textAnchor - text text-anchore ("start", "middle", "end") (default: "middle")
+ * @property {number} lineSpacing - space between lines (default: 0)
+ * @property {number} margin - margin (default: 1)
+ * @property {number} fontSize - text font-size (default: 10)
+ * @property {string} fontFamily - text font-family (default: fontFamily defined in the contrainer)
+ * @property {number} dx - shift in x (default: 0)
+ * @property {number} dy - shift in y (default: 0)
  *
  * @example
+ * // There are several ways to use this function
  * geoviz.footer(svg, { text: "Hello geoviz" }) // where svg is the container
  * svg.footer({ text: "Hello geoviz" }) // where svg is the container
+ * svg.plot({ type: "footer", text: "Hello geoviz" }) // where svg is the container
  * geoviz.footer({ text: "Hello geoviz" }) // no container
  * @returns {SVGSVGElement|string} - the function adds a layer with a footer. If the container is not defined, then the layer is displayed directly.
  */

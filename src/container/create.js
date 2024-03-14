@@ -45,22 +45,22 @@ import { render as addrender } from "../container/render";
 import { plot as addplot } from "../plot/plot.js";
 
 /**
+ * @function create
  * @description The `create` function is the first step in map construction. t creates an svg container into which the various layers can be added.
  * @see {@link https://observablehq.com/@neocartocnrs/geoviz}
  *
- * @param {object} arg - options and parameters
- * @param {number} arg.height - height of the container
- * @param {number} arg.width - width of the container. This value is automatically calculated according to `domain`. But it can be forced by entering a value.
- * @param {object|object[]} arg.domain - the domain corresponds to the geographical area to be displayed. It is defined by a geoJSON or an array containing geoJSONs. By default, the entire world is represented.
- * @param {function|string} arg.projection - d3 function of projection. See [d3-geo](https://github.com/d3/d3-geo) & [d3-geo-projection](https://github.com/d3/d3-geo-projection). You can aslo write "mercator" tu use tiles. (default: "none")
- * @param {number[]} arg.pos - position of the container (if contained in another svg container)
- * @param {string} arg.background - background color
- * @param {string} arg.fontFamily - font-family for the entire map
- * @param {number|number[]} arg.margin - margins around the map. A number to set the same margin everywhere or an array [top, right, bottom, left] to set different margins.
- * @param {object} arg.parent - name of parent container into which this child container is to be included. In this case, the options.pos parameter is also used.
- * @param {boolean|number|string} arg.zoomable - activates the map zoom function. If you set an array of 2 values, it defines the scaleExtent (default: [1,8]). Use "versor" to activate [versor zoom](https://github.com/d3/versor). "versor" is only available for vector geometries in wgs84.
- * @param {boolean|number[]} arg.control - If zoomable is enabled, set the control parameter as true displays control buttons to zoom on the map. You can also define an array of 2 values to locate the panel in the position you want (e.g. [100, 200]). This setting is not available with the Versor zoom.
- * @param {boolean} arg.warning - display or not warnings on the map
+ * @property {number} height - height of the container
+ * @property {number} width - width of the container. This value is automatically calculated according to `domain`. But it can be forced by entering a value.
+ * @property {object|object[]} domain - the domain corresponds to the geographical area to be displayed. It is defined by a geoJSON or an array containing geoJSONs.
+ * @property {function|string} projection - d3 function of projection. See [d3-geo](https://github.com/d3/d3-geo) & [d3-geo-projection](https://github.com/d3/d3-geo-projection). You can aslo write "mercator" to use tiles. (default: "none")
+ * @property {number[]} pos - position of the container (if contained in another svg container)
+ * @property {string} background - background color
+ * @property {string} fontFamily - font-family for the entire map
+ * @property {number|number[]} margin - margins around the map. A number to set the same margin everywhere or an array [top, right, bottom, left] to set different margins.
+ * @property {object} parent - name of parent container into which this child container is to be included. In this case, the options.pos parameter is also used.
+ * @property {boolean|number|string} zoomable - activates the map zoom function. If you set an array of 2 values, it defines the scaleExtent (default: [1,8]). Use "versor" to activate [versor zoom](https://github.com/d3/versor). "versor" is only available for vector geometries in wgs84.
+ * @property {boolean|number[]} control - If zoomable is enabled, set the control parameter as true displays control buttons to zoom on the map. You can also define an array of 2 values to locate the panel in the position you want (e.g. [100, 200]). This setting is not available with the Versor zoom.
+ * @property {boolean} warning - display or not warnings on the map
  *
  * @example
  * let svg = geoviz.create({width: 500, background: "lightblue"})

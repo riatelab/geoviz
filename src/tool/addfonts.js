@@ -1,8 +1,8 @@
 /**
  * @description The `addonts` function allows add font to the document from an url
  *
- * @param {string} fontFamily - font family name
- * @param {string} url - tff- file url
+ * @property {string} fontFamily - font family name
+ * @property {string} url - tff- file url
  */
 export function addfonts(
   fonts // [{ fontFamily, url, style, weight, stretch }]

@@ -25,35 +25,36 @@ import {
 } from "../helpers/utils";
 
 /**
+ * @function halfcircle
  * @description The `halfcircle` function allows to create a layer with rotable half-circles from a geoJSON
  * @see {@link https://observablehq.com/@neocartocnrs/circle-mark}
  *
- * @param {SVGSVGElement} arg1 - SVG container (optional)
- * @param {object} arg2 - options and parameters
- * @param {object} arg2.data - GeoJSON FeatureCollection
- * @param {string} arg2.id - id of the layer
- * @param {number[]} arg2.pos - position of the half-circle to display a single circle (default [0,0])
- * @param {number} arg2.dx - shift in x (delault: 0)
- * @param {number} arg2.dy - shift in y (delault: 0)
- * @param {number} arg2.angle - angle of the half circle (delault: 0)
- * @param {number|string} arg2.r - a number or the name of a property containing numerical values (default: 10)
- * @param {number} arg2.innerRadius - inner radius (default: 10)
- * @param {number} arg2.cornerRadius - corner radius (default: 2)
- * @param {number} arg2.k - radius of the largest half-circle (or corresponding to the value defined by `fixmax`)  (default: 50)
- * @param {number} arg2.fixmax - value matching the half-circle with radius `k`. Setting this value is useful for making maps comparable with each other
- * @param {string|function} arg2.sort - the field to sort circles or a sort function
- * @param {boolean} arg2.descending - circle sorting order
- * @param {string} arg2.coords - use "svg" if the coordinates are already in the plan of the svg document (default: "geo"))
- * @param {string|function} arg2.fill - fill color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
- * @param {string|function} arg2.stroke - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
- * @param {boolean|function} arg2.tip - a function to display the tip. Use true tu display all fields
- * @param {boolean} arg2.view - use true and viewof in Observable for this layer to act as Input
- * @param {object} arg2.tipstyle - tooltip style
- * @param {*} arg2.foo - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ * @property {object} data - GeoJSON FeatureCollection
+ * @property {string} id - id of the layer
+ * @property {number[]} pos - position of the half-circle to display a single circle (default [0,0])
+ * @property {number} dx - shift in x (delault: 0)
+ * @property {number} dy - shift in y (delault: 0)
+ * @property {number} angle - angle of the half circle (delault: 0)
+ * @property {number|string} r - a number or the name of a property containing numerical values (default: 10)
+ * @property {number} innerRadius - inner radius (default: 10)
+ * @property {number} cornerRadius - corner radius (default: 2)
+ * @property {number} k - radius of the largest half-circle (or corresponding to the value defined by `fixmax`)  (default: 50)
+ * @property {number} fixmax - value matching the half-circle with radius `k`. Setting this value is useful for making maps comparable with each other
+ * @property {string|function} sort - the field to sort circles or a sort function
+ * @property {boolean} descending - circle sorting order
+ * @property {string} coords - use "svg" if the coordinates are already in the plan of the svg document (default: "geo"))
+ * @property {string|function} fill - fill color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
+ * @property {string|function} stroke - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
+ * @property {boolean|function} tip - a function to display the tip. Use true tu display all fields
+ * @property {boolean} view - use true and viewof in Observable for this layer to act as Input
+ * @property {object} tipstyle - tooltip style
+ * @property {*} foo - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @example
+ * // There are several ways to use this function
  * geoviz.halfcircle(svg, { pos: [10,20], r: 15 }) // a single half-circle
  * geoviz.halfcircle(svg, { data: cities, r: "population" }) // where svg is the container
  * svg.halfcircle({ data: cities, r: "population" }) // where svg is the container
+ * svg.plot({ type: "halfcircle", data: cities, r: "population" }) // where svg is the container
  * geoviz.halfcircle({ data: cities, r: "population" }) // no container
  *
  * @returns {SVGSVGElement|string} - the function adds a layer with circles to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.

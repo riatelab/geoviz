@@ -14,36 +14,37 @@ import {
 } from "../helpers/utils_legend.js";
 
 /**
+ * @function box (legend)
  * @description The `box` function allows to add a box legend on a map
  * @see {@link https://observablehq.com/@neocartocnrs/legends}
  *
- * @param {SVGSVGElement} arg1 - SVG container (optional)
- * @param {object} arg2 - options and parameters
- * @param {"string"} arg2.id - unique id
- * @param {number[]} arg2.pos - legend position (default:[0,0])
- * @param {number} arg2.gap - gap between elements
+ * @property {string} id - unique id
+ * @property {number[]} pos - legend position (default:[0,0])
+ * @property {number} gap - gap between elements
 
- * @param {string} arg2.rect_width - width of the box (default: 25)
- * @param {string} arg2.rect_height - height of the box (default: 17)
- * @param {string} arg2.rect_fill - box color (default: "#5d6266")
- * @param {*} arg2.rect_foo - *other SVG attributes that can be applied on this rect element (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ * @property {string} rect_width - width of the box (default: 25)
+ * @property {string} rect_height - height of the box (default: 17)
+ * @property {string} rect_fill - box color (default: "#5d6266")
+ * @property {*} rect_foo - *other SVG attributes that can be applied on this rect element (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  
- * @param {string} arg2.label - text diplayed
- * @param {*} arg2.label_foo - *SVG attributes that can be applied on this text element (fill, fontize...)*
+ * @property {string} label - text diplayed
+ * @property {*} label_foo - *SVG attributes that can be applied on this text element (fill, fontize...)*
 
-* @param {string} arg2.title - title of the legend
- * @param {string|number} arg2.title_foo - *SVG attributes that can be applied on this text element*
- * @param {string} arg2.subtitle - subtitle of the legend
- * @param {string|number} arg2.subtitle_foo - *SVG attributes that can be applied on this text element*
- * @param {string} arg2.note - note displayed above the legend
- * @param {string|number} arg2.note_foo - *SVG attributes that can be applied on this text element*
- * @param {boolean} arg2.frame - frame around the legend (default: false)
- * @param {string|number} arg2.frame_foo - *SVG attributes that can be applied on this frame element (rect)*
- * @param {string|number} arg2.text_foo - *SVG attributes that can be applied directly on all text elements of this legend*
+* @property {string} title - title of the legend
+ * @property {string|number} title_foo - *SVG attributes that can be applied on this text element*
+ * @property {string} subtitle - subtitle of the legend
+ * @property {string|number} subtitle_foo - *SVG attributes that can be applied on this text element*
+ * @property {string} note - note displayed above the legend
+ * @property {string|number} note_foo - *SVG attributes that can be applied on this text element*
+ * @property {boolean} frame - frame around the legend (default: false)
+ * @property {string|number} frame_foo - *SVG attributes that can be applied on this frame element (rect)*
+ * @property {string|number} text_foo - *SVG attributes that can be applied directly on all text elements of this legend*
 
 * @example
+ * // There are several ways to use this function
  * geoviz.legend.box(svg, { pos: [10,20], label:"hello" }) // where svg is the container
- * svg.legend.box(svg, { pos: [10,20], label:"hello" }) // where svg is the container
+ * svg.legend.box(s{ pos: [10,20], label:"hello" }) // where svg is the container
+  * svg.legend.box({type:"leg_box", pos: [10,20], label:"hello" }) // where svg is the container
  * geoviz.legend.box({ label:"hello" }) // no container
  *
  * @returns {SVGSVGElement|string} - the function adds a layer with a box legend to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.

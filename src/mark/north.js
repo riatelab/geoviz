@@ -3,21 +3,22 @@ import { render } from "../container/render";
 import { camelcasetodash, unique, northangle } from "../helpers/utils";
 
 /**
+ * @function north
  * @description The `north` function allows add a North arrow.
  * @see {@link https://observablehq.com/@neocartocnrs/layout-marks}
  * @see {@link  https://observablehq.com/@neocartocnrs/geoviz-scalebar}
  *
- * @param {SVGSVGElement} arg1 - SVG container (optional)
- * @param {object} arg2 - options and parameters
- * @param {string} arg2.id - id of the layer
- * @param {number[]} arg2.pos - position [x,y] on the page. The scale value is relevant for this location on the map (default: svg.width - 30, 30])
- * @param {number} arg2.scale - a number to rescale the arrow (default: 1)
- * @param {number} arg2.rotate - an angle to rotate the arrow. By dedault, il is automaticaly calculated (default: null)
- * @param {string} arg2.fill - fill color (default: "black")
- * @param {string} arg2.fillOpacity - fill-opacity (default: 1)
+ * @property {string} id - id of the layer
+ * @property {number[]} pos - position [x,y] on the page. The scale value is relevant for this location on the map (default: svg.width - 30, 30])
+ * @property {number} scale - a number to rescale the arrow (default: 1)
+ * @property {number} rotate - an angle to rotate the arrow. By dedault, il is automaticaly calculated (default: null)
+ * @property {string} fill - fill color (default: "black")
+ * @property {string} fillOpacity - fill-opacity (default: 1)
  * @example
+ * // There are several ways to use this function
  * geoviz.north(svg, { pos: [100, 300], fill: "brown" }) // where svg is the container
  * svg.north({ pos: [100, 300], fill: "brown" }) // where svg is the container
+ * svg.plot({ type: "north", pos: [100, 300], fill: "brown" }) // where svg is the container
  * geoviz.north( { pos: [100, 300], fill: "brown" }) // no container
  * @returns {SVGSVGElement|string} - the function adds a layer with a north arrow. If the container is not defined, then the layer is displayed directly.
  */

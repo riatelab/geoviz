@@ -29,9 +29,26 @@ geoviz = require("geoviz")
 - [Documentation](https://observablehq.com/@neocartocnrs/geoviz)
 - [API reference](https://riatelab.github.io/geoviz/docs)
 
+
+## The plot function
+
+The `plot()` function in allows you to call up all the layer types available in the library via a single function. It is the main function of the library. 
+
+
+## Containers and renders
+
+The `plot()` function in allows you to call up all the layer types available in the library via a single function. It is the main function of the library. 
+
+[Link text Here](https://link-url-here.org)
+See [@static]
+
+## Marks
+
+## ....
+
 ## Usage
 
-**1 - Simple map**
+<!-- **1 - Simple map**
 
 ~~~js
 let geojson =   "./world.json"
@@ -104,4 +121,4 @@ document.body.appendChild(svg.render())
 })
 ~~~
 
-Demo: [tiles.html](https://neocarto.github.io/geoviz/examples/tiles.html)
+Demo: [tiles.html](https://neocarto.github.io/geoviz/examples/tiles.html) -->

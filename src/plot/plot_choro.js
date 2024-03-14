@@ -5,6 +5,21 @@ import { render } from "../container/render";
 import { choro_vertical } from "../legend/choro-vertical";
 import { choro_horizontal } from "../legend/choro-horizontal";
 import { implantation, columns, unique } from "../helpers/utils";
+
+/**
+ * @function plot_choro
+ * @description With the `plot({type = "choro"})` function, you can quickly draw a choroplethe map. The main arguments to use are :
+ * @see {@link https://observablehq.com/@neocartocnrs/choropleth}
+ * @example // Usage
+ * @example geoviz.plot({type:"choro", ...})
+ * @example // Minimal example
+ * @example geoviz.plot({type:"choro", ...})
+ * @example // Motre complex example
+ * @example geoviz.plot({type:"choro", ...})
+ * @property {object} data - xxx
+ * @property {string} var - xxx
+ */
+
 export function plot_choro(arg1, arg2) {
   let newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
@@ -23,6 +38,7 @@ export function plot_choro(arg1, arg2) {
     leg_type: "vertical",
     leg_pos: [10, svg.height / 2],
   };
+
   opts = { ...opts, ...options };
 
   // Fill or stroke ?

@@ -16,48 +16,49 @@ import { arc } from "d3-shape";
 const d3 = Object.assign({}, { formatLocale, arc });
 
 /**
+ * @function circles_half (legend)
  * @description The `mushrooms` function allows to add an legend for mushroom maps
  * @see {@link https://observablehq.com/@neocartocnrs/legends}
  *
- * @param {SVGSVGElement} arg1 - SVG container (optional)
- * @param {object} arg2 - options and parameters
- * @param {"string"} arg2.id - unique id
- * @param {number[]} arg2.pos - legend position (default:[0,0])
- * @param {number} arg2.gap - gap between elements
+* @property {string} id - unique id
+ * @property {number[]} pos - legend position (default:[0,0])
+ * @property {number} gap - gap between elements
  
- * @param {number[]} arg2.data - input values 
- * @param {number} arg2.k - radius of the largest half-circle (or corresponding to the value defined by fixmax ) (default: 50)
- * @param {string[]} arg2.fixmax - value matching the circle with radius k . Setting this value is useful for making maps comparable with each other
- * @param {number} arg2.nb - number of half-circles
+ * @property {number[]} data - input values 
+ * @property {number} k - radius of the largest half-circle (or corresponding to the value defined by fixmax ) (default: 50)
+ * @property {string[]} fixmax - value matching the circle with radius k . Setting this value is useful for making maps comparable with each other
+ * @property {number} nb - number of half-circles
 
-  * @param {string} arg2.circle_fill - fill color for the half-circles
-  * @param {string} arg2.circle_stroke - stroke color for the half-circles
-  * @param {*} arg2.circle_foo - *SVG attributes that can be applied on this half-circle element*
-  * @param {string} arg2.line_stroke - stroke color for the lines
-  * @param {number} arg2.circle_cornerRadius - circle_cornerRadius (default: 5)
-  * @param {*} arg2.line_foo - *SVG attributes that can be applied on this line element*
+  * @property {string} circle_fill - fill color for the half-circles
+  * @property {string} circle_stroke - stroke color for the half-circles
+  * @property {*} circle_foo - *SVG attributes that can be applied on this half-circle element*
+  * @property {string} line_stroke - stroke color for the lines
+  * @property {number} circle_cornerRadius - circle_cornerRadius (default: 5)
+  * @property {*} line_foo - *SVG attributes that can be applied on this line element*
 
- * @param {string} arg2.values_textAnchor - text-anchor (default: "middle")
- * @param {number} arg2.values_dx - shift in x (default: 0)
- * @param {number} arg2.values_dx - shift in y (default: 5)
- * @param {number} arg2.values_factor - allow to multiply values to display in the legend. e.g 0.001 to convert into thousands
- * @param {string} arg2.values_decimal - separator for decimals
- * @param {string} arg2.values_thousands -  separator for thousands
- * @param {*} arg2.values_foo - *SVG attributes that can be applied on this text element (fill, fontSize...)*
+ * @property {string} values_textAnchor - text-anchor (default: "middle")
+ * @property {number} values_dx - shift in x (default: 0)
+ * @property {number} values_dx - shift in y (default: 5)
+ * @property {number} values_factor - allow to multiply values to display in the legend. e.g 0.001 to convert into thousands
+ * @property {string} values_decimal - separator for decimals
+ * @property {string} values_thousands -  separator for thousands
+ * @property {*} values_foo - *SVG attributes that can be applied on this text element (fill, fontSize...)*
 
-* @param {string} arg2.title - title of the legend
- * @param {string|number} arg2.title_foo - *SVG attributes that can be applied on this text element*
- * @param {string} arg2.subtitle - subtitle of the legend
- * @param {string|number} arg2.subtitle_foo - *SVG attributes that can be applied on this text element*
- * @param {string} arg2.note - note displayed above the legend
- * @param {string|number} arg2.note_foo - *SVG attributes that can be applied on this text element*
- * @param {boolean} arg2.frame - frame around the legend (default: false)
- * @param {string|number} arg2.frame_foo - *SVG attributes that can be applied on this frame element (rect)*
- * @param {string|number} arg2.text_foo - *SVG attributes that can be applied directly on all text elements of this legend*
+* @property {string} title - title of the legend
+ * @property {string|number} title_foo - *SVG attributes that can be applied on this text element*
+ * @property {string} subtitle - subtitle of the legend
+ * @property {string|number} subtitle_foo - *SVG attributes that can be applied on this text element*
+ * @property {string} note - note displayed above the legend
+ * @property {string|number} note_foo - *SVG attributes that can be applied on this text element*
+ * @property {boolean} frame - frame around the legend (default: false)
+ * @property {string|number} frame_foo - *SVG attributes that can be applied on this frame element (rect)*
+ * @property {string|number} text_foo - *SVG attributes that can be applied directly on all text elements of this legend*
 
 * @example
+ * // There are several ways to use this function
  * geoviz.legend.circles_half(svg, { pos: [10,20], data, nb:5}) // where svg is the container
- * svg.legend.circles_half(svg, {pos: [10,20], data, nb: 5} }) // where svg is the container
+ * svg.legend.circles_half({pos: [10,20], data, nb: 5} }) // where svg is the container
+  * svg.plot({type: "leg_circles_half", pos: [10,20], data, nb: 5} }) // where svg is the container
  * geoviz.legend.circles_half({ pos: [10,20], data, nb: 5}) // no container
  *
  * @returns {SVGSVGElement|string} - the function adds a layer with a circles_half legend to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.

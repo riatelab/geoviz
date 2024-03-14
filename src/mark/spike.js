@@ -23,32 +23,33 @@ import {
 } from "../helpers/utils";
 
 /**
+ * @function spike
  * @description The `spike` function allows to create a layer with spikes from a geoJSON
  * @see {@link https://observablehq.com/@neocartocnrs/spike-mark}
  *
- * @param {SVGSVGElement} arg1 - SVG container (optional)
- * @param {object} arg2 - options and parameters
- * @param {object} arg2.data - GeoJSON FeatureCollection
- * @param {string} arg2.id - id of the layer
- * @param {number[]} arg2.pos - position of the sîkes to display a single spike (default [0,0])
- * @param {number|string} arg2.height - a number or the name of a property containing numerical values (default: 10)
- * @param {number} arg2.width - a number defining the width of the spikes (default: 30)
- * @param {number} arg2.straight - a number between 0 and 1 defining the curve of the spikes. 0 = curved ; 1 = straight (default: 0)
- * @param {number} arg2.k - height of the highest spike (or corresponding to the value defined by `fixmax`)  (default: 100)
- * @param {number} arg2.fixmax - value matching the spikes with height `k`. Setting this value is useful for making maps comparable with each other
- * @param {string|function} arg2.sort - the field to sort spikes or a sort function
- * @param {boolean} arg2.descending - spikes sorting order
- * @param {string} arg2.coords - use "svg" if the coordinates are already in the plan of the svg document (default: "geo")
- * @param {string|function} arg2.fill - fill color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
- * @param {string|function} arg2.stroke - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
- * @param {boolean|function} arg2.tip - a function to display the tip. Use true tu display all fields
- * @param {boolean} arg2.view - use true and viewof in Observable for this layer to act as Input
- * @param {object} arg2.tipstyle - tooltip style
- * @param {*} arg2.foo - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ * @property {object} data - GeoJSON FeatureCollection
+ * @property {string} id - id of the layer
+ * @property {number[]} pos - position of the sîkes to display a single spike (default [0,0])
+ * @property {number|string} height - a number or the name of a property containing numerical values (default: 10)
+ * @property {number} width - a number defining the width of the spikes (default: 30)
+ * @property {number} straight - a number between 0 and 1 defining the curve of the spikes. 0 = curved ; 1 = straight (default: 0)
+ * @property {number} k - height of the highest spike (or corresponding to the value defined by `fixmax`)  (default: 100)
+ * @property {number} fixmax - value matching the spikes with height `k`. Setting this value is useful for making maps comparable with each other
+ * @property {string|function} sort - the field to sort spikes or a sort function
+ * @property {boolean} descending - spikes sorting order
+ * @property {string} coords - use "svg" if the coordinates are already in the plan of the svg document (default: "geo")
+ * @property {string|function} fill - fill color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
+ * @property {string|function} stroke - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
+ * @property {boolean|function} tip - a function to display the tip. Use true tu display all fields
+ * @property {boolean} view - use true and viewof in Observable for this layer to act as Input
+ * @property {object} tipstyle - tooltip style
+ * @property {*} foo - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @example
+ * // There are several ways to use this function
  * geoviz.spike(svg, { pos: [10,20], height: 15 }) // a single circle
  * geoviz.spike(svg, { data: cities, height: "population" }) // where svg is the container
  * svg.spike({ data: cities, height: "population" }) // where svg is the container
+ * svg.plot({ type: "spike", data: cities, height: "population" }) // where svg is the container
  * geoviz.spike({ data: cities, height: "population" }) // no container
  *
  * @returns {SVGSVGElement|string} - the function adds a layer with spikes to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.

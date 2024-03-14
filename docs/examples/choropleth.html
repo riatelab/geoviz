@@ -1,0 +1,32 @@
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
+</head>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/geoviz@0.5.0" charset="utf-8"></script>
+
+<script>
+
+let geojson =   "./world.json"
+d3.json(geojson).then(data => {
+let svg = geoviz.create({projection: d3.geoEqualEarth()})
+svg.outline()
+svg.graticule({stroke: "red", strokeWidth: 0.4})
+let choro = geoviz.tool.choro(data.features.map((d) => d.properties.gdppc), {method: "quantile", colors: "PinkYl"})
+svg.path({data: data, fill: d =>  choro.colorize(d.properties.gdppc), stroke: "white", strokeWidth:0.5, tip:d => `${d.properties.NAMEen}
+${d.properties.gdppc} $ per inh.`})
+svg.legend.choro_horizontal({
+    pos: [410, 390],
+    title: "GDP per capita",
+    title_fontSize: 18,
+    subtitle_text: "($ per inh.)",
+    note_text: "Source: worldbank, 2020",
+    values_round: 0,
+    ...choro
+  });
+svg.header({fontSize: 30, text: "A Choropleth World Map", fill: "#267A8A", fontWeight: "bold", fontFamily: "Tangerine"})
+document.body.appendChild(svg.render())
+})
+
+</script>

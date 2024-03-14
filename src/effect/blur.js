@@ -1,13 +1,12 @@
 import { unique } from "../helpers/utils";
 
 /**
+ * @function blur (effect)
  * @description The `blur` function allows to create a svg blur filter.
  * @see {@link https://observablehq.com/@neocartocnrs/effect}
  *
- * @param {SVGSVGElement} svg - SVG container as defined with the`container.init` function.
- * @param {object} arg - options and parameters
- * @param {string} arg.id - id
- * @param {number} arg.stdDeviation - standard deviation
+ * @property {string} id - id
+ * @property {number} stdDeviation - standard deviation
  * @example
  * geoviz.effect.blur(svg, { stdDeviation: 0, id: "blur" }) // where svg is the container
  * svg.effect.blur({ stdDeviation: 0, id: "blur" }) // where svg is the container
