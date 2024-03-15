@@ -7,17 +7,24 @@ import { choro_horizontal } from "../legend/choro-horizontal";
 import { implantation, columns, unique } from "../helpers/utils";
 
 /**
- * @function plot_choro
- * @description With the `plot({type = "choro"})` function, you can quickly draw a choroplethe map. The main arguments to use are :
+ * @function plot/choro
+ * @description With the `plot({type = "choro"})` function, you can quickly draw a choropleth map.<br/><br/>
+ * ![choro](img/thumb_choro.svg)
  * @see {@link https://observablehq.com/@neocartocnrs/choropleth}
+ * @property {object} data - GeoJSON FeatureCollection. Use data to be able to iterate
+ * @property {object} var - a variable name in a geoJSON containig numeric values. You can also use `fill` or `stroke` argument.
+ * @property {string} [method = quantile] - classification method ('quantile', 'q6', 'equal', 'jenks', 'msd', 'geometric', 'headtail', 'pretty', 'arithmetic' or 'nestedmeans').
+ * @property {number} [nb = 6] - number of classes
+ * @property {array} [breaks] - you can define classes manually. In this case, the parameters `nb` and `method` are not taken into account.
+ * @property {string|array} [colors] - an array of colors or name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library)
+ * @property {boolean} [reverse = false] - reverse the color palette
+ * @property {string|boolean} [missing = "white"] - missing data color
+ * @property {string} [leg_type = "vertical"] - legend orientation ("horizontal" or "vertical")
+ * @property {array} [leg_pos = [10, svg.height / 2]] - position of the legend
+ * @property {*} [*] - You can also modify numerous parameters to customize the map. To do this, you can use all the parameters of the [path](#path) and [tool.choro](#tool/choro) functions. For example: `strokeWidth: 0.3`.
+ * @property {*} [leg_*] - You can also modify a wide range of parameters to customize the legend. To do this, you can use all the parameters of the [legend.choro_horizontal](#legend/choro_horizontal) and [legend.choro_vertical](#legend/choro_vertical) functions with the prefix `"leg_"`. For example: `leg_missing_text: "not available"` or `leg_values_fill: "red"`.
  * @example // Usage
- * @example geoviz.plot({type:"choro", ...})
- * @example // Minimal example
- * @example geoviz.plot({type:"choro", ...})
- * @example // Motre complex example
- * @example geoviz.plot({type:"choro", ...})
- * @property {object} data - xxx
- * @property {string} var - xxx
+ * geoviz.plot({type:"choro", data: world, var: "gdppc"})
  */
 
 export function plot_choro(arg1, arg2) {
@@ -78,7 +85,7 @@ export function plot_choro(arg1, arg2) {
       Object.entries(opts).filter(([key]) =>
         [
           "method",
-          "break",
+          "breaks",
           "colors",
           "nb",
           "k",

@@ -3,16 +3,14 @@ import { geoArea, geoCentroid, geoIdentity, geoPath } from "d3-geo";
 const d3 = Object.assign({}, { geoArea, geoCentroid, geoIdentity, geoPath });
 
 /**
- * @description Calculate the centroid of all the geometries given in a GeoJSON FeatureCollection
+ * @function tool/centroid
+ * @description The `tool.centroid` function calculate the centroid of all the geometries given in a GeoJSON FeatureCollection. It returns a GeoJSON FeatureCollection (points)
  * @see {@link https://observablehq.com/@neocartocnrs/handle-geometries}
- *
  * @property {object} data - a GeoJSON FeatureCollection
- * @property {object} arg - options and parameters
- * @property {boolean} arg.largest - place the centroid in the largest polygon.
- * @property {boolean} arg.latlong - use `true` if input coordinates are in latitude ans longitude. Use `false` if the coordinates are already defined in the page plan
+ * @property {boolean} [options.largest = true] - place the centroid in the largest polygon.
+ * @property {boolean} [options.latlong = true] - use `true` if input coordinates are in latitude ans longitude. Use `false` if the coordinates are already defined in the page plan
  * @example
  * let dots = geoviz.tool.centroid(world, { largest: true })
- * @returns {object} - a GeoJSON FeatureCollection (points)
  */
 export function centroid(data, { largest = true, latlong = true } = {}) {
   let path = d3.geoPath(d3.geoIdentity());

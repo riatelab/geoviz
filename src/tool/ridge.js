@@ -3,18 +3,16 @@ import { min, max, mean, mode } from "d3-array";
 const d3 = Object.assign({}, { scaleLinear, min, max, mean, mode });
 
 /**
- * @description Calculate the centroid of all the geometries given in a GeoJSON FeatureCollection
+ * @function tool/ridge
+ * @description The `tool.ridge` function convert a regular grid (x,y,z) to a GeoJSON FeatureCollection (LineString). The aim is to draw a rideline map.
  * @see {@link https://observablehq.com/@neocartocnrs/ridge-lines}
- *
- * @property {array} grid - an arry of object containig x,y,z values
- * @property {object} arg - options and parameters
- * @property {string} arg.x - field containg x values
- * @property {string} arg.y - field containg y values
- * @property {string} arg.z - field containg z values
- * @property {number} arg.k - height of highest peak
- * @property {number} arg.fixmax - a fixed value corresponding to the k
- * @property {boolean} arg.projection - projection
- * @returns {object} - a GeoJSON FeatureCollection (LineString)
+ * @property {array} grid - an array of object containig x,y,z values
+ * @property {string} [options.x = "x"] - field containg x values
+ * @property {string} [options.y = "y"] - field containg y values
+ * @property {string} [options.z = "z"] - field containg z values
+ * @property {number} [options.k = 100] - height of highest peak
+ * @property {number} [options.fixmax = null] - a fixed value corresponding to the k
+ * @property {boolean} [options.projection = d => d] - projection
  */
 
 export function ridge(

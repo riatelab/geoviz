@@ -25,11 +25,11 @@ import {
 } from "../helpers/utils";
 /**
  * @function circle
- * @description The `circle` function allows to add circles on a map
+ * @description The `circle` function allows to add circles on a map. The function adds a layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  * @see {@link https://observablehq.com/@neocartocnrs/circle-mark}
  *
  * @property {object} data - GeoJSON FeatureCollection
- * @property {string} [id = random] - id of the layer
+ * @property {string} [id] - id of the layer
  * @property {number[]} [pos = [0,0]] - position of the circle to display a single circle
  * @property {number|string} [r = 10] - a number or the name of a property containing numerical values
  * @property {number} [k = 50] - radius of the largest circle (or corresponding to the value defined by `fixmax`)
@@ -39,12 +39,12 @@ import {
  * @property {string|function} [sort] - the field to sort circles or a sort function
  * @property {boolean} [descending] - circle sorting order
  * @property {string} [coords = "geo"] - use "svg" if the coordinates are already in the plan of the svg document
- * @property {string|function} [fill = random] - fill color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
+ * @property {string|function} [fill] - fill color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
  * @property {string|function} [stroke = "white"] - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
  * @property {boolean|function} [tip = false] - a function to display the tip. Use true tu display all fields
  * @property {boolean} [view] - use true and viewof in Observable for this layer to act as Input
  * @property {object} [tipstyle] - tooltip style
- * @property {*} [foo] - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ * @property {*} [*] - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @example
  * // There are several ways to use this function
  * geoviz.circle(svg, { pos: [10,20], r: 15 }) // a single circle

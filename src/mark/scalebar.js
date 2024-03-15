@@ -6,27 +6,26 @@ import { unique, camelcasetodash } from "../helpers/utils";
 
 /**
  * @function scalebar
- * @description The `scalebar` function allows add a scalebar.
+ * @description The `scalebar` function allows add a scalebar. The function adds a layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  * @see {@link https://observablehq.com/@neocartocnrs/layout-marks}
  * @see {@link  https://observablehq.com/@neocartocnrs/geoviz-scalebar}
  *
- * @property {string} id - id of the layer
- * @property {number[]} pos - position [x,y] on the page. The scale value is relevant for this location on the map (default: [10, svg.height - 20])
- * @property {number[]} translate - an array of two values to move the scalebar without change its size (default: null)
- * @property {string} units - "ft" (feet), "km" (kilometers), "m" (meters) or "mi" (miles) (default: "km")
- * @property {string} label - label to display (default: undefined)
- * @property {string} tickSize - tick padding (default: 5)
- * @property {string} tickPadding - tick size (default: 0.2)
- * @property {number} distance - distance represented by the scalebar (default: undefined)
- * @property {function} tickFormat - a function to format values (default: d => d)
- * @property {number[]} tickValues - values to display on the scalebar (default: undefined)
- * @property {string} labelAnchor - position of the label ("start", "middle" or "end") (default: "start")
+ * @property {string} [id] - id of the layer
+ * @property {number[]} [pos = 10, svg.height - 20] - position [x,y] on the page. The scale value is relevant for this location on the map
+ * @property {number[]} [translate = null] - an array of two values to move the scalebar without change its size
+ * @property {string} [units = "km"] - "ft" (feet), "km" (kilometers), "m" (meters) or "mi" (miles)
+ * @property {string} [label] - label to display
+ * @property {string} [tickSize = 5] - tick padding
+ * @property {string} [tickPadding = 0.2] - tick size
+ * @property {number} [distance] - distance represented by the scalebar
+ * @property {function} [tickFormat = d => d] - a function to format values
+ * @property {number[]} [tickValues] - values to display on the scalebar
+ * @property {string} [labelAnchor = "start"] - position of the label ("start", "middle" or "end")
  * @example
  * // There are several ways to use this function
  * geoviz.scalebar(svg, { units:"km", distance: 500, pos: [100, 200] }) // where svg is the container
  * svg.scalebar({ units:"km", distance: 500, pos: [100, 200] }) // where svg is the container
  * svg.plot({type: "scalebar", units:"km", distance: 500, pos: [100, 200] }) // where svg is the container
- * @returns {SVGSVGElement|string} - the function adds a layer with a scalebar. If the container is not defined, then the layer is displayed directly.
  */
 
 export function scalebar(arg1, arg2) {

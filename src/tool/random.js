@@ -1,7 +1,6 @@
 /**
- * @description This function returns a random color
- *
- * @return {string} a color
+ * @function tool/random
+ * @description The `tool.random` function returns a random color among 20 predefined colors.
  */
 export function random() {
   const cols = [

@@ -6,18 +6,18 @@ const d3 = Object.assign({}, { geoPath, geoGraticule, geoNaturalEarth1 });
 
 /**
  * @function graticule
- * @description The `graticule` function allows to create a layer with lat/long lines
+ * @description The `graticule` function allows to create a layer with lat/long lines. The function adds a layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  * @see {@link https://observablehq.com/@neocartocnrs/layout-marks}
  *
- * @property {string} id - id of the layer
- * @property {number|number[]} step - gap between graticules. The value can be a number or an array of two values (default: 10)
- * @property {string} stroke - stroke color (default: "#9ad5e6")
- * @property {string} fill - fill color (default: "none")
- * @property {string} strokeWidth - stroke width (default: 0.8)
- * @property {string} strokeLinecap - stroke-inecap (default: "square")
- * @property {string} strokeLinejoin - stroke-Linejoin (default: "round")
- * @property {number|number[]} strokeDasharray - stroke-dasharray (default: 2)
- * @property {*} foo - *other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ * @property {string} [id] - id of the layer
+ * @property {number|number[]} [step = 10] - gap between graticules. The value can be a number or an array of two values
+ * @property {string} [stroke = "#9ad5e6"] - stroke color
+ * @property {string} [fill = "none"] - fill color
+ * @property {string} [strokeWidth = 0.8] - stroke width
+ * @property {string} [strokeLinecap = "square"] - stroke-inecap
+ * @property {string} [strokeLinejoin = "round"] - stroke-Linejoin
+ * @property {number|number[]} [strokeDasharray = 2] - stroke-dasharray (default: 2)
+ * @property {*} [*] - *other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @example
  * // There are several ways to use this function
  * geoviz.graticule(svg, { step: 2 }) // where svg is the container

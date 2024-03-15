@@ -4,23 +4,23 @@ import { camelcasetodash, getsize, unique } from "../helpers/utils";
 
 /**
  * @function header
- * @description The `header` function allows add a title above the map
+ * @description The `header` function allows add a title above the map. The function adds a layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  * @see {@link https://observablehq.com/@neocartocnrs/layout-marks}
  *
- * @property {string} id - id of the layer
- * @property {string} text - text to be displayed (default: "Map title")
- * @property {string} fill - text fill (default: "#9e9696")
- * @property {string} background_fill - background fill (default: "white")
- * @property {string} background_stroke - background stroke (default: "white")
- * @property {string} background_strokeWidth - background stroke-width (default: 1)
- * @property {string} dominantBaseline - text dominant-baseline ("hanging", "middle", "central", "bottom") (default: "central")
- * @property {string} textAnchor - text text-anchore ("start", "middle", "end") (default: "middle")
- * @property {number} lineSpacing - space between lines (default: 0)
- * @property {number} margin - margin (default: 8)
- * @property {number} fontSize - text font-size (default: 26)
- * @property {string} fontFamily - text font-family (default: fontFamily defined in the contrainer)
- * @property {number} dx - shift in x (default: 0)
- * @property {number} dy - shift in y (default: 0))
+ * @property {string} [id] - id of the layer
+ * @property {string} [text = "Map title"] - text to be displayed
+ * @property {string} [fill = "#9e9696"] - text fill
+ * @property {string} [background_fill = "white"] - background fill
+ * @property {string} [background_stroke = "white"] - background stroke
+ * @property {string} [background_strokeWidth = 1] - background stroke-width
+ * @property {string} [dominantBaseline = "central"] - text dominant-baseline ("hanging", "middle", "central", "bottom")
+ * @property {string} [textAnchor = "middle"] - text text-anchore ("start", "middle", "end")
+ * @property {number} [lineSpacing = 0] - space between lines
+ * @property {number} [margin = 8] - margin
+ * @property {number} [fontSize = 26] - text font-size
+ * @property {string} [fontFamily = fontFamily defined in the contrainer] - text font-family
+ * @property {number} [dx = 0] - shift in x
+ * @property {number} [dy = 0] - shift in y
  *
  * @example
  * // There are several ways to use this function
@@ -28,7 +28,6 @@ import { camelcasetodash, getsize, unique } from "../helpers/utils";
  * svg.header({ text: "Hello geoviz" }) // where svg is the container
  * svg.plot({ type: "header",text: "Hello geoviz" }) // where svg is the container
  * geoviz.header({ text: "Hello geoviz" }) // no container
- * @returns {SVGSVGElement|string} - the function adds a layer with a header. If the container is not defined, then the layer is displayed directly.
  */
 
 export function header(arg1, arg2) {

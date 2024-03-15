@@ -14,23 +14,21 @@ range;
 interpolateRgbBasis;
 
 /**
- * @description This function discretizes an array of numbers
- *
+ * @function tool/choro
+ * @description The `tool.choro` function discretizes an array of numbers. It returns an object containing breaks, colors, the color of the missing value and a function.
  * @property {number[]} data - an array of numerical values.
- * @property {object} arg - options and parameters
- * @property {number[]} arg.breaks - class breaks including min and max
- * @property {string|string[]} arg.colors - an array of colors or name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library)
- * @property {boolean} arg.reverse  reverse colors
- * @property {string} arg.missing - a color for missings values
- * @property {string} arg.method - classification method ('quantile', 'q6', 'equal', 'jenks', 'msd', 'geometric', 'headtail', 'pretty', 'arithmetic' or 'nestedmeans')
- * @property {number} arg.nb - number of classes desired
- * @property {number} arg.precision - number of digits
- * @property {boolean} arg.minmax - to keep or delete min and max
- * @property {number} arg.k - number of standard deviations taken into account (msd method only)
- * @property {boolean} arg.middle - to have the average as a class center (msd method only)
+ * @property {number[]} [options.breaks = undefined] - class breaks including min and max
+ * @property {string|string[]} [options.colors = "Algae"] - an array of colors or name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library)
+ * @property {boolean} [options.reverse = false]  reverse colors
+ * @property {string} [options.missing = "white"] - a color for missings values
+ * @property {string} [options.method = "quantile"] - classification method ('quantile', 'q6', 'equal', 'jenks', 'msd', 'geometric', 'headtail', 'pretty', 'arithmetic' or 'nestedmeans')
+ * @property {number} [options.nb = 6] - number of classes desired
+ * @property {number} [options.precision = 2] - number of digits
+ * @property {boolean} [options.minmax] - to keep or delete min and max
+ * @property {number} [options.k = 1] - number of standard deviations taken into account (msd method only)
+ * @property {boolean} [options.middle = undefined] - to have the average as a class center (msd method only)
  * @example
- * geoviz.tool.choro(world.features.map((d) => d.properties.gdppc))
- * @return {object} an object containing breaks, colors, the color of the missing value and a function.
+ * geoviz.tool.choro(world.features.map((d) => d.properties.gdppc), {method: "equal", nb: 4})
  */
 
 export function choro(

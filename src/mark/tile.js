@@ -6,23 +6,21 @@ import { unique } from "../helpers/utils";
 
 /**
  * @function tile
- * @static
- * @description The `tile` function allows to display raster tiles. To use this mark, you must use the projection d3.geoMercator()
+ * @description The `tile` function allows to display raster tiles. To use this mark, you must use the projection d3.geoMercator() (or directly "mercator"). The function adds a layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  * @see {@link https://observablehq.com/@neocartocnrs/tile-mark}
  *
- * @property {string} id - id of the layer
- * @property {number} tileSize - tile size (default: 512)
- * @property {number} zoomDelta - zoom offset (default:1)
- * @property {number} opacity - tile opacity (default: 1)
- * @property {function|string} url - function like (x, y, z) => \`https://something/\${z}/\${x}/\${y}.png`. You can also enter the following strings directly: "openstreetmap", "opentopomap", "worldterrain", "worldimagery", "worldStreet", "worldphysical", "shadedrelief", "stamenterrain", "cartodbvoyager", "stamentoner","stamentonerbackground","stamentonerlite","stamenwatercolor","hillshade","worldocean","natgeo" or "worldterrain".
- * @property {string} clipPath - clip-path. e.g. "url(#myclipid)"
+ * @property {string} [id] - id of the layer
+ * @property {number} [tileSize = 512] - tile size
+ * @property {number} [zoomDelta = 1] - zoom offset
+ * @property {number} [opacity = 1] - tile opacity
+ * @property {function|string} [url = "openstreetmap"] - function like <code>(x, y, z) => \`https://something/\${z}/\${x}/\${y}.png\`</code>. You can also enter the following strings directly: "openstreetmap", "opentopomap", "worldterrain", "worldimagery", "worldStreet", "worldphysical", "shadedrelief", "stamenterrain", "cartodbvoyager", "stamentoner","stamentonerbackground","stamentonerlite","stamenwatercolor","hillshade","worldocean","natgeo" or "worldterrain".
+ * @property {string} [clipPath] - clip-path. e.g. "url(#myclipid)"
  * @example
  * // There are several ways to use this function
  * geoviz.tile() // no container
  * geoviz.tile(svg, {url: "worldterrain"}) // where svg is the container
  * svg.tile({url: "worldterrain"}) // where svg is the container
  * svg.plot({type: "tile", url: "worldterrain"}) // where svg is the container
- * @returns {SVGSVGElement|string} - the function adds a layer with mercator tiles to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  */
 
 export function tile(arg1, arg2) {

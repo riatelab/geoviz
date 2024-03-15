@@ -1,21 +1,22 @@
 import { unique } from "../helpers/utils";
 
 /**
- * @function radialGradient (effect)
- * @description The `radialGradient` function allows to create a radialGradient
+ * @function effect/radialGradient
+ * @description The `radialGradient` function allows to create a radialGradient. The function adds a filter to the defs and returns the id like `"url(#id)"`.
  * @see {@link https://observablehq.com/@neocartocnrs/effect}
  *
- * @property {string} id - id
- * @property {Number} color1 - color 1
- * @property {Number} color2 - color 2
- * @property {Number} offset1 - offset 1
- * @property {Number} offset2 - offset 2
- * @property {Number} fx - fx
- * @property {Number} fy - fy
+ * @property {string} [id] - id
+ * @property {Number} [color1 = "#63b0af"] - color 1
+ * @property {Number} [color2 = "#428c8b"] - color 2
+ * @property {Number} [offset1 = 50] - offset 1
+ * @property {Number} [offset2 = 100] - offset 2
+ * @property {Number} [fx = 50] - fx
+ * @property {Number} [fy = 50] - fy
  * @example
+ * // There are several ways to use this function
  * geoviz.effect.radialGradient(svg, { id: "radial", color1: "red", color2: "blue" }) // where svg is the container
  * svg.effect.radialGradient({ id: "radial", color1: "red", color2: "blue" }) // where svg is the container
- * @returns {SVGSVGElement|string} - the function adds a filter to the defs and returns the id like "url(#id)".
+ * svg.plot({ type:"radialGradient",  id: "radial", color1: "red", color2: "blue" }) // where svg is the container
  */
 export function radialGradient(
   svg,

@@ -6,22 +6,20 @@ import { camelcasetodash, unique } from "../helpers/utils";
 
 /**
  * @function outline
- * @description The `outline` function allows to create a layer with Earth outline in the projection
+ * @description The `outline` function allows to create a layer with Earth outline in the projection. The function adds a layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  * @see {@link https://observablehq.com/@neocartocnrs/layout-marks}
  *
- * @property {string} id - id of the layer
- * @property {number|number[]} step - gap between graticules. The value can be a number or an array of two values
- * @property {string} stroke - stroke color (default: "none")
- * @property {number} strokeWidth - stroke width (default: 1)
- * @property {string} fill - fill color (default: "#B5DFFD")
- * @property {*} foo - *other attributes that can be used to define the svg style (strokeDasharray, opacity, strokeLinecap...)*
+ * @property {string} [id] - id of the layer
+ * @property {string} [stroke = "none"] - stroke color
+ * @property {number} [strokeWidth = 1] - stroke width
+ * @property {string} [fill = "#B5DFFD"] - fill color
+ * @property {*} [*] - *other attributes that can be used to define the svg style (strokeDasharray, opacity, strokeLinecap...)*
  * @example
  * // There are several ways to use this function
  * geoviz.outline(svg, { fill: "yelllow" }) // where svg is the container
  * svg.outline({ fill: "yelllow" }) // where svg is the container
  * svg.plot({ type: "outline", fill: "yelllow" }) // where svg is the container
  * geoviz.outline({ fill: "yelllow" }) // no container
- * @returns {SVGSVGElement|string} - the function adds a layer with the world outline the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  */
 
 export function outline(arg1, arg2) {

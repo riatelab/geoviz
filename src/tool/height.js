@@ -4,13 +4,11 @@ import { scaleLinear } from "d3-scale";
 const d3 = Object.assign({}, { scaleLinear, max, extent });
 
 /**
- * @description This function return a function to calculate radius of circles from data
- *
+ * @function tool/height
+ * @description This function return a function to calculate radius of circles from data. It returns an object containing a radius function.
  * @property {number[]} data - an array of numerical values.
- * @property {object} arg - options and parameters
- * @property {string[]} arg.fixmax - to fix the value corresponding to the circle with radius = k
- * @property {string[]} arg.k - radius if the greater circle
- * @return {string} an object containing a radius function.
+ * @property {string[]} [options.fixmax = undefined] - to fix the value corresponding to the circle with radius = k
+ * @property {string[]} [options.k = 50] - radius if the greater circle
  */
 
 export function height(data, { fixmax = undefined, k = 50 } = {}) {

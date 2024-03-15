@@ -8,20 +8,18 @@ const d3 = Object.assign(
 import { propertiesentries, detectinput } from "../helpers/utils";
 
 /**
- * @description This function use d3.forceSimulation to spread dots or circles of  given in a GeoJSON FeatureCollection (points). It returns the coordinates in the page map. It can be used to create a dorling cartogram
+ * @function tool/dodge
+ * @description The `tool.dodge` function use d3.forceSimulation to spread dots or circles of  given in a GeoJSON FeatureCollection (points). It returns the coordinates in the page map. It can be used to create a dorling cartogram. The function returns a GeoJSON FeatureCollection (points) with coordinates in the page map.
  * @see {@link https://observablehq.com/@neocartocnrs/world-population}
- *
  * @property {object} data - a GeoJSON FeatureCollection
- * @property {object} arg - options and parameters
- * @property {function} arg.projection - d3 projection function
- * @property {number|string} arg.r - a number or the name of a property containing numerical values.
- * @property {number} arg.k - radius of the largest circle (or corresponding to the value defined by `fixmax`)
- * @property {number} arg.fixmax - value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
- * @property {number} arg.iteration - number of iterations
- * @property {number} arg.gap - space between points/circles
+ * @property {function} [options.projection = d => d] - d3 projection function
+ * @property {number|string} [options.r = 10] - a number or the name of a property containing numerical values.
+ * @property {number} [options.k = 50] - radius of the largest circle (or corresponding to the value defined by `fixmax`)
+ * @property {number} [options.fixmax = null] - value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
+ * @property {number} [options.iteration = 200] - number of iterations
+ * @property {number} [options.gap = 0] - space between points/circles
  * @example
  * let dots = geoviz.tool.dodge(world, { projection: d3.geoOrthographic(), r: "population", k: 40 })
- * @returns {object} - a GeoJSON FeatureCollection (points) with coordinates in the page map.
  */
 
 export function dodge(

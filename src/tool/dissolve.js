@@ -2,15 +2,14 @@ import { geoArea } from "d3-geo";
 const d3 = Object.assign({}, { geoArea });
 
 /**
- * @description Transform multi part features into single parts feature
+ * @function tool/dissolve
+ * @description The `tool.dissolve` function aims to transform multi part features into single parts feature. It a GeoJSON FeatureCollection (without multi part features)
  * @see {@link https://observablehq.com/@neocartocnrs/handle-geometries}
  *
  * @property {object} data - a GeoJSON FeatureCollection
- * @property {object} arg - options and parameters
- * @property {boolean} arg.areashare - name of the field containing the share area of the part
+ * @property {boolean} [options.areashare = "_share"] - name of the field containing the share area of the part
  * @example
  * let dots = geoviz.tool.dissolve(world)
- * @returns {object} - a GeoJSON FeatureCollection (without multi part features)
  */
 export function dissolve(geojson, options = { areashare: "_share" }) {
   geojson = JSON.parse(JSON.stringify(geojson));

@@ -16,50 +16,55 @@ import { sum, cumsum } from "d3-array";
 const d3 = Object.assign({}, { formatLocale, sum, cumsum });
 
 /**
- * @function spikes (legend)
- * @description The `spikes` function allows to add an legend for spike marks
+ * @function legend/spikes
+ * @description The `legend.spikes` function allows to add an legend for spike marks. The function adds a lagend layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  * @see {@link https://observablehq.com/@neocartocnrs/legends}
- *
- * @property {string} id - unique id
- * @property {number[]} pos - legend position (default:[0,0])
- * @property {number} gap - gap between elements
- 
- * @property {number[]} data - input values 
- * @property {number} k - height of the highest spike (or corresponding to the value defined by fixmax ) (default: 100)
- * @property {string[]} fixmax - value matching the spike with height k . Setting this value is useful for making maps comparable with each other
- * @property {number} nb - number of spikes
-  * @property {number} spike_width - a number defining the width of the spikes (default: 30)
- * @property {number} spike_straight - a number between 0 and 1 defining the curve of the spikes. 0 = curved ; 1 = straight (default: 0)
-*  @property {number} spike_spacing - spacing between spikes (default: 3)
-  * @property {string} spike_fill - fill color for the cspikesrcles
-  * @property {string} spike_stroke - stroke color for the spikes
-  * @property {*} spike_foo - *SVG attributes that can be applied on this spike element*
+ * @property {string} [id] - unique id
+ * @property {number[]} [pos = [0,0]] - legend position
+ * @property {number} [gap = 2] - gap between elements
+ * @property {number[]} [data = [1, 1000]] - input values
+ * @property {number} [k = 50] - height of the highest spike (or corresponding to the value defined by fixmax ) (default: 100)
+ * @property {string[]} [fixmax = null] - value matching the spike with height k . Setting this value is useful for making maps comparable with each other
+ * @property {number} [nb = 4] - number of spikes
+ * @property {number} [spike_width = 30] - a number defining the width of the spikes
+ * @property {number} [spike_straight = 0] - a number between 0 and 1 defining the curve of the spikes. 0 = curved ; 1 = straight
+ * @property {number} [spike_spacing = 3] - spacing between spikes (default: 3)
+ * @property {string} [spike_fill = "none"] - fill color for the cspikesrcles
+ * @property {string} [spike_stroke = "black"] - stroke color for the spikes
+ * @property {*} [spike_*] - *SVG attributes that can be applied on this spike element*
  * @property {string} values_textAnchor - text-anchor (default: "middle")
  * @property {number} values_dx - shift in x (default: 0)
  * @property {number} values_dx - shift in y (default: 5)
-   * @property {number} values_factor - allow to multiply values to display in the legend. e.g 0.001 to convert into thousands
- * @property {string} values_decimal - separator for decimals
- * @property {string} values_thousands -  separator for thousands
- * @property {*} values_foo - *SVG attributes that can be applied on this text element (fill, fontSize...)*
-
-* @property {string} title - title of the legend
- * @property {string|number} title_foo - *SVG attributes that can be applied on this text element*
- * @property {string} subtitle - subtitle of the legend
- * @property {string|number} subtitle_foo - *SVG attributes that can be applied on this text element*
- * @property {string} note - note displayed above the legend
- * @property {string|number} note_foo - *SVG attributes that can be applied on this text element*
- * @property {boolean} frame - frame around the legend (default: false)
- * @property {string|number} frame_foo - *SVG attributes that can be applied on this frame element (rect)*
- * @property {string|number} text_foo - *SVG attributes that can be applied directly on all text elements of this legend*
-
-* @example
+ * @property {number} [values_fill = "#363636"] - fill
+ * @property {number} [values_fontSize = 10] - fontSize
+ * @property {number} [values_factor = 1] - allow to multiply values to display in the legend. e.g 0.001 to convert into thousands
+ * @property {string} [values_decimal = "."] - separator for decimals
+ * @property {string} [values_thousands = " "] -  separator for thousands
+ * @property {string} [title = "Legend"] - title of the legend
+ * @property {string} [title_fill = "#363636"] - title color
+ * @property {string} [title_fontSize = 16] - title font size
+ * @property {*} [title_*] - *SVG attributes that can be applied on this text element*
+ * @property {string} [subtitle] - subtitle of the legend
+ * @property {string} [subtitle_fill = "#363636"] - subtitle color
+ * @property {string} [subtitle_fontSize = 12] - subtitle font size
+ * @property {*} [subtitle_*] - *SVG attributes that can be applied on this text element*
+ * @property {string} [note] - note displayed above the legend
+ * @property {string} [note_fill = "#363636"] - note color
+ * @property {string} [note_fontSize = 1O] - note font size
+ * @property {*} [note_*] - *SVG attributes that can be applied on this text element*
+ * @property {boolean} [frame = false] - frame around the legend
+ * @property {boolean} [frame_margin = 15] - frame margin
+ * @property {boolean} [frame_fill = "white"] - frame fill
+ * @property {boolean} [frame_stroke = "black"] - frame fill
+ * @property {boolean} [frame_fillOpacity = 0.5] - frame fill-opacity
+ * @property {*} [frame_*] - *SVG attributes that can be applied on this frame element (rect)*
+ * @property {*} [text_*] - *SVG attributes that can be applied directly on all text elements of this legend*
+ * @example
  * // There are several ways to use this function
  * geoviz.legend.spikes(svg, { pos: [10,20], data, nb:5}) // where svg is the container
  * svg.legend.spikes({pos: [10,20], data, nb: 5} }) // where svg is the container
-  * svg.plot({type: "spikes", pos: [10,20], data, nb: 5} }) // where svg is the container
+ * svg.plot({type: "spikes", pos: [10,20], data, nb: 5} }) // where svg is the container
  * geoviz.legend.spikes({ pos: [10,20], data, nb: 5}) // no container
- *
- * @returns {SVGSVGElement|string} - the function adds a layer with a spikes legend to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  */
 
 export function spikes(arg1, arg2) {

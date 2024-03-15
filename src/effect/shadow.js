@@ -1,20 +1,22 @@
 import { unique } from "../helpers/utils";
 
 /**
- * @function shadow (effect)
- * @description The `shadow` function allows to create a svg filter. It can be use ta add a shadow effect
+ * @function effect/shadow
+ * @description The `shadow` function allows to create a svg filter. It can be use ta add a shadow effect. The function adds a filter to the defs and returns the id like `"url(#id)"`.
  * @see {@link https://observablehq.com/@neocartocnrs/effect}
  *
- * @property {string} id - id
- * @property {string} dx - shift in x
- * @property {string} dy - shift in y
- * @property {string} fill - fill color
- * @property {number} fillOpacity - fill-opacity (you can use also opacity)
- * @property {number} stdDeviation - standard deviation
+ * @property {string} [id] - id
+ * @property {string} [dx = 4] - shift in x
+ * @property {string} [dy = 4] - shift in y
+ * @property {string} [fill = "black"] - fill color
+ * @property {number} [fillOpacity = 0.5] - fill-opacity (you can use also opacity)
+ * @property {number} [stdDeviation = 1.5] - standard deviation
+ * @property {number} [opacity = 1] - opacity
  * @example
+ * // There are several ways to use this function
  * geoviz.effect.shadow(svg, { stdDeviation: 0, id: "blur" }) // where svg is the container
  * svg.effect.shadow({ stdDeviation: 2, id: "shadow" }) // where svg is the container
- * @returns {SVGSVGElement|string} - the function adds a filter to the defs and returns the id like "url(#id)".
+ * svg.plot({type:"shadow", stdDeviation: 2, id: "shadow" }) // where svg is the container
  */
 export function shadow(
   svg,

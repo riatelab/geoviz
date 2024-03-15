@@ -4,13 +4,11 @@ import { scaleSqrt } from "d3-scale";
 const d3 = Object.assign({}, { scaleSqrt, max, extent });
 
 /**
- * @description This function return a function to calculate radius of circles from data
- *
+ * @function tool/radius
+ * @description The `tool.radius` function return a function to calculate radius of circles from data
  * @property {number[]} data - an array of numerical values.
- * @property {object} arg - options and parameters
- * @property {string[]} arg.fixmax - to fix the value corresponding to the circle with radius = k
- * @property {string[]} arg.k - radius if the greater circle
- * @return {string} an object containing a radius function.
+ * @property {string[]} [options.fixmax] - to fix the value corresponding to the circle with radius = k
+ * @property {string[]} [option.k = 50] - radius if the greater circle
  */
 
 export function radius(data, { fixmax = undefined, k = 50 } = {}) {

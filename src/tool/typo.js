@@ -3,15 +3,15 @@ import { scaleOrdinal } from "d3-scale";
 const d3 = Object.assign({}, { scaleOrdinal });
 
 /**
- * @description This function allows you to assign colors to qualitative data. It can be used to create typology maps.
+ * @function tool/typo
+ * @description The `tool.typo` function allows you to assign colors to qualitative data. It can be used to create typology maps. It returs an object containing types, colors, the color of the missing value and a function.
  *
  * @property {number[]} data - an array of numerical values.
- * @property {object} arg - options and parameters
- * @property {string[]} arg.colors - an array of colors or name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library)
- * @property {string} arg.missing - a color for missings values
+ * @property {string[]} [options.colors = "Set3"] - an array of colors or name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library)
+ * @property {string} [options.missing = "white"] - a color for missings values
  * @example
- * .geoviz.tool.typo(world.features.map((d) => d.properties.region), {palette: "Pastel"})
- * @return {object} an object containing types, colors, the color of the missing value and a function.
+ * geoviz.tool.typo(world.features.map((d) => d.properties.region), {palette: "Pastel"})
+
  */
 
 export function typo(data, { colors = "Set3", missing_fill = "white" } = {}) {

@@ -13,16 +13,50 @@
         "recurse": true,
         "verbose": true,
         "template": "node_modules/clean-jsdoc-theme",
-        "theme_opts": {
+        "theme_opts": { 
+            "homepageTitle": "Geoviz",
+            "meta": [
+                {
+                  "name": "author",
+                  "content": "Nicolas Lambert"
+                }
+              ],
+            "displayModuleHeader": true,
+            "footer": "Nicolas Lambert 2023 - MIT License",
+            "menu": [
+                {
+                  "title": "Github",
+                  "link": "https://github.com/riatelab/geoviz",
+                  "target": "_blank"
+                },
+                {
+                    "title": "Issues",
+                    "link": "https://github.com/riatelab/geoviz/issuesz",
+                    "target": "_blank"
+                  },
+                {
+                    "title": "Demo",
+                    "link": "https://observablehq.com/@neocartocnrs/geoviz",
+                    "target": "_blank"
+                  },
+                  {
+                    "title": "Maintainer",
+                    "link": "https://neocartocnrs.observablehq.cloud/cv/",
+                    "target": "_blank"
+                  }
+              ],
+              "section": ["Global"],
+              "sort":true,
+
             "static_dir": ["./img", "./examples"],
-            "includeFilesListInHomepage": true, // by default it is false.
+            "includeFilesListInHomepage": false, // by default it is false.
             "homepageTitle": "Geoviz",
             "default_theme": "dark" // "light", "fallback-dark", "fallback-light"
           }
     },
     "markdown": {
         "hardwrap": false,
-        "idInHeadings": true
+        "idInHeadings": false
     }
 }
 

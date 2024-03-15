@@ -17,30 +17,30 @@ import {
 
 /**
  * @function text
- * @description The `text` function allows to add a text on the map. It allow also to create a layer with labels from a geoJSON
+ * @description The `text` function allows to add a text on the map. It allow also to create a layer with labels from a geoJSON. The function adds a layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  * @see {@link https://observablehq.com/@neocartocnrs/text-mark}
  *
  * @property {object} data - GeoJSON FeatureCollection
- * @property {string} id - id of the layer
- * @property {string|function} text - text to be displayed
- * @property {string|function} textAnchor - text anchor ("start", "middle", "end")
- * @property {string|function} dominantBaseline - dominant-baseline ("auto", "middle", "central", "hanging")
- * @property {string} fontFamily - font-family (default: font defined in the svg container)
- * @property {number} fontSize - font-size (default: 12)
- * @property {number} lineSpacing - line spacinf (default: 0)
- * @property {number[]} pos - position to display a single text element (default [0,0])
- * @property {number} dx - shift in x (default 0)
- * @property {number} dy - shift in y (default: 0)
- * @property {string|function} sort - the field to sort labels or a sort function
- * @property {boolean} descending - text sorting order
- * @property {string} coords - use "svg" if the coordinates are already in the plan of the svg document (default: "geo")
- * @property {string|function} fill - fill color
- * @property {string|function} stroke - stroke color
- * @property {number} strokeWidth - stroke width (default: 1)
- * @property {string|function} strokeLinejoin - stroke-linejoin (default: "round")
- * @property {boolean|function} tip - a function to display the tip. Use true tu display all fields
- * @property {object} tipstyle - tooltip style
- * @property {*} foo - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ * @property {string} [id] - id of the layer
+ * @property {string|function} [text = "text"] - text to be displayed
+ * @property {string|function} [textAnchor] - text anchor ("start", "middle", "end")
+ * @property {string|function} [dominantBaseline] - dominant-baseline ("auto", "middle", "central", "hanging")
+ * @property {string} [fontFamily = fontFamily defined in the svg container] - font-family
+ * @property {number} [fontSize = 12] - font-size
+ * @property {number} [lineSpacing= 0] - line spacinf
+ * @property {number[]} [pos = [0,0]] - position to display a single text element
+ * @property {number} [dx = 0] - shift in x
+ * @property {number} [dy = 0] - shift in y
+ * @property {string|function} [sort] - the field to sort labels or a sort function
+ * @property {boolean} [descending] - text sorting order
+ * @property {string} [coords = "geo"] - use "svg" if the coordinates are already in the plan of the svg document
+ * @property {string|function} [fill] - fill color
+ * @property {string|function} [stroke] - stroke color
+ * @property {number} [strokeWidth = 1] - stroke width
+ * @property {string|function} [strokeLinejoin = "round"] - stroke-linejoin
+ * @property {boolean|function} [tip = false] - a function to display the tip. Use true tu display all fields
+ * @property {object} [tipstyle = false] - tooltip style
+ * @property {*} [*] - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @example
  * // There are several ways to use this function
  * geoviz.text(svg, { pos: [10,20], text: "Hello World" }) // a single text
@@ -48,8 +48,6 @@ import {
  * svg.text({ data: cities, text: "name" }) // labels where svg is the container
  * svg.plot({ type: "text", data: cities, text: "name" }) // labels where svg is the container
  * geoviz.text({ data: cities, text: "name" }) // labels with no container
- *
- * @returns {SVGSVGElement|string} - the function adds a layer with texts to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  */
 
 export function text(arg1, arg2) {

@@ -13,47 +13,56 @@ import {
 } from "../helpers/utils_legend.js";
 
 /**
- * @function typo_vertical (legend)
- * @description The `typo_vertical` function allows to add an vertical legend on a map for typo layers
+ * @function legend/typo_vertical
+ * @description The `legend.typo_vertical` function allows to add an vertical legend on a map for typo layers. The function adds a lagend layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  * @see {@link https://observablehq.com/@neocartocnrs/legends}
- *
- * @property {string} id - unique id
- * @property {number[]} pos - legend position (default:[0,0])
- * @property {number} gap - gap between elements
- 
- * @property {string[]} types - types (default: ["A", "B", "C", "D"])
- * @property {string[]} colors - colors (default: ["#e41a1c", "#377eb8", "#4daf4a", "#984ea3"])
- * @property {boolean} alphabetical - alphabetical order (default: true) 
-
-
- * @property {string} rect_width - width of the box (default: 25)
- * @property {string} rect_height - height of the box (default: 17)
+ * @property {string} [id] - unique id
+ * @property {number[]} [pos = [0,0]] - legend position
+ * @property {number} [gap = 2] - gap between elements
+ * @property {string[]} [types = ["A", "B", "C", "D"]] - types
+ * @property {string[]} [colors = ["#e41a1c", "#377eb8", "#4daf4a", "#984ea3"]] - colors
+ * @property {boolean} [alphabetical = true] - alphabetical order
+ * @property {string} [rect_width = 25] - width of the box
+ * @property {string} [rect_height = 17] - height of the box
+ * @property {number} [rect_spacing = 3] - spacing between boxes
  * @property {number} rect_spacing - spacing between boxes
+ * @property {string} [rect_fill = "#5d6266"] - box color
+ * @property {string} [rect_stroke = "#303030"] - stroke color
+ * @property {string} [rect_strokeWidth = 0.1] - stroke width
  * @property {*} rect_foo - *other SVG attributes that can be applied on this rect element (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
- 
  * @property {string} values_textAnchor - text-anchor (default: "middle")
  * @property {number} values_dx - shift in x (default: 0)
  * @property {number} values_dx - shift in y (default: 5)
- * @property {*} values_foo - *SVG attributes that can be applied on this text element (fill, fontSize...)*
-
-* @property {string} title - title of the legend
- * @property {string|number} title_foo - *SVG attributes that can be applied on this text element*
- * @property {string} subtitle - subtitle of the legend
- * @property {string|number} subtitle_foo - *SVG attributes that can be applied on this text element*
- * @property {string} note - note displayed above the legend
- * @property {string|number} note_foo - *SVG attributes that can be applied on this text element*
- * @property {boolean} frame - frame around the legend (default: false)
- * @property {string|number} frame_foo - *SVG attributes that can be applied on this frame element (rect)*
- * @property {string|number} text_foo - *SVG attributes that can be applied directly on all text elements of this legend*
-
-* @example
+ * @property {number} [values_fill = "#363636"] - fill
+ * @property {number} [values_fontSize = 10] - fontSize
+ * @property {number} [values_factor = 1] - allow to multiply values to display in the legend. e.g 0.001 to convert into thousands
+ * @property {string} [values_decimal = "."] - separator for decimals
+ * @property {string} [values_thousands = " "] -  separator for thousands
+ * @property {string} [title = "Legend"] - title of the legend
+ * @property {string} [title_fill = "#363636"] - title color
+ * @property {string} [title_fontSize = 16] - title font size
+ * @property {*} [title_*] - *SVG attributes that can be applied on this text element*
+ * @property {string} [subtitle] - subtitle of the legend
+ * @property {string} [subtitle_fill = "#363636"] - subtitle color
+ * @property {string} [subtitle_fontSize = 12] - subtitle font size
+ * @property {*} [subtitle_*] - *SVG attributes that can be applied on this text element*
+ * @property {string} [note] - note displayed above the legend
+ * @property {string} [note_fill = "#363636"] - note color
+ * @property {string} [note_fontSize = 1O] - note font size
+ * @property {*} [note_*] - *SVG attributes that can be applied on this text element*
+ * @property {boolean} [frame = false] - frame around the legend
+ * @property {boolean} [frame_margin = 15] - frame margin
+ * @property {boolean} [frame_fill = "white"] - frame fill
+ * @property {boolean} [frame_stroke = "black"] - frame fill
+ * @property {boolean} [frame_fillOpacity = 0.5] - frame fill-opacity
+ * @property {*} [frame_*] - *SVG attributes that can be applied on this frame element (rect)*
+ * @property {*} [text_*] - *SVG attributes that can be applied directly on all text elements of this legend*
+ * @example
  * // There are several ways to use this function
  * geoviz.legend.typo_vertical(svg, { pos: [10,20], types, colors}) // where svg is the container
  * svg.legend.typo_vertical({pos: [10,20], types, colors} }) // where svg is the container
  * svg.plot({type: "leg_typo_vertical", pos: [10,20], types, colors} }) // where svg is the container
  * geoviz.legend.typo_vertical({ pos: [10,20], types, colors}) // no container
- *
- * @returns {SVGSVGElement|string} - the function adds a layer with a typo legend to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  */
 
 export function typo_vertical(arg1, arg2) {

@@ -4,23 +4,22 @@ import { camelcasetodash, unique, northangle } from "../helpers/utils";
 
 /**
  * @function north
- * @description The `north` function allows add a North arrow.
+ * @description The `north` function allows add a North arrow. The function adds a layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  * @see {@link https://observablehq.com/@neocartocnrs/layout-marks}
  * @see {@link  https://observablehq.com/@neocartocnrs/geoviz-scalebar}
  *
- * @property {string} id - id of the layer
- * @property {number[]} pos - position [x,y] on the page. The scale value is relevant for this location on the map (default: svg.width - 30, 30])
- * @property {number} scale - a number to rescale the arrow (default: 1)
- * @property {number} rotate - an angle to rotate the arrow. By dedault, il is automaticaly calculated (default: null)
- * @property {string} fill - fill color (default: "black")
- * @property {string} fillOpacity - fill-opacity (default: 1)
+ * @property {string} [id] - id of the layer
+ * @property {number[]} [pos = [svg.width - 30, 30]]  - position [x,y] on the page. The scale value is relevant for this location on the map
+ * @property {number} [scale = 1] - a number to rescale the arrow
+ * @property {number} [rotate = null] - an angle to rotate the arrow. By dedault, il is automaticaly calculated
+ * @property {string} [fill = "black"] - fill color
+ * @property {string} [fillOpacity = 1] - fill-opacity
  * @example
  * // There are several ways to use this function
  * geoviz.north(svg, { pos: [100, 300], fill: "brown" }) // where svg is the container
  * svg.north({ pos: [100, 300], fill: "brown" }) // where svg is the container
  * svg.plot({ type: "north", pos: [100, 300], fill: "brown" }) // where svg is the container
  * geoviz.north( { pos: [100, 300], fill: "brown" }) // no container
- * @returns {SVGSVGElement|string} - the function adds a layer with a north arrow. If the container is not defined, then the layer is displayed directly.
  */
 
 export function north(arg1, arg2) {

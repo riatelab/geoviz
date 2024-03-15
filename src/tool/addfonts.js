@@ -1,6 +1,6 @@
 /**
- * @description The `addonts` function allows add font to the document from an url
- *
+ * @function tool/addonts
+ * @description The `tool.addonts` function allows add font to the document from an url.
  * @property {string} fontFamily - font family name
  * @property {string} url - tff- file url
  */

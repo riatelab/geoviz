@@ -17,28 +17,27 @@ import {
 
 /**
  * @function path
- * @description The `path` function generates SVG paths from a geoJSON
+ * @description The `path` function generates SVG paths from a geoJSON. The function adds a layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  * @see {@link https://observablehq.com/@neocartocnrs/path-mark}
  *
  * @property {object} data - GeoJSON FeatureCollection. Use data to be able to iterate
  * @property {object} datum - GeoJSON FeatureCollection. Use datum if you don't need to iterate.
- * @property {string} id - id of the layer
- * @property {string} coords - use "svg" if the coordinates are already in the plan of the svg document (default: "geo")))
- * @property {boolean} clip - use true to clip the path with the outline (default; true)
- * @property {string|function} fill - fill color. To create choropleth maps or typologies, use the `tool.choro` and `tool.typo` functions
- * @property {string|function} stroke - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
- * @property {string|function} strokeWidth - stroke-width (default: 1)
- * @property {boolean|function} tip - a function to display the tip. Use true tu display all fields
- * @property {boolean} view - use true and viewof in Observable for this layer to act as Input
- * @property {object} tipstyle - tooltip style
- * @property {*} foo - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ * @property {string} [id] - id of the layer
+ * @property {string} [coords = "geo"] - use "svg" if the coordinates are already in the plan of the svg document
+ * @property {boolean} [clip = true] - use true to clip the path with the outline
+ * @property {string|function} [fill] - fill color. To create choropleth maps or typologies, use the `tool.choro` and `tool.typo` functions
+ * @property {string|function} [stroke] - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
+ * @property {string|function} [strokeWidth = 1] - stroke-width (default: 1)
+ * @property {boolean|function} [tip = false] - a function to display the tip. Use true tu display all fields
+ * @property {boolean} [view] = false] - use true and viewof in Observable for this layer to act as Input
+ * @property {object} [tipstyle] - tooltip style
+ * @property {*} [*] - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @example
  * // There are several ways to use this function
  * geoviz.path(svg, { data: world, fill: "red" }) // where svg is the container
  * svg.path({ data: world, fill: "red" }) // where svg is the container
  * svg.plot({ type: "path", data: world, fill: "red" }) // where svg is the container
  * geoviz.path({ data: world, fill: "red" }) // no container
- * @returns {SVGSVGElement|string} - the function adds a layer with SVG paths to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  */
 
 export function path(arg1, arg2) {

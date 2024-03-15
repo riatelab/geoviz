@@ -1,13 +1,10 @@
 /**
- * @description Rewind a FeatureCollection counterclockwise and inner rings. Adapted from MapBox geojson-rewind code (https://github.com/mapbox/grojson-rewind) under ISC license
+ * @function tool/rewind
+ * @description The `tool.rewind` function allows to generate compliant Polygon and MultiPolygon geometries. Adapted from MapBox geojson-rewind code (https://github.com/mapbox/grojson-rewind) under ISC license
  * @see {@link https://observablehq.com/@neocartocnrs/handle-geometries}
- *
  * @property {object} data - a GeoJSON FeatureCollection
- * @property {object} arg - options and parameters
- * @property {boolean} arg.outer - rewind Rings Outer
- * @property {boolean} arg.mutate - mutate the Input geoJSON
- * @returns {object} - a GeoJSON FeatureCollection
- *
+ * @property {boolean} [options.outer = false] - rewind Rings Outer
+ * @property {boolean} [options.mutate  = false] - mutate the Input geoJSON
  */
 
 export function rewind(data, options = {}) {
