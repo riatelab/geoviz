@@ -19,6 +19,7 @@ import { implantation, columns, unique } from "../helpers/utils";
  * @property {string|array} [colors] - an array of colors or name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library)
  * @property {boolean} [reverse = false] - reverse the color palette
  * @property {string|boolean} [missing = "white"] - missing data color
+ * @property {boolean} [legend = true] - boolean to add or not the legend
  * @property {string} [leg_type = "vertical"] - legend orientation ("horizontal" or "vertical")
  * @property {array} [leg_pos = [10, svg.height / 2]] - position of the legend
  * @property {*} [*] - You can also modify numerous parameters to customize the map. To do this, you can use all the parameters of the [path](#path) and [tool.choro](#tool/choro) functions. For example: `strokeWidth: 0.3`.
@@ -40,6 +41,7 @@ export function plot_choro(arg1, arg2) {
 
   // Default values
   let opts = {
+    legend: true,
     id: unique(),
     missing: "white",
     leg_type: "vertical",
@@ -116,36 +118,40 @@ export function plot_choro(arg1, arg2) {
       fig == "poly" ? classif.colorize(d.properties[opts.var]) : opts.fill,
   });
 
+  let ids = `#${opts.id}`;
+
   // Legend
+  if (opts.legend) {
+    let legopts = {};
+    Object.keys(opts)
+      .filter(
+        (str) =>
+          str.slice(0, 4) == "leg_" ||
+          ["k", "fixmax", "missing", "id"].includes(str)
+      )
+      .forEach((d) =>
+        Object.assign(legopts, {
+          [d.slice(0, 4) == "leg_" ? d.slice(4) : d]: opts[d],
+        })
+      );
+    legopts.id = "leg_" + legopts.id;
 
-  let legopts = {};
-  Object.keys(opts)
-    .filter(
-      (str) =>
-        str.slice(0, 4) == "leg_" ||
-        ["k", "fixmax", "missing", "id"].includes(str)
-    )
-    .forEach((d) =>
-      Object.assign(legopts, {
-        [d.slice(0, 4) == "leg_" ? d.slice(4) : d]: opts[d],
-      })
-    );
-  legopts.id = "leg_" + legopts.id;
-
-  let funclegend =
-    opts.leg_type == "vertical" ? choro_vertical : choro_horizontal;
-  funclegend(svg, {
-    ...legopts,
-    missing: opts.missing === false ? false : true,
-    missing_fill: opts.missing,
-    pos: opts.leg_pos,
-    breaks: classif.breaks,
-    colors: classif.colors,
-  });
+    let funclegend =
+      opts.leg_type == "vertical" ? choro_vertical : choro_horizontal;
+    funclegend(svg, {
+      ...legopts,
+      missing: opts.missing === false ? false : true,
+      missing_fill: opts.missing,
+      pos: opts.leg_pos,
+      breaks: classif.breaks,
+      colors: classif.colors,
+    });
+    ids = [`#${opts.id}`, `#${legopts.id}`];
+  }
 
   if (newcontainer) {
     return render(svg);
   } else {
-    return [`#${opts.id}`, `#${legopts.id}`];
+    return ids;
   }
 }
