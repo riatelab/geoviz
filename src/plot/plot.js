@@ -33,6 +33,7 @@ import { shadow } from "../effect/shadow";
 import { plot_choro } from "./plot_choro";
 import { plot_typo } from "./plot_typo";
 import { plot_prop } from "./plot_prop";
+import { plot_propchoro } from "./plot_propchoro";
 
 /**
  * @function plot
@@ -201,6 +202,9 @@ export function plot(arg1, arg2) {
       break;
     case "prop":
       return plot_prop(arg1, arg2);
+      break;
+    case "propchoro":
+      return plot_propchoro(arg1, arg2);
       break;
   }
 }
