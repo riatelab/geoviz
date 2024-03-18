@@ -32,6 +32,7 @@ import { shadow } from "../effect/shadow";
 // Symbology
 import { plot_choro } from "./plot_choro";
 import { plot_typo } from "./plot_typo";
+import { plot_prop } from "./plot_prop";
 
 /**
  * @function plot
@@ -40,6 +41,7 @@ import { plot_typo } from "./plot_typo";
  * <br/><br/>For example: `geoviz.plot({type: "graticule", step: 30})`
  * @property {string} choro - Usage: `geoviz.plot({type: "choro", ...})` or `{type: "choropleth"}`. See [plot/choro](#plot/choro)
  * @property {string} typo - Usage: `geoviz.plot({type: "typo", ...})` or `{type: "typology"}`. See See [plot/typo](#plot/typo)
+ * @property {string} prop - Usage: `geoviz.plot({type: "prop", ...}). See See [plot/prop](#plot/prop)
  * @property {string} outline - Usage: `geoviz.plot({type: "outline", ...})`. See {@link outline}
  * @property {string} graticule - Usage: `geoviz.plot({type: "graticule", ...})`. See {@link graticule}
  * @property {string} path - Usage: `geoviz.plot({type: "path", ...})` or `{type: "base"}` or `{type: "simple"}`. See {@link path}
@@ -52,7 +54,6 @@ import { plot_typo } from "./plot_typo";
  * @property {string} footer - Usage: `geoviz.plot({type: "footer", ...})`. See {@link footer}
  * @property {string} scalebar - Usage: `geoviz.plot({type: "scalebar", ...})`. See {@link scalebar}
  * @property {string} north - Usage: `geoviz.plot({type: "north", ...})`. See {@link north}
- * 
  * @property {string} leg_box - Usage: `geoviz.plot({type: "leg_box", ...})` or `{type: "legbox"}`. See [legend.box](#legend/box)
  * @property {string} leg_choro_horizontal - Usage: `geoviz.plot({type: "leg_choro_horizontal", ...})` or `{type: "legchorohorizontal"}`. See [legend.choro_horizontal](#legend/choro_horizontal)
  * @property {string} leg_choro_vertical - Usage: `geoviz.plot({type: "leg_choro_vertical", ...})` or `{type: "legchorovertical"}` or `{type: "leg_choro"}` or `{type: "legchoro"}`. See [legend.choro_vertical](#legend/choro_vertical)
@@ -62,13 +63,11 @@ import { plot_typo } from "./plot_typo";
  * @property {string} leg_circles - Usage: `geoviz.plot({type: "leg_circles", ...})` or `{type: "legcircle"}` or `{type: "legcircle"}` or `{type: "legcircles"}`. See [legend.circles](#legend/circles)
  * @property {string} leg_circle_nested - Usage: `geoviz.plot({type: "leg_circle_nested", ...})` or `{type: "legcirclenested"}` or `{type: "legcirclesnested"}`. See [legend.circles_nested](#legend/circles_nested)
  * @property {string} leg_mushrooms - Usage: `geoviz.plot({type: "leg_mushrooms", ...})` or `{type: "leg_mushroom"}` or `{type: "legmushrooms"}` or `{type: "legmushroom"}`. See [legend.mushrooms](legend/#mushrooms)
-
  * @property {string} effect_clipPath - Usage: `geoviz.plot({type: "effect_clipPath", ...})` or `{type: "clipPath"}`. See [effect.clipPath](#effect/clipPath)
  * @property {string} effect_blur - Usage: `geoviz.plot({type: "effect_blur", ...})` or `{type: "blur"}`. See [effect.blur](#effect/blur)
  * @property {string} effect_shadow - Usage: `geoviz.plot({type: "effect_shadow", ...})` or `{type: "shadow"}`. See [effect.shadow](#effect/shadow)
  * @property {string} effect_radialGradient - Usage: `geoviz.plot({type: "effect_radialGradient", ...})` or `{type: "radialGradient"}`. See [effect.radialGradient](#effect/radialGradient)
-
-* @example
+ * @example
  * let svg = geoviz.create({projection: d3.geoNaturalEarth1()})
  * svg.plot({ type = "outline" }) // outline layer
  * svg.plot({ type = "graticule", step:30, stroke: "white" }) // graticule layer
@@ -199,6 +198,9 @@ export function plot(arg1, arg2) {
     case "typo":
     case "typology":
       return plot_typo(arg1, arg2);
+      break;
+    case "prop":
+      return plot_prop(arg1, arg2);
       break;
   }
 }

@@ -12,14 +12,14 @@ import { implantation, columns, unique } from "../helpers/utils";
  * ![choro](img/thumb_typo.svg)
  * @see {@link https://observablehq.com/@neocartocnrs/choropleth}
  * @property {object} data - GeoJSON FeatureCollection. Use data to be able to iterate
- * @property {object} var - a variable name in a geoJSON containig numeric values. You can also use `fill` or `stroke` argument.
+ * @property {string} var - a variable name in a geoJSON containig numeric values. You can also use `fill` or `stroke` argument.
  * @property {string|array} [colors] - an array of colors or name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library)
  * @property {array} [order] - an array of values qualitative values.
  * @property {boolean} [alphabetical = true] - to order the items in the legend in alphabetical order
  * @property {string|boolean} [missing = "white"] - missing data color
  * @property {boolean} [legend = true] - boolean to add or not the legend
  * @property {string} [leg_type = "vertical"] - legend orientation ("horizontal" or "vertical")
- * @property {array} [leg_pos = [10, svg.height / 2]] - position of the legend
+ * @property {array} [leg_pos = [10, 10]] - position of the legend
  * @property {*} [*] - You can also modify numerous parameters to customize the map. To do this, you can use all the parameters of the [path](#path) and [tool.typo](#tool/typo) functions. For example: `strokeWidth: 0.3`.
  * @property {*} [leg_*] - You can also modify a wide range of parameters to customize the legend. To do this, you can use all the parameters of the [legend.typo_horizontal](#legend/typo_horizontal) and [legend.typo_vertical](#legend/typo_vertical) functions with the prefix `"leg_"`. For example: `leg_missing_text: "not available"` or `leg_values_fill: "red"`.
  * @example // Usage
@@ -43,7 +43,7 @@ export function plot_typo(arg1, arg2) {
     id: unique(),
     missing: "white",
     leg_type: "vertical",
-    leg_pos: [10, svg.height / 2],
+    leg_pos: [10, 10],
   };
   opts = { ...opts, ...options };
 
