@@ -127,6 +127,18 @@ return svg.render() // render
 
 In addition of mapping static marks, the plot function lets you quickly create statistical maps (including legends) with very few parameters (and many others as options). Let's see some examples. 
 
+### Proportional symbols
+
+By using [`type = "prop"`](global.html#plot/prop), you can design a map with proportionnal symbols. Find below a minimal example.
+
+~~~js
+geoviz.plot({type = "prop", data = *a geoJSON*, var = *a field*})
+~~~
+
+📚  [`plot/prop()`](global.html#plot/prop)
+
+🌏 live demo [`prop`](https://observablehq.com/@neocartocnrs/prop)
+
 ### Choropleth
 
 By using [`type = "choro"`](global.html#plot/choro), you can design a choropleth map. Find below a minimal example.
@@ -139,7 +151,6 @@ geoviz.plot({type = "choro", data = *a geoJSON*, var = *a field*})
 
 🌏 live demo [`choropleth`](https://observablehq.com/@neocartocnrs/choropleth)
 
-
 ### Typology
 
 By using [`type = "typo"`](global.html#plot/typo), you can design a qualitative typo map. Find below a minimal example.
@@ -151,6 +162,31 @@ geoviz.plot({type = "typo", data = *a geoJSON*, var = *a field*})
 📚 [`plot/typo()`](global.html#plot/typo)
 
 🌏 live demo [`typology`](https://observablehq.com/@neocartocnrs/typo)
+
+
+### Proportional symbols + choropleth
+
+By using [`type = "propchoro"`](global.html#plot/propchoro), you can design a map with proportionnal symbols with graduated colors. Find below a minimal example.
+
+~~~js
+geoviz.plot({type = "propchoro", data = *a geoJSON*, var1 = *a field*, var2 = *a field*})
+~~~
+
+📚  [`plot/propchoro()`](global.html#plot/propchoro)
+
+🌏 live demo [`prop`](https://observablehq.com/@neocartocnrs/prop)
+
+### Proportional symbols + typology
+
+By using [`type = "proptypo"`](global.html#plot/proptypo), you can design a map with proportionnal symbols with qualitative colors. Find below a minimal example.
+
+~~~js
+geoviz.plot({type = "proptypo", data = *a geoJSON*, var1 = *a field*, var2 = *a field*})
+~~~
+
+📚  [`plot/proptypo()`](global.html#plot/proptypo)
+
+🌏 live demo [`prop`](https://observablehq.com/@neocartocnrs/prop)
 
 ## Interactivity
 
