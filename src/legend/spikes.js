@@ -17,7 +17,7 @@ const d3 = Object.assign({}, { formatLocale, sum, cumsum });
 
 /**
  * @function legend/spikes
- * @description The `legend.spikes` function allows to add an legend for spike marks. The function adds a lagend layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
+ * @description The `legend.spikes` function allows to add an legend for spike marks. The function adds a legend layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  * @see {@link https://observablehq.com/@neocartocnrs/legends}
  * @property {string} [id] - unique id
  * @property {number[]} [pos = [0,0]] - legend position

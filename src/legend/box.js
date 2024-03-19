@@ -15,7 +15,7 @@ import {
 
 /**
  * @function legend/box
- * @description The `legend.box` function allows to add a box legend on a map. The function adds a lagend layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
+ * @description The `legend.box` function allows to add a box legend on a map. The function adds a legend layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  * @see {@link https://observablehq.com/@neocartocnrs/legends}
  * @property {string} [id] - unique id
  * @property {number[]} [pos = [0,0]] - legend position

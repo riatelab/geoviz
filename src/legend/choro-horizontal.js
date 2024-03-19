@@ -17,7 +17,7 @@ const d3 = Object.assign({}, { formatLocale });
 
 /**
  * @function legend/choro_horizontal
- * @description The `legend.choro_horizontal` function allows to add an horizontal legend on a map for choropleth layers. The function adds a lagend layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
+ * @description The `legend.choro_horizontal` function allows to add an horizontal legend on a map for choropleth layers. The function adds a legend layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  * @see {@link https://observablehq.com/@neocartocnrs/legends}
  * @property {string} [id] - unique id
  * @property {number[]} [pos = [0,0]] - legend position

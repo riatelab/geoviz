@@ -38,8 +38,8 @@ import {
  * @property {string|function} [sort] - the field to sort spikes or a sort function
  * @property {boolean} [descending] - spikes sorting order
  * @property {string} [coords = "geo"] - use "svg" if the coordinates are already in the plan of the svg document (default: "geo")
- * @property {string|function} [fill] - fill color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
- * @property {string|function} [stroke] - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
+ * @property {string|function} [fill] - fill color. To create choropleth maps or typologies, use the `tool.choro` and `tool.typo` functions
+ * @property {string|function} [stroke] - stroke color. To create choropleth maps or typologies, use the `tool.choro` and `tool.typo` functions
  * @property {boolean|function} [tip = false] - a function to display the tip. Use true tu display all fields
  * @property {boolean} [view = false] - use true and viewof in Observable for this layer to act as Input
  * @property {object} [tipstyle] - tooltip style

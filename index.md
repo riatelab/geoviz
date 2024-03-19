@@ -34,11 +34,11 @@ geoviz = require("geoviz")
 
 The `geoviz` library provides several graphic marks that will allow you to draw your maps. circles, semi-circles, graticules, paths, scale, legends... Each mark has a specific function.
 
-📚  **Map marks** [`path()`](global.html#path) [`circle()`](global.html#circle) [`halfcircle()`](global.html#halfcircle) [`spike()`](global.html#spike) [`tile()`](global.html#tile)
+📚  **Map marks** [`path()`](global.html#path) [`circle()`](global.html#circle) [`square()`](global.html#square) [`halfcircle()`](global.html#halfcircle) [`spike()`](global.html#spike) [`tile()`](global.html#tile)
 
 📚  **Layout marks** [`header()`](global.html#header) [`footer()`](global.html#footer) [`graticule()`](global.html#graticule) [`outline()`](global.html#outline) [`north()`](global.html#north) [`scalebar()`](global.html#scalebar) [`text()`](global.html#text)
 
-📚  **Legend marks** [`legend.box()`](global.html#legend/box) [`legend.choro_horizontal()`](global.html#legend/choro_horizontal) [`legend.choro_vertical()`](global.html#legend/choro_vertical) [`legend.circles_half()`](global.html#legend/circles_half) [`legend.circles_nested()`](global.html#legend/circles_nested) [`legend.circles()`](global.html#legend/circles) [`legend.mushrooms()`](global.html#legend/mushrooms) [`legend.spikes()`](global.html#legend/spikes) [`legend.typo_horizontal()`](global.html#legend/typo_horizontal) [`legend.typo_vertical()`](global.html#legend/typo_vertical)
+📚  **Legend marks** [`legend.box()`](global.html#legend/box) [`legend.choro_horizontal()`](global.html#legend/choro_horizontal) [`legend.choro_vertical()`](global.html#legend/choro_vertical) [`legend.circles_half()`](global.html#legend/circles_half) [`legend.circles_nested()`](global.html#legend/circles_nested) [`legend.circles()`](global.html#legend/circles) [`legend.squares()`](global.html#legend/squares) [`legend.squares_nested()`](global.html#legend/squares_nested) [`legend.mushrooms()`](global.html#legend/mushrooms) [`legend.spikes()`](global.html#legend/spikes) [`legend.typo_horizontal()`](global.html#legend/typo_horizontal) [`legend.typo_vertical()`](global.html#legend/typo_vertical)
 
 For example:
 
@@ -57,7 +57,7 @@ viz.graticule({fill: "#267A8A"})
 viz.choro_horizontal({data: *an array of values*})
 ~~~
 
-🌏 live demo [`path`](https://observablehq.com/@neocartocnrs/path-mark) [`circle`](https://observablehq.com/@neocartocnrs/circle-mark) [`halfcircle`](https://observablehq.com/@neocartocnrs/half-circle-mark) [`spike`](https://observablehq.com/@neocartocnrs/spike-mark) [`text`](https://observablehq.com/@neocartocnrs/text-mark) [`tile`](https://observablehq.com/@neocartocnrs/tile-mark) [`legends`](https://observablehq.com/@neocartocnrs/legends)
+🌏 live demo [`path`](https://observablehq.com/@neocartocnrs/path-mark) [`circle`](https://observablehq.com/@neocartocnrs/circle-mark) [`square`](https://observablehq.com/@neocartocnrs/square-mark) [`halfcircle`](https://observablehq.com/@neocartocnrs/half-circle-mark) [`spike`](https://observablehq.com/@neocartocnrs/spike-mark) [`text`](https://observablehq.com/@neocartocnrs/text-mark) [`tile`](https://observablehq.com/@neocartocnrs/tile-mark) [`legends`](https://observablehq.com/@neocartocnrs/legends)
 
 ## Container and render
 
@@ -129,7 +129,7 @@ In addition of mapping static marks, the plot function lets you quickly create s
 
 ### Proportional symbols
 
-By using [`type = "prop"`](global.html#plot/prop), you can design a map with proportionnal symbols. Find below a minimal example.
+By using [`type = "prop"`](global.html#plot/prop), you can design a map with proportionnal symbols ("circle", "square", "halfcircle","spike"). Find below a minimal example.
 
 ~~~js
 geoviz.plot({type = "prop", data = *a geoJSON*, var = *a field*})
@@ -164,7 +164,7 @@ geoviz.plot({type = "typo", data = *a geoJSON*, var = *a field*})
 🌏 live demo [`typology`](https://observablehq.com/@neocartocnrs/typo)
 
 
-### Proportional symbols + choropleth
+### Proportional symbols + horopleth
 
 By using [`type = "propchoro"`](global.html#plot/propchoro), you can design a map with proportionnal symbols with graduated colors. Find below a minimal example.
 

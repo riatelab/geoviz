@@ -17,7 +17,7 @@ const d3 = Object.assign({}, { formatLocale, arc });
 
 /**
  * @function legend/mushrooms
- * @description The `legend.mushrooms` function allows to add an legend for proprtionnal half-circles. The function adds a lagend layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
+ * @description The `legend.mushrooms` function allows to add an legend for proportional half-circles. The function adds a legend layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  * @see {@link https://observablehq.com/@neocartocnrs/legends}
  * @see {@link https://observablehq.com/@neocartocnrs/half-circle-mark}
  * @property {string} [id] - unique id

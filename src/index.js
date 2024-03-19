@@ -47,6 +47,8 @@ export let tool = {
 // Legend
 import { circles_nested } from "./legend/circles-nested";
 import { circles } from "./legend/circles";
+import { squares } from "./legend/squares";
+import { squares_nested } from "./legend/squares-nested";
 import { circles_half } from "./legend/circles-half.js";
 import { spikes } from "./legend/spikes";
 import { mushrooms } from "./legend/mushrooms";
@@ -57,6 +59,8 @@ import { typo_horizontal } from "./legend/typo-horizontal";
 import { box } from "./legend/box";
 export let legend = {
   circles,
+  squares,
+  squares_nested,
   circles_nested,
   circles_half,
   choro_vertical,
@@ -88,6 +92,7 @@ export { north } from "./mark/north.js";
 export { scalebar } from "./mark/scalebar.js";
 export { text } from "./mark/text.js";
 export { circle } from "./mark/circle.js";
+export { square } from "./mark/square.js";
 export { spike } from "./mark/spike.js";
 export { footer } from "./mark/footer.js";
 export { outline } from "./mark/outline.js";

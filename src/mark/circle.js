@@ -39,8 +39,8 @@ import {
  * @property {string|function} [sort] - the field to sort circles or a sort function
  * @property {boolean} [descending] - circle sorting order
  * @property {string} [coords = "geo"] - use "svg" if the coordinates are already in the plan of the svg document
- * @property {string|function} [fill] - fill color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
- * @property {string|function} [stroke = "white"] - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
+ * @property {string|function} [fill] - fill color. To create choropleth maps or typologies, use the `tool.choro` and `tool.typo` functions
+ * @property {string|function} [stroke = "white"] - stroke color. To create choropleth maps or typologies, use the `tool.choro` and `tool.typo` functions
  * @property {boolean|function} [tip = false] - a function to display the tip. Use true tu display all fields
  * @property {boolean} [view] - use true and viewof in Observable for this layer to act as Input
  * @property {object} [tipstyle] - tooltip style

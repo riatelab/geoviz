@@ -1,8 +1,6 @@
 import { create } from "../container/create";
 import { render } from "../container/render";
-import { choro } from "../tool/choro";
-import { typo } from "../tool/typo";
-import { implantation, columns, unique } from "../helpers/utils";
+import { implantation, unique } from "../helpers/utils";
 
 /**
  * @function plot/prop
@@ -10,7 +8,7 @@ import { implantation, columns, unique } from "../helpers/utils";
  * @see {@link https://observablehq.com/@neocartocnrs/prop}
  * @property {object} data - GeoJSON FeatureCollection. Use data to be able to iterate
  * @property {string} var - a variable name in a geoJSON containig numeric values.
- * @property {string} [symbol = "circle"] - choice of the mark to plot ("circle", "spike", "halfcircle")
+ * @property {string} [symbol = "circle"] - choice of the mark to plot ("circle", "square", "spike", "halfcircle")
  * @property {number} [k = 50] - size of the largest symbol
  * @property {number} [fixmax = null] - value matching the symbol with value = k . Setting this value is useful for making maps comparable with each other.
  * @property {number} [width = 30] - a number defining the width of the spikes
@@ -45,11 +43,12 @@ export function plot_prop(arg1, arg2) {
     id: unique(),
     missing: "white",
     k: 50,
-
     fixmax: null,
     leg_type: "nested",
     leg_pos: [10, 10],
   };
+
+  opts.k = opts.symbol == "square" ? 100 : 50;
 
   opts = { ...opts, ...options };
   let ids = `#${opts.id}`;
@@ -65,19 +64,32 @@ export function plot_prop(arg1, arg2) {
 
   // LAYER OPTS
 
-  opts.r = opts.var;
-  opts.height = opts.var;
+  if (opts.symbol == "square") {
+    opts.side = opts.var;
+  }
+  if (opts.symbol == "spike") {
+    opts.height = opts.var;
+  }
+  if (opts.symbol == "circle") {
+    opts.r = opts.var;
+  }
+  if (opts.symbol == "halfcircle") {
+    opts.r = opts.var;
+  }
 
   let layeropts = {};
   Object.keys(opts)
     .filter((str) => str.slice(0, 4) != "leg_")
     .forEach((d) => Object.assign(layeropts, { [d]: opts[d] }));
 
-  // CIRCLES
+  // SYMBOLS
 
   switch (opts.symbol) {
     case "circle":
       svg.circle(layeropts);
+      break;
+    case "square":
+      svg.square(layeropts);
       break;
     case "spike":
       svg.spike(layeropts);
@@ -116,6 +128,11 @@ export function plot_prop(arg1, arg2) {
         opts.leg_type == "nested"
           ? svg.legend.circles_nested(legopts)
           : svg.legend.circles(legopts);
+        break;
+      case "square":
+        opts.leg_type == "nested"
+          ? svg.legend.squares_nested(legopts)
+          : svg.legend.squares(legopts);
         break;
       case "spike":
         svg.legend.spikes(legopts);

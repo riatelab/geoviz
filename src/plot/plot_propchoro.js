@@ -75,6 +75,9 @@ export function plot_propchoro(arg1, arg2) {
     opts.var2 = opts.var;
   }
 
+  // Filter
+  opts.data.features.filter((d) => d.properties["var1"] != undefined);
+
   // Titles
   opts.leg1_title = opts.leg1_title ? opts.leg1_title : opts.var1 || opts.var;
   opts.leg2_title = opts.leg2_title ? opts.leg2_title : opts.var2 || opts.var;
@@ -85,8 +88,18 @@ export function plot_propchoro(arg1, arg2) {
     svg.path({ datum: opts.data, fill: "#CCC", fillOpacity: 0.2 });
   }
 
-  opts.r = opts.var1;
-  opts.height = opts.var1;
+  if (opts.symbol == "square") {
+    opts.side = opts.var1;
+  }
+  if (opts.symbol == "spike") {
+    opts.height = opts.var1;
+  }
+  if (opts.symbol == "circle") {
+    opts.r = opts.var1;
+  }
+  if (opts.symbol == "halfcircle") {
+    opts.r = opts.var1;
+  }
 
   // CLASSIFY
   opts.missing_fill = opts.missing;
@@ -111,7 +124,6 @@ export function plot_propchoro(arg1, arg2) {
 
   opts.fill = (d) => classif.colorize(d.properties[opts.var2]);
 
-  // LAYER OPTS
   let layeropts = {};
   Object.keys(opts)
     .filter((str) => str.slice(0, 3) != "leg")
@@ -122,6 +134,9 @@ export function plot_propchoro(arg1, arg2) {
   switch (opts.symbol) {
     case "circle":
       svg.circle(layeropts);
+      break;
+    case "square":
+      svg.square(layeropts);
       break;
     case "spike":
       svg.spike(layeropts);
@@ -163,6 +178,11 @@ export function plot_propchoro(arg1, arg2) {
         opts.leg1_type == "nested"
           ? svg.legend.circles_nested(legopts)
           : svg.legend.circles(legopts);
+        break;
+      case "square":
+        opts.leg1_type == "nested"
+          ? svg.legend.squares_nested(legopts)
+          : svg.legend.squares(legopts);
         break;
       case "spike":
         svg.legend.spikes(legopts);

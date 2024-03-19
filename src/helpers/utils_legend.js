@@ -105,6 +105,12 @@ export function manageoptions(options, args, fontFamily) {
     circle_fill: "none",
     circle_stroke: "#363636",
     circle_spacing: 5,
+    // square
+    square_dx: 0,
+    square_dy: 0,
+    square_fill: "none",
+    square_stroke: "#363636",
+    square_spacing: 5,
 
     // top_circle
     top_circle_dx: 0,

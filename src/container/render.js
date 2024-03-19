@@ -41,6 +41,12 @@ export function render(svg, { order = [] } = {}) {
     );
   }
 
+  if (svg.zoomable == "versor" && svg.initproj == "none" && svg.warning) {
+    svg.warning_message.push(
+      `You must specify a projection tu use versor zooming`
+    );
+  }
+
   if (svg.warning && svg.warning_message.length > 0) {
     let style = {
       fontSize: 13,

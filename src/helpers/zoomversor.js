@@ -1,13 +1,13 @@
 import versor from "versor@0.2";
 
 import { circle } from "../mark/circle";
+import { square } from "../mark/square";
 import { halfcircle } from "../mark/halfcircle";
 import { spike } from "../mark/spike";
 import { text } from "../mark/text";
 import { tile } from "../mark/tile";
 import { scalebar } from "../mark/scalebar";
 import { north } from "../mark/north";
-
 import { pointers } from "d3-selection";
 import { zoom, zoomIdentity } from "d3-zoom";
 import { geoPath, geoIdentity } from "d3-geo";
@@ -34,6 +34,9 @@ export function zoomversor(svg) {
       switch (d.mark) {
         case "circle":
           circle(svg, d);
+          break;
+        case "square":
+          square(svg, d);
           break;
         case "halfcircle":
           halfcircle(svg, d);

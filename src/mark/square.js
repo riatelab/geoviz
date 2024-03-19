@@ -1,15 +1,15 @@
 import { scaleSqrt } from "d3-scale";
+import { arc } from "d3-shape";
+import { radius as computeradius } from "../tool/radius";
 import { max, descending } from "d3-array";
 import { geoPath, geoIdentity } from "d3-geo";
 const d3 = Object.assign(
   {},
-  { scaleSqrt, max, descending, geoPath, geoIdentity }
+  { scaleSqrt, max, descending, geoPath, geoIdentity, arc }
 );
 import { create } from "../container/create";
 import { render } from "../container/render";
 import { random } from "../tool/random";
-import { radius as computeradius } from "../tool/radius";
-import { dodge } from "../tool/dodge";
 import { centroid } from "../tool/centroid";
 import { tooltip } from "../helpers/tooltip";
 import { viewof } from "../helpers/viewof";
@@ -23,36 +23,37 @@ import {
   detectinput,
   order,
 } from "../helpers/utils";
+
 /**
  * @function square
- * @description The `circle` function allows to add circles on a map. The function adds a layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
- * @see {@link https://observablehq.com/@neocartocnrs/circle-mark}
+ * @description The `square` function allows to create a layer with rotable squares from a geoJSON. The function adds a layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
+ * @see {@link https://observablehq.com/@neocartocnrs/square-mark}
  *
  * @property {object} data - GeoJSON FeatureCollection
  * @property {string} [id] - id of the layer
- * @property {number[]} [pos = [0,0]] - position of the circle to display a single circle
- * @property {number|string} [r = 10] - a number or the name of a property containing numerical values
- * @property {number} [k = 50] - radius of the largest circle (or corresponding to the value defined by `fixmax`)
- * @property {number} [fixmax = null] - value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
- * @property {boolean} [dodge = false] - to avoid circle overlap
- * @property {number} [iteration = 200] - number of iteration to dodge circles
- * @property {string|function} [sort] - the field to sort circles or a sort function
- * @property {boolean} [descending] - circle sorting order
+ * @property {number[]} [pos = [0,0]] - position of the square to display a single square
+ * @property {number} [dx = 0] - shift in x
+ * @property {number} [dy = 0] - shift in y
+ * @property {number} [angle = 0] - angle of the square
+ * @property {number|string} [side = 20] - a number or the name of a property containing numerical values
+ * @property {number} [k = 100] - size of the largest square(or corresponding to the value defined by `fixmax`)
+ * @property {number} [fixmax] - value matching the square with size `k`. Setting this value is useful for making maps comparable with each other
+ * @property {string|function} [sort] - the field to sort squares or a sort function
+ * @property {boolean} [descending] - sorting order
  * @property {string} [coords = "geo"] - use "svg" if the coordinates are already in the plan of the svg document
- * @property {string|function} [fill] - fill color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
- * @property {string|function} [stroke = "white"] - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
+ * @property {string|function} [fill] - fill color. To create choropleth maps or typologies, use the `tool.choro` and `tool.typo` functions
+ * @property {string|function} [stroke] - stroke color. To create choropleth maps or typologies, use the `tool.choro` and `tool.typo` functions
  * @property {boolean|function} [tip = false] - a function to display the tip. Use true tu display all fields
- * @property {boolean} [view] - use true and viewof in Observable for this layer to act as Input
+ * @property {boolean} [view = false] - use true and viewof in Observable for this layer to act as Input
  * @property {object} [tipstyle] - tooltip style
  * @property {*} [*] - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @example
  * // There are several ways to use this function
- * geoviz.circle(svg, { pos: [10,20], r: 15 }) // a single circle
- * geoviz.circle(svg, { data: cities, r: "population" }) // where svg is the container
- * svg.circle({ data: cities, r: "population" }) // where svg is the container
- * svg.plot({ type: "circle", data: cities, r: "population" }) // where svg is the container
- * geoviz.circle({ data: cities, r: "population" }) // no container
- * geoviz.plot({ type = "circle", data: cities, r: "population" }) // no container
+ * geoviz.square(svg, { pos: [10,20], side: 15 }) // a single square
+ * geoviz.square(svg, { data: cities, side: "population" }) // where svg is the container
+ * svg.square({ data: cities, side: "population" }) // where svg is the container
+ * svg.plot({ type: "square", data: cities, side: "population" }) // where svg is the container
+ * geoviz.square({ data: cities, side: "population" }) // no container
  */
 
 export function square(arg1, arg2) {
@@ -75,16 +76,16 @@ export function square(arg1, arg2) {
 
   // Arguments
   const options = {
-    mark: "circle",
+    mark: "square",
     id: unique(),
     data: undefined,
-    r: 10,
-    k: 50,
+    side: 20,
+    k: 100,
     pos: [0, 0],
+    dx: 0,
+    dy: 0,
+    angle: 0,
     sort: undefined,
-    dodge: false,
-    dodgegap: 0,
-    iteration: 200,
     descending: true,
     fixmax: null,
     fill: random(),
@@ -105,7 +106,6 @@ export function square(arg1, arg2) {
   }
 
   if (opts.data) {
-    svg.data = true;
     opts.coords = opts.coords !== undefined ? opts.coords : "geo";
     opts.data =
       implantation(opts.data) == 3
@@ -137,12 +137,13 @@ export function square(arg1, arg2) {
         "id",
         "coords",
         "data",
-        "r",
+        "side",
         "k",
+        "dx",
+        "dy",
+        "transform",
+        "angle",
         "sort",
-        "dodge",
-        "dodgegap",
-        "iteration",
         "descending",
         "fixmax",
         "tip",
@@ -151,25 +152,35 @@ export function square(arg1, arg2) {
       ].includes(d)
   );
 
-  // Projection
-  let projection = opts.coords == "svg" ? d3.geoIdentity() : svg.projection;
-  let path = d3.geoPath(projection);
-
-  // Simple circle
+  // Simple square
   if (!opts.data) {
+    let projection = opts.coords == "svg" ? d3.geoIdentity() : svg.projection;
+    let path = d3.geoPath(projection);
     notspecificattr.forEach((d) => {
       layer.attr(camelcasetodash(d), opts[d]);
     });
 
     let pos = path.centroid({ type: "Point", coordinates: opts.pos });
-
     layer
-      .append("circle")
-      .attr("cx", pos[0])
-      .attr("cy", pos[1])
-      .attr("r", opts.r)
+      .append("rect")
+      .attr(
+        "transform",
+        `rotate(${opts.angle} ${pos[0] + opts.dx} ${pos[1] + opts.dy})
+          translate(${opts.dx} ${opts.dy})`
+      )
+      //.attr("transform", `translate(${opts.dx} ${opts.dy})`)
+      .attr("x", pos[0] - opts.side / 2)
+      .attr("y", pos[1] - opts.side / 2)
+      .attr("width", opts.side)
+      .attr("height", opts.side)
       .attr("visibility", isNaN(pos[0]) ? "hidden" : "visible");
   } else {
+    let projection =
+      opts.coords == "svg"
+        ? d3.geoIdentity().scale(svg.zoom.k).translate([svg.zoom.x, svg.zoom.y])
+        : svg.projection;
+    let path = d3.geoPath(projection);
+
     // Centroid
     opts.data =
       implantation(opts.data) == 3
@@ -195,40 +206,14 @@ export function square(arg1, arg2) {
     });
 
     // Projection
-    let projection =
-      opts.coords == "svg"
-        ? d3.geoIdentity().scale(svg.zoom.k).translate([svg.zoom.x, svg.zoom.y])
-        : svg.projection;
-
-    // Dodge
-    let data;
-    if (opts.dodge) {
-      data = JSON.parse(JSON.stringify(opts.data));
-
-      let fet = {
-        features: data.features
-          .filter((d) => !isNaN(d3.geoPath(projection).centroid(d.geometry)[0]))
-          .filter(
-            (d) => !isNaN(d3.geoPath(projection).centroid(d.geometry)[1])
-          ),
-      };
-
-      data = dodge(fet, {
-        projection,
-        gap: opts.dodgegap,
-        r: opts.r,
-        k: opts.k,
-        fixmax: opts.fixmax,
-        iteration: opts.iteration,
-      });
-      projection = d3.geoIdentity();
-    } else {
-      data = opts.data;
-    }
+    opts.coords == "svg"
+      ? d3.geoIdentity().scale(svg.zoom.k).translate([svg.zoom.x, svg.zoom.y])
+      : svg.projection;
 
     // Radius
-    let columns = propertiesentries(opts.data);
-    let radius = attr2radius(opts.r, {
+    let data = opts.data;
+    let columns = propertiesentries(data);
+    let radius = attr2radius(opts.side, {
       columns,
       geojson: opts.data,
       fixmax: opts.fixmax,
@@ -239,27 +224,41 @@ export function square(arg1, arg2) {
     data = data.features
       .filter((d) => d.geometry)
       .filter((d) => d.geometry.coordinates != undefined);
-    if (detectinput(opts.r, columns) == "field") {
-      data = data.filter((d) => d.properties[opts.r] != undefined);
+    if (detectinput(opts.side, columns) == "field") {
+      data = data.filter((d) => d.properties[opts.side] != undefined);
     }
-    data = order(data, opts.sort || opts.r, {
+    data = order(data, opts.sort || opts.side, {
       fields: columns,
       descending: opts.descending,
     });
 
     // Drawing
 
-    path = d3.geoPath(projection);
-
     layer
-      .selectAll("circle")
+      .selectAll("path")
       .data(data)
       .join((d) => {
         let n = d
-          .append("circle")
-          .attr("cx", (d) => path.centroid(d.geometry)[0])
-          .attr("cy", (d) => path.centroid(d.geometry)[1])
-          .attr("r", (d) => radius(d, opts.r))
+          .append("rect")
+
+          .attr(
+            "transform",
+            (d) =>
+              `rotate(${opts.angle} ${path.centroid(d.geometry)[0] + opts.dx} ${
+                path.centroid(d.geometry)[1] + opts.dy
+              })
+              translate(${opts.dx} ${opts.dy})`
+          )
+          .attr(
+            "x",
+            (d) => path.centroid(d.geometry)[0] + opts.dx - radius(d, opts.side)
+          )
+          .attr(
+            "y",
+            (d) => path.centroid(d.geometry)[1] + opts.dy - radius(d, opts.side)
+          )
+          .attr("width", (d) => radius(d, opts.side) * 2)
+          .attr("height", (d) => radius(d, opts.side) * 2)
           .attr("visibility", (d) =>
             isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
           );

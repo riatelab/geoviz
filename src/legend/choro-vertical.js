@@ -17,7 +17,7 @@ const d3 = Object.assign({}, { formatLocale });
 
 /**
  * @function legend/choro_vertical
- * @description The `legend.choro_vertical` function allows to add a vertical legend on a map for choropleth layers. The function adds a lagend layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
+ * @description The `legend.choro_vertical` function allows to add a vertical legend on a map for choropleth layers. The function adds a legend layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  * @see {@link https://observablehq.com/@neocartocnrs/legends}
  *
  * @property {string} [id] - unique id

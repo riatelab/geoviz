@@ -26,7 +26,7 @@ import {
  * @property {string} [coords = "geo"] - use "svg" if the coordinates are already in the plan of the svg document
  * @property {boolean} [clip = true] - use true to clip the path with the outline
  * @property {string|function} [fill] - fill color. To create choropleth maps or typologies, use the `tool.choro` and `tool.typo` functions
- * @property {string|function} [stroke] - stroke color. To create choropleth maps or typologies, use the `classify.choro` and `classify.topo` functions
+ * @property {string|function} [stroke] - stroke color. To create choropleth maps or typologies, use the `tool.choro` and `tool.typo` functions
  * @property {string|function} [strokeWidth = 1] - stroke-width (default: 1)
  * @property {boolean|function} [tip = false] - a function to display the tip. Use true tu display all fields
  * @property {boolean} [view] = false] - use true and viewof in Observable for this layer to act as Input

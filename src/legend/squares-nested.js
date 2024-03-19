@@ -15,27 +15,28 @@ import { formatLocale } from "d3-format";
 const d3 = Object.assign({}, { formatLocale });
 
 /**
- * @function legend/circles_nested
- * @description The `legend.circles_nested` function allows to add an legend for proportional circles. The function adds a legend layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
+ * @function legend/squares_nested
+ * @description The `legend.squares_nested` function allows to add an legend for proportional squares. The function adds a legend layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  * @see {@link https://observablehq.com/@neocartocnrs/legends}
  * @property {string} [id] - unique id
  * @property {number[]} [pos = [0,0]] - legend position
  * @property {number} [gap = 2] - gap between elements
  * @property {number[]} data - input values
- * @property {number} [k = 50] - radius of the largest circle (or corresponding to the value defined by fixmax )
- * @property {string[]} [fixmax = null] - value matching the circle with radius k . Setting this value is useful for making maps comparable with each other
- * @property {number} [nb = 4] - number of circles
- * @property {string} [circle_fill = "none"] - fill color for the circles
- * @property {string} [circle_stroke = "#363636"] - stroke color for the circles
- * @property {*} [circle_*] - *SVG attributes that can be applied on this circle element *
+ * @property {number} [k = 100] - side of the largest square (or corresponding to the value defined by fixmax )
+ * @property {string[]} [fixmax = null] - value matching the square with size k . Setting this value is useful for making maps comparable with each other
+ * @property {number} [nb = 4] - number of squares
+ * @property {string} [square_fill = "none"] - fill color for the squares
+ * @property {string} [square_stroke = "#363636"] - stroke color for the squares
+ * @property {string} [square_spacing = 5] - spacing between squares
+ * @property {*} [square_*] - *SVG attributes that can be applied on this square element *
  * @property {string} [line_stroke = "#363636"] - stroke color for the lines
  * @property {string} [line_strokeDasharray = 1] - stroke-dasharray
  * @property {string} [line_strokeWidth = 0.7] - stroke-width
  * @property {string} [line_length = 10] - length of the line
- * @property {*} [line_***] - *SVG attributes that can be applied on this line element *
+ * @property {*} [line_*] - *SVG attributes that can be applied on this line element *
  * @property {string} [values_textAnchor = "start"] - text-anchor
- * @property {number} [values_dx = 5] - shift in x
- * @property {number} [values_dy = 0] - shift in y
+ * @property {number} values_dx - shift in x (default: 0)
+ * @property {number} values_dx - shift in y (default: 5)
  * @property {number} [values_fill = "#363636"] - fill
  * @property {number} [values_fontSize = 10] - fontSize
  * @property {number} [values_factor = 1] - allow to multiply values to display in the legend. e.g 0.001 to convert into thousands
@@ -62,13 +63,13 @@ const d3 = Object.assign({}, { formatLocale });
  * @property {*} [text_*] - *SVG attributes that can be applied directly on all text elements of this legend*
  * @example
  * // There are several ways to use this function
- * geoviz.legend.circles_nested(svg, { pos: [10,20], data, nb:5}) // where svg is the container
- * svg.legend.circles_nested({pos: [10,20], data, nb: 5} }) // where svg is the container
- * svg.plot({type: "leg_circles_nested", pos: [10,20], data, nb: 5} }) // where svg is the container
- * geoviz.legend.circles_nested({ pos: [10,20], data, nb: 5}) // no container
+ * geoviz.legend.squares_nested(svg, { pos: [10,20], data, nb:5}) // where svg is the container
+ * svg.legend.squares_nested({pos: [10,20], data, nb: 5} }) // where svg is the container
+ * svg.plot({type: "leg_squares_nested", pos: [10,20], data, nb: 5} }) // where svg is the container
+ * geoviz.legend.squares_nested({ pos: [10,20], data, nb: 5}) // no container
  */
 
-export function circles_nested(arg1, arg2) {
+export function squares_nested(arg1, arg2) {
   // Test if new container
   let newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
@@ -102,7 +103,7 @@ export function circles_nested(arg1, arg2) {
   // Subtitle
   addSubtitle(layer, opts);
 
-  // Circles
+  // Squares
   let arr = datatoradius(opts.data, {
     nb: opts.nb,
     factor: opts.values_factor,
@@ -111,49 +112,52 @@ export function circles_nested(arg1, arg2) {
     k: opts.k,
   });
   let rmax = arr[arr.length - 1][1];
-  let nestedcircles = layer.append("g");
+  let nestedsquares = layer.append("g");
 
-  // Circles
+  // Squares
   let size = getsize(layer);
-  let circles = nestedcircles
-    .selectAll("circle")
+  let squares = nestedsquares
+    .selectAll("rect")
     .data(arr.reverse())
-    .join("circle")
-    .attr("r", (d) => d[1])
+    .join("rect")
+    .attr("x", 0)
+    .attr("x", 0)
+    .attr("height", (d) => d[1] * 2)
+    .attr("width", (d) => d[1] * 2)
     .attr(
       "transform",
       (d) =>
-        `translate(${opts.pos[0] + rmax + opts.circle_dx}, ${
+        `translate(${opts.pos[0] + opts.square_dx + rmax * 2 - d[1] * 2}, ${
           opts.pos[1] +
-          opts.circle_dy +
+          opts.square_dy +
           opts.gap +
           size.height +
           rmax * 2 -
-          d[1]
+          d[1] * 2
         })`
     );
 
-  let opts_circle = subsetobj(opts, {
-    prefix: "circle_",
+  let opts_square = subsetobj(opts, {
+    prefix: "square_",
     exclude: ["dx", "dy"],
   });
-  Object.entries(opts_circle).forEach((d) =>
-    circles.attr(camelcasetodash(d[0]), d[1])
+  Object.entries(opts_square).forEach((d) =>
+    squares.attr(camelcasetodash(d[0]), d[1])
   );
 
   // Lines
 
-  let lines = nestedcircles
+  let lines = nestedsquares
     .selectAll("line")
     .data(arr)
     .join("line")
-    .attr("x1", opts.pos[0] + rmax + opts.circle_dx)
-    .attr("x2", opts.pos[0] + rmax + rmax + opts.line_length + opts.circle_dx)
+    .attr("x1", opts.pos[0] + rmax * 2 + opts.square_dx)
+    .attr("x2", opts.pos[0] + rmax * 2 + opts.line_length + opts.square_dx)
     .attr(
       "y1",
       (d) =>
         opts.pos[1] +
-        opts.circle_dy +
+        opts.square_dy +
         opts.gap +
         size.height +
         rmax * 2 -
@@ -163,7 +167,7 @@ export function circles_nested(arg1, arg2) {
       "y2",
       (d) =>
         opts.pos[1] +
-        opts.circle_dy +
+        opts.square_dy +
         opts.gap +
         size.height +
         rmax * 2 -
@@ -185,7 +189,7 @@ export function circles_nested(arg1, arg2) {
     grouping: [3],
   });
 
-  let values = nestedcircles
+  let values = nestedsquares
     .selectAll("text")
     .data(arr)
     .join("text")
@@ -195,14 +199,14 @@ export function circles_nested(arg1, arg2) {
         rmax +
         rmax +
         opts.line_length +
-        opts.circle_dx +
+        opts.square_dx +
         opts.values_dx
     )
     .attr(
       "y",
       (d) =>
         opts.pos[1] +
-        opts.circle_dy +
+        opts.square_dy +
         opts.gap +
         size.height +
         rmax * 2 -

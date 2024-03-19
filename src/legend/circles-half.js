@@ -17,7 +17,7 @@ const d3 = Object.assign({}, { formatLocale, arc });
 
 /**
  * @function legend/circles_half
- * @description The `legend.circles_half` function allows to add an legend for mushroom maps. The function adds a lagend layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
+ * @description The `legend.circles_half` function allows to add an legend for mushroom maps. The function adds a legend layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  * @see {@link https://observablehq.com/@neocartocnrs/legends}
  * @property {string} [id] - unique id
  * @property {number[]} [pos = [0,0]] - legend position

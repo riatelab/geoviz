@@ -17,6 +17,7 @@ import { outline as addoutline } from "../mark/outline.js";
 import { graticule as addgraticule } from "../mark/graticule.js";
 import { text as addtext } from "../mark/text.js";
 import { circle as addcircle } from "../mark/circle.js";
+import { square as addsquare } from "../mark/square.js";
 import { halfcircle as addhalfcircle } from "../mark/halfcircle.js";
 import { spike as addspike } from "../mark/spike.js";
 import { path as addpath } from "../mark/path.js";
@@ -32,6 +33,8 @@ import { radialGradient as addradialGradient } from "../effect/radialgradient.js
 
 import { circles_nested as addcircles_nested } from "../legend/circles-nested";
 import { circles as addcircles } from "../legend/circles";
+import { squares as addsquares } from "../legend/squares";
+import { squares_nested as addsquares_nested } from "../legend/squares-nested";
 import { circles_half as addcircles_half } from "../legend/circles-half";
 import { spikes as addspikes } from "../legend/spikes.js";
 import { mushrooms as addmushrooms } from "../legend/mushrooms.js";
@@ -177,6 +180,7 @@ export function create({
     { id: "path", func: addpath },
     { id: "graticule", func: addgraticule },
     { id: "circle", func: addcircle },
+    { id: "square", func: addsquare },
     { id: "halfcircle", func: addhalfcircle },
     { id: "spike", func: addspike },
     { id: "text", func: addtext },
@@ -197,6 +201,8 @@ export function create({
   [
     { id: "circles_nested", func: addcircles_nested },
     { id: "circles", func: addcircles },
+    { id: "squares", func: addsquares },
+    { id: "squares_nested", func: addsquares_nested },
     { id: "circles_half", func: addcircles_half },
     { id: "spikes", func: addspikes },
     { id: "mushrooms", func: addmushrooms },
