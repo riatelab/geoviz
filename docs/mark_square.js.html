@@ -253,16 +253,14 @@ export function square(arg1, arg2) {
           )
           .attr(
             "x",
-            (d) =>
-              path.centroid(d.geometry)[0] + opts.dx - radius(d, opts.side) / 2
+            (d) => path.centroid(d.geometry)[0] + opts.dx - radius(d, opts.side)
           )
           .attr(
             "y",
-            (d) =>
-              path.centroid(d.geometry)[1] + opts.dy - radius(d, opts.side) / 2
+            (d) => path.centroid(d.geometry)[1] + opts.dy - radius(d, opts.side)
           )
-          .attr("width", (d) => radius(d, opts.side))
-          .attr("height", (d) => radius(d, opts.side))
+          .attr("width", (d) => radius(d, opts.side) * 2)
+          .attr("height", (d) => radius(d, opts.side) * 2)
           .attr("visibility", (d) =>
             isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
           );

@@ -45,11 +45,12 @@ export function plot_prop(arg1, arg2) {
     id: unique(),
     missing: "white",
     k: 50,
-
     fixmax: null,
     leg_type: "nested",
     leg_pos: [10, 10],
   };
+
+  opts.k = opts.symbol == "square" ? 100 : 50;
 
   opts = { ...opts, ...options };
   let ids = `#${opts.id}`;
@@ -65,8 +66,18 @@ export function plot_prop(arg1, arg2) {
 
   // LAYER OPTS
 
-  opts.r = opts.var;
-  opts.height = opts.var;
+  if (opts.symbol == "square") {
+    opts.side = opts.var;
+  }
+  if (opts.symbol == "spike") {
+    opts.height = opts.var;
+  }
+  if (opts.symbol == "circle") {
+    opts.r = opts.var;
+  }
+  if (opts.symbol == "halfcircle") {
+    opts.r = opts.var;
+  }
 
   let layeropts = {};
   Object.keys(opts)
@@ -119,6 +130,11 @@ export function plot_prop(arg1, arg2) {
         opts.leg_type == "nested"
           ? svg.legend.circles_nested(legopts)
           : svg.legend.circles(legopts);
+        break;
+      case "square":
+        opts.leg_type == "nested"
+          ? svg.legend.squares_nested(legopts)
+          : svg.legend.squares(legopts);
         break;
       case "spike":
         svg.legend.spikes(legopts);
