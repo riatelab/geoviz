@@ -15,13 +15,13 @@ import { implantation, columns, unique } from "../helpers/utils";
  * @property {number} [fixmax = null] - value matching the symbol with value = k . Setting this value is useful for making maps comparable with each other.
  * @property {number} [width = 30] - a number defining the width of the spikes
  * @property {number} [straight = 0] - a number between 0 and 1 defining the curve of the spikes. 0 = curved ; 1 = straight
+ * @property {boolean} [dodge = false] - to avoid circle overlap (noot relevant fot other marks)
  * @property {boolean} [legend = true] - boolean to add or not the legend
- * @property {string} [leg_type = "separate"] - legend style ("nested" or "separate")
+ * @property {string} [leg_type = "nested"] - legend style ("nested" or "separate")
  * @property {array} [leg_pos = [10, 10]] - position of the legend
  * @property {*} [*] - You can also modify numerous parameters to customize the map. To do this, you can use all the parameters of the [path](#path) and [tool.typo](#tool/typo) functions. For example: `strokeWidth: 0.3`.
- * @property {*} [leg_*] - You can also modify a wide range of parameters to customize the legend. To do this, you can use all the parameters of the [legend.typo_horizontal](#legend/typo_horizontal) and [legend.typo_vertical](#legend/typo_vertical) functions with the prefix `"leg_"`. For example: `leg_missing_text: "not available"` or `leg_values_fill: "red"`.
- 
-* @example // Usage
+ * @property {*} [leg_*] - You can also modify a wide range of parameters to customize the legend. To do this, you can use all the parameters of the [legend.circles_nested](#legend/circles_nested), [legend.circles_half](#legend/circles_half), [legend.circles_nested](#legend/circles_nested) and [legend.spikes](#legend/spikes) functions with the prefix `"leg_"`. For example: `leg_missing_text: "not available"` or `leg_values_fill: "red"`.
+ * @example // Usage
  * geoviz.plot({type:"prop", data: world, var: "pop"})
  */
 
@@ -47,12 +47,15 @@ export function plot_prop(arg1, arg2) {
     k: 50,
 
     fixmax: null,
-    leg_type: "separate",
+    leg_type: "nested",
     leg_pos: [10, 10],
   };
 
   opts = { ...opts, ...options };
   let ids = `#${opts.id}`;
+
+  // leg title
+  opts.leg_title = opts.leg_title ? opts.leg_title : opts.var;
 
   // BASEMAP
 

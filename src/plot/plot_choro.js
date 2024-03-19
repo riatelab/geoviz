@@ -50,6 +50,9 @@ export function plot_choro(arg1, arg2) {
 
   opts = { ...opts, ...options };
 
+  // leg title
+  opts.leg_title = opts.leg_title ? opts.leg_title : opts.var;
+
   // Fill or stroke ?
 
   let fig = "poly";

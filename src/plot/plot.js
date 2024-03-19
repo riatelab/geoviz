@@ -34,6 +34,7 @@ import { plot_choro } from "./plot_choro";
 import { plot_typo } from "./plot_typo";
 import { plot_prop } from "./plot_prop";
 import { plot_propchoro } from "./plot_propchoro";
+import { plot_proptypo } from "./plot_proptypo";
 
 /**
  * @function plot
@@ -41,8 +42,10 @@ import { plot_propchoro } from "./plot_propchoro";
  * @description The `plot()` function in geoviz allows you to call up all the layer types available in the library via a single function. To do this, you need to define the type in the parameter.
  * <br/><br/>For example: `geoviz.plot({type: "graticule", step: 30})`
  * @property {string} choro - Usage: `geoviz.plot({type: "choro", ...})` or `{type: "choropleth"}`. See [plot/choro](#plot/choro)
- * @property {string} typo - Usage: `geoviz.plot({type: "typo", ...})` or `{type: "typology"}`. See See [plot/typo](#plot/typo)
- * @property {string} prop - Usage: `geoviz.plot({type: "prop", ...}). See See [plot/prop](#plot/prop)
+ * @property {string} typo - Usage: `geoviz.plot({type: "typo", ...})` or `{type: "typology"}`. See [plot/typo](#plot/typo)
+ * @property {string} prop - Usage: `geoviz.plot({type: "prop", ...})`. See [plot/prop](#plot/prop)
+ * @property {string} propchoro - Usage: `geoviz.plot({type: "propchoro", ...})`. See [plot/propchoro](#plot/propchoro)
+ * @property {string} proptypo - Usage: `geoviz.plot({type: "proptypo", ...})`. See [plot/proptypo](#plot/proptypo)
  * @property {string} outline - Usage: `geoviz.plot({type: "outline", ...})`. See {@link outline}
  * @property {string} graticule - Usage: `geoviz.plot({type: "graticule", ...})`. See {@link graticule}
  * @property {string} path - Usage: `geoviz.plot({type: "path", ...})` or `{type: "base"}` or `{type: "simple"}`. See {@link path}
@@ -205,6 +208,9 @@ export function plot(arg1, arg2) {
       break;
     case "propchoro":
       return plot_propchoro(arg1, arg2);
+      break;
+    case "proptypo":
+      return plot_proptypo(arg1, arg2);
       break;
   }
 }

@@ -10,7 +10,7 @@ import { implantation, columns, unique } from "../helpers/utils";
  * @function plot/typo
  * @description With the `plot({type = "typo"})` function, you can quickly draw a typlogy from qualitative data.<br/><br/>
  * ![choro](img/thumb_typo.svg)
- * @see {@link https://observablehq.com/@neocartocnrs/choropleth}
+ * @see {@link https://observablehq.com/@neocartocnrs/typo}
  * @property {object} data - GeoJSON FeatureCollection. Use data to be able to iterate
  * @property {string} var - a variable name in a geoJSON containig numeric values. You can also use `fill` or `stroke` argument.
  * @property {string|array} [colors] - an array of colors or name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library)
@@ -46,6 +46,9 @@ export function plot_typo(arg1, arg2) {
     leg_pos: [10, 10],
   };
   opts = { ...opts, ...options };
+
+  // leg title
+  opts.leg_title = opts.leg_title ? opts.leg_title : opts.var;
 
   // Fill or stroke ?
 
