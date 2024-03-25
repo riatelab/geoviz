@@ -24,6 +24,7 @@ import { choro } from "./tool/choro.js";
 import { typo } from "./tool/typo.js";
 import { random } from "./tool/random.js";
 import { radius } from "./tool/radius.js";
+import { dotstogrid } from "./tool/dotstogrid.js";
 export let tool = {
   addfonts,
   rewind,
@@ -42,6 +43,7 @@ export let tool = {
   typo,
   random,
   radius,
+  dotstogrid,
 };
 
 // Legend
