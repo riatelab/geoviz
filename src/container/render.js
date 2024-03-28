@@ -124,6 +124,7 @@ export function render(svg, { order = [] } = {}) {
 
   // raise tooltips
   svg.selectAll("#geoviztooltip").raise();
+  svg.selectAll(`#${svg.controlid}`).raise();
 
   // render
   return svg.node();

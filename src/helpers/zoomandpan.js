@@ -34,7 +34,10 @@ export function zoomandpan(svg) {
   // Control Panel
 
   if (svg.control) {
-    zoompanel(svg);
+    if (svg.selectAll(`#${svg.controlid}`).empty()) {
+      zoompanel(svg);
+    }
+
     svg
       .select("#buttonplus")
       .on("click", reset)
