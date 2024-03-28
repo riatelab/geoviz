@@ -45,6 +45,7 @@ import {
  * @property {boolean} [view] - use true and viewof in Observable for this layer to act as Input
  * @property {object} [tipstyle] - tooltip style
  * @property {*} [*] - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
  * @example
  * // There are several ways to use this function
  * geoviz.circle(svg, { pos: [10,20], r: 15 }) // a single circle
@@ -64,14 +65,6 @@ export function circle(arg1, arg2) {
       : false;
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
-  let svg = newcontainer
-    ? create({
-        zoomable: true,
-        domain: arg1.data,
-        control: false,
-        projection: "none",
-      })
-    : arg1;
 
   // Arguments
   const options = {
@@ -93,6 +86,18 @@ export function circle(arg1, arg2) {
     tipstyle: undefined,
   };
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
+
+  // New container
+  let svgopts = { domain: opts.data || opts.datum };
+  Object.keys(opts)
+    .filter((str) => str.slice(0, 4) == "svg_")
+    .forEach((d) => {
+      Object.assign(svgopts, {
+        [d.slice(0, 4) == "svg_" ? d.slice(4) : d]: opts[d],
+      });
+      delete opts[d];
+    });
+  let svg = newcontainer ? create(svgopts) : arg1;
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()

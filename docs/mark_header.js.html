@@ -23,7 +23,7 @@ import { camelcasetodash, getsize, unique } from "../helpers/utils";
  * @property {string} [fontFamily = fontFamily defined in the contrainer] - text font-family
  * @property {number} [dx = 0] - shift in x
  * @property {number} [dy = 0] - shift in y
- *
+ * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
  * @example
  * // There are several ways to use this function
  * geoviz.header(svg, { text: "Hello geoviz" }) // where svg is the container
@@ -41,9 +41,8 @@ export function header(arg1, arg2) {
       : false;
   arg1 = newcontainer &amp;&amp; arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
-  let svg = newcontainer ? create() : arg1;
-  // Arguments
 
+  // Arguments
   const options = {
     mark: "header",
     id: unique(),
@@ -59,9 +58,23 @@ export function header(arg1, arg2) {
     fontSize: 26,
     dx: 0,
     dy: 0,
-    fontFamily: svg.fontFamily,
   };
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
+
+  // New container
+  let svgopts = {};
+  Object.keys(opts)
+    .filter((str) => str.slice(0, 4) == "svg_")
+    .forEach((d) => {
+      Object.assign(svgopts, {
+        [d.slice(0, 4) == "svg_" ? d.slice(4) : d]: opts[d],
+      });
+      delete opts[d];
+    });
+  let svg = newcontainer ? create(svgopts) : arg1;
+
+  // FontFamily
+  opts.fontFamily = opts.fontFamily || svg.fontFamily;
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()

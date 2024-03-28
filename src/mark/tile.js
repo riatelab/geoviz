@@ -15,6 +15,7 @@ import { unique } from "../helpers/utils";
  * @property {number} [opacity = 1] - tile opacity
  * @property {function|string} [url = "openstreetmap"] - function like <code>(x, y, z) => \`https://something/\${z}/\${x}/\${y}.png\`</code>. You can also enter the following strings directly: "openstreetmap", "opentopomap", "worldterrain", "worldimagery", "worldStreet", "worldphysical", "shadedrelief", "stamenterrain", "cartodbvoyager", "stamentoner","stamentonerbackground","stamentonerlite","stamenwatercolor","hillshade","worldocean","natgeo" or "worldterrain".
  * @property {string} [clipPath] - clip-path. e.g. "url(#myclipid)"
+ * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
  * @example
  * // There are several ways to use this function
  * geoviz.tile() // no container
@@ -32,9 +33,9 @@ export function tile(arg1, arg2) {
       : false;
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
-  let svg = newcontainer
-    ? create({ projection: geoMercator(), zoomable: true })
-    : arg1;
+  // let svg = newcontainer
+  //   ? create({ projection: geoMercator(), zoomable: true })
+  //   : arg1;
 
   // Arguments
   const options = {
@@ -50,6 +51,18 @@ export function tile(arg1, arg2) {
 
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
   opts.url = geturl(opts.url);
+
+  // New container
+  let svgopts = { zoomable: true, projection: geoMercator() };
+  Object.keys(opts)
+    .filter((str) => str.slice(0, 4) == "svg_")
+    .forEach((d) => {
+      Object.assign(svgopts, {
+        [d.slice(0, 4) == "svg_" ? d.slice(4) : d]: opts[d],
+      });
+      delete opts[d];
+    });
+  let svg = newcontainer ? create(svgopts) : arg1;
 
   // Warning
   if (svg.initproj == "none" && svg.warning) {

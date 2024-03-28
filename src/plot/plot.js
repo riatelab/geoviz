@@ -73,6 +73,7 @@ import { plot_proptypo } from "./plot_proptypo";
  * @property {string} effect_blur - Usage: `geoviz.plot({type: "effect_blur", ...})` or `{type: "blur"}`. See [effect.blur](#effect/blur)
  * @property {string} effect_shadow - Usage: `geoviz.plot({type: "effect_shadow", ...})` or `{type: "shadow"}`. See [effect.shadow](#effect/shadow)
  * @property {string} effect_radialGradient - Usage: `geoviz.plot({type: "effect_radialGradient", ...})` or `{type: "radialGradient"}`. See [effect.radialGradient](#effect/radialGradient)
+ * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
  * @example
  * let svg = geoviz.create({projection: d3.geoNaturalEarth1()})
  * svg.plot({ type = "outline" }) // outline layer

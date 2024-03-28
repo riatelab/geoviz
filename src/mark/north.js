@@ -1,19 +1,21 @@
 import { create } from "../container/create";
 import { render } from "../container/render";
 import { camelcasetodash, unique, northangle } from "../helpers/utils";
+import { geoNaturalEarth1 } from "d3-geo";
+const d3 = Object.assign({}, { geoNaturalEarth1 });
 
 /**
  * @function north
  * @description The `north` function allows add a North arrow. The function adds a layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  * @see {@link https://observablehq.com/@neocartocnrs/layout-marks}
  * @see {@link  https://observablehq.com/@neocartocnrs/geoviz-scalebar}
- *
  * @property {string} [id] - id of the layer
  * @property {number[]} [pos = [svg.width - 30, 30]]  - position [x,y] on the page. The scale value is relevant for this location on the map
  * @property {number} [scale = 1] - a number to rescale the arrow
  * @property {number} [rotate = null] - an angle to rotate the arrow. By dedault, il is automaticaly calculated
  * @property {string} [fill = "black"] - fill color
  * @property {string} [fillOpacity = 1] - fill-opacity
+ * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
  * @example
  * // There are several ways to use this function
  * geoviz.north(svg, { pos: [100, 300], fill: "brown" }) // where svg is the container
@@ -31,19 +33,32 @@ export function north(arg1, arg2) {
       : false;
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
-  let svg = newcontainer ? create() : arg1;
 
   // Arguments
   const options = {
     mark: "north",
     id: unique(),
-    pos: [svg.width - 30, 30],
     rotate: null,
     scale: 1,
     fill: "black",
     fillOpacity: 1,
   };
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
+
+  // New container
+  let svgopts = { projection: d3.geoNaturalEarth1() };
+  Object.keys(opts)
+    .filter((str) => str.slice(0, 4) == "svg_")
+    .forEach((d) => {
+      Object.assign(svgopts, {
+        [d.slice(0, 4) == "svg_" ? d.slice(4) : d]: opts[d],
+      });
+      delete opts[d];
+    });
+  let svg = newcontainer ? create(svgopts) : arg1;
+
+  // Position
+  opts.pos = opts.pos || [svg.width - 30, 30];
 
   // Warning
   if (svg.initproj == "none" && svg.warning) {

@@ -16,7 +16,7 @@ import { implantation, columns, unique } from "../helpers/utils";
  * @property {string} [method = quantile] - classification method ('quantile', 'q6', 'equal', 'jenks', 'msd', 'geometric', 'headtail', 'pretty', 'arithmetic' or 'nestedmeans').
  * @property {number} [nb = 6] - number of classes
  * @property {array} [breaks] - you can define classes manually. In this case, the parameters `nb` and `method` are not taken into account.
- * @property {string|array} [colors] - an array of colors or name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library)
+ * @property {string|array} [colors] - an array of colors or name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library). For example "ArmyRose_7", "Earth_7", "Fall_7", "Geyser_7", "TealRose_7", "Temps_7", "Tropic_7", "BluGrn_7", "BluYl_7", "BrwnYl_7", "BurgYl_7", "Burg_7", "DarkMint_7", "Emrld_7", "Magenta_7", "Mint_7", "OrYel_7", "Peach_7", "PinkYl_7", "PurpOr_7"...
  * @property {boolean} [reverse = false] - reverse the color palette
  * @property {string|boolean} [missing = "white"] - missing data color
  * @property {boolean} [legend = true] - boolean to add or not the legend
@@ -24,6 +24,7 @@ import { implantation, columns, unique } from "../helpers/utils";
  * @property {array} [leg_pos = [10, 10]] - position of the legend
  * @property {*} [*] - You can also modify numerous parameters to customize the map. To do this, you can use all the parameters of the [path](#path) and [tool.choro](#tool/choro) functions. For example: `strokeWidth: 0.3`.
  * @property {*} [leg_*] - You can also modify a wide range of parameters to customize the legend. To do this, you can use all the parameters of the [legend.choro_horizontal](#legend/choro_horizontal) and [legend.choro_vertical](#legend/choro_vertical) functions with the prefix `"leg_"`. For example: `leg_missing_text: "not available"` or `leg_values_fill: "red"`.
+ * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
  * @example // Usage
  * geoviz.plot({type:"choro", data: world, var: "gdppc"})
  */
@@ -35,9 +36,7 @@ export function plot_choro(arg1, arg2) {
       ? true
       : false;
 
-  // New container
   let options = newcontainer ? arg1 : arg2;
-  let svg = newcontainer ? create({ domain: options.data }) : arg1;
 
   // Default values
   let opts = {
@@ -52,6 +51,18 @@ export function plot_choro(arg1, arg2) {
 
   // leg title
   opts.leg_title = opts.leg_title ? opts.leg_title : opts.var;
+
+  // New container
+  let svgopts = { domain: opts.data || opts.datum };
+  Object.keys(opts)
+    .filter((str) => str.slice(0, 4) == "svg_")
+    .forEach((d) => {
+      Object.assign(svgopts, {
+        [d.slice(0, 4) == "svg_" ? d.slice(4) : d]: opts[d],
+      });
+      delete opts[d];
+    });
+  let svg = newcontainer ? create(svgopts) : arg1;
 
   // Fill or stroke ?
 

@@ -41,6 +41,7 @@ import {
  * @property {boolean|function} [tip = false] - a function to display the tip. Use true tu display all fields
  * @property {object} [tipstyle = false] - tooltip style
  * @property {*} [*] - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
  * @example
  * // There are several ways to use this function
  * geoviz.text(svg, { pos: [10,20], text: "Hello World" }) // a single text
@@ -59,14 +60,6 @@ export function text(arg1, arg2) {
       : false;
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
-  let svg = newcontainer
-    ? create({
-        zoomable: true,
-        control: false,
-        domain: arg1.data || arg1.datum,
-        projection: "none",
-      })
-    : arg1;
 
   // Arguments
   const options = {
@@ -80,12 +73,27 @@ export function text(arg1, arg2) {
     strokeLinejoin: "round",
     fontSize: 12,
     lineSpacing: 0,
-    fontFamily: svg.fontFamily,
     dx: 0,
     dy: 0,
     pos: [0, 0],
   };
+
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
+
+  // New container
+  let svgopts = { domain: opts.data || opts.datum };
+  Object.keys(opts)
+    .filter((str) => str.slice(0, 4) == "svg_")
+    .forEach((d) => {
+      Object.assign(svgopts, {
+        [d.slice(0, 4) == "svg_" ? d.slice(4) : d]: opts[d],
+      });
+      delete opts[d];
+    });
+  let svg = newcontainer ? create(svgopts) : arg1;
+
+  // FontFamily
+  opts.fontFamily = opts.fontFamily || svg.fontFamily;
 
   if (!opts.data) {
     opts.coords = opts.coords !== undefined ? opts.coords : "svg";

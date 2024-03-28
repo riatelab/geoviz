@@ -35,6 +35,7 @@ import { getsize } from "../helpers/getsize.js";
  * @property {array} [leg1_pos = [10, 10]] - position of the legend
  * @property {*} [leg1_*] - You can also modify a wide range of parameters to customize the legend. To do this, you can use all the parameters of the [legend.circles_nested](#legend/circles_nested), [legend.circles_half](#legend/circles_half), [legend.circles_nested](#legend/circles_nested) and [legend.spikes](#legend/spikes) functions with the prefix `"leg1_"`. For example: `leg1_values_fill: "red"`.
  * @property {*} [leg2_*] - You can also modify a wide range of parameters to customize the legend (choro). To do this, you can use all the parameters of the [legend.choro_horizontal](#legend/choro_horizontal) and [legend.choro_vertical](#legend/choro_vertical) functions with the prefix `"leg2_"`. For example: `leg2_missing_text: "not available"`.
+ * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
  * @example // Usage
  * geoviz.plot({type:"propchoro", data: world, var1: "pop", var2: "gdppc"})
  */
@@ -48,7 +49,7 @@ export function plot_propchoro(arg1, arg2) {
 
   // New container
   let options = newcontainer ? arg1 : arg2;
-  let svg = newcontainer ? create({ domain: options.data }) : arg1;
+  //let svg = newcontainer ? create({ domain: options.data }) : arg1;
 
   // Default values
   let opts = {
@@ -71,6 +72,18 @@ export function plot_propchoro(arg1, arg2) {
   opts = { ...opts, ...options };
   let ids = `#${opts.id}`;
 
+  // New container
+  let svgopts = { domain: opts.data || opts.datum };
+  Object.keys(opts)
+    .filter((str) => str.slice(0, 4) == "svg_")
+    .forEach((d) => {
+      Object.assign(svgopts, {
+        [d.slice(0, 4) == "svg_" ? d.slice(4) : d]: opts[d],
+      });
+      delete opts[d];
+    });
+  let svg = newcontainer ? create(svgopts) : arg1;
+
   // Check var
   if (opts.var &amp;&amp; !opts.var1 &amp; !opts.var2) {
     opts.var1 = opts.var;
@@ -87,7 +100,7 @@ export function plot_propchoro(arg1, arg2) {
   // BASEMAP
 
   if (implantation(opts.data) == 3 &amp;&amp; newcontainer) {
-    svg.path({ datum: opts.data, fill: "#CCC", fillOpacity: 0.2 });
+    svg.path({ datum: opts.data, fill: "#CCC", fillOpacity: 0.5 });
   }
 
   if (opts.symbol == "square") {

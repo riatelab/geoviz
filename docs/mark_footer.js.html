@@ -41,7 +41,7 @@ export function footer(arg1, arg2) {
       : false;
   arg1 = newcontainer &amp;&amp; arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
-  let svg = newcontainer ? create() : arg1;
+
   // Arguments
   const options = {
     mark: "footer",
@@ -58,9 +58,23 @@ export function footer(arg1, arg2) {
     fontSize: 10,
     dx: 0,
     dy: 0,
-    fontFamily: svg.fontFamily,
   };
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
+
+  // New container
+  let svgopts = {};
+  Object.keys(opts)
+    .filter((str) => str.slice(0, 4) == "svg_")
+    .forEach((d) => {
+      Object.assign(svgopts, {
+        [d.slice(0, 4) == "svg_" ? d.slice(4) : d]: opts[d],
+      });
+      delete opts[d];
+    });
+  let svg = newcontainer ? create(svgopts) : arg1;
+
+  // FontFamily
+  opts.fontFamily = opts.fontFamily || svg.fontFamily;
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()

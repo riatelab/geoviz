@@ -18,6 +18,7 @@ const d3 = Object.assign({}, { geoPath, geoGraticule, geoNaturalEarth1 });
  * @property {string} [strokeLinejoin = "round"] - stroke-Linejoin
  * @property {number|number[]} [strokeDasharray = 2] - stroke-dasharray (default: 2)
  * @property {*} [*] - *other attributes that can be used to define the svg style (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
  * @example
  * // There are several ways to use this function
  * geoviz.graticule(svg, { step: 2 }) // where svg is the container
@@ -38,7 +39,6 @@ export function graticule(arg1, arg2) {
       : false;
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
-  let svg = newcontainer ? create({ projection: d3.geoNaturalEarth1() }) : arg1;
 
   // Arguments
   const options = {
@@ -51,8 +51,21 @@ export function graticule(arg1, arg2) {
     strokeLinecap: "square",
     strokeLinejoin: "round",
     strokeDasharray: 2,
+    //svg_projection: d3.geoNaturalEarth1(),
   };
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
+
+  // New container
+  let svgopts = { projection: d3.geoNaturalEarth1() };
+  Object.keys(opts)
+    .filter((str) => str.slice(0, 4) == "svg_")
+    .forEach((d) => {
+      Object.assign(svgopts, {
+        [d.slice(0, 4) == "svg_" ? d.slice(4) : d]: opts[d],
+      });
+      delete opts[d];
+    });
+  let svg = newcontainer ? create(svgopts) : arg1;
 
   // Warning
   if (svg.initproj == "none" && svg.warning) {

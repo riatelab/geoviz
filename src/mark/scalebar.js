@@ -1,5 +1,6 @@
 import * as geoScaleBar from "d3-geo-scale-bar";
-const d3 = Object.assign({}, geoScaleBar);
+import { geoNaturalEarth1 } from "d3-geo";
+const d3 = Object.assign({ geoNaturalEarth1 }, geoScaleBar);
 import { create } from "../container/create";
 import { render } from "../container/render";
 import { unique, camelcasetodash } from "../helpers/utils";
@@ -21,6 +22,7 @@ import { unique, camelcasetodash } from "../helpers/utils";
  * @property {function} [tickFormat = d => d] - a function to format values
  * @property {number[]} [tickValues] - values to display on the scalebar
  * @property {string} [labelAnchor = "start"] - position of the label ("start", "middle" or "end")
+ * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
  * @example
  * // There are several ways to use this function
  * geoviz.scalebar(svg, { units:"km", distance: 500, pos: [100, 200] }) // where svg is the container
@@ -37,13 +39,11 @@ export function scalebar(arg1, arg2) {
       : false;
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
-  let svg = newcontainer ? create() : arg1;
 
   // Arguments
   const options = {
     mark: "scalebar",
     id: unique(),
-    pos: [10, svg.height - 20],
     translate: null,
     units: "km",
     label: undefined,
@@ -55,6 +55,21 @@ export function scalebar(arg1, arg2) {
     labelAnchor: "start",
   };
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
+
+  // New container
+  let svgopts = { projection: d3.geoNaturalEarth1() };
+  Object.keys(opts)
+    .filter((str) => str.slice(0, 4) == "svg_")
+    .forEach((d) => {
+      Object.assign(svgopts, {
+        [d.slice(0, 4) == "svg_" ? d.slice(4) : d]: opts[d],
+      });
+      delete opts[d];
+    });
+  let svg = newcontainer ? create(svgopts) : arg1;
+
+  // Position
+  opts.pos = opts.pos || [10, svg.height - 20];
 
   // Warning
   if (svg.initproj == "none" && svg.warning) {
