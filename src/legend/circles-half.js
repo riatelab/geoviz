@@ -68,8 +68,6 @@ const d3 = Object.assign({}, { formatLocale, arc });
  * svg.legend.circles_half({pos: [10,20], data, nb: 5} }) // where svg is the container
  * svg.plot({type: "leg_circles_half", pos: [10,20], data, nb: 5} }) // where svg is the container
  * geoviz.legend.circles_half({ pos: [10,20], data, nb: 5}) // no container
- *
- * @returns {SVGSVGElement|string} - the function adds a layer with a circles_half legend to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
  */
 
 export function circles_half(arg1, arg2) {

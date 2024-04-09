@@ -194,9 +194,6 @@ Maps created by geoviz are zoomable and interactive.
 
 🌏 live demo [`tooltip`](https://observablehq.com/@neocartocnrs/tooltip) [`pan and zoom`](https://observablehq.com/@neocartocnrs/zooming) [`interactivity`](https://observablehq.com/@neocartocnrs/interactivity)
 
-
-
-
 ## Helpers
 
 Finally, geoviz provides a toolbox of useful functions for cartography. 

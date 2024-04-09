@@ -25,7 +25,6 @@ const d3 = Object.assign({}, { geoPath, geoGraticule, geoNaturalEarth1 });
  * svg.graticule({ step: [10,2] }) // where svg is the container
  * svg.plot({ type: "graticule", step: [10,2] }) // where svg is the container
  * geoviz.graticule({ step: 2 }) // no container
- * @returns {SVGSVGElement|string} - the function adds a layer with graticule lines to the SVG container and returns the layer identifier.  If the container is not defined, then the layer is displayed directly.
  */
 
 export function graticule(arg1, arg2) {

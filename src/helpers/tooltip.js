@@ -2,8 +2,8 @@ import { select, pointers } from "d3-selection";
 const d3 = Object.assign({}, { select, pointers });
 
 /**
- * @function tooltip
- * @description the `tip` parameter allows to add tooltips on map layers
+ * @name tip
+ * @description The `tip` parameter allows to add tooltips on map layers
  * @see {@link https://observablehq.com/@neocartocnrs/tooltip}
  * @property {string | boolean | function} tip - You can display a simple text like "foo". But in most cases, tooltips are used to display information related to the elements hovered over. To do this, use the `$` prefix with the field name.With `true`, all fidls are displayed. Finally, you can pass a function to build a customized tooltip.
  * @property {object} tipstyle - An object to configure the "appearance of the tooltip. `fontSize`, `fill`, `background`, `stroke`,  `strokeWidth`, `fontFamily`, `fontWeight`, `fontStyle`, `textDecoration`. See also `tool.addonts`
