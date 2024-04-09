@@ -26,6 +26,9 @@ const d3 = Object.assign(
   }
 );
 
+
+
+
 export function zoomandpan(svg) {
   let noproj = d3.geoIdentity();
   const path = d3.geoPath(svg.projection);

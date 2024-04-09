@@ -1,6 +1,61 @@
 import { select, pointers } from "d3-selection";
 const d3 = Object.assign({}, { select, pointers });
 
+/**
+ * @function tooltip
+ * @description the `tip` parameter allows to add tooltips on map layers
+ * @see {@link https://observablehq.com/@neocartocnrs/tooltip}
+ * @property {string | boolean | function} tip - You can display a simple text like "foo". But in most cases, tooltips are used to display information related to the elements hovered over. To do this, use the `$` prefix with the field name.With `true`, all fidls are displayed. Finally, you can pass a function to build a customized tooltip.
+ * @property {object} tipstyle - An object to configure the "appearance of the tooltip. `fontSize`, `fill`, `background`, `stroke`,  `strokeWidth`, `fontFamily`, `fontWeight`, `fontStyle`, `textDecoration`. See also `tool.addonts`
+ 
+ * @example
+ * // Simple text
+ * viz.path({ data: world, tip: "hello" })
+ * @example
+ * // A field to display
+ * viz.path({ data: world, tip: "$pop" })
+ * @example
+ * // To display all fields
+ * viz.path({ data: world, tip: true })
+  * @example
+ * // A tooltip on several lines
+ * viz.path({
+  data: world,
+  fill: "#38896F",
+  tip: `This country is $name
+  It is located in $region
+  Its population is $pop` 
+  })
+ * @example
+ * // A function
+ * viz.path({
+  data: world,
+  fill: "#38896F",
+  tip: (d) =>
+    `There are ${Math.round(
+      d.properties.pop / 1000000
+    )} million inhabitants in ${d.properties.name}`
+  })
+* @example
+* // Custom style
+* viz.path({
+  data: world,
+  fill: "#CCC",
+  tip: `$name ($ISO3)`,
+  tipstyle: {
+    fontSize: 20,
+    fill: "white",
+    background: "#38896F",
+    stroke: "#4a4d4b",
+    strokeWidth: 3,
+    fontFamily: "Pacifico",
+    fontWeight: "normal",
+    fontStyle: "italic",
+    textDecoration: "none"
+  }
+})
+ */
+
 export function tooltip(
   layer,
   data,
