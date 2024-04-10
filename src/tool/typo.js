@@ -24,6 +24,9 @@ export function typo(data, { colors = "Set3", missing_fill = "white" } = {}) {
     data.filter((d) => d !== "" && d != null && d != undefined).length;
 
   let cols = Array.isArray(colors) ? colors : getColors(colors, types.length);
+  if (cols == undefined && types.length < 3) {
+    cols = getColors(colors, 3).slice(0, types.length);
+  }
 
   let colorize = d3
     .scaleOrdinal()
