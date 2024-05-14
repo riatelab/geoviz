@@ -1,9 +1,11 @@
 // Containerutils/
+//import { draw } from "./container/draw";
 import { create } from "./container/create";
 import { render } from "./container/render";
 export let container = {
   create,
   render,
+  //draw,
 };
 
 // Tool
@@ -87,6 +89,7 @@ export let effect = {
 };
 
 // main
+export { draw } from "./container/draw";
 export { create } from "./container/create";
 export { graticule } from "./mark/graticule.js";
 export { header } from "./mark/header.js";
