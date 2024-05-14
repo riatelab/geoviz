@@ -126,18 +126,18 @@ export function squares(arg1, arg2) {
     .join("rect")
     .attr("x", 0)
     .attr("x", 0)
-    .attr("height", (d) => d[1])
-    .attr("width", (d) => d[1])
+    .attr("height", (d) => d[1] * 2)
+    .attr("width", (d) => d[1] * 2)
     .attr(
       "transform",
       (d, i) =>
-        `translate(${opts.pos[0] + rmax / 2 - d[1] / 2 + opts.square_dx}, ${
+        `translate(${opts.pos[0] + opts.square_dx}, ${
           opts.pos[1] +
           size.height +
           opts.square_dy +
           opts.gap -
-          d[1] +
-          cumdiam[i] +
+          d[1] * 2 +
+          cumdiam[i] * 2 +
           i * opts.square_spacing
         } )`
     );
@@ -156,8 +156,9 @@ export function squares(arg1, arg2) {
     .selectAll("line")
     .data(arr)
     .join("line")
-    .attr("x1", (d) => opts.pos[0] + rmax / 2 + d[1] / 2 + opts.square_dx)
-    .attr("x2", opts.pos[0] + rmax + opts.line_length + opts.square_dx)
+    //.attr("x1", (d) => opts.pos[0] + d[1] + opts.square_dx)
+    .attr("x1", (d) => opts.pos[0] + d[1] * 2 + opts.square_dx)
+    .attr("x2", opts.pos[0] + rmax * 2 + opts.line_length + opts.square_dx)
     .attr(
       "y1",
       (d, i) =>
@@ -165,8 +166,9 @@ export function squares(arg1, arg2) {
         size.height +
         opts.square_dy +
         opts.gap -
-        d[1] / 2 +
-        cumdiam[i] +
+        d[1] * 2 +
+        d[1] +
+        cumdiam[i] * 2 +
         i * opts.square_spacing
     )
     .attr(
@@ -176,8 +178,9 @@ export function squares(arg1, arg2) {
         size.height +
         opts.square_dy +
         opts.gap -
-        d[1] / 2 +
-        cumdiam[i] +
+        d[1] * 2 +
+        d[1] +
+        cumdiam[i] * 2 +
         i * opts.square_spacing
     );
 
@@ -203,7 +206,11 @@ export function squares(arg1, arg2) {
     .join("text")
     .attr(
       "x",
-      opts.pos[0] + rmax + opts.line_length + opts.square_dx + opts.values_dx
+      opts.pos[0] +
+        rmax * 2 +
+        opts.line_length +
+        opts.square_dx +
+        opts.values_dx
     )
     .attr(
       "y",
@@ -212,8 +219,9 @@ export function squares(arg1, arg2) {
         size.height +
         opts.square_dy +
         opts.gap -
-        d[1] / 2 +
-        cumdiam[i] +
+        d[1] * 2 +
+        d[1] +
+        cumdiam[i] * 2 +
         i * opts.square_spacing
     )
     .text((d) => locale.format(",")(d[0]));
