@@ -68,6 +68,7 @@ export function graticule(arg1, arg2) {
 
   // Warning
   if (svg.initproj == "none" && svg.warning) {
+    svg.warning_message.push(`Graticule mark`);
     svg.warning_message.push(
       `You must define a projection function in the SVG container`
     );
