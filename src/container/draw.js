@@ -48,10 +48,7 @@ export function draw(json) {
   // projection
   if (layertypes.includes("tile")) {
     params.projection = "mercator";
-  } else if (
-    layertypes.includes("outline") ||
-    layertypes.includes("graticule")
-  ) {
+  } else if (layertypes.includes("outline") && params.projection == undefined) {
     params.projection = d3.geoEquirectangular();
   }
   // Domain
