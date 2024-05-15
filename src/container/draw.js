@@ -13,30 +13,24 @@ const d3 = Object.assign({}, { geoEquirectangular });
  * @example
  * geoviz.draw({
   params: {
-    zoomable: true
-    //projection: d3.geoNaturalEarth1()
-    //domain: world
-    //   margin: 100
+    zoomable: true,
+    projection: d3.geoNaturalEarth1()
   },
   layers: [
     { type: "outline" },
     { type: "graticule", stroke: "white", step: 30, strokeWidth: 2 },
-    //{ type: "tile" },
-    { type: "base", data: world },
+    { type: "base", datum: world, fill: "white", fillOpacity: 0.3 },
     {
       type: "prop",
       data: world,
       symbol: "circle",
       var: "gdp",
-      symbol: "square",
+      fill: "red",
       tip: true,
-      //leg_type: "extended",
-      leg_values_factor: 1 / 1000000000
+      leg_values_factor: 1 / 1000000000,
+      leg_title: "Gross Domestic Product"
     },
-    { type: "base", data: aus },
-    { type: "base", data: aus_roads, tip: true },
-    { type: "text", data: aus_roads, text: "type" },
-    { type: "header", text: "Carte du monde" }
+    { type: "header", text: "World Wealth" }
   ]
 })
  */
@@ -48,6 +42,9 @@ export function draw(json) {
   // projection
   if (layertypes.includes("tile")) {
     params.projection = "mercator";
+    if (params.zoomable == undefined) {
+      params.zoomable = true;
+    }
   } else if (layertypes.includes("outline") && params.projection == undefined) {
     params.projection = d3.geoEquirectangular();
   }
