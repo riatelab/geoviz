@@ -86,7 +86,7 @@ export function squares(arg1, arg2) {
   // Arguments
   let options = {
     data: [1, 1000],
-    k: 100,
+    k: 50,
     fixmax: null,
     nb: 4,
     values_dx: 2,
@@ -133,7 +133,7 @@ export function squares(arg1, arg2) {
     .attr(
       "transform",
       (d, i) =>
-        `translate(${opts.pos[0] + opts.square_dx}, ${
+        `translate(${opts.pos[0] + opts.square_dx + rmax - d[1]}, ${
           opts.pos[1] +
           size.height +
           opts.square_dy +
@@ -159,7 +159,7 @@ export function squares(arg1, arg2) {
     .data(arr)
     .join("line")
     //.attr("x1", (d) => opts.pos[0] + d[1] + opts.square_dx)
-    .attr("x1", (d) => opts.pos[0] + d[1] * 2 + opts.square_dx)
+    .attr("x1", (d) => opts.pos[0] + d[1] * 2 + opts.square_dx + rmax - d[1])
     .attr("x2", opts.pos[0] + rmax * 2 + opts.line_length + opts.square_dx)
     .attr(
       "y1",
