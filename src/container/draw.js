@@ -4,18 +4,17 @@ const d3 = Object.assign({}, { geoEquirectangular });
 
 /**
  * @function draw
- * @description The `draw` function is inspired by the [`bertin`](https://observablehq.com/@neocartocnrs/hello-bertin-js?collection=@neocartocnrs/bertin) library. It allows you to draw the entire map using a single function. If you like the `bertin` lib, you'll like this function. As in `bertin`, all the necessary information is stored in a single JSON file, containing general parameters and a table describing the layers to be displayed and overlaid.
+ * @description The `draw()` function is inspired by the [`bertin`](https://observablehq.com/@neocartocnrs/hello-bertin-js?collection=@neocartocnrs/bertin) library. It allows you to draw the entire map using a single function. All the necessary information is stored in a single JSON, containing general parameters and an array of objects describing the layers to be displayed and overlaid. *Under the wood, the function draw() use the [`viz.plot()`](https://riatelab.github.io/geoviz/global.html#plot) function.* The types available are the same.
  * @see {@link https://observablehq.com/@neocartocnrs/geoviz-draw}
- *
- * @property {object} [json] - a objection containing params et layers
-
- *
+ * @property {object} json - an object containing container parameters and an array for layers description. See example below. 
  * @example
  * geoviz.draw({
+ // SVG container parameters
   params: {
     zoomable: true,
     projection: d3.geoNaturalEarth1()
   },
+ // Layers description
   layers: [
     { type: "outline" },
     { type: "graticule", stroke: "white", step: 30, strokeWidth: 2 },
