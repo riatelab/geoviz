@@ -45,7 +45,10 @@ export function draw(json) {
     if (params.zoomable == undefined) {
       params.zoomable = true;
     }
-  } else if (layertypes.includes("outline") && params.projection == undefined) {
+  } else if (
+    (layertypes.includes("outline") || layertypes.includes("graticule")) &&
+    params.projection == undefined
+  ) {
     params.projection = d3.geoEquirectangular();
   }
   // Domain
