@@ -123,9 +123,24 @@ return svg.render() // render
 }
 ~~~
 
+## The draw function
+
+The `draw()` function is inspired by the [`bertin`](https://observablehq.com/@neocartocnrs/hello-bertin-js?collection=@neocartocnrs/bertin) library. It allows you to draw the entire map using a single function. As in `bertin`, all the necessary information is stored in a single JSON, containing general parameters and an array of objects describing the layers to be displayed and overlaid. *Under the wood, the function draw() use the [`plot()`](https://riatelab.github.io/geoviz/global.html#plot) function.*
+
+~~~js
+geoviz.draw({
+  layers: [
+    { type: "outline", fill: "#267A8A"},
+    { type: "graticule", stroke: "white", strokeWidth: 0.4 },
+    { type: "layer", data: world, fill: "#F8D993", stroke: "#ada9a6", strokeWidth:0.5, tip:d => d.properties.NAMEen },
+    {type: "header", fontSize: 30, text: "A Simple World Map", fill: "#267A8A", fontWeight: "bold", fontFamily: "Tangerine"}
+  ]
+})
+~~~
+
 ## Statistical cartography
 
-In addition of mapping static marks, the plot function lets you quickly create statistical maps (including legends) with very few parameters (and many others as options). Let's see some examples. 
+In addition of mapping static marks, the `plot()` and `draw()` functions lets you quickly create statistical maps (including legends) with very few parameters (and many others as options). Let's see some examples. 
 
 ### Proportional symbols
 
@@ -164,7 +179,7 @@ geoviz.plot({type = "typo", data = *a geoJSON*, var = *a field*})
 🌏 live demo [`typology`](https://observablehq.com/@neocartocnrs/typo)
 
 
-### Proportional symbols + horopleth
+### Proportional symbols + choropleth
 
 By using [`type = "propchoro"`](global.html#plot/propchoro), you can design a map with proportionnal symbols with graduated colors. Find below a minimal example.
 
