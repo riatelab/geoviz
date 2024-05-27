@@ -12,6 +12,7 @@ import { footer } from "../mark/footer";
 import { scalebar } from "../mark/scalebar";
 import { north } from "../mark/north";
 import { square } from "../mark/square";
+import { symbol } from "../mark/symbol";
 
 // Legends
 import { box } from "../legend/box";
@@ -52,6 +53,7 @@ import { plot_proptypo } from "./plot_proptypo";
  * @property {string} path - Usage: `geoviz.plot({type: "path", ...})` or `{type: "base"}` or `{type: "simple"}`. See {@link path}
  * @property {string} text - Usage: `geoviz.plot({type: "text", ...})` or `{type: "label"}`. See {@link text}
  * @property {string} circle - Usage: `geoviz.plot({type: "circle", ...})`. See {@link circle}
+ * @property {string} symbol - Usage: `geoviz.plot({type: "symbol", ...})`. See {@link symbol}
  * @property {string} square - Usage: `geoviz.plot({type: "square", ...})`. See {@link square}
  * @property {string} halfcircle - Usage: `geoviz.plot({type: "halfcircle", ...})`. See {@link halfcircle}
  * @property {string} spike - Usage: `geoviz.plot({type: "spike", ...})`. See {@link spike}
@@ -110,6 +112,9 @@ export function plot(arg1, arg2) {
       break;
     case "circle":
       return circle(arg1, arg2);
+      break;
+    case "symbol":
+      return symbol(arg1, arg2);
       break;
     case "square":
       return square(arg1, arg2);

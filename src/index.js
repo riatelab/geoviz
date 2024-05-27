@@ -27,6 +27,7 @@ import { typo } from "./tool/typo.js";
 import { random } from "./tool/random.js";
 import { radius } from "./tool/radius.js";
 import { dotstogrid } from "./tool/dotstogrid.js";
+import { symbols } from "./tool/symbols.js";
 export let tool = {
   addfonts,
   rewind,
@@ -46,6 +47,7 @@ export let tool = {
   random,
   radius,
   dotstogrid,
+  symbols,
 };
 
 // Legend
@@ -105,6 +107,7 @@ export { path } from "./mark/path.js";
 export { render } from "./container/render";
 export { tile } from "./mark/tile.js";
 export { halfcircle } from "./mark/halfcircle.js";
+export { symbol } from "./mark/symbol.js";
 
 // Plot
 export { plot } from "./plot/plot.js";

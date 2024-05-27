@@ -1,4 +1,5 @@
 import { circle } from "../mark/circle";
+import { symbol } from "../mark/symbol";
 import { square } from "../mark/square";
 import { halfcircle } from "../mark/halfcircle";
 import { spike } from "../mark/spike";
@@ -25,9 +26,6 @@ const d3 = Object.assign(
     select,
   }
 );
-
-
-
 
 export function zoomandpan(svg) {
   let noproj = d3.geoIdentity();
@@ -145,6 +143,10 @@ export function zoomandpan(svg) {
         case "circle":
           d.zoom = { k: t.k, x: t.x, y: t.y };
           circle(svg, d);
+          break;
+        case "symbol":
+          d.zoom = { k: t.k, x: t.x, y: t.y };
+          symbol(svg, d);
           break;
         case "square":
           d.zoom = { k: t.k, x: t.x, y: t.y };

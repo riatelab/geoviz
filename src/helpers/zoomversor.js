@@ -1,6 +1,7 @@
 import versor from "versor@0.2";
 
 import { circle } from "../mark/circle";
+import { symbol } from "../mark/symbol";
 import { square } from "../mark/square";
 import { halfcircle } from "../mark/halfcircle";
 import { spike } from "../mark/spike";
@@ -34,6 +35,9 @@ export function zoomversor(svg) {
       switch (d.mark) {
         case "circle":
           circle(svg, d);
+          break;
+        case "symbol":
+          symbol(svg, d);
           break;
         case "square":
           square(svg, d);

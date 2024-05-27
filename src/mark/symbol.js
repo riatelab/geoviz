@@ -5,6 +5,7 @@ const d3 = Object.assign(
   {},
   { scaleSqrt, max, descending, geoPath, geoIdentity }
 );
+import { picto } from "../helpers/picto";
 import { create } from "../container/create";
 import { render } from "../container/render";
 import { random } from "../tool/random";
@@ -23,40 +24,8 @@ import {
   detectinput,
   order,
 } from "../helpers/utils";
-/**
- * @function circle
- * @description The `circle` function allows to add circles on a map. The function adds a layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
- * @see {@link https://observablehq.com/@neocartocnrs/circle-mark}
- *
- * @property {object} data - GeoJSON FeatureCollection
- * @property {string} [id] - id of the layer
- * @property {number[]} [pos = [0,0]] - position of the circle to display a single circle
- * @property {number|string} [r = 10] - a number or the name of a property containing numerical values
- * @property {number} [k = 50] - radius of the largest circle (or corresponding to the value defined by `fixmax`)
- * @property {number} [fixmax = null] - value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
- * @property {boolean} [dodge = false] - to avoid circle overlap
- * @property {number} [iteration = 200] - number of iteration to dodge circles
- * @property {string|function} [sort] - the field to sort circles or a sort function
- * @property {boolean} [descending] - circle sorting order
- * @property {string} [coords = "geo"] - use "svg" if the coordinates are already in the plan of the svg document
- * @property {string|function} [fill] - fill color. To create choropleth maps or typologies, use the `tool.choro` and `tool.typo` functions
- * @property {string|function} [stroke = "white"] - stroke color. To create choropleth maps or typologies, use the `tool.choro` and `tool.typo` functions
- * @property {boolean|function} [tip = false] - a function to display the tip. Use true tu display all fields
- * @property {boolean} [view] - use true and viewof in Observable for this layer to act as Input
- * @property {object} [tipstyle] - tooltip style
- * @property {*} [*] - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
- * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
- * @example
- * // There are several ways to use this function
- * geoviz.circle(svg, { pos: [10,20], r: 15 }) // a single circle
- * geoviz.circle(svg, { data: cities, r: "population" }) // where svg is the container
- * svg.circle({ data: cities, r: "population" }) // where svg is the container
- * svg.plot({ type: "circle", data: cities, r: "population" }) // where svg is the container
- * geoviz.circle({ data: cities, r: "population" }) // no container
- * geoviz.plot({ type = "circle", data: cities, r: "population" }) // no container
- */
 
-export function circle(arg1, arg2) {
+export function symbol(arg1, arg2) {
   // Test if new container
   let newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
@@ -68,10 +37,15 @@ export function circle(arg1, arg2) {
 
   // Arguments
   const options = {
-    mark: "circle",
+    mark: "symbol",
     id: unique(),
     data: undefined,
-    r: 10,
+    r: 12,
+    symbol: "star",
+    rotate: 0,
+    skewX: 0,
+    skewY: 0,
+    background: false,
     k: 50,
     pos: [0, 0],
     sort: undefined,
@@ -82,6 +56,7 @@ export function circle(arg1, arg2) {
     fixmax: null,
     fill: random(),
     stroke: "white",
+    strokeWidth: 0.2,
     tip: undefined,
     tipstyle: undefined,
   };
@@ -156,22 +131,71 @@ export function circle(arg1, arg2) {
       ].includes(d)
   );
 
+  // Background attributes
+
+  let backgroundopts = {};
+  Object.keys(opts)
+    .filter((str) => str.slice(0, 11) == "background_" || [].includes(str))
+    .forEach((d) =>
+      Object.assign(backgroundopts, {
+        [d.slice(0, 11) == "background_" ? d.slice(11) : d]: opts[d],
+      })
+    );
+
+  // Symbol
+  const symb = new Map(picto.map((d) => [d.name, d.d]));
+  const factor = opts.background ? 12 : 10;
+
   // Projection
   let projection = opts.coords == "svg" ? d3.geoIdentity() : svg.projection;
   let path = d3.geoPath(projection);
 
-  // Simple circle
+  // Simple symbol
   if (!opts.data) {
-    notspecificattr.forEach((d) => {
-      layer.attr(camelcasetodash(d), opts[d]);
-    });
+    let mysymbol = layer.append("g");
+
     let pos = path.centroid({ type: "Point", coordinates: opts.pos });
-    layer
-      .append("circle")
-      .attr("cx", pos[0])
-      .attr("cy", pos[1])
-      .attr("r", opts.r)
+    if (opts.background) {
+      mysymbol
+        .append("circle")
+        .attr("r", opts.r)
+        .attr("fill", "white")
+        .attr("stroke", "none")
+        .attr("transform", `translate(${pos})`)
+        .attr("visibility", isNaN(pos[0]) ? "hidden" : "visible");
+      let m = mysymbol
+        .append("circle")
+        .attr("r", opts.r)
+        .attr("fill", opts.background_fill || opts.fill)
+        .attr("fill-opacity", opts.background_fillOpacity || 0.5)
+        .attr("stroke", opts.background_stroke || opts.fill)
+        .attr("vector-effect", "non-scaling-stroke")
+        .attr("transform", `translate(${pos})`)
+        .attr("visibility", isNaN(pos[0]) ? "hidden" : "visible");
+
+      Object.entries(backgroundopts)
+        .map((d) => d[0])
+        .forEach((d) => {
+          m.attr(camelcasetodash(d), backgroundopts[d]);
+        });
+    }
+    let n = mysymbol
+
+      .attr("stroke-width", opts.strokeWidth)
+      .append("path")
+      .attr("d", symb.get(opts.symbol))
+      .attr(
+        "transform",
+        `translate(${pos}) rotate(${opts.rotate}) scale(${
+          opts.r / factor
+        }) skewX(${opts.skewX}) skewY(${opts.skewY})`
+      )
+      .attr("vector-effect", "non-scaling-stroke")
       .attr("visibility", isNaN(pos[0]) ? "hidden" : "visible");
+
+    notspecificattr.forEach((d) => {
+      n.attr(camelcasetodash(d), opts[d]);
+    });
   } else {
     // Centroid
     opts.data =
@@ -193,6 +217,7 @@ export function circle(arg1, arg2) {
 
     // features attributes (iterate on)
     const eltattr = notspecificattr.filter((d) => !layerattr.includes(d));
+
     eltattr.forEach((d) => {
       opts[d] = check(opts[d], fields);
     });
@@ -255,14 +280,51 @@ export function circle(arg1, arg2) {
     path = d3.geoPath(projection);
 
     layer
-      .selectAll("circle")
+      .selectAll("path")
       .data(data)
       .join((d) => {
-        let n = d
-          .append("circle")
-          .attr("cx", (d) => path.centroid(d.geometry)[0])
-          .attr("cy", (d) => path.centroid(d.geometry)[1])
-          .attr("r", (d) => radius(d, opts.r))
+        let mysymbol = d.append("g");
+
+        if (opts.background) {
+          mysymbol
+            .append("circle")
+            .attr("r", (d) => radius(d, opts.r))
+            .attr("fill", "white")
+            .attr("stroke", "none")
+            .attr("transform", (d) => `translate(${path.centroid(d.geometry)})`)
+            .attr("visibility", (d) =>
+              isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
+            );
+          let m = mysymbol
+            .append("circle")
+            .attr("r", (d) => radius(d, opts.r))
+            .attr("fill", opts.background_fill || opts.fill)
+            .attr("fill-opacity", opts.background_fillOpacity || 0.5)
+            .attr("stroke", opts.background_stroke || opts.fill)
+            .attr("vector-effect", "non-scaling-stroke")
+            .attr("transform", (d) => `translate(${path.centroid(d.geometry)})`)
+            .attr("visibility", (d) =>
+              isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
+            );
+          Object.entries(backgroundopts)
+            .map((d) => d[0])
+            .forEach((d) => {
+              m.attr(camelcasetodash(d), backgroundopts[d]);
+            });
+        }
+
+        let n = mysymbol
+          .append("path")
+          .attr("d", symb.get(opts.symbol))
+          .attr(
+            "transform",
+            (d) =>
+              `translate(${path.centroid(d.geometry)}) rotate(${
+                opts.rotate
+              }) scale(${radius(d, opts.r) / factor}) skewX(${
+                opts.skewX
+              }) skewY(${opts.skewY})`
+          )
           .attr("visibility", (d) =>
             isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
           );
@@ -270,7 +332,6 @@ export function circle(arg1, arg2) {
         eltattr.forEach((e) => {
           n.attr(camelcasetodash(e), opts[e]);
         });
-        return n;
       });
 
     // Tooltip & view

@@ -21,6 +21,7 @@ import { square as addsquare } from "../mark/square.js";
 import { halfcircle as addhalfcircle } from "../mark/halfcircle.js";
 import { spike as addspike } from "../mark/spike.js";
 import { path as addpath } from "../mark/path.js";
+import { symbol as addsymbol } from "../mark/symbol.js";
 import { tile } from "../mark/tile.js";
 import { header } from "../mark/header.js";
 import { footer } from "../mark/footer.js";
@@ -178,6 +179,7 @@ export function create({
   [
     { id: "outline", func: addoutline },
     { id: "path", func: addpath },
+    { id: "symbol", func: addsymbol },
     { id: "graticule", func: addgraticule },
     { id: "circle", func: addcircle },
     { id: "square", func: addsquare },
