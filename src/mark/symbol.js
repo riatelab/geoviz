@@ -143,6 +143,7 @@ export function symbol(arg1, arg2) {
     );
 
   // Symbol
+  const pictoname = picto.map((d) => d.name);
   const symb = new Map(picto.map((d) => [d.name, d.d]));
   const factor = opts.background ? 12 : 10;
 
@@ -187,7 +188,7 @@ export function symbol(arg1, arg2) {
       .attr(
         "transform",
         `translate(${pos}) rotate(${opts.rotate}) scale(${
-          opts.r / factor
+          opts.scale || opts.r / factor
         }) skewX(${opts.skewX}) skewY(${opts.skewY})`
       )
       .attr("vector-effect", "non-scaling-stroke")
@@ -197,7 +198,7 @@ export function symbol(arg1, arg2) {
       n.attr(camelcasetodash(d), opts[d]);
     });
   } else {
-    // Centroid
+    //   // Centroid
     opts.data =
       implantation(opts.data) == 3
         ? centroid(opts.data, {
@@ -215,12 +216,12 @@ export function symbol(arg1, arg2) {
       layer.attr(camelcasetodash(d), opts[d]);
     });
 
-    // features attributes (iterate on)
+    // // features attributes (iterate on)
     const eltattr = notspecificattr.filter((d) => !layerattr.includes(d));
 
-    eltattr.forEach((d) => {
-      opts[d] = check(opts[d], fields);
-    });
+    // eltattr.forEach((d) => {
+    //     opts[d] = check(opts[d], fields);
+    //   });
 
     // Projection
     let projection =
@@ -254,13 +255,47 @@ export function symbol(arg1, arg2) {
       data = opts.data;
     }
 
-    // Radius
+    // Fields
     let columns = propertiesentries(opts.data);
+
+    // Radius
     let radius = attr2radius(opts.r, {
       columns,
       geojson: opts.data,
       fixmax: opts.fixmax,
       k: opts.k,
+    });
+
+    // symbols
+
+    let fieldtosymbol = getsymb(
+      opts.data.features.map((d) => d.properties[opts.symbol]),
+      { symbols: undefined, missing: undefined, picto }
+    );
+
+    function attr2symbol(attr, { columns, pictoname, symb } = {}) {
+      let detect = detectinput(attr, columns);
+      if (detect == "function") {
+        return attr;
+      }
+      if (detect == "field") {
+        return (d) => symb.get(fieldtosymbol(d.properties[attr]));
+      }
+      if (detect == "value" && pictoname.includes(attr)) {
+        return (d) => symb.get(attr);
+      }
+      if (detect == "value" && !pictoname.includes(attr)) {
+        return (d) => attr;
+      }
+    }
+
+    let mysymb = attr2symbol(opts.symbol, {
+      columns,
+      geojson: opts.data,
+      missing: opts.missing,
+      symbols: opts.symbols,
+      pictoname,
+      symb,
     });
 
     // Sort & filter
@@ -315,13 +350,13 @@ export function symbol(arg1, arg2) {
 
         let n = mysymbol
           .append("path")
-          .attr("d", symb.get(opts.symbol))
+          .attr("d", (d) => mysymb(d, opts.symbol))
           .attr(
             "transform",
             (d) =>
               `translate(${path.centroid(d.geometry)}) rotate(${
                 opts.rotate
-              }) scale(${radius(d, opts.r) / factor}) skewX(${
+              }) scale(${opts.scale || radius(d, opts.r) / factor}) skewX(${
                 opts.skewX
               }) skewY(${opts.skewY})`
           )
@@ -382,4 +417,20 @@ function attr2radius(attr, { columns, geojson, fixmax, k } = {}) {
     case "value":
       return (d) => attr;
   }
+}
+
+function getsymb(data, { symbols = undefined, missing = "beer", picto } = {}) {
+  let arr = data.filter((d) => d !== "" && d != null && d != undefined);
+  let types = Array.from(new Set(arr));
+  const arrsymb = symbols || picto.slice(0, types.length).map((d) => d.name);
+
+  const symbolmap = new Map(types.map((d, i) => [d, arrsymb[i]]));
+
+  return function (d) {
+    if (types.includes(d)) {
+      return symbolmap.get(d);
+    } else if (typeof missing === "string") {
+      return missing;
+    }
+  };
 }
