@@ -42,6 +42,7 @@ export function symbol(arg1, arg2) {
     data: undefined,
     r: 12,
     symbol: "star",
+    missing: "question",
     rotate: 0,
     skewX: 0,
     skewY: 0,
@@ -183,6 +184,7 @@ export function symbol(arg1, arg2) {
     let n = mysymbol
 
       .attr("stroke-width", opts.strokeWidth)
+      .attr("vector-effect", "non-scaling-stroke")
       .append("path")
       .attr("d", symb.get(opts.symbol))
       .attr(
@@ -216,7 +218,7 @@ export function symbol(arg1, arg2) {
       layer.attr(camelcasetodash(d), opts[d]);
     });
 
-    // // features attributes (iterate on)
+    // features attributes (iterate on)
     const eltattr = notspecificattr.filter((d) => !layerattr.includes(d));
 
     // eltattr.forEach((d) => {
@@ -269,8 +271,8 @@ export function symbol(arg1, arg2) {
     // symbols
 
     let fieldtosymbol = getsymb(
-      opts.data.features.map((d) => d.properties[opts.symbol]),
-      { symbols: undefined, missing: undefined, picto }
+      opts.order || opts.data.features.map((d) => d.properties[opts.symbol]),
+      { symbols: opts.symbols, missing: opts.missing, picto }
     );
 
     function attr2symbol(attr, { columns, pictoname, symb } = {}) {
@@ -351,6 +353,7 @@ export function symbol(arg1, arg2) {
         let n = mysymbol
           .append("path")
           .attr("d", (d) => mysymb(d, opts.symbol))
+          .attr("vector-effect", "non-scaling-stroke")
           .attr(
             "transform",
             (d) =>
