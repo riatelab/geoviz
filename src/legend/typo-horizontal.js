@@ -22,8 +22,8 @@ import {
  * @property {string[]} [types = ["A", "B", "C", "D"]] - types
  * @property {string[]} [colors = ["#e41a1c", "#377eb8", "#4daf4a", "#984ea3"]] - colors
  * @property {boolean} [alphabetical = true] - alphabetical order
- * @property {string} [rect_width = 50] - width of the box
- * @property {string} [rect_height = 14] - height of the box
+ * @property {number} [rect_width = 50] - width of the box
+ * @property {number} [rect_height = 14] - height of the box
  * @property {number} [rect_spacing = 0] - spacing between boxes
  * @property {string} [rect_fill = "#5d6266"] - box color
  * @property {string} [rect_stroke = "#303030"] - stroke color
@@ -33,10 +33,7 @@ import {
  * @property {number} values_dx - shift in x (default: 0)
  * @property {number} values_dx - shift in y (default: 5)
  * @property {number} [values_fill = "#363636"] - fill
- * @property {number} [values_fontSize = 1°] - fontSize
- * @property {number} [values_factor = 1] - allow to multiply values to display in the legend. e.g 0.001 to convert into thousands
- * @property {string} [values_decimal = "."] - separator for decimals
- * @property {string} [values_thousands = " "] -  separator for thousands
+ * @property {number} [values_fontSize = 10] - fontSize
  * @property {string} [title = "Legend"] - title of the legend
  * @property {string} [title_fill = "#363636"] - title color
  * @property {string} [title_fontSize = 16] - title font size
@@ -58,10 +55,6 @@ import {
  * @property {*} [text_*] - *SVG attributes that can be applied directly on all text elements of this legend*
  * @example
  * // There are several ways to use this function
- * geoviz.legend.typo_horizontal(svg, { pos: [10,20], types, colors}) // where svg is the container
- * svg.legend.typo_horizontal({pos: [10,20], types, colors} }) // where svg is the container
- * svg.plot({type: "leg_typo_horizontal", pos: [10,20], types, colors} }) // where svg is the container
- * geoviz.legend.typo_horizontal({ pos: [10,20], types, colors}) // no container
  */
 
 export function typo_horizontal(arg1, arg2) {

@@ -93,6 +93,17 @@ export function manageoptions(options, args, fontFamily) {
     spike_spacing: 3,
     spike_fill: "none",
     spike_stroke: "black",
+    // symbols
+    symbol_size: 10,
+    symbol_dx: 0,
+    symbol_dy: 0,
+    symbol_stroke: "#303030",
+    symbol_fill: "#2e2e2e",
+    symbol_strokeWidth: 0.5,
+    symbol_spacing: 4,
+    symbol_rotate: 0,
+    symbol_skewX: 0,
+    symbol_skewY: 0,
     // line
     line_fill: "none",
     line_stroke: "#363636",

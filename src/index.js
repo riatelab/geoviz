@@ -62,6 +62,8 @@ import { choro_vertical } from "./legend/choro-vertical";
 import { choro_horizontal } from "./legend/choro-horizontal";
 import { typo_vertical } from "./legend/typo-vertical";
 import { typo_horizontal } from "./legend/typo-horizontal";
+import { symbol_vertical } from "./legend/symbol-vertical";
+import { symbol_horizontal } from "./legend/symbol-horizontal";
 import { box } from "./legend/box";
 export let legend = {
   circles,
@@ -76,6 +78,8 @@ export let legend = {
   box,
   spikes,
   mushrooms,
+  symbol_vertical,
+  symbol_horizontal,
 };
 
 // effects

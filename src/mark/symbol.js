@@ -42,7 +42,7 @@ export function symbol(arg1, arg2) {
     data: undefined,
     r: 12,
     symbol: "star",
-    missing: "question",
+    missing: "missing",
     rotate: 0,
     skewX: 0,
     skewY: 0,

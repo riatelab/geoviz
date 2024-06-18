@@ -43,6 +43,8 @@ import { choro_vertical as addchoro_vertical } from "../legend/choro-vertical";
 import { choro_horizontal as addchoro_horizontal } from "../legend/choro-horizontal";
 import { typo_vertical as addtypo_vertical } from "../legend/typo-vertical";
 import { typo_horizontal as addtypo_horizontal } from "../legend/typo-horizontal";
+import { symbol_vertical as addsymbol_vertical } from "../legend/symbol-vertical";
+import { symbol_horizontal as addsymbol_horizontal } from "../legend/symbol-horizontal";
 import { box as addbox } from "../legend/box";
 import { render as addrender } from "../container/render";
 
@@ -212,6 +214,8 @@ export function create({
     { id: "choro_horizontal", func: addchoro_horizontal },
     { id: "typo_vertical", func: addtypo_vertical },
     { id: "typo_horizontal", func: addtypo_horizontal },
+    { id: "symbol_vertical", func: addsymbol_vertical },
+    { id: "symbol_horizontal", func: addsymbol_horizontal },
     { id: "box", func: addbox },
   ].forEach(
     (d) =>
