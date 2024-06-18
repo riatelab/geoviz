@@ -214,7 +214,8 @@ export function symbol_vertical(arg1, arg2) {
         opts.symbol_size +
         posy +
         opts.symbol_spacing / 2 +
-        i * (opts.symbol_size * 2 + opts.symbol_spacing)
+        i * (opts.symbol_size * 2 + opts.symbol_spacing) +
+        opts.values_dy
     )
     .text((d) => d);
 
