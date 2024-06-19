@@ -37,6 +37,7 @@ import { plot_typo } from "./plot_typo";
 import { plot_prop } from "./plot_prop";
 import { plot_propchoro } from "./plot_propchoro";
 import { plot_proptypo } from "./plot_proptypo";
+import { plot_symbol } from "./plot_symbol";
 
 /**
  * @function plot
@@ -206,7 +207,6 @@ export function plot(arg1, arg2) {
     case "effect_shadow":
       return shadow(arg1, arg2);
       break;
-
     case "choro":
     case "choropleth":
       return plot_choro(arg1, arg2);
@@ -223,6 +223,9 @@ export function plot(arg1, arg2) {
       break;
     case "proptypo":
       return plot_proptypo(arg1, arg2);
+      break;
+    case "picto":
+      return plot_symbol(arg1, arg2);
       break;
   }
 }

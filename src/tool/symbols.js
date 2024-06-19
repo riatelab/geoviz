@@ -6,7 +6,7 @@ const d3 = Object.assign({}, { create });
  * @function tool/symbols
  * @description Display symbols available in geoviz
  * @see {@link https://observablehq.com/@neocartocnrs/symbols }
- * @property {number} [options.width = ] - width
+ * @property {number} [options.width = 800] - width
  * @example
  * geoviz.tool.symbols({ width: 500 })
  */

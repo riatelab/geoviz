@@ -25,6 +25,49 @@ import {
   order,
 } from "../helpers/utils";
 
+/**
+ * @function symbol
+ * @description The `symbol` function allows to create a layer with symbols from a geoJSON. The function adds a layer to the SVG container and returns the layer identifier. If the container is not defined, then the layer is displayed directly.
+ * @see {@link https://observablehq.com/@neocartocnrs/symbols}
+ *
+ * @property {object} data - GeoJSON FeatureCollection
+ * @property {string} [id] - id of the layer
+ * @property {number[]} [pos = [0,0]] - position of the sîkes to display a single spike
+ * @property {string|function} [fill] - fill color. To create choropleth maps or typologies, use the `tool.choro` and `tool.typo` functions
+ * @property {string|function} [stroke = "white"] - stroke color
+ * @property {string|function} [strokeWidth = 0.2] - stroke-width
+ * @property {string} [coords = "geo"] - use "svg" if the coordinates are already in the plan of the svg document (default: "geo")
+ * @property {number|string} [r = 12] - a radius to set the size one the symbol (encompassing circle)
+ * @property {number} [scale] -the scale parameter allows you to change the scale of the symbol.
+ * @property {string} [symbol = "star"] - the name of the symbol to display (use viz.tool.symbols() to get the list of available symbols). Iy you use a fied, then a different symbol is assigned to each modality.
+ * @property {string} [missing = "missing"] - the name of the symbol for missig values. Use `null` to remove these symbols.
+ * @property {string} [coords = "geo"] - use "svg" if the coordinates are already in the plan of the svg document (default: "geo")
+ * @property {number} [rotate = 0] - to rotate symbols
+ * @property {number} [skewX = 0] - skewX
+ * @property {number} [skewX = 0] - skewY
+ * @property {boolean} [background = false] - to add a circle below the symbol
+ * @property {*} [background_*]  - *parameters of the background. You can use paramers like `background_fill`, `background_stroke`...*
+ * @property {string|function} [fill] - fill color. To create choropleth maps or typologies, use the `tool.choro` and `tool.typo` functions
+ * @property {string|function} [stroke] - stroke color. To create choropleth maps or typologies, use the `tool.choro` and `tool.typo` functions
+ * @property {boolean|function} [tip = false] - a function to display the tip. Use true tu display all fields
+ * @property {boolean} [view = false] - use true and viewof in Observable for this layer to act as Input
+ * @property {object} [tipstyle] - tooltip style
+ * @property {number} [k = 50] - radius of the largest circle (or corresponding to the value defined by `fixmax`)
+ * @property {number} [fixmax = null] - value matching the circle with radius `k`. Setting this value is useful for making maps comparable with each other
+ * @property {boolean} [dodge = false] - to avoid circle overlap
+ * @property {number} [iteration = 200] - number of iteration to dodge circles
+ * @property {string|function} [sort] - the field to sort circles or a sort function
+ * @property {boolean} [descending] - circle sorting order
+ * @property {*} [*] - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
+ * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
+ * @example
+ * // There are several ways to use this function
+ * geoviz.symbol(svg, { pos: [10,20], r: 15 }) // a single circle
+ * geoviz.symbol(svg, { data: cities, r: "type" }) // where svg is the container
+ * svg.symbol({ data: cities, r: "type" }) // where svg is the container
+ * svg.plot({ type: "symbol", data: poi, r: "type" }) // where svg is the container
+ * geoviz.symbol({ data: poi, r: "type" }) // no container
+ */
 export function symbol(arg1, arg2) {
   // Test if new container
   let newcontainer =
@@ -422,7 +465,10 @@ function attr2radius(attr, { columns, geojson, fixmax, k } = {}) {
   }
 }
 
-function getsymb(data, { symbols = undefined, missing = "beer", picto } = {}) {
+function getsymb(
+  data,
+  { symbols = undefined, missing = "missing", picto } = {}
+) {
   let arr = data.filter((d) => d !== "" && d != null && d != undefined);
   let types = Array.from(new Set(arr));
   const arrsymb = symbols || picto.slice(0, types.length).map((d) => d.name);
