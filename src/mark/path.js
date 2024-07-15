@@ -59,6 +59,7 @@ export function path(arg1, arg2) {
     coords: "geo",
     clip: true,
     strokeWidth: 1,
+    clipPath: undefined,
   };
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
@@ -135,11 +136,26 @@ export function path(arg1, arg2) {
       : svg.projection;
   let path = d3.geoPath(projection);
 
+  // ClipPath
+  if (opts.clipPath) {
+    layer.attr("clip-path", opts.clipPath);
+    opts.clip = false;
+  }
+
   // Specific attributes
   let entries = Object.entries(opts).map((d) => d[0]);
   const notspecificattr = entries.filter(
     (d) =>
-      !["mark", "id", "datum", "data", "coords", "tip", "tipstyle"].includes(d)
+      ![
+        "mark",
+        "id",
+        "datum",
+        "data",
+        "coords",
+        "tip",
+        "tipstyle",
+        "clipPath",
+      ].includes(d)
   );
 
   // layer attributes

@@ -4,7 +4,7 @@ import { implantation, propertiesentries } from "../helpers/utils";
 import { picto } from "../helpers/picto";
 
 /**
- * @function plot/typo
+ * @function plot/symbol
  * @description With the `plot({type = "symbol"})` function, you can quickly draw a layer with symbols.<br/><br/>
  * ![choro](img/thumb_symbols.svg)
  * @see {@link https://observablehq.com/@neocartocnrs/symbols}
