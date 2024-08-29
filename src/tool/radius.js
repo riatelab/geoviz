@@ -11,14 +11,26 @@ const d3 = Object.assign({}, { scaleSqrt, max, extent });
  * @property {string[]} [option.k = 50] - radius if the greater circle
  */
 
+// export function radius(data, { fixmax = undefined, k = 50 } = {}) {
+//   const valmax =
+//     fixmax != undefined ? fixmax : d3.max(data.map((d) => Math.abs(+d)));
+
+//   return {
+//     data: d3.extent(
+//       data.filter((d) => isNumber(d)).map((d) => Math.abs(Number(d)))
+//     ),
+//     k,
+//     fixmax,
+//     r: d3.scaleSqrt([0, valmax], [0, k]),
+//   };
+// }
+
 export function radius(data, { fixmax = undefined, k = 50 } = {}) {
-  const valmax =
-    fixmax != undefined ? fixmax : d3.max(data.map((d) => Math.abs(+d)));
+  let databs = data.map((d) => Math.abs(parseFloat(d)));
+  const valmax = fixmax != undefined ? fixmax : d3.max(databs);
 
   return {
-    data: d3.extent(
-      data.filter((d) => isNumber(d)).map((d) => Math.abs(Number(d)))
-    ),
+    data: d3.extent(databs.filter((d) => isNumber(d))),
     k,
     fixmax,
     r: d3.scaleSqrt([0, valmax], [0, k]),

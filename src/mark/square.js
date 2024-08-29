@@ -318,7 +318,7 @@ function attr2radius(attr, { columns, geojson, fixmax, k } = {}) {
           k,
         }
       );
-      return (d, rr) => radius.r(d.properties[rr]);
+      return (d, rr) => radius.r(Math.abs(d.properties[rr]));
     case "value":
       return (d) => attr;
   }
