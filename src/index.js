@@ -82,6 +82,22 @@ export let legend = {
   symbol_horizontal,
 };
 
+// grid
+import { square } from "./grid/square.js";
+import { hexbin } from "./grid/hexbin.js";
+import { diamond } from "./grid/diamond.js";
+import { triangle } from "./grid/triangle.js";
+import { arbitrary } from "./grid/arbitrary.js";
+import { dot } from "./grid/dot.js";
+export let grid = {
+  dot,
+  square,
+  triangle,
+  diamond,
+  hexbin,
+  arbitrary,
+};
+
 // effects
 import { blur } from "./effect/blur.js";
 import { shadow } from "./effect/shadow.js";
