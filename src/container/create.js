@@ -140,6 +140,13 @@ export function create({
       zoomablelayers: [],
       zoom: { k: 1, x: 0, y: 0 },
       bbox: d3.geoBounds(ref),
+      // bbox:
+      //   domain == undefined
+      //     ? [
+      //         [-180, 90],
+      //         [180, -90],
+      //       ]
+      //     : d3.geoBounds(ref),
       inset: parent ? true : false,
       warning,
       warning_message,

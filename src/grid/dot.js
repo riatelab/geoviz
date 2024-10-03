@@ -1,7 +1,7 @@
 import { range } from "d3-array";
 const d3 = Object.assign({}, { range });
 
-export function dot(step = 50, width = 1000, height = 500) {
+export function dot(step = 30, width = 1000, height = 500) {
   // build grid
   let y = d3.range(0 + step / 2, height, step).reverse();
   let x = d3.range(0 + step / 2, width, step);

@@ -87,13 +87,23 @@ import { square } from "./grid/square.js";
 import { hexbin } from "./grid/hexbin.js";
 import { diamond } from "./grid/diamond.js";
 import { triangle } from "./grid/triangle.js";
+import { trianglegeo } from "./grid/trianglegeo.js";
 import { arbitrary } from "./grid/arbitrary.js";
 import { dot } from "./grid/dot.js";
+import { dotgeo } from "./grid/dotgeo.js";
+import { squaregeo } from "./grid/squaregeo.js";
+import { diamondgeo } from "./grid/diamondgeo.js";
+import { make } from "./grid/make.js";
 export let grid = {
+  make,
   dot,
+  dotgeo,
   square,
+  squaregeo,
   triangle,
+  trianglegeo,
   diamond,
+  diamondgeo,
   hexbin,
   arbitrary,
 };
