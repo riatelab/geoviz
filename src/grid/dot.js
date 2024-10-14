@@ -9,9 +9,9 @@ const d3 = Object.assign({}, { range });
  * @property {number} [width = 1000] - width of the grid
  * @property {number} [height = 500] - height of the grid
  * @example
- * geoviz.grid.dot(50, 1000, 500)
+ * geoviz.grid.dot({step: 30})
  */
-export function dot(step = 30, width = 1000, height = 500) {
+export function dot({ step = 30, width = 1000, height = 500 } = {}) {
   // build grid
   let y = d3.range(0 + step / 2, height, step).reverse();
   let x = d3.range(0 + step / 2, width, step);
@@ -30,5 +30,10 @@ export function dot(step = 30, width = 1000, height = 500) {
       },
     };
   });
-  return { type: "FeatureCollection", features: result };
+  return {
+    type: "FeatureCollection",
+    type: "dot",
+    coords: "svg",
+    features: result,
+  };
 }

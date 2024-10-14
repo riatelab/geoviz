@@ -9,9 +9,9 @@ const d3 = Object.assign({}, { range, max });
  * @property {number} [width = 1000] - width of the grid
  * @property {number} [height = 500] - height of the grid
  * @example
- * geoviz.grid.hexbin(50, 1000, 500)
+ * geoviz.grid.hexbin({step: 30})
  */
-export function hexbin(step = 50, width = 1000, height = 500) {
+export function hexbin({ step = 50, width = 1000, height = 500 } = {}) {
   let w = step;
   let size = w / Math.sqrt(3);
   let h = 2 * size * (3 / 4);
@@ -46,5 +46,10 @@ export function hexbin(step = 50, width = 1000, height = 500) {
       },
     };
   });
-  return { type: "FeatureCollection", features: result };
+  return {
+    type: "FeatureCollection",
+    type: "hexbin",
+    coords: "svg",
+    features: result,
+  };
 }

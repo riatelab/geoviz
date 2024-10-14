@@ -9,9 +9,9 @@ const d3 = Object.assign({}, { range });
  * @property {number} [width = 1000] - width of the grid
  * @property {number} [height = 500] - height of the grid
  * @example
- * geoviz.grid.diamond(50, 1000, 500)
+ * geoviz.grid.diamond({step: 30})
  */
-export function diamond(step = 50, width = 1000, height = 500) {
+export function diamond({ step = 50, width = 1000, height = 500 } = {}) {
   let size = step * Math.sqrt(2);
 
   // build grid
@@ -44,5 +44,10 @@ export function diamond(step = 50, width = 1000, height = 500) {
       },
     };
   });
-  return { type: "FeatureCollection", features: result };
+  return {
+    type: "FeatureCollection",
+    type: "diamond",
+    coords: "svg",
+    features: result,
+  };
 }
