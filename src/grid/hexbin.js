@@ -1,6 +1,16 @@
 import { range, max } from "d3-array";
 const d3 = Object.assign({}, { range, max });
 
+/**
+ * @function grid/hexbin
+ * @description The `grid.hexbin` function allows to create a hexbin geoJSON grid in SVG coordinates.
+ * @see {@link https://observablehq.com/@neocartocnrs/regular-grids}
+ * @property {number} [step = 50] - step of the grid
+ * @property {number} [width = 1000] - width of the grid
+ * @property {number} [height = 500] - height of the grid
+ * @example
+ * geoviz.grid.hexbin(50, 1000, 500)
+ */
 export function hexbin(step = 50, width = 1000, height = 500) {
   let w = step;
   let size = w / Math.sqrt(3);

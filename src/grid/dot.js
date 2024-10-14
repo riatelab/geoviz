@@ -1,6 +1,16 @@
 import { range } from "d3-array";
 const d3 = Object.assign({}, { range });
 
+/**
+ * @function grid/dot
+ * @description The `grid.dot` function allows to create a geoJSON vith regular dots in SVG coordinates.
+ * @see {@link https://observablehq.com/@neocartocnrs/regular-grids}
+ * @property {number} [step = 50] - step of the grid
+ * @property {number} [width = 1000] - width of the grid
+ * @property {number} [height = 500] - height of the grid
+ * @example
+ * geoviz.grid.dot(50, 1000, 500)
+ */
 export function dot(step = 30, width = 1000, height = 500) {
   // build grid
   let y = d3.range(0 + step / 2, height, step).reverse();

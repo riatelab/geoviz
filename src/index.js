@@ -82,32 +82,6 @@ export let legend = {
   symbol_horizontal,
 };
 
-// grid
-import { square } from "./grid/square.js";
-import { hexbin } from "./grid/hexbin.js";
-import { diamond } from "./grid/diamond.js";
-import { triangle } from "./grid/triangle.js";
-import { trianglegeo } from "./grid/trianglegeo.js";
-import { arbitrary } from "./grid/arbitrary.js";
-import { dot } from "./grid/dot.js";
-import { dotgeo } from "./grid/dotgeo.js";
-import { squaregeo } from "./grid/squaregeo.js";
-import { diamondgeo } from "./grid/diamondgeo.js";
-import { make } from "./grid/make.js";
-export let grid = {
-  make,
-  dot,
-  dotgeo,
-  square,
-  squaregeo,
-  triangle,
-  trianglegeo,
-  diamond,
-  diamondgeo,
-  hexbin,
-  arbitrary,
-};
-
 // effects
 import { blur } from "./effect/blur.js";
 import { shadow } from "./effect/shadow.js";
@@ -118,6 +92,26 @@ export let effect = {
   shadow,
   radialGradient,
   clipPath,
+};
+
+// grid
+import { make } from "./grid/make.js";
+import { arbitrary } from "./grid/arbitrary.js";
+import { diamond } from "./grid/diamond.js";
+import { dot } from "./grid/dot.js";
+import { h3 } from "./grid/h3.js";
+import { hexbin } from "./grid/hexbin.js";
+import { square } from "./grid/square.js";
+import { triangle } from "./grid/triangle.js";
+export let grid = {
+  make,
+  arbitrary,
+  diamond,
+  dot,
+  h3,
+  hexbin,
+  square,
+  triangle,
 };
 
 // main

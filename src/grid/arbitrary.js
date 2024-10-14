@@ -1,6 +1,17 @@
 import { Delaunay } from "d3-delaunay";
 const d3 = Object.assign({}, { Delaunay });
 
+/**
+ * @function grid/arbitrary
+ * @description The `grid.arbitrary` function allows to create an arbitrary geoJSON grid in SVG coordinates.
+ * @see {@link https://observablehq.com/@neocartocnrs/regular-grids}
+ * @property {number} [step = 50] - step of the grid
+ * @property {number} [width = 1000] - width of the grid
+ * @property {number} [height = 500] - height of the grid
+ * @example
+ * geoviz.grid.arbitrary(50, 1000, 500)
+ */
+
 export function arbitrary(step = 50, width = 1000, height = 500) {
   let grid = [];
   let nb = Math.round((width / step) * (height / step));

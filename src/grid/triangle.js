@@ -1,6 +1,16 @@
 import { range, max } from "d3-array";
 const d3 = Object.assign({}, { range, max });
 
+/**
+ * @function grid/triangle
+ * @description The `grid.triangle` function allows to create a triangle geoJSON grid in SVG coordinates.
+ * @see {@link https://observablehq.com/@neocartocnrs/regular-grids}
+ * @property {number} [step = 50] - step of the grid
+ * @property {number} [width = 1000] - width of the grid
+ * @property {number} [height = 500] - height of the grid
+ * @example
+ * geoviz.grid.triangle(50, 1000, 500)
+ */
 export function triangle(step = 50, width = 1000, height = 500) {
   let triangletop = (p, size) => {
     let h = (Math.sqrt(3) / 2) * size;

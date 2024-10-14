@@ -32,6 +32,8 @@ import { blur as addblur } from "../effect/blur.js";
 import { shadow as addshadow } from "../effect/shadow.js";
 import { radialGradient as addradialGradient } from "../effect/radialgradient.js";
 
+import { make as addgrid } from "../grid/make.js";
+
 import { circles_nested as addcircles_nested } from "../legend/circles-nested";
 import { circles as addcircles } from "../legend/circles";
 import { squares as addsquares } from "../legend/squares";
@@ -56,6 +58,7 @@ import { plot as addplot } from "../plot/plot.js";
  * @see {@link https://observablehq.com/@neocartocnrs/geoviz}
  *
  * @property {number} [width = 1000] - width of the container.
+ * @property {number} [id = "map"] - id of the svg container.
  * @property {number} [height] - height of the container. This value is automatically calculated according to `domain`. But it can be forced by entering a value.
  * @property {object|object[]} [domain] - the domain corresponds to the geographical area to be displayed. It is defined by a geoJSON or an array containing geoJSONs.
  * @property {function|string} [projection] - d3 function of projection. See [d3-geo](https://github.com/d3/d3-geo) & [d3-geo-projection](https://github.com/d3/d3-geo-projection). You can aslo write "mercator" to use tiles. (default: "none")
@@ -74,6 +77,7 @@ import { plot as addplot } from "../plot/plot.js";
 
 export function create({
   height = null,
+  id = "map",
   //projection = d3.geoEquirectangular(),
   projection = "none",
   domain,
@@ -159,6 +163,7 @@ export function create({
       .create2("svg")
       .attr("width", width)
       .attr("height", height)
+      .attr("id", id)
       .attr("viewBox", [0, 0, width, height])
       .style("background-color", background);
     svg.append("defs").attr("id", "defs");
@@ -208,6 +213,14 @@ export function create({
       })
   );
 
+  let grid = {};
+  [{ id: "make", func: addgrid }].forEach(
+    (d) =>
+      (grid[d.id] = function () {
+        return d.func(output, arguments[0]);
+      })
+  );
+
   let legend = {};
   [
     { id: "circles_nested", func: addcircles_nested },
@@ -250,6 +263,7 @@ export function create({
   return Object.assign(output, {
     ...mark,
     legend,
+    grid,
     effect,
     render: function () {
       return addrender(output, arguments[0]);

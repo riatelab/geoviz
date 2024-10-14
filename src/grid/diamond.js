@@ -1,6 +1,16 @@
 import { range } from "d3-array";
 const d3 = Object.assign({}, { range });
 
+/**
+ * @function grid/diamond
+ * @description The `grid.diamond` function allows to create a diamond geoJSON grid in SVG coordinates.
+ * @see {@link https://observablehq.com/@neocartocnrs/regular-grids}
+ * @property {number} [step = 50] - step of the grid
+ * @property {number} [width = 1000] - width of the grid
+ * @property {number} [height = 500] - height of the grid
+ * @example
+ * geoviz.grid.diamond(50, 1000, 500)
+ */
 export function diamond(step = 50, width = 1000, height = 500) {
   let size = step * Math.sqrt(2);
 
