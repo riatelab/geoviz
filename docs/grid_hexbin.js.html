@@ -50,7 +50,7 @@ export function hexbin({ step = 50, width = 1000, height = 500 } = {}) {
   });
   return {
     type: "FeatureCollection",
-    type: "hexbin",
+    grid: "hexbin",
     coords: "svg",
     features: result,
   };

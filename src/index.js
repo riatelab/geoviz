@@ -103,7 +103,8 @@ import { h3 } from "./grid/h3.js";
 import { hexbin } from "./grid/hexbin.js";
 import { square } from "./grid/square.js";
 import { triangle } from "./grid/triangle.js";
-import { countdots } from "./grid/countdots.js";
+import { count } from "./grid/count.js";
+import { intersectpolys as intersect } from "./grid/intersect.js";
 export let grid = {
   make,
   arbitrary,
@@ -113,7 +114,8 @@ export let grid = {
   hexbin,
   square,
   triangle,
-  countdots,
+  count,
+  intersect,
 };
 
 // main

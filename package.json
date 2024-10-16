@@ -37,6 +37,8 @@
   "dependencies": {
     "@turf/boolean-intersects": "^7.1.0",
     "@turf/boolean-point-in-polygon": "^6.5.0",
+    "@turf/helpers": "^7.1.0",
+    "@turf/intersect": "^7.1.0",
     "d3-delaunay": "^6.0.4",
     "d3-force": "^3.0.0",
     "d3-format": "^3.1.0",

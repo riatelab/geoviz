@@ -62,7 +62,7 @@ export function triangle({ step = 50, width = 1000, height = 500 } = {}) {
   });
   return {
     type: "FeatureCollection",
-    type: "triangle",
+    grid: "triangle",
     coords: "svg",
     features: result,
   };

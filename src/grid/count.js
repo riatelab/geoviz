@@ -1,6 +1,14 @@
 import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
 
-export function countdots(
+/**
+ * @function grid/count
+ * @description The `grid.count` function allows to count dots in polygons (e.g. grid cells)
+ * @see {@link https://observablehq.com/@neocartocnrs/regular-grids}
+ * @property {object} [dots] - dots geoJSON
+ * @property {object} [polygons] - polygons geoJSON (e.g. grid)
+ * @property {string} [var = undefined] - field (absolute quantitative data only)
+ */
+export function count(
   opts = {
     dots: undefined, // a FeatureCollection containg points
     polygons: undefined, // a FeatureCollection containg polygons (grid)

@@ -41,7 +41,7 @@ export function square({ step = 50, width = 1000, height = 500 } = {}) {
   });
   return {
     type: "FeatureCollection",
-    type: "square",
+    grid: "square",
     coords: "svg",
     features: result,
   };

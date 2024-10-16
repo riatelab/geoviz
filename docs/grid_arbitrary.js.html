@@ -42,7 +42,7 @@ export function arbitrary({ step = 50, width = 1000, height = 500 } = {}) {
   });
   return {
     type: "FeatureCollection",
-    type: "arbitrary",
+    grid: "arbitrary",
     coords: "svg",
     features: result,
   };

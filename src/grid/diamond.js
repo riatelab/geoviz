@@ -46,7 +46,7 @@ export function diamond({ step = 50, width = 1000, height = 500 } = {}) {
   });
   return {
     type: "FeatureCollection",
-    type: "diamond",
+    grid: "diamond",
     coords: "svg",
     features: result,
   };
