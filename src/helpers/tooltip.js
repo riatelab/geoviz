@@ -70,10 +70,10 @@ export function tooltip(
 
   //if input == string
   if (typeof tip === "string") {
-    const sortfields = fields.sort((a, b) => b.length - a.length);
     fields.forEach((d) => {
-      tip = tip.replace(`$${d}`, `\${d.properties.${d}}`);
+      tip = tip.replace(`$${d}`, `\${d.properties["${d}"]}`);
     });
+    console.log(tip);
     tip = eval("d => `" + tip + "`");
   }
 
@@ -97,7 +97,8 @@ export function tooltip(
     keys = Array.from(new Set(keys.flat()));
 
     let str = [];
-    keys.forEach((d) => str.push(`${d}: \${d.properties.${d}}`));
+    keys.forEach((d) => str.push(`${[d]}: \${d.properties["${d}"]}`));
+
     tip = eval("(d) => `" + str.join("\n") + "`");
   }
 
