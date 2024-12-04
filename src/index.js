@@ -139,3 +139,9 @@ export { symbol } from "./mark/symbol.js";
 
 // Plot
 export { plot } from "./plot/plot.js";
+
+// Proj
+import * as d3geo from "d3-geo";
+import * as d3geoprojection from "d3-geo-projection";
+import * as d3geoppolygon from "d3-geo-polygon";
+export let proj = Object.assign({}, d3geo, d3geoprojection, d3geoppolygon);

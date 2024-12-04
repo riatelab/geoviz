@@ -1,6 +1,7 @@
 import * as d3geo from "d3-geo";
 import * as d3geoprojection from "d3-geo-projection";
-const d3 = Object.assign({}, d3geo, d3geoprojection);
+import * as d3geoppolygon from "d3-geo-polygon";
+const d3 = Object.assign({}, d3geo, d3geoprojection, d3geoppolygon);
 
 export function stringtod3proj(string) {
   let str = string;
@@ -12,7 +13,7 @@ export function stringtod3proj(string) {
     } else {
       str = str.replace(".", "().");
     }
-    str = "d3.geo" + str;
+    str = "d3.geo" + str.charAt(0).toUpperCase() + str.slice(1);
   }
 
   const createProjection = new Function("d3", `return (${str})`);

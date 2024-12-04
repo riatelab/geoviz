@@ -1,5 +1,6 @@
 import { extent } from "../helpers/extent";
 import { unique } from "../helpers/utils";
+import { getproj } from "../projection/getproj";
 import { create as create2 } from "d3-selection";
 import {
   geoPath,
@@ -61,7 +62,7 @@ import { plot as addplot } from "../plot/plot.js";
  * @property {number} [id = "map"] - id of the svg container.
  * @property {number} [height] - height of the container. This value is automatically calculated according to `domain`. But it can be forced by entering a value.
  * @property {object|object[]} [domain] - the domain corresponds to the geographical area to be displayed. It is defined by a geoJSON or an array containing geoJSONs.
- * @property {function|string} [projection] - d3 function of projection. See [d3-geo](https://github.com/d3/d3-geo) & [d3-geo-projection](https://github.com/d3/d3-geo-projection). You can aslo write "mercator" to use tiles. (default: "none")
+ * @property {function|string} [projection] - d3 function of projection. See [d3-geo](https://github.com/d3/d3-geo), [d3-geo-projection](https://github.com/d3/d3-geo-projection) & [d3-geo-polygon](https://github.com/d3/d3-geo-polygon). All theses functions are available in geoviz like this: viz.proj.geoSomething(). You can alse use a String. E.g: d3.geoMercator() <=> viz.proj.geoMercator() <=> "Mercator" <=> "mercator". Null or “none” allows you to display geometries as they are, without reprojecting them. In this case, you must specify the domain.
  * @property {number[]} [pos] - position of the container (if contained in another svg container)
  * @property {string} [background] - background color
  * @property {string} [fontFamily] - font-family for the entire map
@@ -93,6 +94,9 @@ export function create({
   warning_message = [],
 } = {}) {
   // projection
+
+  projection = getproj(projection);
+
   const initproj = projection;
   switch (projection) {
     case "mercator":
