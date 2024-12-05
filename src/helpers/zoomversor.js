@@ -1,6 +1,6 @@
 import versor from "versor@0.2";
-
 import { circle } from "../mark/circle";
+import { rhumbs } from "../mark/rhumbs";
 import { symbol } from "../mark/symbol";
 import { square } from "../mark/square";
 import { halfcircle } from "../mark/halfcircle";
@@ -33,6 +33,9 @@ export function zoomversor(svg) {
     svg.zoomablelayers.forEach((d) => {
       const path = d3.geoPath(svg.projection);
       switch (d.mark) {
+        case "rhumbs":
+          rhumbs(svg, d);
+          break;
         case "circle":
           circle(svg, d);
           break;

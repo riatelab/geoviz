@@ -1,4 +1,5 @@
 import { circle } from "../mark/circle";
+import { rhumbs } from "../mark/rhumbs";
 import { symbol } from "../mark/symbol";
 import { square } from "../mark/square";
 import { halfcircle } from "../mark/halfcircle";
@@ -143,6 +144,10 @@ export function zoomandpan(svg) {
         case "circle":
           d.zoom = { k: t.k, x: t.x, y: t.y };
           circle(svg, d);
+          break;
+        case "rhumbs":
+          d.zoom = { k: t.k, x: t.x, y: t.y };
+          rhumbs(svg, d);
           break;
         case "symbol":
           d.zoom = { k: t.k, x: t.x, y: t.y };

@@ -40,7 +40,6 @@ export function tissot(arg1, arg2) {
   };
   opts = { ...opts, ...options };
   opts.datum = regularcircles(opts.step);
-  let ids = `#${opts.id}`;
 
   let svgopts = {};
   Object.keys(opts)
@@ -59,7 +58,7 @@ export function tissot(arg1, arg2) {
   if (newcontainer) {
     return render(svg);
   } else {
-    return ids;
+    return `#${opts.id}`;
   }
 }
 
