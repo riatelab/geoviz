@@ -49,6 +49,7 @@ export function zoomversor(svg) {
           spike(svg, d);
           break;
         case "path":
+        case "tissot":
           svg.selectAll(`#${d.id} > path`).attr("d", path);
           break;
         case "clippath":

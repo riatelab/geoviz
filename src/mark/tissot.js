@@ -32,6 +32,7 @@ export function tissot(arg1, arg2) {
   let options = newcontainer ? arg1 : arg2;
   // Default values
   let opts = {
+    mark: "tissot",
     step: 20,
     fill: "red",
     fillOpacity: 0.5,

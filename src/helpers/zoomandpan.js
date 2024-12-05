@@ -161,6 +161,7 @@ export function zoomandpan(svg) {
           spike(svg, d);
           break;
         case "path":
+        case "tissot":
           svg
             .selectAll(`#${d.id} > path`)
             .attr("d", d.coords == "svg" ? path2 : path);
