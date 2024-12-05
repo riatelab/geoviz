@@ -1,5 +1,6 @@
 // Marks
 import { graticule } from "../mark/graticule";
+import { tissot } from "../mark/tissot";
 import { outline } from "../mark/outline";
 import { path } from "../mark/path";
 import { text } from "../mark/text";
@@ -95,6 +96,9 @@ export function plot(arg1, arg2) {
       : arg2;
 
   switch (options.type) {
+    case "tissot":
+      return tissot(arg1, arg2);
+      break;
     case "graticule":
       return graticule(arg1, arg2);
       break;

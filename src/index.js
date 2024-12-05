@@ -136,6 +136,7 @@ export { render } from "./container/render";
 export { tile } from "./mark/tile.js";
 export { halfcircle } from "./mark/halfcircle.js";
 export { symbol } from "./mark/symbol.js";
+export { tissot } from "./mark/tissot.js";
 
 // Plot
 export { plot } from "./plot/plot.js";
