@@ -1,5 +1,6 @@
 // Marks
 import { graticule } from "../mark/graticule";
+import { rhumbs } from "../mark/rhumbs";
 import { tissot } from "../mark/tissot";
 import { outline } from "../mark/outline";
 import { path } from "../mark/path";
@@ -96,6 +97,10 @@ export function plot(arg1, arg2) {
       : arg2;
 
   switch (options.type) {
+    case "rhumbs":
+    case "rhumb":
+      return rhumbs(arg1, arg2);
+      break;
     case "tissot":
       return tissot(arg1, arg2);
       break;

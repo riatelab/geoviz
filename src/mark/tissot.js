@@ -41,7 +41,20 @@ export function tissot(arg1, arg2) {
   opts = { ...opts, ...options };
   opts.datum = regularcircles(opts.step);
   let ids = `#${opts.id}`;
-  let svg = newcontainer ? create({ projection: d3.geoNaturalEarth1() }) : arg1;
+
+  let svgopts = {};
+  Object.keys(opts)
+    .filter((str) => str.slice(0, 4) == "svg_")
+    .forEach((d) => {
+      Object.assign(svgopts, {
+        [d.slice(0, 4) == "svg_" ? d.slice(4) : d]: opts[d],
+      });
+      delete opts[d];
+    });
+
+  let svg = newcontainer
+    ? create({ projection: d3.geoNaturalEarth1(), ...svgopts })
+    : arg1;
   svg.path(opts);
   if (newcontainer) {
     return render(svg);

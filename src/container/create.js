@@ -33,6 +33,7 @@ import { blur as addblur } from "../effect/blur.js";
 import { shadow as addshadow } from "../effect/shadow.js";
 import { radialGradient as addradialGradient } from "../effect/radialgradient.js";
 import { tissot as addtissot } from "../mark/tissot.js";
+import { rhumbs as addrhumbs } from "../mark/rhumbs.js";
 
 import { make as addgrid } from "../grid/make.js";
 
@@ -212,6 +213,7 @@ export function create({
     { id: "north", func: addnorth },
     { id: "plot", func: addplot },
     { id: "tissot", func: addtissot },
+    { id: "rhumbs", func: addrhumbs },
   ].forEach(
     (d) =>
       (mark[d.id] = function () {
