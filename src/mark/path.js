@@ -3,7 +3,6 @@ const d3 = Object.assign({}, { geoPath, geoIdentity });
 import { create } from "../container/create";
 import { render } from "../container/render";
 import { tooltip } from "../helpers/tooltip";
-import { viewof } from "../helpers/viewof";
 import { random } from "../tool/random";
 import {
   camelcasetodash,
@@ -208,7 +207,7 @@ export function path(arg1, arg2) {
       });
 
     // Tooltip & view
-    if (opts.tip) {
+    if (opts.tip || opts.tipstyle || opts.view) {
       tooltip(
         layer,
         opts.data,
@@ -218,9 +217,6 @@ export function path(arg1, arg2) {
         fields,
         opts.view
       );
-    }
-    if (!opts.tip && opts.view) {
-      viewof(layer, svg);
     }
   }
 

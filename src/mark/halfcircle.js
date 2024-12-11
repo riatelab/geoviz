@@ -12,7 +12,6 @@ import { random } from "../tool/random";
 import { radius as computeradius } from "../tool/radius";
 import { centroid } from "../tool/centroid";
 import { tooltip } from "../helpers/tooltip";
-import { viewof } from "../helpers/viewof";
 import {
   camelcasetodash,
   unique,
@@ -289,7 +288,7 @@ export function halfcircle(arg1, arg2) {
       });
 
     // Tooltip & view
-    if (opts.tip) {
+    if (opts.tip || opts.tipstyle || opts.view) {
       tooltip(
         layer,
         opts.data,
@@ -299,9 +298,6 @@ export function halfcircle(arg1, arg2) {
         fields,
         opts.view
       );
-    }
-    if (!opts.tip && opts.view) {
-      viewof(layer, svg);
     }
   }
 

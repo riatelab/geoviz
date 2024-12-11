@@ -38,8 +38,6 @@ import {
  * @property {string|function} [stroke] - stroke color
  * @property {number} [strokeWidth = 1] - stroke width
  * @property {string|function} [strokeLinejoin = "round"] - stroke-linejoin
- * @property {boolean|function} [tip = false] - a function to display the tip. Use true tu display all fields
- * @property {object} [tipstyle = false] - tooltip style
  * @property {*} [*] - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
  * @example

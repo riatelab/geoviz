@@ -10,7 +10,6 @@ import { render } from "../container/render";
 import { height as computeheight } from "../tool/height";
 import { centroid } from "../tool/centroid";
 import { tooltip } from "../helpers/tooltip";
-import { viewof } from "../helpers/viewof";
 import {
   camelcasetodash,
   unique,
@@ -98,7 +97,7 @@ export function spike(arg1, arg2) {
       delete opts[d];
     });
   let svg = newcontainer ? create(svgopts) : arg1;
-  
+
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
     ? svg.append("g").attr("id", opts.id)
@@ -289,7 +288,7 @@ export function spike(arg1, arg2) {
       });
 
     // Tooltip & view
-    if (opts.tip) {
+    if (opts.tip || opts.tipstyle || opts.view) {
       tooltip(
         layer,
         opts.data,
@@ -299,9 +298,6 @@ export function spike(arg1, arg2) {
         fields,
         opts.view
       );
-    }
-    if (!opts.tip && opts.view) {
-      viewof(layer, svg);
     }
   }
 
