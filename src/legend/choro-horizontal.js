@@ -96,7 +96,7 @@ export function choro_horizontal(arg1, arg2) {
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
-    ? svg.append("g").attr("id", opts.id)
+    ? svg.append("g").attr("id", opts.id).attr("class", "geovizlegend")
     : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 

@@ -122,7 +122,8 @@ export function render(svg, { order = [] } = {}) {
   if (svg.versor) {
   }
 
-  // raise tooltips
+  // raise tooltips & legends
+  svg.selectAll(".geovizlegend").raise();
   svg.selectAll("#geoviztooltip").raise();
   svg.selectAll(`#${svg.controlid}`).raise();
 
