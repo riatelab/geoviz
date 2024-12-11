@@ -337,7 +337,7 @@ export function tooltip(
       }
     );
 
-  // if (style.action == "over") {
+  //if (style.action == "over") {
   layer.selectAll("*").on("touchend mouseleave", function () {
     d3.select(this)
       .attr("opacity", formerOpacity)
@@ -359,26 +359,6 @@ export function tooltip(
     }
   });
   //}
-
-  // if (style.action == "click") {
-  //   d3.select("body").on("click", function () {});
-  // }
-
-  // if (view) {
-  //   Object.defineProperty(container.node(), "value", {
-  //     get: () => dataview,
-  //   });
-  // }
-  //   .on("touchend mouseleave", function (event, d) {
-  //     if (style.action != "click") {
-  //       d3.select(this).attr("fill-opacity", formerOpacity);
-  //       geoviztooltip.style("visibility", "hidden");
-  //       if (view) {
-  //         dataview = {};
-  //         container.dispatch("input");
-  //       }
-  //     }
-  //   });
 
   // Viewof output
 
