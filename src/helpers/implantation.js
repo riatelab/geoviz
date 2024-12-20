@@ -18,5 +18,6 @@ export function implantation(x) {
     tmp.push(1);
   }
   let result = tmp.length == 1 ? tmp[0] : -1;
+
   return result;
 }
