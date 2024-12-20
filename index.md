@@ -30,6 +30,10 @@ In [Observable](https://observablehq.com/) notebooks
 geoviz = require("geoviz")
 ~~~
 
+## Examples
+
+See [simple examples](https://riatelab.github.io/geoviz/examples/) & [code sources](https://github.com/riatelab/geoviz/tree/main/examples).
+
 ## Marks
 
 The `geoviz` library provides several graphic marks that will allow you to draw your maps. circles, semi-circles, graticules, paths, scale, legends... Each mark has a specific function.
