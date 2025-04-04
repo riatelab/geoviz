@@ -114,6 +114,7 @@ export function plot(arg1, arg2) {
     case "base":
     case "simple":
     case "layer":
+    case undefined:
       return path(arg1, arg2);
       break;
     case "text":

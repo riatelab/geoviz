@@ -126,6 +126,8 @@ export function box(arg1, arg2) {
     addFrame(layer, opts);
   }
 
+  
+
   // Output;
   if (newcontainer) {
     const size = getsize(layer);
