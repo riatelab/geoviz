@@ -17,10 +17,8 @@ export function featurecollection(data, options = {}) {
   let x = JSON.parse(JSON.stringify(data));
 
   if (whatisit(x) == "table" && checkTable(options) == true) {
-    // console.log("table");
     return coords2geo(x, options);
   } else if (whatisit(x) == "table" && checkGeoTable(options) == true) {
-    // console.log("geotable");
     return geotabletogeojson(x, options);
   } else {
     switch (whatisit(x)) {

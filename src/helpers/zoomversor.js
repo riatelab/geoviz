@@ -1,4 +1,4 @@
-import versor from "versor@0.2";
+import versor from "versor";
 import { circle } from "../mark/circle";
 import { rhumbs } from "../mark/rhumbs";
 import { symbol } from "../mark/symbol";

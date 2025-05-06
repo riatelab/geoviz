@@ -76,7 +76,6 @@ export function tooltip(
     fields.forEach((d) => {
       tip = tip.replace(`$${d}`, `\${d.properties["${d}"]}`);
     });
-    console.log(tip);
     tip = eval("d => `" + tip + "`");
   }
 

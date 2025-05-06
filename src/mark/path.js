@@ -47,7 +47,6 @@ export function path(arg1, arg2) {
     !arguments[0]?._groups
       ? true
       : false;
-  console.log(newcontainer);
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
 

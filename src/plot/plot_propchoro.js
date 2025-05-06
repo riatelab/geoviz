@@ -184,7 +184,6 @@ export function plot_propchoro(arg1, arg2) {
       ? legopts.spike_straight
       : opts.straight;
 
-    console.log(opts);
 
     switch (opts.symbol) {
       case "circle":
@@ -207,7 +206,6 @@ export function plot_propchoro(arg1, arg2) {
 
     if (opts.leg2_pos == undefined) {
       const size = getsize(svg.selectAll(`#${legopts.id}`));
-      console.log(size);
       opts.leg2_pos = [opts.leg1_pos[0], opts.leg1_pos[1] + size.height + 5];
     }
 
@@ -233,7 +231,6 @@ export function plot_propchoro(arg1, arg2) {
     });
 
     ids = [`#${opts.id}`, `#${legopts.id}`, `#${legopts2.id}`];
-    console.log(ids);
   }
 
   if (newcontainer) {
