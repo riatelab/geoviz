@@ -2106,7 +2106,7 @@ var hljs = (function () {
           top.matcher.lastIndex = index;
 
           const match = top.matcher.exec(codeToHighlight);
-
+          // console.log("match", match[0], match.rule && match.rule.begin)
 
           if (!match) break;
 
