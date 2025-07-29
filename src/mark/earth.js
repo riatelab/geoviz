@@ -1,6 +1,8 @@
 import { create } from "../container/create";
 import { render } from "../container/render";
 import { unique } from "../helpers/utils";
+import { geoPath } from "d3-geo";
+const d3 = Object.assign({}, { geoPath });
 
 export async function earth(arg1, arg2) {
   // Test if new container
@@ -17,7 +19,7 @@ export async function earth(arg1, arg2) {
 
   // Arguments
   const options = {
-    mark: "tile",
+    mark: "earth",
     id: unique(),
     clipPath: undefined,
     scale: 2,
@@ -25,7 +27,6 @@ export async function earth(arg1, arg2) {
   };
 
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
-  //opts.url = geturl(opts.url);
 
   // New container
   let svgopts = {};
@@ -46,16 +47,16 @@ export async function earth(arg1, arg2) {
   layer.selectAll("*").remove();
 
   // zoomable layer
-  //   if (svg.zoomable && !svg.parent) {
-  //     if (!svg.zoomablelayers.map((d) => d.id).includes(opts.id)) {
-  //       svg.zoomablelayers.push(opts);
-  //     } else {
-  //       let i = svg.zoomablelayers.indexOf(
-  //         svg.zoomablelayers.find((d) => d.id == opts.id)
-  //       );
-  //       svg.zoomablelayers[i] = opts;
-  //     }
-  //   }
+  if (svg.zoomable && !svg.parent) {
+    if (!svg.zoomablelayers.map((d) => d.id).includes(opts.id)) {
+      svg.zoomablelayers.push(opts);
+    } else {
+      let i = svg.zoomablelayers.indexOf(
+        svg.zoomablelayers.find((d) => d.id == opts.id)
+      );
+      svg.zoomablelayers[i] = opts;
+    }
+  }
 
   // Reproject
   const reproject = geoRasterReproject()
@@ -83,8 +84,8 @@ export async function earth(arg1, arg2) {
     .attr("href", url)
     .attr("x", 0)
     .attr("y", 0)
-    .attr("width", svg.width * scale)
-    .attr("height", svg.height * scale);
+    .attr("width", svg.width * opts.scale)
+    .attr("height", svg.height * opts.scale);
 
   if (opts.clipPath) {
     const clipid = "clip" + unique();
@@ -93,7 +94,7 @@ export async function earth(arg1, arg2) {
       .append("clipPath")
       .attr("id", clipid)
       .append("path")
-      .datum(clipPath)
+      .datum(opts.clipPath)
       .attr("d", d3.geoPath(svg.projection));
     output.attr("clip-path", `url(#${clipid})`);
   }

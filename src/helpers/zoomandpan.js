@@ -4,6 +4,7 @@ import { symbol } from "../mark/symbol";
 import { square } from "../mark/square";
 import { halfcircle } from "../mark/halfcircle";
 import { spike } from "../mark/spike";
+import { earth } from "../mark/earth";
 import { text } from "../mark/text";
 import { tile } from "../mark/tile";
 import { scalebar } from "../mark/scalebar";
@@ -186,6 +187,9 @@ export function zoomandpan(svg) {
           break;
         case "tile":
           tile(svg, d);
+          break;
+        case "earth":
+          earth(svg, d);
           break;
         case "scalebar":
           scalebar(svg, d);
