@@ -140,6 +140,7 @@ export { halfcircle } from "./mark/halfcircle.js";
 export { symbol } from "./mark/symbol.js";
 export { tissot } from "./mark/tissot.js";
 export { rhumbs } from "./mark/rhumbs.js";
+import { earth } from "./mark/earth.js";
 
 // Plot
 export { plot } from "./plot/plot.js";
