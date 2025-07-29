@@ -101,7 +101,7 @@ export function square(arg1, arg2) {
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
-    ? svg.append("g").attr("id", opts.id)
+    ? svg.append("g").attr("id", opts.id).attr("data-layer", "square")
     : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 

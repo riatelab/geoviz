@@ -66,7 +66,7 @@ export function outline(arg1, arg2) {
   if (svg.initproj != "none") {
     // init layer
     let layer = svg.selectAll(`#${opts.id}`).empty()
-      ? svg.append("g").attr("id", opts.id)
+      ? svg.append("g").attr("id", opts.id).attr("data-layer", "outline")
       : svg.select(`#${opts.id}`);
     layer.selectAll("*").remove();
 

@@ -80,7 +80,7 @@ export function box(arg1, arg2) {
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
-    ? svg.append("g").attr("id", opts.id)
+    ? svg.append("g").attr("id", opts.id).attr("data-layer", "legend")
     : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
   opts = subsetobj(opts, { prefix: "", exclude: ["id", "mark"] });
@@ -125,8 +125,6 @@ export function box(arg1, arg2) {
   if (opts.frame) {
     addFrame(layer, opts);
   }
-
-  
 
   // Output;
   if (newcontainer) {

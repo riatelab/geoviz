@@ -63,7 +63,7 @@ export function rhumbs(arg1, arg2) {
 
   // init a layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
-    ? svg.append("g").attr("id", opts.id)
+    ? svg.append("g").attr("id", opts.id).attr("data-layer", "rhumbs")
     : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 

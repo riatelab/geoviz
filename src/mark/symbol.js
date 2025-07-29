@@ -119,7 +119,7 @@ export function symbol(arg1, arg2) {
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
-    ? svg.append("g").attr("id", opts.id)
+    ? svg.append("g").attr("id", opts.id).attr("data-layer", "symbol")
     : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 

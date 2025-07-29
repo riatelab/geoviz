@@ -134,6 +134,7 @@ export { footer } from "./mark/footer.js";
 export { outline } from "./mark/outline.js";
 export { path } from "./mark/path.js";
 export { render } from "./container/render";
+export { exportSVG, exportPNG } from "./container/export";
 export { tile } from "./mark/tile.js";
 export { halfcircle } from "./mark/halfcircle.js";
 export { symbol } from "./mark/symbol.js";

@@ -52,6 +52,8 @@ import { symbol_vertical as addsymbol_vertical } from "../legend/symbol-vertical
 import { symbol_horizontal as addsymbol_horizontal } from "../legend/symbol-horizontal";
 import { box as addbox } from "../legend/box";
 import { render as addrender } from "../container/render";
+import { exportSVG as addexportSVG } from "../container/export";
+import { exportPNG as addexportPNG } from "../container/export";
 
 import { plot as addplot } from "../plot/plot.js";
 
@@ -275,6 +277,12 @@ export function create({
     effect,
     render: function () {
       return addrender(output, arguments[0]);
+    },
+    exportSVG: function () {
+      return addexportSVG(output, arguments[0]);
+    },
+    exportPNG: function () {
+      return addexportPNG(output, arguments[0]);
     },
   });
 }

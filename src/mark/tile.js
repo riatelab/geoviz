@@ -64,6 +64,8 @@ export function tile(arg1, arg2) {
     });
   let svg = newcontainer ? create(svgopts) : arg1;
 
+  
+
   // Warning
   if (svg.initproj == "none" && svg.warning) {
     svg.warning_message.push(
@@ -73,7 +75,7 @@ export function tile(arg1, arg2) {
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
-    ? svg.append("g").attr("id", opts.id)
+    ? svg.append("g").attr("id", opts.id).attr("data-layer", "tile")
     : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 

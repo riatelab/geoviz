@@ -38,7 +38,7 @@ export function tissot(arg1, arg2) {
     fillOpacity: 0.5,
     stroke: "white",
   };
-  
+
   opts = { ...opts, ...options };
   opts.datum = regularcircles(opts.step);
 
@@ -55,6 +55,7 @@ export function tissot(arg1, arg2) {
   let svg = newcontainer
     ? create({ projection: d3.geoNaturalEarth1(), ...svgopts })
     : arg1;
+
   svg.path(opts);
   if (newcontainer) {
     return render(svg);

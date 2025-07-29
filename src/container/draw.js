@@ -38,6 +38,7 @@ export function draw(json) {
   let params = json?.params || {};
   // layer types
   let layertypes = json.layers.map((d) => d.type);
+
   // projection
   if (layertypes.includes("tile")) {
     params.projection = "mercator";
@@ -65,5 +66,6 @@ export function draw(json) {
   json.layers.forEach((d) => {
     svg.plot(d);
   });
+
   return svg.render();
 }
