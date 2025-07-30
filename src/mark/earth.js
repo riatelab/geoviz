@@ -13,9 +13,6 @@ export async function earth(arg1, arg2) {
       : false;
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
-  // let svg = newcontainer
-  //   ? create({ projection: geoMercator(), zoomable: true })
-  //   : arg1;
 
   // Arguments
   const options = {
@@ -23,7 +20,7 @@ export async function earth(arg1, arg2) {
     id: unique(),
     clipPath: undefined,
     scale: 2,
-    url: "https://static.observableusercontent.com/files/5d96db98787b6554710845d34afb8ee1d976a4334791ee63a058f720a7776e57c1b903d82b8de10fc45134749b4b7759f4240484d43a82b5ea1349df4f3b2c02",
+    url: "https://raw.githubusercontent.com/riatelab/geoviz/refs/heads/main/earth/HYP_50M_SR.png",
   };
 
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
@@ -79,6 +76,9 @@ export async function earth(arg1, arg2) {
   reproject.context(context)(img);
   const url = context.canvas.toDataURL("image/png");
 
+  opts._img = img; // stocke l’image originale
+  opts._canvas = canvas; // stocke le canvas si tu préfères
+
   const output = layer
     .append("image")
     .attr("href", url)
@@ -88,14 +88,16 @@ export async function earth(arg1, arg2) {
     .attr("height", svg.height * opts.scale);
 
   if (opts.clipPath) {
-    const clipid = "clip" + unique();
-    svg
-      .append("defs")
-      .append("clipPath")
-      .attr("id", clipid)
-      .append("path")
-      .datum(opts.clipPath)
-      .attr("d", d3.geoPath(svg.projection));
+    const clipid = "clip" + opts.id; // stable ID basé sur opts.id
+    if (svg.select(`#${clipid}`).empty()) {
+      svg
+        .append("defs")
+        .append("clipPath")
+        .attr("id", clipid)
+        .append("path")
+        .datum(opts.clipPath)
+        .attr("d", d3.geoPath(svg.projection));
+    }
     output.attr("clip-path", `url(#${clipid})`);
   }
 
@@ -127,7 +129,6 @@ function geoRasterReproject() {
 
     for (let y = 0, i = -1; y < h; ++y) {
       for (let x = 0; x < w; ++x) {
-        //const p = projection.invert ? projection.invert([x, y]) : [0, 0];
         const p = projection.invert([x, y]);
         const lambda = p ? p[0] : 0;
         const phi = p ? p[1] : 0;
@@ -164,4 +165,34 @@ function geoRasterReproject() {
   };
 
   return reproject;
+}
+
+export function earthReproject(svg, opts) {
+  const canvas = document.createElement("canvas");
+  canvas.width = svg.width * opts.scale;
+  canvas.height = svg.height * opts.scale;
+  const context = canvas.getContext("2d");
+
+  const reproject = geoRasterReproject()
+    .projection(svg.projection)
+    .size([svg.width, svg.height]);
+
+  reproject.context(context)(opts._img);
+  const url = canvas.toDataURL("image/png");
+
+  const layer = svg.select(`#${opts.id}`);
+  const image = layer.select("image");
+  image
+    .attr("href", url)
+    .attr("width", svg.width * opts.scale)
+    .attr("height", svg.height * opts.scale);
+
+  // Mise à jour du clipPath
+  if (opts.clipPath) {
+    const clipid = "clip" + opts.id;
+    const path = svg.select(`#${clipid} path`);
+    if (!path.empty()) {
+      path.datum(opts.clipPath).attr("d", d3.geoPath(svg.projection));
+    }
+  }
 }

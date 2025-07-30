@@ -4,7 +4,7 @@ import { symbol } from "../mark/symbol";
 import { square } from "../mark/square";
 import { halfcircle } from "../mark/halfcircle";
 import { spike } from "../mark/spike";
-import { earth } from "../mark/earth";
+import { earth, earthReproject } from "../mark/earth";
 import { text } from "../mark/text";
 import { tile } from "../mark/tile";
 import { scalebar } from "../mark/scalebar";
@@ -189,7 +189,11 @@ export function zoomandpan(svg) {
           tile(svg, d);
           break;
         case "earth":
-          earth(svg, d);
+          if (d._img) {
+            earthReproject(svg, d); // rapide, sans chargement
+          } else {
+            earth(svg, d); // premier chargement avec fetch
+          }
           break;
         case "scalebar":
           scalebar(svg, d);
