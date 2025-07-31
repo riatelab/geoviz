@@ -15,6 +15,7 @@ import { scalebar } from "../mark/scalebar";
 import { north } from "../mark/north";
 import { square } from "../mark/square";
 import { symbol } from "../mark/symbol";
+import { earth } from "../mark/earth";
 
 // Legends
 import { box } from "../legend/box";
@@ -61,6 +62,7 @@ import { plot_symbol } from "./plot_symbol";
  * @property {string} halfcircle - Usage: `geoviz.plot({type: "halfcircle", ...})`. See {@link halfcircle}
  * @property {string} spike - Usage: `geoviz.plot({type: "spike", ...})`. See {@link spike}
  * @property {string} tile - Usage: `geoviz.plot({type: "tile", ...})`. See {@link tile}
+ * @property {string} earth - Usage: `geoviz.plot({type: "earth", ...})`. See {@link earth}
  * @property {string} header - Usage: `geoviz.plot({type: "header", ...})`. See {@link header}
  * @property {string} footer - Usage: `geoviz.plot({type: "footer", ...})`. See {@link footer}
  * @property {string} scalebar - Usage: `geoviz.plot({type: "scalebar", ...})`. See {@link scalebar}
@@ -138,6 +140,9 @@ export function plot(arg1, arg2) {
       break;
     case "tile":
       return tile(arg1, arg2);
+      break;
+    case "earth":
+      return earth(arg1, arg2);
       break;
     case "header":
       return header(arg1, arg2);

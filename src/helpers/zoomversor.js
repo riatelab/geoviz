@@ -9,6 +9,7 @@ import { text } from "../mark/text";
 import { tile } from "../mark/tile";
 import { scalebar } from "../mark/scalebar";
 import { north } from "../mark/north";
+import { earthReproject } from "../mark/earth";
 import { pointers } from "d3-selection";
 import { zoom, zoomIdentity } from "d3-zoom";
 import { geoPath, geoIdentity } from "d3-geo";
@@ -69,6 +70,9 @@ export function zoomversor(svg) {
           break;
         case "tile":
           tile(svg, d);
+          break;
+        case "earth":
+          earthReproject(svg, d);
           break;
         case "scalebar":
           scalebar(svg, d);
