@@ -107,7 +107,7 @@ export async function earth(arg1, arg2) {
 
   for (let ty = 0; ty < tilesY; ty++) {
     for (let tx = 0; tx < tilesX; tx++) {
-      // Calculer la taille réelle de la tuile (bord droit et bas peuvent être plus petits)
+
       const tileWidth = Math.min(TILE_SIZE, scaledWidth - tx * TILE_SIZE);
       const tileHeight = Math.min(TILE_SIZE, scaledHeight - ty * TILE_SIZE);
 
@@ -122,7 +122,7 @@ export async function earth(arg1, arg2) {
 
       const reproject = geoRasterReproject()
         .projection(svg.projection)
-        .size([canvasWidth, canvasHeight]) // <-- Ici on prend la taille réelle de la tuile * résolution
+        .size([canvasWidth, canvasHeight]) 
         .tileViewport([tx * TILE_SIZE, ty * TILE_SIZE, tileWidth, tileHeight])
         .resolution(TILE_RES)
         .context(tileCtx);
