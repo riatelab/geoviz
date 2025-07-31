@@ -74,69 +74,70 @@ export function exportSVG(svg, { order = [], filename = "map.svg" } = {}) {
  * geoviz.exportPNG(svg, {filename: "worldmap.png"}) // where svg is the container
  * svg.exportPNG({filename: "worldmap.png"}}) // where svg is the container
  */
-export function exportPNG(
-  svg,
-  { order = [], filename = "map.png", scale = 3 } = {}
-) {
-  const svgNode = render(svg, { order });
-  const clone = svgNode.cloneNode(true);
+export async function exportPNG(svg, { filename = "map.png", scale = 3 } = {}) {
+  const svgNode = render(svg);
 
-  if (!clone.getAttribute("width") || !clone.getAttribute("height")) {
-    const bbox = clone.getBBox?.() || { width: 800, height: 600 };
-    clone.setAttribute("width", bbox.width);
-    clone.setAttribute("height", bbox.height);
+  let width = parseFloat(svgNode.getAttribute("width"));
+  let height = parseFloat(svgNode.getAttribute("height"));
+  if (!width || !height) {
+    const bbox = svgNode.getBBox?.() || { width: 800, height: 600 };
+    width = bbox.width;
+    height = bbox.height;
   }
 
-  const serializer = new XMLSerializer();
-  const svgString = serializer.serializeToString(clone);
+  const clone = svgNode.cloneNode(true);
+  const images = Array.from(clone.querySelectorAll("image"));
 
-  const utf8Bytes = new TextEncoder().encode(svgString);
-  const binaryString = Array.from(utf8Bytes, (byte) =>
-    String.fromCharCode(byte)
-  ).join("");
-  const base64 = btoa(binaryString);
-  const imgSrc = `data:image/svg+xml;base64,${base64}`;
+  const canvas = document.createElement("canvas");
+  canvas.width = width * scale;
+  canvas.height = height * scale;
+  const ctx = canvas.getContext("2d");
+  ctx.fillStyle = "white";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  const image = new Image();
+  function loadImage(src) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => {
+        resolve(img);
+      };
+      img.onerror = (e) => {
+        reject(e);
+      };
+      img.src = src;
+    });
+  }
 
-  image.onload = () => {
-    const width = parseFloat(clone.getAttribute("width")) * scale;
-    const height = parseFloat(clone.getAttribute("height")) * scale;
+  for (const imgElem of images) {
+    const href =
+      imgElem.getAttributeNS("http://www.w3.org/1999/xlink", "href") ||
+      imgElem.getAttribute("href");
 
-    const canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
+    if (!href) continue;
 
-    const context = canvas.getContext("2d");
-    context.fillStyle = "white";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+    const x = parseFloat(imgElem.getAttribute("x") || 0);
+    const y = parseFloat(imgElem.getAttribute("y") || 0);
+    const w = parseFloat(imgElem.getAttribute("width") || 0);
+    const h = parseFloat(imgElem.getAttribute("height") || 0);
 
-    canvas.toBlob(
-      (blob) => {
-        if (!blob) {
-          console.error("❌ toBlob failed: canvas is empty or invalid");
-          return;
-        }
+    try {
+      const tileImg = await loadImage(href);
+      ctx.drawImage(tileImg, x * scale, y * scale, w * scale, h * scale);
+    } catch (err) {
+      console.warn("Erreur chargement tuile pour export", href, err);
+    }
+  }
 
-        const pngUrl = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = pngUrl;
-        link.download = filename;
-
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(pngUrl);
-      },
-      "image/png",
-      1
-    );
-  };
-
-  image.onerror = (err) => {
-    console.error("❌ Error loading image from SVG", err);
-  };
-
-  image.src = imgSrc;
+  canvas.toBlob((blob) => {
+    if (!blob) return;
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, "image/png");
 }
