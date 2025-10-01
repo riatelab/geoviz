@@ -121,6 +121,7 @@ export let grid = {
 
 // main
 export { draw } from "./container/draw";
+export { view } from "./container/view";
 export { create } from "./container/create";
 export { graticule } from "./mark/graticule.js";
 export { header } from "./mark/header.js";
