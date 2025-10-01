@@ -57,6 +57,7 @@
     "docs": "^0.3.2-canary.0",
     "documentation": "^14.0.3",
     "geojson2h3": "^1.2.0",
+    "geotoolbox": "^3.0.5",
     "h3-js": "^4.1.0",
     "rollup": "^4.10.0",
     "statsbreaks": "^1.0.6",
