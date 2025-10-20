@@ -1,6 +1,7 @@
 import { create } from "../container/create";
 import { render } from "../container/render";
 import { implantation, unique } from "../helpers/utils";
+import { square, polygonstogrid, project } from "geogrid";
 
 export function plot_bertin(arg1, arg2) {
   let newcontainer =
@@ -14,6 +15,7 @@ export function plot_bertin(arg1, arg2) {
 
   // Default values
   let opts = {
+    step: 30,
     legend: true,
     symbol: "circle",
     straight: 0, // spikes
@@ -32,7 +34,7 @@ export function plot_bertin(arg1, arg2) {
   let ids = `#${opts.id}`;
 
   // leg title
-  opts.leg_title = opts.leg_title ? opts.leg_title : opts.var;
+  geogrid.opts.leg_title = opts.leg_title ? opts.leg_title : opts.var;
 
   // New container
   let svgopts = { domain: opts.data || opts.datum };
@@ -46,11 +48,21 @@ export function plot_bertin(arg1, arg2) {
     });
   let svg = newcontainer ? create(svgopts) : arg1;
 
-  // BASEMAP
+  // GRID
+  let grid = geogrid.square({
+    step: opts.step,
+    width: svg.width,
+    height: svg.height,
+  });
+  let polygons = geogrid.project(opts.data, { projection: svg.projection });
+  let gridpoly = polygonstogrid({ grid, polygons, var: opts.var });
+  console.log(gridpoly);
 
-  if (implantation(opts.data) == 3 && newcontainer) {
-    svg.path({ datum: opts.data, fill: "#CCC", fillOpacity: 0.5 });
-  }
+  //   // BASEMAP
+
+  //   if (implantation(opts.data) == 3 && newcontainer) {
+  //     svg.path({ datum: opts.data, fill: "#CCC", fillOpacity: 0.5 });
+  //   }
 
   // LAYER OPTS
 
