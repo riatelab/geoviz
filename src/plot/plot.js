@@ -41,6 +41,7 @@ import { plot_prop } from "./plot_prop";
 import { plot_propchoro } from "./plot_propchoro";
 import { plot_proptypo } from "./plot_proptypo";
 import { plot_symbol } from "./plot_symbol";
+import { plot_bertin } from "./plot_bertin";
 
 /**
  * @function plot
@@ -241,6 +242,9 @@ export function plot(arg1, arg2) {
       break;
     case "picto":
       return plot_symbol(arg1, arg2);
+      break;
+    case "bertin":
+      return plot_bertin(arg1, arg2);
       break;
   }
 }
