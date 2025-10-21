@@ -15,7 +15,7 @@ export function plot_bertin(arg1, arg2) {
 
   // Default values
   let opts = {
-    step: 30,
+    step: 15,
     coords: "geo",
     legend: true,
     symbol: "circle",
@@ -23,9 +23,9 @@ export function plot_bertin(arg1, arg2) {
     width: 30, // spikes
     id: unique(),
     missing: "white",
-    k: 50,
+    k: 10,
     fixmax: null,
-    leg_type: "nested",
+    leg_type: "separate",
     leg_pos: [10, 10],
   };
 
@@ -61,7 +61,6 @@ export function plot_bertin(arg1, arg2) {
       : opts.data;
 
   opts.data = polygonstogrid({ grid, polygons, var: opts.var });
-  opts.var = "sum";
   opts.coords = "svg";
 
   // LAYER OPTS
