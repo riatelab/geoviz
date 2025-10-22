@@ -27,7 +27,6 @@ import { radius } from "./tool/radius.js";
 import { dotstogrid } from "./tool/dotstogrid.js";
 import { symbols } from "./tool/symbols.js";
 import { grid } from "./tool/grid.js";
-import { flatten } from "./tool/flatten.js";
 export let tool = {
   addfonts,
   rewind,
@@ -49,7 +48,6 @@ export let tool = {
   dotstogrid,
   symbols,
   grid,
-  flatten,
 };
 
 // Legend

@@ -37,7 +37,6 @@ import { rhumbs as addrhumbs } from "../mark/rhumbs.js";
 import { earth as addearth } from "../mark/earth.js";
 
 import { grid as addgrid } from "../tool/grid.js";
-import { flatten as addflatten } from "../tool/flatten.js";
 
 import { circles_nested as addcircles_nested } from "../legend/circles-nested";
 import { circles as addcircles } from "../legend/circles";
@@ -237,10 +236,7 @@ export function create({
   );
 
   let tool = {};
-  [
-    { id: "flatten", func: addflatten },
-    { id: "grid", func: addgrid },
-  ].forEach(
+  [{ id: "grid", func: addgrid }].forEach(
     (d) =>
       (tool[d.id] = function () {
         return d.func(output, arguments[0]);
