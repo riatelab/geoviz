@@ -36,7 +36,8 @@ import { tissot as addtissot } from "../mark/tissot.js";
 import { rhumbs as addrhumbs } from "../mark/rhumbs.js";
 import { earth as addearth } from "../mark/earth.js";
 
-import { make as addgrid } from "../grid/make.js";
+import { grid as addgrid } from "../tool/grid.js";
+import { flatten as addflatten } from "../tool/flatten.js";
 
 import { circles_nested as addcircles_nested } from "../legend/circles-nested";
 import { circles as addcircles } from "../legend/circles";
@@ -235,13 +236,24 @@ export function create({
       })
   );
 
-  let grid = {};
-  [{ id: "make", func: addgrid }].forEach(
+  let tool = {};
+  [
+    { id: "flatten", func: addflatten },
+    { id: "grid", func: addgrid },
+  ].forEach(
     (d) =>
-      (grid[d.id] = function () {
+      (tool[d.id] = function () {
         return d.func(output, arguments[0]);
       })
   );
+
+  // let grid = {};
+  // [{ id: "grid", func: addgrid }].forEach(
+  //   (d) =>
+  //     (grid[d.id] = function () {
+  //       return d.func(output, arguments[0]);
+  //     })
+  // );
 
   let legend = {};
   [
@@ -284,8 +296,9 @@ export function create({
 
   return Object.assign(output, {
     ...mark,
+    ...tool,
     legend,
-    grid,
+    //grid,
     effect,
     render: function () {
       return addrender(output, arguments[0]);
