@@ -4,7 +4,7 @@ import { implantation, unique } from "../helpers/utils";
 
 /**
  * @function plot/prop
- * @description With the `plot({type = "prop"})` function, you can quickly draw a choropleth map.<br/><br/>
+ * @description With the `plot({type = "prop"})` function, you can quickly draw a map with proportionnal symbols.<br/><br/>
  * @see {@link https://observablehq.com/@neocartocnrs/prop}
  * @property {object} data - GeoJSON FeatureCollection. Use data to be able to iterate
  * @property {string} var - a variable name in a geoJSON containig numeric values.

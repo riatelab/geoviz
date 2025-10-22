@@ -49,17 +49,17 @@ For example:
 
 ~~~js
 // To display a geoJSON
-viz.path({data: *a geoJSON*})
+geoviz.path({data: *a geoJSON*})
 ~~~
 
 ~~~js
 // World graticule
-viz.graticule({fill: "#267A8A"})
+geoviz.graticule({fill: "#267A8A"})
 ~~~
 
 ~~~js
 // A legend for choropleth maps
-viz.choro_horizontal({data: *an array of values*})
+geoviz.choro_horizontal({data: *an array of values*})
 ~~~
 
 🌏 live demo [`path`](https://observablehq.com/@neocartocnrs/path-mark) [`circle`](https://observablehq.com/@neocartocnrs/circle-mark) [`square`](https://observablehq.com/@neocartocnrs/square-mark) [`halfcircle`](https://observablehq.com/@neocartocnrs/half-circle-mark) [`spike`](https://observablehq.com/@neocartocnrs/spike-mark) [`text`](https://observablehq.com/@neocartocnrs/text-mark) [`tile`](https://observablehq.com/@neocartocnrs/tile-mark) [`legends`](https://observablehq.com/@neocartocnrs/legends)

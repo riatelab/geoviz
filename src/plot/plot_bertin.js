@@ -3,6 +3,29 @@ import { render } from "../container/render";
 import { unique } from "../helpers/utils";
 import { square, polygonstogrid, project } from "geogrid";
 const geogrid = { square, polygonstogrid, project };
+
+/**
+ * @function plot/bertin
+ * @description With the `plot({type = "bertin"})` function, you can quickly draw a map with bertin dots<br/><br/>
+ * @see {@link https://observablehq.com/@neocartocnrs/bertin-dots}
+ * @property {object} data - GeoJSON FeatureCollection (polygons or multi-polygons).
+ * @property {string} var - a variable name in a geoJSON containig numeric values.
+ * @property {number} [step = 15] - resolution grid, in the coordinates of the SVG document (not geographic)
+ * @property {string} [symbol = "circle"] - choice of the mark to plot ("circle", "square", "spike", "halfcircle")
+ * @property {number} [k = 10] - size of the largest symbol
+ * @property {number} [fixmax = null] - value matching the symbol with value = k . Setting this value is useful for making maps comparable with each other.
+ * @property {number} [width = 30] - a number defining the width of the spikes
+ * @property {number} [straight = 0] - a number between 0 and 1 defining the curve of the spikes. 0 = curved ; 1 = straight
+ * @property {boolean} [dodge = false] - to avoid circle overlap (noot relevant fot other marks)
+ * @property {boolean} [legend = true] - boolean to add or not the legend
+ * @property {string} [leg_type = "separate"] - legend style ("nested" or "separate")
+ * @property {array} [leg_pos = [10, 10]] - position of the legend
+ * @property {*} [*] - You can also modify numerous parameters to customize the map. To do this, you can use all the parameters of the [path](#path) and [tool.typo](#tool/typo) functions. For example: `strokeWidth: 0.3`.
+ * @property {*} [leg_*] - You can also modify a wide range of parameters to customize the legend. To do this, you can use all the parameters of the [legend.circles_nested](#legend/circles_nested), [legend.circles_half](#legend/circles_half), [legend.circles_nested](#legend/circles_nested) and [legend.spikes](#legend/spikes) functions with the prefix `"leg_"`. For example: `leg_missing_text: "not available"` or `leg_values_fill: "red"`.
+ * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
+ * @example // Usage
+ * geoviz.plot({type:"bertin", data: world, var: "pop"})
+ */
 export function plot_bertin(arg1, arg2) {
   let newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
