@@ -96,6 +96,7 @@ export function create({
   zoomable = false,
   control = true,
   warning = true,
+  responsive = false,
   warning_message = [],
 } = {}) {
   // projection
@@ -170,11 +171,19 @@ export function create({
   if (parent == null) {
     let svg = d3
       .create2("svg")
-      .attr("width", width)
-      .attr("height", height)
       .attr("id", id)
       .attr("viewBox", [0, 0, width, height])
       .style("background-color", background);
+
+    if (responsive) {
+      svg
+        .style("width", "100%")
+        .style("height", "auto")
+        .style("display", "block")
+        .attr("preserveAspectRatio", "xMidYMid meet");
+    } else {
+      svg.attr("width", width).attr("height", height);
+    }
     svg.append("defs").attr("id", "defs");
     svg.append("g").attr("id", "geoviztooltip");
 
