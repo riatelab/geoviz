@@ -98,10 +98,22 @@ export function grid(svg, opts = {}) {
 
     switch (typeData) {
       case 1:
-        output = pointstogrid({ grid, points: geom, var: variable, values });
+        output = pointstogrid({
+          grid,
+          points: geom,
+          var: variable,
+          values,
+          spherical: grid.geo ? true : false,
+        });
         break;
       case 2:
-        output = linestogrid({ grid, lines: geom, var: variable, values });
+        output = linestogrid({
+          grid,
+          lines: geom,
+          var: variable,
+          values,
+          spherical: grid.geo ? true : false,
+        });
         break;
       case 3:
         output = polygonstogrid({
@@ -109,6 +121,7 @@ export function grid(svg, opts = {}) {
           polygons: geom,
           var: variable,
           values,
+          spherical: grid.geo ? true : false,
         });
         break;
       default:
