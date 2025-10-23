@@ -6,6 +6,7 @@ import {
   square,
   triangle,
   h3,
+  square_sph,
   pointstogrid,
   linestogrid,
   polygonstogrid,
@@ -70,6 +71,13 @@ export function grid(svg, opts = {}) {
       break;
     case "triangle":
       grid = triangle({ step, width: svg.width, height: svg.height, overflow });
+      break;
+    case "square_spherical":
+    case "square_sph":
+      grid = square_sph({
+        step,
+        domain,
+      });
       break;
     case "h3":
     case "h3geo":
