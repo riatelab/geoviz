@@ -64,7 +64,7 @@ import { plot as addplot } from "../plot/plot.js";
  * @see {@link https://observablehq.com/@neocartocnrs/geoviz}
  *
  * @property {number} [width = 1000] - width of the map
- * @property {boolean} [responsive = true] - The SVG map resizes with the container
+ * @property {boolean} [responsive = false] - The SVG map resizes with the container
  * @property {number} [id = "map"] - id of the svg container.
  * @property {number} [height] - height of the container. This value is automatically calculated according to `domain`. But it can be forced by entering a value.
  * @property {object|object[]} [domain] - the domain corresponds to the geographical area to be displayed. It is defined by a geoJSON or an array containing geoJSONs.
@@ -97,7 +97,7 @@ export function create({
   zoomable = false,
   control = true,
   warning = true,
-  responsive = true,
+  responsive = false,
   warning_message = [],
 } = {}) {
   // projection
