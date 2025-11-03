@@ -71,6 +71,7 @@ import { plot as addplot } from "../plot/plot.js";
  * @property {function|string} [projection] - d3 function of projection. See [d3-geo](https://github.com/d3/d3-geo), [d3-geo-projection](https://github.com/d3/d3-geo-projection) & [d3-geo-polygon](https://github.com/d3/d3-geo-polygon). All theses functions are available in geoviz like this: viz.proj.geoSomething(). You can alse use a String. E.g: d3.geoMercator() <=> viz.proj.geoMercator() <=> "Mercator" <=> "mercator". Null or “none” allows you to display geometries as they are, without reprojecting them. In this case, you must specify the domain.
  * @property {number[]} [pos] - position of the container (if contained in another svg container)
  * @property {string} [background] - background color
+ * @property {string} [transform = null] - use this attribute to apply a transformation to the svg container (e.g. "rotate(45, 100, 100)")
  * @property {string} [fontFamily] - font-family for the entire map
  * @property {number|number[]} [margin = 0] - margins around the map. A number to set the same margin everywhere or an array [top, right, bottom, left] to set different margins.
  * @property {object} [parent] - name of parent container into which this child container is to be included. In this case, the options.pos parameter is also used.
