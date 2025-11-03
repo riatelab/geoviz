@@ -95,6 +95,7 @@ export function create({
   parent = null,
   fontFamily = "Arial",
   zoomable = false,
+  transform = null,
   control = true,
   warning = true,
   responsive = false,
@@ -174,7 +175,8 @@ export function create({
       .create2("svg")
       .attr("id", id)
       .attr("viewBox", [0, 0, width, height])
-      .style("background-color", background);
+      .style("background-color", background)
+      .attr("transform", transform);
 
     if (responsive) {
       svg
