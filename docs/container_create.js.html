@@ -66,13 +66,14 @@ import { plot as addplot } from "../plot/plot.js";
  * @see {@link https://observablehq.com/@neocartocnrs/geoviz}
  *
  * @property {number} [width = 1000] - width of the map
- * @property {boolean} [responsive = true] - The SVG map resizes with the container
+ * @property {boolean} [responsive = false] - The SVG map resizes with the container
  * @property {number} [id = "map"] - id of the svg container.
  * @property {number} [height] - height of the container. This value is automatically calculated according to `domain`. But it can be forced by entering a value.
  * @property {object|object[]} [domain] - the domain corresponds to the geographical area to be displayed. It is defined by a geoJSON or an array containing geoJSONs.
  * @property {function|string} [projection] - d3 function of projection. See [d3-geo](https://github.com/d3/d3-geo), [d3-geo-projection](https://github.com/d3/d3-geo-projection) &amp; [d3-geo-polygon](https://github.com/d3/d3-geo-polygon). All theses functions are available in geoviz like this: viz.proj.geoSomething(). You can alse use a String. E.g: d3.geoMercator() &lt;=> viz.proj.geoMercator() &lt;=> "Mercator" &lt;=> "mercator". Null or “none” allows you to display geometries as they are, without reprojecting them. In this case, you must specify the domain.
  * @property {number[]} [pos] - position of the container (if contained in another svg container)
  * @property {string} [background] - background color
+ * @property {string} [transform = null] - use this attribute to apply a transformation to the svg container (e.g. "rotate(45, 100, 100)")
  * @property {string} [fontFamily] - font-family for the entire map
  * @property {number|number[]} [margin = 0] - margins around the map. A number to set the same margin everywhere or an array [top, right, bottom, left] to set different margins.
  * @property {object} [parent] - name of parent container into which this child container is to be included. In this case, the options.pos parameter is also used.
@@ -97,9 +98,10 @@ export function create({
   parent = null,
   fontFamily = "Arial",
   zoomable = false,
+  transform = null,
   control = true,
   warning = true,
-  responsive = true,
+  responsive = false,
   warning_message = [],
 } = {}) {
   // projection
@@ -176,7 +178,8 @@ export function create({
       .create2("svg")
       .attr("id", id)
       .attr("viewBox", [0, 0, width, height])
-      .style("background-color", background);
+      .style("background-color", background)
+      .attr("transform", transform);
 
     if (responsive) {
       svg
