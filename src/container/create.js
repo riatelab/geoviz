@@ -195,7 +195,7 @@ export function create({
   } else {
     let svg = parent
       .append("g")
-      .attr("transform", `translate(${pos[0]},${pos[1]})`);
+      .attr("transform", `translate(${pos[0]},${pos[1]})` || transform);
     svg.append("defs").attr("id", "defs");
     svg
       .append("rect")
