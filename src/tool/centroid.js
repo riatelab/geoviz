@@ -1,5 +1,6 @@
 // Imports
 import { geoArea, geoCentroid, geoIdentity, geoPath } from "d3-geo";
+import { featurecollection } from "./featurecollection";
 const d3 = Object.assign({}, { geoArea, geoCentroid, geoIdentity, geoPath });
 
 /**
@@ -16,6 +17,9 @@ export function centroid(data, { largest = true, latlong = true } = {}) {
   let path = d3.geoPath(d3.geoIdentity());
 
   let geojson = JSON.parse(JSON.stringify(data));
+  geojson = featurecollection(
+    geojson.features.filter((d) => d.geometry.coordinates !== undefined)
+  );
   const largestPolygon = function (d) {
     var best = {};
     var bestArea = 0;
