@@ -242,12 +242,18 @@ export function circle(arg1, arg2) {
       .filter((d) => d.geometry)
       .filter((d) => d.geometry.coordinates != undefined);
     if (detectinput(opts.r, columns) == "field") {
-      data = data.filter((d) => d.properties[opts.r] != undefined);
+      data = data.filter(
+        (d) =>
+          d.properties?.hasOwnProperty(opts.r) &&
+          d.properties[opts.r] !== undefined
+      );
     }
     data = order(data, opts.sort || opts.r, {
       fields: columns,
       descending: opts.descending,
     });
+
+    console.log(data);
 
     // Drawing
 
@@ -307,13 +313,13 @@ function attr2radius(attr, { columns, geojson, fixmax, k } = {}) {
       return attr;
     case "field":
       let radius = computeradius(
-        geojson.features.map((d) => d.properties[attr]),
+        geojson.features.map((d) => d.properties?.[attr]),
         {
           fixmax,
           k,
         }
       );
-      return (d, rr) => radius.r(Math.abs(d.properties[rr]));
+      return (d, rr) => radius.r(Math.abs(d.properties?.[rr]));
     case "value":
       return (d) => attr;
   }
