@@ -1,3 +1,7 @@
+import { select, selectAll } from "d3-selection";
+import { transition } from "d3-transition";
+const d3 = { select, selectAll, transition };
+
 /**
  * Modify one or multiple layers in one or more SVG maps with a D3 transition.
  *
