@@ -146,6 +146,12 @@ export { earth } from "./mark/earth.js";
 // Plot
 export { plot } from "./plot/plot.js";
 
+// Update
+import { attr } from "./update/attr.js";
+export let update = {
+  attr,
+};
+
 // Proj
 import * as d3geo from "d3-geo";
 import * as d3geoprojection from "d3-geo-projection";
