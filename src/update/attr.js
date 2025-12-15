@@ -10,7 +10,7 @@
  * @param {number} [options.delay=0] - Delay before the transition starts in milliseconds.
  * @param {Function} [options.onEnd] - Callback function to execute after the transition ends.
  */
-function attr({
+export function attr({
   map,
   layer,
   attrs = {},
