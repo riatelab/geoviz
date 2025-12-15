@@ -57,6 +57,10 @@ import {
  * @property {boolean|function} [tip = false] - a function to display the tip. Use true tu display all fields
  * @property {boolean} [view] - use true and viewof in Observable for this layer to act as Input
  * @property {object} [tipstyle] - tooltip style
+ * @property {boolean} [transition] - to allow transiation effects on circle updates
+ * @property {number} [duration = 500] - duration of the transition in milliseconds
+ * @property {string} [before] - id of the layer before which to insert the new layer
+ * @property {string} [after] - id of the layer after which to insert the new layer
  * @property {*} [*] - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
  * @example
