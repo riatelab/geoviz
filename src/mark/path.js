@@ -100,9 +100,32 @@ export function path(arg1, arg2) {
   }
 
   // init layer
-  let layer = svg.selectAll(`#${opts.id}`).empty()
-    ? svg.append("g").attr("id", opts.id).attr("data-layer", "path")
-    : svg.select(`#${opts.id}`);
+  let layer = svg.select(`#${opts.id}`);
+  if (layer.empty()) {
+    let before = opts.before
+      ? opts.before.startsWith("#")
+        ? opts.before
+        : `#${opts.before}`
+      : null;
+    let after = opts.after
+      ? opts.after.startsWith("#")
+        ? opts.after
+        : `#${opts.after}`
+      : null;
+
+    if (before && svg.select(before).node()) {
+      layer = svg
+        .insert("g", before)
+        .attr("id", opts.id)
+        .attr("data-layer", "circle");
+    } else if (after && svg.select(after).node()) {
+      const ref = svg.select(after).node();
+      layer = svg.append("g").attr("id", opts.id).attr("data-layer", "circle");
+      ref.after(layer.node());
+    } else {
+      layer = svg.append("g").attr("id", opts.id).attr("data-layer", "circle");
+    }
+  }
   layer.selectAll("*").remove();
 
   // zoomable layer

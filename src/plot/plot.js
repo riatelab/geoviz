@@ -99,6 +99,15 @@ export function plot(arg1, arg2) {
       ? arg1
       : arg2;
 
+  if (options?.map && options?.id) {
+    const g = createLayer({
+      map: options.map,
+      id: options.id,
+      before: options.before,
+      after: options.after,
+    });
+  }
+
   switch (options.type) {
     case "rhumbs":
     case "rhumb":

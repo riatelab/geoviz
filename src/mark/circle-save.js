@@ -1,23 +1,9 @@
 import { scaleSqrt } from "d3-scale";
 import { max, descending } from "d3-array";
 import { geoPath, geoIdentity } from "d3-geo";
-import { select, selectAll } from "d3-selection";
-import { transition } from "d3-transition";
-import { interpolateRgb } from "d3-interpolate";
-
 const d3 = Object.assign(
   {},
-  {
-    scaleSqrt,
-    max,
-    descending,
-    geoPath,
-    geoIdentity,
-    select,
-    selectAll,
-    transition,
-    interpolateRgb,
-  }
+  { scaleSqrt, max, descending, geoPath, geoIdentity }
 );
 import { create } from "../container/create";
 import { render } from "../container/render";
@@ -99,8 +85,6 @@ export function circle(arg1, arg2) {
     tipstyle: undefined,
     before: null,
     after: null,
-    transition: false,
-    duration: 500,
   };
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
@@ -143,10 +127,7 @@ export function circle(arg1, arg2) {
       layer = svg.append("g").attr("id", opts.id).attr("data-layer", "circle");
     }
   }
-
-  if (!opts.transition) {
-    layer.selectAll("*").remove();
-  }
+  layer.selectAll("*").remove();
 
   if (!opts.data) {
     opts.coords = opts.coords !== undefined ? opts.coords : "svg";
@@ -198,8 +179,6 @@ export function circle(arg1, arg2) {
         "pos",
         "before",
         "after",
-        "transition",
-        "duration",
       ].includes(d)
   );
 
@@ -301,107 +280,31 @@ export function circle(arg1, arg2) {
       descending: opts.descending,
     });
 
+    console.log(data);
+
     // Drawing
 
     path = d3.geoPath(projection);
 
-    if (opts.transition) {
-      // DATA JOIN
-      let circles = layer
-        .selectAll("circle")
-        .data(data, (d) => d.id || d.properties?.id);
+    layer
+      .selectAll("circle")
+      .data(data)
+      .join((d) => {
+        let n = d
+          .append("circle")
+          .attr("cx", (d) => path.centroid(d.geometry)[0])
+          .attr("cy", (d) => path.centroid(d.geometry)[1])
+          .attr("r", (d) => radius(d, opts.r))
+          .attr("visibility", (d) =>
+            isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
+          );
 
-      // EXIT
-      circles
-        .exit()
-        .transition()
-        .duration(opts.duration)
-        .attr("r", 0)
-        .attr("opacity", 0)
-        .remove();
-
-      // UPDATE
-      circles
-        .transition()
-        .duration(opts.duration)
-        .attr("cx", (d) => path.centroid(d.geometry)[0])
-        .attr("cy", (d) => path.centroid(d.geometry)[1])
-        .attr("r", (d) => radius(d, opts.r))
-        .tween("fill", function (d) {
-          const node = this;
-          const start = d3.select(node).attr("fill");
-          const end =
-            typeof opts.fill === "function" ? opts.fill(d) : opts.fill;
-          const interp = d3.interpolateRgb(start, end);
-          return (t) => node.setAttribute("fill", interp(t));
-        })
-        .tween("stroke", function (d) {
-          const node = this;
-          const start = d3.select(node).attr("stroke");
-          const end =
-            typeof opts.stroke === "function" ? opts.stroke(d) : opts.stroke;
-          const interp = d3.interpolateRgb(start, end);
-          return (t) => node.setAttribute("stroke", interp(t));
-        })
-        .attr("opacity", 1)
-        .attr("visibility", (d) =>
-          isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
-        );
-
-      // ENTER
-      circles
-        .enter()
-        .append("circle")
-        .attr("cx", (d) => path.centroid(d.geometry)[0])
-        .attr("cy", (d) => path.centroid(d.geometry)[1])
-        .attr("r", 0)
-        .attr("fill", (d) =>
-          typeof opts.fill === "function" ? opts.fill(d) : opts.fill
-        )
-        .attr("stroke", (d) =>
-          typeof opts.stroke === "function" ? opts.stroke(d) : opts.stroke
-        )
-        .attr("opacity", 0)
-        .transition()
-        .duration(opts.duration)
-        .attr("r", (d) => radius(d, opts.r))
-        .attr("opacity", 1)
-        .tween("fill", function (d) {
-          const node = this;
-          const start = d3.select(node).attr("fill");
-          const end =
-            typeof opts.fill === "function" ? opts.fill(d) : opts.fill;
-          const interp = d3.interpolateRgb(start, end);
-          return (t) => node.setAttribute("fill", interp(t));
-        })
-        .tween("stroke", function (d) {
-          const node = this;
-          const start = d3.select(node).attr("stroke");
-          const end =
-            typeof opts.stroke === "function" ? opts.stroke(d) : opts.stroke;
-          const interp = d3.interpolateRgb(start, end);
-          return (t) => node.setAttribute("stroke", interp(t));
+        eltattr.forEach((e) => {
+          n.attr(camelcasetodash(e), opts[e]);
         });
-    } else {
-      layer
-        .selectAll("circle")
-        .data(data)
-        .join((d) => {
-          let n = d
-            .append("circle")
-            .attr("cx", (d) => path.centroid(d.geometry)[0])
-            .attr("cy", (d) => path.centroid(d.geometry)[1])
-            .attr("r", (d) => radius(d, opts.r))
-            .attr("visibility", (d) =>
-              isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
-            );
+        return n;
+      });
 
-          eltattr.forEach((e) => {
-            n.attr(camelcasetodash(e), opts[e]);
-          });
-          return n;
-        });
-    }
     // Tooltip & view
     if (opts.tip || opts.tipstyle || opts.view) {
       tooltip(

@@ -128,5 +128,8 @@ export function render(svg, { order = [] } = {}) {
   svg.selectAll(`#${svg.controlid}`).raise();
 
   // render
-  return svg.node();
+  const dom = svg.node();
+  dom.viz = svg;
+  return dom;
+  //return svg.node();
 }
