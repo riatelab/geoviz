@@ -1,9 +1,8 @@
 import { scaleSqrt } from "d3-scale";
-import { max, descending } from "d3-array";
+import { max, descending, ascending } from "d3-array";
 import { geoPath, geoIdentity } from "d3-geo";
 import { select, selectAll } from "d3-selection";
 import { transition } from "d3-transition";
-import { interpolateRgb } from "d3-interpolate";
 
 const d3 = Object.assign(
   {},
@@ -11,12 +10,12 @@ const d3 = Object.assign(
     scaleSqrt,
     max,
     descending,
+    ascending,
     geoPath,
     geoIdentity,
     select,
     selectAll,
     transition,
-    interpolateRgb,
   }
 );
 import { create } from "../container/create";
@@ -74,16 +73,12 @@ import {
  */
 
 export function circle(arg1, arg2) {
-  // Test if new container
-  let newcontainer =
-    (arguments.length <= 1 || arguments[1] == undefined) &&
-    !arguments[0]?._groups
-      ? true
-      : false;
-  arg1 = newcontainer && arg1 == undefined ? {} : arg1;
-  arg2 = arg2 == undefined ? {} : arg2;
+  // Determine if creating a new container
+  const newContainer = !arg2 && !arg1?._groups ? true : false;
+  arg1 = newContainer && !arg1 ? {} : arg1;
+  arg2 = arg2 || {};
 
-  // Arguments
+  // Default options
   const options = {
     mark: "circle",
     id: unique(),
@@ -106,29 +101,29 @@ export function circle(arg1, arg2) {
     transition: false,
     duration: 500,
   };
-  let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
+  const opts = { ...options, ...(newContainer ? arg1 : arg2) };
 
-  // New container
-  let svgopts = { domain: opts.data || opts.datum };
+  // Extract svg_* options
+  const svgOpts = { domain: opts.data || opts.datum };
   Object.keys(opts)
-    .filter((str) => str.slice(0, 4) == "svg_")
-    .forEach((d) => {
-      Object.assign(svgopts, {
-        [d.slice(0, 4) == "svg_" ? d.slice(4) : d]: opts[d],
-      });
-      delete opts[d];
+    .filter((key) => key.startsWith("svg_"))
+    .forEach((key) => {
+      svgOpts[key.slice(4)] = opts[key];
+      delete opts[key];
     });
-  let svg = newcontainer ? create(svgopts) : arg1;
 
-  // init layer
+  // Create or reference SVG container
+  const svg = newContainer ? create(svgOpts) : arg1;
+
+  // Initialize layer
   let layer = svg.select(`#${opts.id}`);
   if (layer.empty()) {
-    let before = opts.before
+    const before = opts.before
       ? opts.before.startsWith("#")
         ? opts.before
         : `#${opts.before}`
       : null;
-    let after = opts.after
+    const after = opts.after
       ? opts.after.startsWith("#")
         ? opts.after
         : `#${opts.after}`
@@ -148,42 +143,33 @@ export function circle(arg1, arg2) {
     }
   }
 
-  if (!opts.transition) {
-    layer.selectAll("*").remove();
+  // Clear previous content if no transition
+  if (!opts.transition) layer.selectAll("*").remove();
+
+  // Determine coordinate type
+  opts.coords = opts.data ? opts.coords || "geo" : opts.coords || "svg";
+
+  // Compute centroids once if needed
+  if (opts.data && implantation(opts.data) === 3) {
+    opts.data = centroid(opts.data, {
+      latlong: svg.initproj !== "none" && opts.coords !== "svg",
+    });
   }
 
-  if (!opts.data) {
-    opts.coords = opts.coords !== undefined ? opts.coords : "svg";
-  }
-
-  if (opts.data) {
-    svg.data = true;
-    opts.coords = opts.coords !== undefined ? opts.coords : "geo";
-    opts.data =
-      implantation(opts.data) == 3
-        ? centroid(opts.data, {
-            latlong:
-              svg.initproj == "none" || opts.coords == "svg" ? false : true,
-          })
-        : opts.data;
-  }
-
-  // zoomable layer
+  // Zoomable layer handling
   if (svg.zoomable && !svg.parent) {
-    if (!svg.zoomablelayers.map((d) => d.id).includes(opts.id)) {
+    const existingIndex = svg.zoomablelayers.findIndex((d) => d.id === opts.id);
+    if (existingIndex < 0) {
       svg.zoomablelayers.push(opts);
     } else {
-      let i = svg.zoomablelayers.indexOf(
-        svg.zoomablelayers.find((d) => d.id == opts.id)
-      );
-      svg.zoomablelayers[i] = opts;
+      svg.zoomablelayers[existingIndex] = opts;
     }
   }
 
-  // Specific attributes
-  let entries = Object.entries(opts).map((d) => d[0]);
-  const notspecificattr = entries.filter(
-    (d) =>
+  // Determine attributes that are not specific to circle drawing
+  const entries = Object.keys(opts);
+  const notSpecificAttr = entries.filter(
+    (key) =>
       ![
         "mark",
         "id",
@@ -204,19 +190,19 @@ export function circle(arg1, arg2) {
         "after",
         "transition",
         "duration",
-      ].includes(d)
+      ].includes(key)
   );
 
-  // Projection
-  let projection = opts.coords == "svg" ? d3.geoIdentity() : svg.projection;
+  // Choose projection
+  let projection = opts.coords === "svg" ? d3.geoIdentity() : svg.projection;
   let path = d3.geoPath(projection);
 
-  // Simple circle
+  // --- Simple single circle ---
   if (!opts.data) {
-    notspecificattr.forEach((d) => {
-      layer.attr(camelcasetodash(d), opts[d]);
-    });
-    let pos = path.centroid({ type: "Point", coordinates: opts.pos });
+    notSpecificAttr.forEach((key) =>
+      layer.attr(camelcasetodash(key), opts[key])
+    );
+    const pos = path.centroid({ type: "Point", coordinates: opts.pos });
     layer
       .append("circle")
       .attr("cx", pos[0])
@@ -224,50 +210,34 @@ export function circle(arg1, arg2) {
       .attr("r", opts.r)
       .attr("visibility", isNaN(pos[0]) ? "hidden" : "visible");
   } else {
-    // Centroid
-    opts.data =
-      implantation(opts.data) == 3
-        ? centroid(opts.data, {
-            latlong:
-              svg.initproj == "none" || opts.coords == "svg" ? false : true,
-          })
-        : opts.data;
-
-    // layer attributes
-    let fields = propertiesentries(opts.data);
-    const layerattr = notspecificattr.filter(
-      (d) => detectinput(opts[d], fields) == "value"
+    // Prepare fields
+    const fields = propertiesentries(opts.data);
+    const layerAttr = notSpecificAttr.filter(
+      (key) => detectinput(opts[key], fields) === "value"
     );
-    layerattr.forEach((d) => {
-      layer.attr(camelcasetodash(d), opts[d]);
-    });
+    layerAttr.forEach((key) => layer.attr(camelcasetodash(key), opts[key]));
+    const eltAttr = notSpecificAttr.filter((key) => !layerAttr.includes(key));
+    eltAttr.forEach((key) => (opts[key] = check(opts[key], fields)));
 
-    // features attributes (iterate on)
-    const eltattr = notspecificattr.filter((d) => !layerattr.includes(d));
-    eltattr.forEach((d) => {
-      opts[d] = check(opts[d], fields);
-    });
-
-    // Projection
-    let projection =
-      opts.coords == "svg"
+    // Use svg zoom if coordinates are SVG
+    projection =
+      opts.coords === "svg"
         ? d3.geoIdentity().scale(svg.zoom.k).translate([svg.zoom.x, svg.zoom.y])
         : svg.projection;
+    path = d3.geoPath(projection);
 
-    // Dodge
+    // Handle dodge
     let data;
     if (opts.dodge) {
       data = JSON.parse(JSON.stringify(opts.data));
-
-      let fet = {
-        features: data.features
-          .filter((d) => !isNaN(d3.geoPath(projection).centroid(d.geometry)[0]))
-          .filter(
-            (d) => !isNaN(d3.geoPath(projection).centroid(d.geometry)[1])
-          ),
+      const filtered = {
+        features: data.features.filter(
+          (d) =>
+            !isNaN(path.centroid(d.geometry)[0]) &&
+            !isNaN(path.centroid(d.geometry)[1])
+        ),
       };
-
-      data = dodge(fet, {
+      data = dodge(filtered, {
         projection,
         gap: opts.dodgegap,
         r: opts.r,
@@ -275,25 +245,26 @@ export function circle(arg1, arg2) {
         fixmax: opts.fixmax,
         iteration: opts.iteration,
       });
-      projection = d3.geoIdentity();
+      projection = d3.geoIdentity(); // After dodge, coordinates are SVG
+      path = d3.geoPath(projection);
     } else {
       data = opts.data;
     }
 
-    // Radius
-    let columns = propertiesentries(opts.data);
-    let radius = attr2radius(opts.r, {
+    // Compute radius function
+    const columns = propertiesentries(opts.data);
+    const radius = attr2radius(opts.r, {
       columns,
       geojson: opts.data,
       fixmax: opts.fixmax,
       k: opts.k,
     });
 
-    // Sort & filter
-    data = data.features
-      .filter((d) => d.geometry)
-      .filter((d) => d.geometry.coordinates != undefined);
-    if (detectinput(opts.r, columns) == "field") {
+    // Filter & sort features
+    data = data.features.filter(
+      (d) => d.geometry && d.geometry.coordinates !== undefined
+    );
+    if (detectinput(opts.r, columns) === "field") {
       data = data.filter(
         (d) =>
           d.properties?.hasOwnProperty(opts.r) &&
@@ -305,15 +276,27 @@ export function circle(arg1, arg2) {
       descending: opts.descending,
     });
 
-    // Drawing
-
-    path = d3.geoPath(projection);
-
+    // --- Draw circles ---
     if (opts.transition) {
-      // DATA JOIN
-      let circles = layer
-        .selectAll("circle")
-        .data(data, (d) => d.id || d.properties?.id);
+      // Compute positions and IDs
+      const points = data
+        .map((d, i) => {
+          const c = path.centroid(d.geometry);
+          return {
+            ...d,
+            d,
+            cx: Number.isFinite(c[0]) ? c[0] : null,
+            cy: Number.isFinite(c[1]) ? c[1] : null,
+            radius: radius(d, opts.r),
+            id: d.id || d.properties?.id || i,
+            __order__: i, // preserve sorted order
+          };
+        })
+        .filter((d) => d.cx !== null && d.cy !== null);
+
+      const keyFn = (d) => d.id;
+
+      const circles = layer.selectAll("circle").data(points, keyFn);
 
       // EXIT
       circles
@@ -328,70 +311,49 @@ export function circle(arg1, arg2) {
       circles
         .transition()
         .duration(opts.duration)
-        .attr("cx", (d) => path.centroid(d.geometry)[0])
-        .attr("cy", (d) => path.centroid(d.geometry)[1])
-        .attr("r", (d) => radius(d, opts.r))
-        .tween("fill", function (d) {
-          const node = this;
-          const start = d3.select(node).attr("fill");
-          const end =
-            typeof opts.fill === "function" ? opts.fill(d) : opts.fill;
-          const interp = d3.interpolateRgb(start, end);
-          return (t) => node.setAttribute("fill", interp(t));
-        })
-        .tween("stroke", function (d) {
-          const node = this;
-          const start = d3.select(node).attr("stroke");
-          const end =
-            typeof opts.stroke === "function" ? opts.stroke(d) : opts.stroke;
-          const interp = d3.interpolateRgb(start, end);
-          return (t) => node.setAttribute("stroke", interp(t));
-        })
+        .attr("cx", (d) => d.cx)
+        .attr("cy", (d) => d.cy)
+        .attr("r", (d) => d.radius)
         .attr("opacity", 1)
-        .attr("visibility", (d) =>
-          isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
+        .attr("visibility", "visible")
+        .style("fill", (d) =>
+          typeof opts.fill === "function" ? opts.fill(d.d) : opts.fill
+        )
+        .style("stroke", (d) =>
+          typeof opts.stroke === "function" ? opts.stroke(d.d) : opts.stroke
         );
 
       // ENTER
       circles
         .enter()
         .append("circle")
-        .attr("cx", (d) => path.centroid(d.geometry)[0])
-        .attr("cy", (d) => path.centroid(d.geometry)[1])
+        .attr("cx", (d) => d.cx)
+        .attr("cy", (d) => d.cy)
         .attr("r", 0)
-        .attr("fill", (d) =>
-          typeof opts.fill === "function" ? opts.fill(d) : opts.fill
-        )
-        .attr("stroke", (d) =>
-          typeof opts.stroke === "function" ? opts.stroke(d) : opts.stroke
-        )
         .attr("opacity", 0)
+        .attr("visibility", "visible")
+        .style("fill", (d) =>
+          typeof opts.fill === "function" ? opts.fill(d.d) : opts.fill
+        )
+        .style("stroke", (d) =>
+          typeof opts.stroke === "function" ? opts.stroke(d.d) : opts.stroke
+        )
         .transition()
         .duration(opts.duration)
-        .attr("r", (d) => radius(d, opts.r))
-        .attr("opacity", 1)
-        .tween("fill", function (d) {
-          const node = this;
-          const start = d3.select(node).attr("fill");
-          const end =
-            typeof opts.fill === "function" ? opts.fill(d) : opts.fill;
-          const interp = d3.interpolateRgb(start, end);
-          return (t) => node.setAttribute("fill", interp(t));
-        })
-        .tween("stroke", function (d) {
-          const node = this;
-          const start = d3.select(node).attr("stroke");
-          const end =
-            typeof opts.stroke === "function" ? opts.stroke(d) : opts.stroke;
-          const interp = d3.interpolateRgb(start, end);
-          return (t) => node.setAttribute("stroke", interp(t));
-        });
+        .attr("r", (d) => d.radius)
+        .attr("opacity", 1);
+
+      // Ensure proper DOM order
+      layer
+        .selectAll("circle")
+        .sort((a, b) => d3.ascending(a.__order__, b.__order__));
     } else {
+      // Non-transition path
       layer
         .selectAll("circle")
         .data(data)
         .join((d) => {
-          let n = d
+          const n = d
             .append("circle")
             .attr("cx", (d) => path.centroid(d.geometry)[0])
             .attr("cy", (d) => path.centroid(d.geometry)[1])
@@ -400,13 +362,12 @@ export function circle(arg1, arg2) {
               isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
             );
 
-          eltattr.forEach((e) => {
-            n.attr(camelcasetodash(e), opts[e]);
-          });
+          eltAttr.forEach((e) => n.attr(camelcasetodash(e), opts[e]));
           return n;
         });
     }
-    // Tooltip & view
+
+    // Tooltip & view handling
     if (opts.tip || opts.tipstyle || opts.view) {
       tooltip(
         layer,
@@ -420,8 +381,8 @@ export function circle(arg1, arg2) {
     }
   }
 
-  // Output
-  if (newcontainer) {
+  // --- Output ---
+  if (newContainer) {
     const size = getsize(layer);
     svg
       .attr("width", size.width)
@@ -433,19 +394,15 @@ export function circle(arg1, arg2) {
   }
 }
 
-// convert r attrubute to radius function
-
+// Convert r attribute to a radius function
 function attr2radius(attr, { columns, geojson, fixmax, k } = {}) {
   switch (detectinput(attr, columns)) {
     case "function":
       return attr;
     case "field":
-      let radius = computeradius(
+      const radius = computeradius(
         geojson.features.map((d) => d.properties?.[attr]),
-        {
-          fixmax,
-          k,
-        }
+        { fixmax, k }
       );
       return (d, rr) => radius.r(Math.abs(d.properties?.[rr]));
     case "value":

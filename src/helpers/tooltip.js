@@ -186,64 +186,40 @@ export function tooltip(
   function ensureSavedOriginal(el, d) {
     const node = el.node();
     if (!node.__oldStyle__) {
-      node.__oldStyle__ = resolveEffective(el, d);
+      // garde les valeurs résolues
+      const resolved = resolveEffective(el, d);
+      node.__oldStyle__ = Object.assign({}, resolved);
     }
   }
-
   // restore original (use the saved resolved values)
   function restoreOriginal(el) {
     if (!el || el.empty()) return;
     const node = el.node();
-    const old = node && node.__oldStyle__;
+    const old = node.__oldStyle__;
     if (!old) return;
 
-    // set attributes/styles to the saved resolved values (strings or null)
-    if (old.fill !== null) el.style("fill", old.fill).attr("fill", old.fill);
-    else {
-      el.style("fill", null).attr("fill", null);
-    }
+    // stop any transitions
+    el.interrupt?.();
 
-    if (old.stroke !== null)
-      el.style("stroke", old.stroke).attr("stroke", old.stroke);
-    else {
-      el.style("stroke", null).attr("stroke", null);
-    }
+    // restore both style and attr
+    el.attr("fill", old.fill).style("fill", old.fill);
+    el.attr("stroke", old.stroke).style("stroke", old.stroke);
+    el.attr("fill-opacity", old.fillOpacity).style(
+      "fill-opacity",
+      old.fillOpacity
+    );
+    el.attr("stroke-opacity", old.strokeOpacity).style(
+      "stroke-opacity",
+      old.strokeOpacity
+    );
+    el.attr("opacity", old.opacity).style("opacity", old.opacity);
+    el.attr("stroke-width", old.strokeWidth).style(
+      "stroke-width",
+      old.strokeWidth
+    );
+    el.style("cursor", old.cursor);
 
-    if (old.fillOpacity !== null)
-      el.style("fill-opacity", old.fillOpacity).attr(
-        "fill-opacity",
-        old.fillOpacity
-      );
-    else {
-      el.style("fill-opacity", null).attr("fill-opacity", null);
-    }
-
-    if (old.opacity !== null)
-      el.attr("opacity", old.opacity).style("opacity", old.opacity);
-    else {
-      el.attr("opacity", null).style("opacity", null);
-    }
-
-    if (old.strokeWidth !== null)
-      el.style("stroke-width", old.strokeWidth).attr(
-        "stroke-width",
-        old.strokeWidth
-      );
-    else {
-      el.style("stroke-width", null).attr("stroke-width", null);
-    }
-
-    if (old.strokeOpacity !== null)
-      el.style("stroke-opacity", old.strokeOpacity).attr(
-        "stroke-opacity",
-        old.strokeOpacity
-      );
-    else {
-      el.style("stroke-opacity", null).attr("stroke-opacity", null);
-    }
-
-    if (old.cursor !== null) el.style("cursor", old.cursor);
-    // keep saved __oldStyle__ if you want reuse, else you can delete it:
+    // optionally, delete saved style to force recompute next time
     // delete node.__oldStyle__;
   }
 
@@ -306,9 +282,11 @@ export function tooltip(
   // ensure saved on enter (so resolved values computed before modification)
   layer.selectAll("*").on("mouseenter", function (event, d) {
     const el = d3.select(this);
-    ensureSavedOriginal(el, d);
+    // Ne pas écraser __oldStyle__ si déjà sauvegardé
+    if (!el.node().__oldStyle__) {
+      el.node().__oldStyle__ = resolveEffective(el, d);
+    }
   });
-
   // main handler
   layer
     .selectAll("*")

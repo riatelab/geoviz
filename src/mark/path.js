@@ -230,6 +230,8 @@ export function path(arg1, arg2) {
 
     // Tooltip & view
     if (opts.tip || opts.tipstyle || opts.view) {
+      // console.log(opts.data);
+      // console.log(fields);
       tooltip(
         layer,
         opts.data,

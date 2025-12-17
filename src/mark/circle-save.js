@@ -1,9 +1,22 @@
 import { scaleSqrt } from "d3-scale";
-import { max, descending } from "d3-array";
+import { max, descending, ascending } from "d3-array";
 import { geoPath, geoIdentity } from "d3-geo";
+import { select, selectAll } from "d3-selection";
+import { transition } from "d3-transition";
+
 const d3 = Object.assign(
   {},
-  { scaleSqrt, max, descending, geoPath, geoIdentity }
+  {
+    scaleSqrt,
+    max,
+    descending,
+    ascending,
+    geoPath,
+    geoIdentity,
+    select,
+    selectAll,
+    transition,
+  }
 );
 import { create } from "../container/create";
 import { render } from "../container/render";
@@ -43,6 +56,10 @@ import {
  * @property {boolean|function} [tip = false] - a function to display the tip. Use true tu display all fields
  * @property {boolean} [view] - use true and viewof in Observable for this layer to act as Input
  * @property {object} [tipstyle] - tooltip style
+ * @property {boolean} [transition] - to allow transiation effects on circle updates
+ * @property {number} [duration = 500] - duration of the transition in milliseconds
+ * @property {string} [before] - id of the layer before which to insert the new layer
+ * @property {string} [after] - id of the layer after which to insert the new layer
  * @property {*} [*] - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
  * @example
@@ -85,6 +102,8 @@ export function circle(arg1, arg2) {
     tipstyle: undefined,
     before: null,
     after: null,
+    transition: false,
+    duration: 500,
   };
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
@@ -127,7 +146,10 @@ export function circle(arg1, arg2) {
       layer = svg.append("g").attr("id", opts.id).attr("data-layer", "circle");
     }
   }
-  layer.selectAll("*").remove();
+
+  if (!opts.transition) {
+    layer.selectAll("*").remove();
+  }
 
   if (!opts.data) {
     opts.coords = opts.coords !== undefined ? opts.coords : "svg";
@@ -179,6 +201,8 @@ export function circle(arg1, arg2) {
         "pos",
         "before",
         "after",
+        "transition",
+        "duration",
       ].includes(d)
   );
 
@@ -280,31 +304,98 @@ export function circle(arg1, arg2) {
       descending: opts.descending,
     });
 
-    console.log(data);
-
     // Drawing
 
     path = d3.geoPath(projection);
 
-    layer
-      .selectAll("circle")
-      .data(data)
-      .join((d) => {
-        let n = d
-          .append("circle")
-          .attr("cx", (d) => path.centroid(d.geometry)[0])
-          .attr("cy", (d) => path.centroid(d.geometry)[1])
-          .attr("r", (d) => radius(d, opts.r))
-          .attr("visibility", (d) =>
-            isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
-          );
+    if (opts.transition) {
+      const points = (data.features || data)
+        .map((d, i) => {
+          const c = path.centroid(d.geometry);
+          return {
+            ...d,
+            d,
+            cx: Number.isFinite(c[0]) ? c[0] : null,
+            cy: Number.isFinite(c[1]) ? c[1] : null,
+            radius: radius(d, opts.r),
+            id: d.id || d.properties?.id || i,
+            __order__: i,
+          };
+        })
+        .filter((d) => d.cx !== null && d.cy !== null);
 
-        eltattr.forEach((e) => {
-          n.attr(camelcasetodash(e), opts[e]);
+      const keyFn = (d) => d.id;
+
+      let circles = layer.selectAll("circle").data(points, keyFn);
+
+      // --- EXIT ---
+      circles
+        .exit()
+        .transition()
+        .duration(opts.duration)
+        .attr("r", 0)
+        .attr("opacity", 0)
+        .remove();
+
+      // --- UPDATE ---
+      circles
+        .transition()
+        .duration(opts.duration)
+        .attr("cx", (d) => d.cx)
+        .attr("cy", (d) => d.cy)
+        .attr("r", (d) => d.radius)
+        .attr("opacity", 1)
+        .attr("visibility", "visible")
+        .style("fill", (d) =>
+          typeof opts.fill === "function" ? opts.fill(d.d) : opts.fill
+        )
+        .style("stroke", (d) =>
+          typeof opts.stroke === "function" ? opts.stroke(d.d) : opts.stroke
+        );
+
+      // --- ENTER ---
+      circles
+        .enter()
+        .append("circle")
+        .attr("cx", (d) => d.cx)
+        .attr("cy", (d) => d.cy)
+        .attr("r", 0)
+        .attr("opacity", 0)
+        .attr("visibility", "visible")
+        .style("fill", (d) =>
+          typeof opts.fill === "function" ? opts.fill(d.d) : opts.fill
+        )
+        .style("stroke", (d) =>
+          typeof opts.stroke === "function" ? opts.stroke(d.d) : opts.stroke
+        )
+        .transition()
+        .duration(opts.duration)
+        .attr("r", (d) => d.radius)
+        .attr("opacity", 1);
+
+      layer
+        .selectAll("circle")
+        .sort((a, b) => d3.ascending(a.__order__, b.__order__));
+    } else {
+      layer
+        .selectAll("circle")
+        .data(data)
+        .join((d) => {
+          let n = d
+            .append("circle")
+            .attr("cx", (d) => path.centroid(d.geometry)[0])
+            .attr("cy", (d) => path.centroid(d.geometry)[1])
+            .attr("r", (d) => radius(d, opts.r))
+            .attr("visibility", (d) =>
+              isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
+            );
+
+          eltattr.forEach((e) => {
+            n.attr(camelcasetodash(e), opts[e]);
+          });
+          return n;
         });
-        return n;
-      });
-
+    }
     // Tooltip & view
     if (opts.tip || opts.tipstyle || opts.view) {
       tooltip(
