@@ -11,19 +11,13 @@ const d3 = Object.assign({}, { select, pointers });
  * @see {@link https://observablehq.com/@neocartocnrs/geoviz}
  *
  * @property {SVGSVGElement} svg - SVG container to display. This can be generated using the `create` function.
+ * @property {string} map - div id where to append the svg container.
  * @property {object[]} [order] - array determining the order of layers. This option is only useful in Observable notebooks (because of its topological nature).
  * @example
  * geoviz.render(svg, {order: [basemap, roads, cities]}) // where svg is the container
  * svg.render({order: [basemap, roads, cities]}) // where svg is the container
  */
-export function render(svg, { order = [] } = {}) {
-  // Adjust extent // TODO
-  // const size = getsize(svg);
-  // svg
-  //   .attr("width", size.width)
-  //   .attr("height", size.height)
-  //   .attr("viewBox", [size.x, size.y, size.width, size.height]);
-
+export function render(svg, { map, order = [] } = {}) {
   // Reorder layers
   if (order.length > 0) {
     order = order.flat();
@@ -130,6 +124,10 @@ export function render(svg, { order = [] } = {}) {
   // render
   const dom = svg.node();
   dom.viz = svg;
-  return dom;
-  //return svg.node();
+
+  if (map) {
+    document.querySelector(`#${map}`).append(dom);
+  } else {
+    return dom;
+  }
 }

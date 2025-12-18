@@ -16,6 +16,7 @@ import { north } from "../mark/north";
 import { square } from "../mark/square";
 import { symbol } from "../mark/symbol";
 import { earth } from "../mark/earth";
+import { empty } from "../mark/empty";
 
 // Legends
 import { box } from "../legend/box";
@@ -118,6 +119,9 @@ export function plot(arg1, arg2) {
       break;
     case "graticule":
       return graticule(arg1, arg2);
+      break;
+    case "empty":
+      return empty(arg1, arg2);
       break;
     case "outline":
       return outline(arg1, arg2);

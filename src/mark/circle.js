@@ -58,8 +58,6 @@ import {
  * @property {object} [tipstyle] - tooltip style
  * @property {boolean} [transition] - to allow transiation effects on circle updates
  * @property {number} [duration = 500] - duration of the transition in milliseconds
- * @property {string} [before] - id of the layer before which to insert the new layer
- * @property {string} [after] - id of the layer after which to insert the new layer
  * @property {*} [*] - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
  * @example
@@ -114,33 +112,12 @@ export function circle(arg1, arg2) {
 
   // Create or reference SVG container
   const svg = newContainer ? create(svgOpts) : arg1;
+  console.log(arg1);
 
   // Initialize layer
   let layer = svg.select(`#${opts.id}`);
   if (layer.empty()) {
-    const before = opts.before
-      ? opts.before.startsWith("#")
-        ? opts.before
-        : `#${opts.before}`
-      : null;
-    const after = opts.after
-      ? opts.after.startsWith("#")
-        ? opts.after
-        : `#${opts.after}`
-      : null;
-
-    if (before && svg.select(before).node()) {
-      layer = svg
-        .insert("g", before)
-        .attr("id", opts.id)
-        .attr("data-layer", "circle");
-    } else if (after && svg.select(after).node()) {
-      const ref = svg.select(after).node();
-      layer = svg.append("g").attr("id", opts.id).attr("data-layer", "circle");
-      ref.after(layer.node());
-    } else {
-      layer = svg.append("g").attr("id", opts.id).attr("data-layer", "circle");
-    }
+    layer = svg.append("g").attr("id", opts.id).attr("data-layer", "circle");
   }
 
   // Clear previous content if no transition

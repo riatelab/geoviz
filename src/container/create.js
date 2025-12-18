@@ -35,6 +35,7 @@ import { radialGradient as addradialGradient } from "../effect/radialgradient.js
 import { tissot as addtissot } from "../mark/tissot.js";
 import { rhumbs as addrhumbs } from "../mark/rhumbs.js";
 import { earth as addearth } from "../mark/earth.js";
+import { empty as addempty } from "../mark/empty.js";
 
 import { grid as addgrid } from "../tool/grid.js";
 
@@ -231,6 +232,7 @@ export function create({
     { id: "tissot", func: addtissot },
     { id: "rhumbs", func: addrhumbs },
     { id: "earth", func: addearth },
+    { id: "empty", func: addempty },
   ].forEach(
     (d) =>
       (mark[d.id] = function () {
@@ -245,14 +247,6 @@ export function create({
         return d.func(output, arguments[0]);
       })
   );
-
-  // let grid = {};
-  // [{ id: "grid", func: addgrid }].forEach(
-  //   (d) =>
-  //     (grid[d.id] = function () {
-  //       return d.func(output, arguments[0]);
-  //     })
-  // );
 
   let legend = {};
   [
@@ -297,7 +291,6 @@ export function create({
     ...mark,
     ...tool,
     legend,
-    //grid,
     effect,
     render: function () {
       return addrender(output, arguments[0]);

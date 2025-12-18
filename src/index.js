@@ -142,6 +142,7 @@ export { symbol } from "./mark/symbol.js";
 export { tissot } from "./mark/tissot.js";
 export { rhumbs } from "./mark/rhumbs.js";
 export { earth } from "./mark/earth.js";
+export { empty } from "./mark/empty.js";
 
 // Plot
 export { plot } from "./plot/plot.js";
