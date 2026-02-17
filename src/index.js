@@ -129,6 +129,7 @@ export { north } from "./mark/north.js";
 export { scalebar } from "./mark/scalebar.js";
 export { text } from "./mark/text.js";
 export { circle } from "./mark/circle.js";
+export { isoband } from "./mark/isoband.js";
 export { square } from "./mark/square.js";
 export { spike } from "./mark/spike.js";
 export { footer } from "./mark/footer.js";

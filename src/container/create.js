@@ -11,13 +11,14 @@ import {
 } from "d3-geo";
 const d3 = Object.assign(
   {},
-  { create2, geoPath, geoBounds, geoEquirectangular, geoMercator, geoIdentity }
+  { create2, geoPath, geoBounds, geoEquirectangular, geoMercator, geoIdentity },
 );
 
 import { outline as addoutline } from "../mark/outline.js";
 import { graticule as addgraticule } from "../mark/graticule.js";
 import { text as addtext } from "../mark/text.js";
 import { circle as addcircle } from "../mark/circle.js";
+import { isoband as addisoband } from "../mark/isoband.js";
 import { square as addsquare } from "../mark/square.js";
 import { halfcircle as addhalfcircle } from "../mark/halfcircle.js";
 import { spike as addspike } from "../mark/spike.js";
@@ -219,6 +220,7 @@ export function create({
     { id: "symbol", func: addsymbol },
     { id: "graticule", func: addgraticule },
     { id: "circle", func: addcircle },
+    { id: "isoband", func: addisoband },
     { id: "square", func: addsquare },
     { id: "halfcircle", func: addhalfcircle },
     { id: "spike", func: addspike },
@@ -237,7 +239,7 @@ export function create({
     (d) =>
       (mark[d.id] = function () {
         return d.func(output, arguments[0]);
-      })
+      }),
   );
 
   let tool = {};
@@ -245,7 +247,7 @@ export function create({
     (d) =>
       (tool[d.id] = function () {
         return d.func(output, arguments[0]);
-      })
+      }),
   );
 
   let legend = {};
@@ -268,7 +270,7 @@ export function create({
     (d) =>
       (legend[d.id] = function () {
         return d.func(output, arguments[0]);
-      })
+      }),
   );
 
   let effect = {};
@@ -282,7 +284,7 @@ export function create({
     (d) =>
       (effect[d.id] = function () {
         return d.func(output, arguments[0]);
-      })
+      }),
   );
 
   // Output
