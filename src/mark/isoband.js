@@ -1,12 +1,20 @@
-import { scaleSqrt } from "d3-scale";
+import { scaleSqrt, scaleSequential, scaleLinear } from "d3-scale";
 import { max, sum, extent } from "d3-array";
 import { geoPath, geoIdentity } from "d3-geo";
 import { contourDensity } from "d3-contour";
+import {
+  interpolateInferno,
+  interpolateViridis,
+  interpolateWarm,
+  interpolateCool,
+} from "d3-scale-chromatic";
 
 const d3 = Object.assign(
   {},
   {
     scaleSqrt,
+    scaleSequential,
+    scaleLinear,
     max,
     geoPath,
     geoIdentity,
@@ -33,106 +41,76 @@ import {
 } from "../helpers/utils";
 
 export function isoband(arg1, arg2) {
-  // ---------------------------
-  // Container detection
-  // ---------------------------
-
-  let newcontainer =
+  const newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
-    !arguments[0]?._groups
-      ? true
-      : false;
+    !arguments[0]?._groups;
 
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
 
-  // ---------------------------
-  // Options
-  // ---------------------------
-
   const options = {
-    mark: "smooth",
+    mark: "isoband",
     id: unique(),
     data: undefined,
-    field: undefined,
+    var: undefined,
     nb: 100000,
     bandwidth: undefined,
+    fixbandwidth: false,
     thresholds: undefined,
     cellSize: undefined,
-    fill: random(),
     stroke: "none",
     tip: undefined,
     tipstyle: undefined,
+    fill: undefined, // prioritary fill (any CSS value)
+    colors: "inferno", // palette or hex, used only if fill is undefined
+    opacity: undefined, // fixed opacity
+    fillOpacity: undefined, // alternative fixed opacity
   };
 
-  let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
-
-  // ---------------------------
-  // Create container if needed
-  // ---------------------------
+  const opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
   let svgopts = { domain: opts.data || opts.datum };
 
   Object.keys(opts)
-    .filter((str) => str.slice(0, 4) == "svg_")
+    .filter((str) => str.slice(0, 4) === "svg_")
     .forEach((d) => {
       Object.assign(svgopts, { [d.slice(4)]: opts[d] });
       delete opts[d];
     });
 
-  let svg = newcontainer ? create(svgopts) : arg1;
+  const svg = newcontainer ? create(svgopts) : arg1;
 
-  // ---------------------------
-  // Init layer
-  // ---------------------------
-
-  let layer = svg.selectAll(`#${opts.id}`).empty()
+  const layer = svg.selectAll(`#${opts.id}`).empty()
     ? svg.append("g").attr("id", opts.id).attr("data-layer", "isoband")
     : svg.select(`#${opts.id}`);
 
   layer.selectAll("*").remove();
 
-  // ---------------------------
-  // Coordinates mode
-  // ---------------------------
-
-  if (!opts.data) {
-    opts.coords = opts.coords !== undefined ? opts.coords : "svg";
-  }
+  if (!opts.data) opts.coords = opts.coords ?? "svg";
 
   if (opts.data) {
-    opts.coords = opts.coords !== undefined ? opts.coords : "geo";
-
+    opts.coords = opts.coords ?? "geo";
     opts.data =
-      implantation(opts.data) == 3
+      implantation(opts.data) === 3
         ? centroid(opts.data, {
             latlong:
-              svg.initproj == "none" || opts.coords == "svg" ? false : true,
+              svg.initproj === "none" || opts.coords === "svg" ? false : true,
           })
         : opts.data;
   }
-
-  // ---------------------------
-  // Zoomable layer
-  // ---------------------------
 
   if (svg.zoomable && !svg.parent) {
     if (!svg.zoomablelayers.map((d) => d.id).includes(opts.id)) {
       svg.zoomablelayers.push(opts);
     } else {
-      let i = svg.zoomablelayers.indexOf(
-        svg.zoomablelayers.find((d) => d.id == opts.id),
+      const i = svg.zoomablelayers.indexOf(
+        svg.zoomablelayers.find((d) => d.id === opts.id),
       );
       svg.zoomablelayers[i] = opts;
     }
   }
 
-  // ---------------------------
-  // Attributes separation
-  // ---------------------------
-
-  let entries = Object.entries(opts).map((d) => d[0]);
-
+  const entries = Object.entries(opts).map((d) => d[0]);
   const notspecificattr = entries.filter(
     (d) =>
       ![
@@ -141,100 +119,71 @@ export function isoband(arg1, arg2) {
         "coords",
         "data",
         "bandwidth",
+        "fixbandwidth",
         "thresholds",
         "cellSize",
         "tip",
         "tipstyle",
         "pos",
-        "field",
+        "var",
         "nb",
+        "fill",
+        "colors",
+        "opacity",
+        "fillOpacity",
       ].includes(d),
   );
 
-  // ---------------------------
-  // No data case
-  // ---------------------------
-
   if (!opts.data) return;
 
-  // ---------------------------
-  // Projection
-  // ---------------------------
-
-  let projection =
-    opts.coords == "svg"
+  const projection =
+    opts.coords === "svg"
       ? d3.geoIdentity().scale(svg.zoom.k).translate([svg.zoom.x, svg.zoom.y])
       : svg.projection;
 
-  let path = d3.geoPath(d3.geoIdentity());
-
-  // ---------------------------
-  // Centroid safety
-  // ---------------------------
+  const path = d3.geoPath(d3.geoIdentity());
 
   opts.data =
-    implantation(opts.data) == 3
+    implantation(opts.data) === 3
       ? centroid(opts.data, {
           latlong:
-            svg.initproj == "none" || opts.coords == "svg" ? false : true,
+            svg.initproj === "none" || opts.coords === "svg" ? false : true,
         })
       : opts.data;
 
-  // ---------------------------
-  // Layer attributes
-  // ---------------------------
-
-  let fields = propertiesentries(opts.data);
+  const fields = propertiesentries(opts.data);
 
   const layerattr = notspecificattr.filter(
-    (d) => detectinput(opts[d], fields) == "value",
+    (d) => detectinput(opts[d], fields) === "value",
   );
-
   layerattr.forEach((d) => {
     layer.attr(camelcasetodash(d), opts[d]);
   });
 
-  // ---------------------------
-  // Element attributes
-  // ---------------------------
-
   const eltattr = notspecificattr.filter((d) => !layerattr.includes(d));
-
   eltattr.forEach((d) => {
     opts[d] = check(opts[d], fields);
   });
 
-  // ---------------------------
-  // Build dots
-  // ---------------------------
-
   let dots = decompose({
     data: opts.data,
-    field: opts.field,
+    var: opts.var,
     nb: opts.nb,
     projection,
   });
-
   if (!dots.length) return;
 
-  // ---------------------------
-  // Density params
-  // ---------------------------
-
   const n = dots.length;
-
-  const bandwidth = opts.bandwidth ?? Math.min(svg.width, svg.height) / 100;
+  const bandwidth = !opts.fixbandwidth
+    ? (opts.bandwidth ?? Math.min(svg.width, svg.height) / 100)
+    : (opts.bandwidth ?? Math.min(svg.width, svg.height) / 100) *
+      (svg.zoom.k ?? 1);
 
   const thresholds =
     opts.thresholds ?? Math.max(5, Math.min(20, Math.round(Math.sqrt(n) / 2)));
-
   const cellSize = opts.cellSize ?? Math.max(2, Math.round(bandwidth / 3));
 
-  // ---------------------------
-  // Density generator
-  // ---------------------------
-
-  let contour = d3
+  const contour = d3
     .contourDensity()
     .x((d) => d[0])
     .y((d) => d[1])
@@ -243,88 +192,99 @@ export function isoband(arg1, arg2) {
     .thresholds(thresholds)
     .cellSize(cellSize);
 
-  let bands = contour(dots);
+  const bands = contour(dots);
 
   // ---------------------------
-  // Opacity scale
+  // Colors and opacity
   // ---------------------------
+  let colorScale;
+  if (opts.fill != null) {
+    colorScale = () => opts.fill; // fill overrides everything
+  } else if (typeof opts.colors === "string" && opts.colors.startsWith("#")) {
+    colorScale = () => opts.colors;
+  } else {
+    let interpolator;
+    switch ((opts.colors || "inferno").toLowerCase()) {
+      case "viridis":
+        interpolator = interpolateViridis;
+        break;
+      case "warm":
+        interpolator = interpolateWarm;
+        break;
+      case "cool":
+        interpolator = interpolateCool;
+        break;
+      case "inferno":
+      default:
+        interpolator = interpolateInferno;
+    }
+    const extentValues = d3.extent(bands, (d) => d.value);
+    colorScale = d3.scaleSequential(interpolator).domain(extentValues);
+  }
 
-  const opacityScale = d3
-    .scaleSqrt()
-    .domain(d3.extent(bands, (d) => d.value))
-    .range([0.1, 1]);
+  const opacityFunc =
+    opts.opacity != null
+      ? () => opts.opacity
+      : opts.fillOpacity != null
+        ? () => opts.fillOpacity
+        : () => 1;
 
   // ---------------------------
   // Draw
   // ---------------------------
-
   layer
     .selectAll("path")
     .data(bands)
     .join("path")
     .attr("d", path)
-    .attr("fill", opts.fill)
+    .attr("fill", (d) => colorScale(d.value))
     .attr("stroke", opts.stroke)
-    .attr("opacity", (d) => opacityScale(d.value))
+    .attr("opacity", (d) => opacityFunc(d))
     .each(function (d) {
       eltattr.forEach((e) => {
-        d3.select(this).attr(camelcasetodash(e), opts[e](d));
+        this.setAttribute(camelcasetodash(e), opts[e](d));
       });
     });
-
-  // ---------------------------
-  // Tooltip
-  // ---------------------------
 
   if (opts.tip || opts.tipstyle || opts.view) {
     tooltip(layer, bands, svg, opts.tip, opts.tipstyle, ["value"], opts.view);
   }
 
-  // ---------------------------
-  // Output
-  // ---------------------------
-
   if (newcontainer) {
     const size = getsize(layer);
-
     svg
       .attr("width", size.width)
       .attr("height", size.height)
       .attr("viewBox", [size.x, size.y, size.width, size.height]);
-
     return render(svg);
   } else {
     return `#${opts.id}`;
   }
 }
 
-// ----------------------------------------------------
-// Helpers
-// ----------------------------------------------------
-
-function decompose({ data, field, nb = 100000, projection } = {}) {
+function decompose({ data, var: variable, nb = 100000, projection } = {}) {
   let dots;
-
-  if (field == undefined) {
+  if (variable == undefined) {
     dots = data.features
       .map((d) => [...projection(d.geometry.coordinates), 1])
-      .filter((row) => row.every((val) => Boolean(val)));
+      .filter((row) =>
+        row.every((val) => val !== undefined && !Number.isNaN(val)),
+      )
+      .map((d) => [d[0], d[1]]);
   } else {
     dots = data.features
       .map((d) => [
         ...projection(d.geometry.coordinates),
-        Number(d.properties[field]),
+        Number(d.properties?.[variable]),
       ])
-      .filter((row) => row.every((val) => Boolean(val)));
-
-    const sum = d3.sum(dots.map((d) => d[2]));
-
-    let nb_target = nb == null ? sum : nb < sum ? nb : sum;
-    let pct = nb_target / sum;
-
-    dots = dots.map((d) => [d[0], d[1], Math.round(d[2] * pct)]);
+      .filter((row) =>
+        row.every((val) => val !== undefined && !Number.isNaN(val)),
+      );
+    const total = d3.sum(dots.map((d) => d[2]));
+    const target = nb == null ? total : Math.min(nb, total);
+    const ratio = target / total;
+    dots = dots.map((d) => [d[0], d[1], Math.round(d[2] * ratio)]);
     dots = dots.flatMap(([x, y, n]) => Array.from({ length: n }, () => [x, y]));
   }
-
   return dots;
 }

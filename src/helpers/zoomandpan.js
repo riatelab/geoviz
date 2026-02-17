@@ -1,4 +1,5 @@
 import { circle } from "../mark/circle";
+import { isoband } from "../mark/isoband";
 import { rhumbs } from "../mark/rhumbs";
 import { symbol } from "../mark/symbol";
 import { square } from "../mark/square";
@@ -26,7 +27,7 @@ const d3 = Object.assign(
     geoIdentity,
     zoomTransform,
     select,
-  }
+  },
 );
 
 export function zoomandpan(svg) {
@@ -84,7 +85,7 @@ export function zoomandpan(svg) {
       .on("start", () => {
         svg.select("#geoviztooltip").style("visibility", "hidden");
       })
-      .on("zoom", zoom)
+      .on("zoom", zoom),
   );
 
   function handleClickZoom(direction) {
@@ -187,6 +188,9 @@ export function zoomandpan(svg) {
           break;
         case "tile":
           tile(svg, d);
+          break;
+        case "isoband":
+          isoband(svg, d);
           break;
         case "earth":
           earthReproject(svg, d);

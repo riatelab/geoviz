@@ -1,5 +1,6 @@
 import versor from "versor";
 import { circle } from "../mark/circle";
+import { isoband } from "../mark/isoband";
 import { rhumbs } from "../mark/rhumbs";
 import { symbol } from "../mark/symbol";
 import { square } from "../mark/square";
@@ -71,6 +72,9 @@ export function zoomversor(svg) {
         case "tile":
           tile(svg, d);
           break;
+        case "isoband":
+          isoband(svg, d);
+          break;
         case "earth":
           earthReproject(svg, d);
           break;
@@ -97,7 +101,7 @@ function versorzoom(
       ? (projection._scale = projection.scale())
       : projection._scale,
     scaleExtent = [0.8, 8],
-  } = {}
+  } = {},
 ) {
   let v0, q0, r0, a0, tl;
 
@@ -162,6 +166,6 @@ function versorzoom(
           ? (zoom.on(type, ...options), this)
           : zoom.on(type);
       },
-    }
+    },
   );
 }
