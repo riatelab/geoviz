@@ -1,7 +1,7 @@
 {
   "name": "geoviz",
   "version": "0.9.9",
-  "description": "d3-based javascript library for thematic maps",
+  "description": "d3-based JavaScript library for thematic maps",
   "main": "src/index.js",
   "module": "src/index.js",
   "jsdelivr": "dist/index.min.js",
@@ -24,6 +24,8 @@
     "url": "git+https://github.com/neocarto/geoviz.git"
   },
   "keywords": [
+    "dataviz",
+    "geoviz",
     "maps",
     "cartography",
     "d3"
@@ -54,7 +56,7 @@
     "d3-tile": "^1.0.0",
     "d3-transition": "^3.0.1",
     "d3-zoom": "^3.0.0",
-    "dicopal": "^0.6.4",
+    "dicopal": "^0.8.1",
     "docs": "^0.3.2-canary.0",
     "documentation": "^14.0.3",
     "flubber": "^0.4.2",

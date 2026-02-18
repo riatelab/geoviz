@@ -1,5 +1,6 @@
 // Marks
 import { graticule } from "../mark/graticule";
+import { contour } from "../mark/contour";
 import { rhumbs } from "../mark/rhumbs";
 import { tissot } from "../mark/tissot";
 import { outline } from "../mark/outline";
@@ -21,6 +22,7 @@ import { empty } from "../mark/empty";
 // Legends
 import { box } from "../legend/box";
 import { choro_horizontal } from "../legend/choro-horizontal";
+import { gradient_vertical } from "../legend/gradient-vertical";
 import { choro_vertical } from "../legend/choro-vertical";
 import { typo_horizontal } from "../legend/typo-horizontal";
 import { typo_vertical } from "../legend/typo-vertical";
@@ -37,6 +39,7 @@ import { shadow } from "../effect/shadow";
 
 // Symbology
 import { plot_choro } from "./plot_choro";
+import { plot_smooth } from "./plot_smooth";
 import { plot_typo } from "./plot_typo";
 import { plot_prop } from "./plot_prop";
 import { plot_propchoro } from "./plot_propchoro";
@@ -72,6 +75,7 @@ import { plot_bertin } from "./plot_bertin";
  * @property {string} leg_box - Usage: `geoviz.plot({type: "leg_box", ...})` or `{type: "legbox"}`. See [legend.box](#legend/box)
  * @property {string} leg_choro_horizontal - Usage: `geoviz.plot({type: "leg_choro_horizontal", ...})` or `{type: "legchorohorizontal"}`. See [legend.choro_horizontal](#legend/choro_horizontal)
  * @property {string} leg_choro_vertical - Usage: `geoviz.plot({type: "leg_choro_vertical", ...})` or `{type: "legchorovertical"}` or `{type: "leg_choro"}` or `{type: "legchoro"}`. See [legend.choro_vertical](#legend/choro_vertical)
+ * @property {string} leg_gradient_vertical - Usage: `geoviz.plot({type: "leg_gradient_vertical", ...})` or `{type: "leggradientvertical"}` or `{type: "leg_gradient"}` or `{type: "leggradient"}`. See [legend.gradient_vertical](#legend/gradient_vertical)
  * @property {string} leg_typo_horizontal - Usage: `geoviz.plot({type: "leg_typo_horizontal", ...})` or `{type: "legtypohorizontal"}`. See [legend.typo_horizontal](#legend/typo_horizontal)
  * @property {string} leg_typo_vertical - Usage: `geoviz.plot({type: "leg_typo_vertical", ...})` or `{type: "legtypovertical"}` or `{type: "leg_typo"}` or `{type: "legtypo"}`. See [legend.choro_vertical](#legend/choro_vertical)
  * @property {string} leg_spikes - Usage: `geoviz.plot({type: "leg_spikes", ...})` or `{type: "leg_spikes"}` or `{type: "legspikes"}` or `{type: "legspike"}`. See [legend.spikes](#legend/spikes)
@@ -158,6 +162,12 @@ export function plot(arg1, arg2) {
     case "earth":
       return earth(arg1, arg2);
       break;
+    case "contour":
+      return contour(arg1, arg2);
+    case "smooth":
+    case "heatmap":
+      return plot_smooth(arg1, arg2);
+      break;
     case "header":
       return header(arg1, arg2);
       break;
@@ -186,6 +196,7 @@ export function plot(arg1, arg2) {
         ? choro_vertical(options)
         : choro_vertical(arg1, arg2);
       break;
+
     case "leg_typo_horizontal":
     case "legtypohorizontal":
       return typo_horizontal(arg1, arg2);
@@ -195,6 +206,14 @@ export function plot(arg1, arg2) {
     case "leg_typo":
     case "legtypo":
       return newcontainer ? typo_vertical(options) : typo_vertical(arg1, arg2);
+      break;
+    case "leg_gradient_vertical":
+    case "leggradientvertical":
+    case "leg_gradient":
+    case "leggradient":
+      return newcontainer
+        ? gradient_vertical(options)
+        : gradient_vertical(arg1, arg2);
       break;
     case "leg_spikes":
     case "leg_spike":

@@ -83,6 +83,9 @@ export function choro_vertical(arg1, arg2) {
   const options = {
     breaks: [1, 2, 3, 4, 5],
     colors: ["#fee5d9", "#fcae91", "#fb6a4a", "#cb181d"],
+    text_high: "high",
+    text_intermediate: "intermediate",
+    text_low: "low",
   };
   let opts = manageoptions(options, newcontainer ? arg1 : arg2, svg.fontFamily);
 
@@ -116,33 +119,37 @@ export function choro_vertical(arg1, arg2) {
   let size = getsize(layer);
   const opts_values = Object.assign(
     subsetobj(opts, { prefix: "values_" }),
-    subsetobj(opts, { prefix: "text_" })
+    subsetobj(opts, { prefix: "text_" }),
   );
 
   Object.entries(opts_values).forEach((d) =>
-    values.attr(camelcasetodash(d[0]), d[1])
+    values.attr(camelcasetodash(d[0]), d[1]),
   );
 
+  const labels = [
+    { text: opts.text_high, pos: 0 }, // en haut
+    { text: opts.text_intermediate, pos: 0.5 }, // milieu
+    { text: opts.text_low, pos: 1 }, // en bas
+  ];
+
+  // Crée les textes
   values
     .selectAll("text")
-    .data(
-      opts.reverse
-        ? roundarray(opts.breaks, opts.values_round)
-        : roundarray(opts.breaks.slice().reverse(), opts.values_round)
-    )
+    .data(labels)
     .join("text")
     .attr("x", opts.pos[0] + opts.rect_width + opts.values_dx)
     .attr(
       "y",
-      (d, i) =>
+      (d) =>
         opts.pos[1] +
-        opts.values_fontSize / 2 +
-        size.height +
-        opts.gap +
-        opts.values_dy +
-        i * (opts.rect_height + opts.rect_spacing)
+        d.pos *
+          (opts.rect_height * opts.n_rects +
+            opts.rect_spacing * (opts.n_rects - 1)) +
+        opts.values_fontSize / 2,
     )
-    .text((d) => locale.format(",")(d));
+    .text((d) => d.text)
+    .attr("text-anchor", "start")
+    .attr("font-size", opts.values_fontSize);
 
   // Boxes
   let rect = layer.append("g");
@@ -151,7 +158,7 @@ export function choro_vertical(arg1, arg2) {
     exclude: ["fill", "width", "height", "spacing"],
   });
   Object.entries(opts_rect).forEach((d) =>
-    rect.attr(camelcasetodash(d[0]), d[1])
+    rect.attr(camelcasetodash(d[0]), d[1]),
   );
 
   let posy = opts.pos[1] + size.height + opts.gap + opts.rect_dy;
@@ -168,7 +175,7 @@ export function choro_vertical(arg1, arg2) {
         posy +
         opts.rect_spacing / 2 +
         opts.values_fontSize / 2 +
-        i * (opts.rect_height + opts.rect_spacing)
+        i * (opts.rect_height + opts.rect_spacing),
     )
     .attr("width", opts.rect_width)
     .attr("height", opts.rect_height)
@@ -190,7 +197,7 @@ export function choro_vertical(arg1, arg2) {
       Math.max(opts.gap, opts.rect_spacing);
     let box = missing.append("rect");
     Object.entries(opts_rect).forEach((d) =>
-      box.attr(camelcasetodash(d[0]), d[1])
+      box.attr(camelcasetodash(d[0]), d[1]),
     );
 
     opts_values.text = opts.missing_text;

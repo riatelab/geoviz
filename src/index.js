@@ -67,8 +67,10 @@ import { typo_horizontal } from "./legend/typo-horizontal";
 import { symbol_vertical } from "./legend/symbol-vertical";
 import { symbol_horizontal } from "./legend/symbol-horizontal";
 import { box } from "./legend/box";
+import { gradient_vertical } from "./legend/gradient-vertical";
 
 export let legend = {
+  gradient_vertical,
   circles,
   squares,
   squares_nested,
@@ -78,6 +80,7 @@ export let legend = {
   choro_horizontal,
   typo_vertical,
   typo_horizontal,
+  gradient_vertical,
   box,
   spikes,
   mushrooms,
@@ -131,7 +134,7 @@ export { north } from "./mark/north.js";
 export { scalebar } from "./mark/scalebar.js";
 export { text } from "./mark/text.js";
 export { circle } from "./mark/circle.js";
-export { isoband } from "./mark/isoband.js";
+export { contour } from "./mark/contour.js";
 export { square } from "./mark/square.js";
 export { spike } from "./mark/spike.js";
 export { footer } from "./mark/footer.js";

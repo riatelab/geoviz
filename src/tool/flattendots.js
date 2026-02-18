@@ -33,7 +33,6 @@ export function flattendots({
   nb = 100000,
   projection,
 } = {}) {
-  console.log("flattendots");
   let dots;
   if (variable == undefined) {
     dots = data.features

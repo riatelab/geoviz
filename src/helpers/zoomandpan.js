@@ -1,5 +1,5 @@
 import { circle } from "../mark/circle";
-import { isoband } from "../mark/isoband";
+import { contour } from "../mark/contour";
 import { rhumbs } from "../mark/rhumbs";
 import { symbol } from "../mark/symbol";
 import { square } from "../mark/square";
@@ -189,8 +189,8 @@ export function zoomandpan(svg) {
         case "tile":
           tile(svg, d);
           break;
-        case "isoband":
-          isoband(svg, d);
+        case "contour":
+          contour(svg, d);
           break;
         case "earth":
           earthReproject(svg, d);

@@ -18,7 +18,7 @@ import { outline as addoutline } from "../mark/outline.js";
 import { graticule as addgraticule } from "../mark/graticule.js";
 import { text as addtext } from "../mark/text.js";
 import { circle as addcircle } from "../mark/circle.js";
-import { isoband as addisoband } from "../mark/isoband.js";
+import { contour as addcontour } from "../mark/contour.js";
 import { square as addsquare } from "../mark/square.js";
 import { halfcircle as addhalfcircle } from "../mark/halfcircle.js";
 import { spike as addspike } from "../mark/spike.js";
@@ -48,6 +48,7 @@ import { circles_half as addcircles_half } from "../legend/circles-half";
 import { spikes as addspikes } from "../legend/spikes.js";
 import { mushrooms as addmushrooms } from "../legend/mushrooms.js";
 import { choro_vertical as addchoro_vertical } from "../legend/choro-vertical";
+import { gradient_vertical as addgradient_vertical } from "../legend/gradient-vertical";
 import { choro_horizontal as addchoro_horizontal } from "../legend/choro-horizontal";
 import { typo_vertical as addtypo_vertical } from "../legend/typo-vertical";
 import { typo_horizontal as addtypo_horizontal } from "../legend/typo-horizontal";
@@ -220,7 +221,7 @@ export function create({
     { id: "symbol", func: addsymbol },
     { id: "graticule", func: addgraticule },
     { id: "circle", func: addcircle },
-    { id: "isoband", func: addisoband },
+    { id: "contour", func: addcontour },
     { id: "square", func: addsquare },
     { id: "halfcircle", func: addhalfcircle },
     { id: "spike", func: addspike },
@@ -260,6 +261,7 @@ export function create({
     { id: "spikes", func: addspikes },
     { id: "mushrooms", func: addmushrooms },
     { id: "choro_vertical", func: addchoro_vertical },
+    { id: "gradient_vertical", func: addgradient_vertical },
     { id: "choro_horizontal", func: addchoro_horizontal },
     { id: "typo_vertical", func: addtypo_vertical },
     { id: "typo_horizontal", func: addtypo_horizontal },

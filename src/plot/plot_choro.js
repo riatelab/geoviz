@@ -109,9 +109,9 @@ export function plot_choro(arg1, arg2) {
           "middle",
           "precision",
           "missing_fill",
-        ].includes(key)
-      )
-    )
+        ].includes(key),
+      ),
+    ),
   );
 
   if (classif.nodata == 0 && opts.missing !== true) {
@@ -141,12 +141,12 @@ export function plot_choro(arg1, arg2) {
       .filter(
         (str) =>
           str.slice(0, 4) == "leg_" ||
-          ["k", "fixmax", "missing", "id"].includes(str)
+          ["k", "fixmax", "missing", "id"].includes(str),
       )
       .forEach((d) =>
         Object.assign(legopts, {
           [d.slice(0, 4) == "leg_" ? d.slice(4) : d]: opts[d],
-        })
+        }),
       );
     legopts.id = "leg_" + legopts.id;
 
