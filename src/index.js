@@ -8,6 +8,7 @@ export let container = {
 
 // Tool
 import { centroid } from "./tool/centroid.js";
+import { flattendots } from "./tool/flattendots.js";
 import { ridge } from "./tool/ridge.js";
 import { dissolve } from "./tool/dissolve.js";
 import { project } from "./tool/project.js";
@@ -39,6 +40,7 @@ export let tool = {
   project,
   unproject,
   dodge,
+  flattendots,
   replicate,
   ridge,
   choro,

@@ -64,12 +64,10 @@ export function tile(arg1, arg2) {
     });
   let svg = newcontainer ? create(svgopts) : arg1;
 
-  
-
   // Warning
   if (svg.initproj == "none" && svg.warning) {
     svg.warning_message.push(
-      `You must use projection: "mercator" in the svg container to display tile marks`
+      `You must use projection: "mercator" in the svg container to display tile marks`,
     );
   }
 
@@ -85,7 +83,7 @@ export function tile(arg1, arg2) {
       svg.zoomablelayers.push(opts);
     } else {
       let i = svg.zoomablelayers.indexOf(
-        svg.zoomablelayers.find((d) => d.id == opts.id)
+        svg.zoomablelayers.find((d) => d.id == opts.id),
       );
       svg.zoomablelayers[i] = opts;
     }

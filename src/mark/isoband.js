@@ -25,7 +25,9 @@ const d3 = Object.assign(
 );
 
 import { create } from "../container/create";
+import { shadow } from "../effect/shadow";
 import { render } from "../container/render";
+import { flattendots } from "../tool/flattendots.js";
 import { random } from "../tool/random";
 import { centroid } from "../tool/centroid";
 import { tooltip } from "../helpers/tooltip";
@@ -58,13 +60,15 @@ export function isoband(arg1, arg2) {
     fixbandwidth: false,
     thresholds: undefined,
     cellSize: undefined,
-    stroke: "none",
+    stroke: "white",
+    strokeWidth: 0.7,
+    shadow: true,
     tip: undefined,
     tipstyle: undefined,
-    fill: undefined, // prioritary fill (any CSS value)
-    colors: "inferno", // palette or hex, used only if fill is undefined
-    opacity: undefined, // fixed opacity
-    fillOpacity: undefined, // alternative fixed opacity
+    fill: random(),
+    colors: undefined,
+    opacity: undefined,
+    fillOpacity: 0.5,
   };
 
   const opts = { ...options, ...(newcontainer ? arg1 : arg2) };
@@ -165,7 +169,7 @@ export function isoband(arg1, arg2) {
     opts[d] = check(opts[d], fields);
   });
 
-  let dots = decompose({
+  let dots = flattendots({
     data: opts.data,
     var: opts.var,
     nb: opts.nb,
@@ -199,7 +203,7 @@ export function isoband(arg1, arg2) {
   // ---------------------------
   let colorScale;
   if (opts.fill != null) {
-    colorScale = () => opts.fill; // fill overrides everything
+    colorScale = () => opts.fill;
   } else if (typeof opts.colors === "string" && opts.colors.startsWith("#")) {
     colorScale = () => opts.colors;
   } else {
@@ -232,6 +236,15 @@ export function isoband(arg1, arg2) {
   // ---------------------------
   // Draw
   // ---------------------------
+
+  const shadowFilter = shadow(svg, {
+    dx: 2,
+    dy: 2,
+    stdDeviation: 1.5,
+    fill: "black",
+    fillOpacity: 0.4,
+  });
+
   layer
     .selectAll("path")
     .data(bands)
@@ -240,6 +253,7 @@ export function isoband(arg1, arg2) {
     .attr("fill", (d) => colorScale(d.value))
     .attr("stroke", opts.stroke)
     .attr("opacity", (d) => opacityFunc(d))
+    .attr("filter", opts.shadow ? shadowFilter : "none")
     .each(function (d) {
       eltattr.forEach((e) => {
         this.setAttribute(camelcasetodash(e), opts[e](d));
@@ -260,31 +274,4 @@ export function isoband(arg1, arg2) {
   } else {
     return `#${opts.id}`;
   }
-}
-
-function decompose({ data, var: variable, nb = 100000, projection } = {}) {
-  let dots;
-  if (variable == undefined) {
-    dots = data.features
-      .map((d) => [...projection(d.geometry.coordinates), 1])
-      .filter((row) =>
-        row.every((val) => val !== undefined && !Number.isNaN(val)),
-      )
-      .map((d) => [d[0], d[1]]);
-  } else {
-    dots = data.features
-      .map((d) => [
-        ...projection(d.geometry.coordinates),
-        Number(d.properties?.[variable]),
-      ])
-      .filter((row) =>
-        row.every((val) => val !== undefined && !Number.isNaN(val)),
-      );
-    const total = d3.sum(dots.map((d) => d[2]));
-    const target = nb == null ? total : Math.min(nb, total);
-    const ratio = target / total;
-    dots = dots.map((d) => [d[0], d[1], Math.round(d[2] * ratio)]);
-    dots = dots.flatMap(([x, y, n]) => Array.from({ length: n }, () => [x, y]));
-  }
-  return dots;
 }
