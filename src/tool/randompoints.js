@@ -3,61 +3,63 @@ import area from "@turf/area";
 import bboxPolygon from "@turf/bbox-polygon";
 import { randomPoint } from "@turf/random";
 import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
+import { sum } from "d3-array";
+
+const d3 = Object.assign({}, { sum });
 
 /**
- * @function tool/polygonstorandompoints
+ * @function tool/randompoints
  * @description
  * Generates random points inside polygons or multipolygons using a dot-density approach.
- * Each point is returned in the format `{ geom, geom_id, data, data_id, id }`.
+ * Each point is returned as a valid GeoJSON Feature with `properties` containing
+ * `{ geom_id, data, var, id }`.
  *
- * @property {GeoJSON} geom - the polygon feature (or part of multipolygon) containing the point
- * @property {string|number} geom_id - identifier of the geometry
- * @property {number} data - value associated to the polygon property
- * @property {string} data_id - name of the property used
- * @property {number} id - unique point id
- *
- * @param {Array} geom - GeoJSON FeatureCollection of polygons/multipolygons
- * @param {string} data_id - property name to convert into dots
+ * @param {GeoJSON} data - FeatureCollection of polygons/multipolygons
+ * @param {string} var - property name to convert into dots
  * @param {number} [dotval] - number of units per dot, default = total / 5000
- * @returns {Object} FeatureCollection of points in the `{ geom, geom_id, data, data_id, id }` format
+ * @returns {GeoJSON} FeatureCollection<Point>
  */
-export function polygonstorandompoints({ geom, data_id, dotval } = {}) {
-  if (!geom || !geom.features || !data_id)
-    return { featureCollection: { type: "FeatureCollection", features: [] } };
+export function randompoints({ data, var: varName, dotval } = {}) {
+  if (!data || !data.features || !varName) {
+    return { type: "FeatureCollection", features: [] };
+  }
 
-  const total = d3.sum(geom.features, (d) =>
-    Number(d.properties?.[data_id] || 0),
+  const total = d3.sum(data.features, (d) =>
+    Number(d.properties?.[varName] || 0),
   );
   dotval = dotval ?? Math.round(total / 5000);
 
-  let points = [];
+  const points = [];
   let pointCounter = 0;
 
-  geom.features.forEach((feature, fIdx) => {
+  data.features.forEach((feature, fIdx) => {
     const geomType = feature.geometry.type;
     const coords = feature.geometry.coordinates;
-    const value = Number(feature.properties?.[data_id] || 0);
+    const value = Number(feature.properties?.[varName] || 0);
     const totalDots = Math.round(value / dotval);
-
     const totalArea = area(feature) || 0;
     const geom_id = fIdx;
 
     // ---------- POLYGON ----------
     if (geomType === "Polygon") {
-      const pts = allocate(feature, totalDots);
-      pts.forEach((p) => {
+      const pts = dotsInPoly(feature, totalDots);
+      pts.forEach((pt) => {
         points.push({
-          geom: p.geometry,
-          geom_id,
-          data: value,
-          data_id,
-          id: pointCounter++,
+          type: "Feature",
+          geometry: pt.geometry,
+          properties: {
+            geom_id,
+            data: value,
+            var: varName,
+            id: pointCounter++,
+          },
         });
       });
     }
 
     // ---------- MULTIPOLYGON ----------
     else if (geomType === "MultiPolygon") {
+      // calcul surfaces des parties
       const parts = coords.map((c, i) => {
         const geom = { type: "Polygon", coordinates: c };
         const partArea = area({ type: "Feature", geometry: geom }) || 0;
@@ -65,6 +67,7 @@ export function polygonstorandompoints({ geom, data_id, dotval } = {}) {
         return { geom, area: partArea, ratio, part_id: i };
       });
 
+      // allocation des dots proportionnellement
       const exactDots = parts.map((p) => totalDots * p.ratio);
       const baseDots = exactDots.map(Math.floor);
 
@@ -75,29 +78,41 @@ export function polygonstorandompoints({ geom, data_id, dotval } = {}) {
 
       for (let k = 0; k < remaining; k++) baseDots[order[k].i]++;
 
+      // génération points pour chaque partie
       parts.forEach((p) => {
         if (baseDots[p.part_id] === 0) return;
-        const pts = allocate(
+        const pts = dotsInPoly(
           { type: "Feature", geometry: p.geom },
           baseDots[p.part_id],
         );
         pts.forEach((pt) => {
           points.push({
-            geom: pt.geometry,
-            geom_id: `${geom_id}_${p.part_id}`,
-            data: value,
-            data_id,
-            id: pointCounter++,
+            type: "Feature",
+            geometry: pt.geometry,
+            properties: {
+              geom_id: `${geom_id}_${p.part_id}`,
+              data: value,
+              var: varName,
+              id: pointCounter++,
+            },
           });
         });
       });
     }
   });
 
-  return { featureCollection: { type: "FeatureCollection", features: points } };
+  return { type: "FeatureCollection", dotvalue: dotval, features: points };
 }
 
-function allocate(feature, nbdots) {
+/**
+ * @function dotsInPoly
+ * @description Generates `nbdots` random points inside a polygon feature using rejection sampling.
+ *
+ * @param {GeoJSON Feature<Polygon>} feature
+ * @param {number} nbdots
+ * @returns {Array<GeoJSON Feature<Point>>} array of point Features
+ */
+function dotsInPoly(feature, nbdots) {
   const box = bbox(feature);
   const polyArea = area(feature);
   const bboxArea = area(bboxPolygon(box));

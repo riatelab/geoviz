@@ -46,6 +46,7 @@ import { plot_propchoro } from "./plot_propchoro";
 import { plot_proptypo } from "./plot_proptypo";
 import { plot_symbol } from "./plot_symbol";
 import { plot_bertin } from "./plot_bertin";
+import { plot_dotdensity } from "./plot_dotdensity";
 
 /**
  * @function plot
@@ -167,6 +168,9 @@ export function plot(arg1, arg2) {
     case "smooth":
     case "heatmap":
       return plot_smooth(arg1, arg2);
+      break;
+    case "dotdensity":
+      return plot_dotdensity(arg1, arg2);
       break;
     case "header":
       return header(arg1, arg2);
