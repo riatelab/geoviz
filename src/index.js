@@ -8,6 +8,7 @@ export let container = {
 
 // Tool
 import { centroid } from "./tool/centroid.js";
+import { polygonstorandompoints } from "./tool/polygonstorandompoints.js";
 import { flattendots } from "./tool/flattendots.js";
 import { ridge } from "./tool/ridge.js";
 import { dissolve } from "./tool/dissolve.js";
@@ -50,6 +51,7 @@ export let tool = {
   dotstogrid,
   symbols,
   grid,
+  polygonstorandompoints,
 };
 
 // Legend
