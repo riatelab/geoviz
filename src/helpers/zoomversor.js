@@ -55,7 +55,10 @@ export function zoomversor(svg) {
           break;
         case "path":
         case "tissot":
-          svg.selectAll(`#${d.id} > path`).attr("d", path);
+          svg
+            .selectAll(`#${d.id} > path`)
+            .attr("d", d3.geoPath(svg.projection).pointRadius(d.pointRadius));
+          break;
           break;
         case "clippath":
           svg.selectAll(`#${d.id} > path`).attr("d", path);

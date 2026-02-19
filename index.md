@@ -38,9 +38,9 @@ See [simple examples](https://riatelab.github.io/geoviz/examples/) & [code sourc
 
 The `geoviz` library provides several graphic marks that will allow you to draw your maps. circles, semi-circles, graticules, paths, scale, legends... Each mark has a specific function.
 
-📚  **Map marks** [`path()`](global.html#path) [`circle()`](global.html#circle) [`square()`](global.html#square) [`halfcircle()`](global.html#halfcircle) [`spike()`](global.html#spike) [`tile()`](global.html#tile)
+📚  **Map marks** [`path()`](global.html#path) [`circle()`](global.html#circle) [`square()`](global.html#square) [`halfcircle()`](global.html#halfcircle) [`spike()`](global.html#spike) [`tile()`](global.html#tile) [`smocontouroth()`](global.html#contour)
 
-📚  **Layout marks** [`header()`](global.html#header) [`footer()`](global.html#footer) [`graticule()`](global.html#graticule) [`outline()`](global.html#outline) [`north()`](global.html#north) [`scalebar()`](global.html#scalebar) [`text()`](global.html#text) [`rhumbs()`](global.html#rhumbs) [`tissot()`](global.html#tissot) 
+📚  **Layout marks** [`header()`](global.html#header) [`footer()`](global.html#footer) [`graticule()`](global.html#graticule) [`outline()`](global.html#outline) [`north()`](global.html#north) [`scalebar()`](global.html#scalebar) [`text()`](global.html#text) [`rhumbs()`](global.html#rhumbs) [`tissot()`](global.html#tissot)
 
 
 📚  **Legend marks** [`legend.box()`](global.html#legend/box) [`legend.choro_horizontal()`](global.html#legend/choro_horizontal) [`legend.choro_vertical()`](global.html#legend/choro_vertical) [`legend.circles_half()`](global.html#legend/circles_half) [`legend.circles_nested()`](global.html#legend/circles_nested) [`legend.circles()`](global.html#legend/circles) [`legend.squares()`](global.html#legend/squares) [`legend.squares_nested()`](global.html#legend/squares_nested) [`legend.mushrooms()`](global.html#legend/mushrooms) [`legend.spikes()`](global.html#legend/spikes) [`legend.typo_horizontal()`](global.html#legend/typo_horizontal) [`legend.typo_vertical()`](global.html#legend/typo_vertical)

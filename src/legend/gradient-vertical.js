@@ -59,7 +59,6 @@ export function gradient_vertical(arg1, arg2) {
     pos: [0, 0],
     gap: 5,
     values_fontSize: 12,
-    values_fill: "black",
     reverse: false,
     frame: false,
     text_high: "High",
@@ -120,7 +119,14 @@ export function gradient_vertical(arg1, arg2) {
   const n = opts.colors.length;
   const totalHeight = n * opts.rect_height + (n - 1) * opts.rect_spacing;
 
-  const values = layer.append("g"); // group for texts
+  const values = layer.append("g");
+  const opts_values = Object.assign(
+    subsetobj(opts, { prefix: "values_" }),
+    subsetobj(opts, { prefix: "text_" }),
+  );
+  Object.entries(opts_values).forEach((d) =>
+    values.attr(camelcasetodash(d[0]), d[1]),
+  );
   values
     .selectAll("text")
     .data(labels)
@@ -132,8 +138,8 @@ export function gradient_vertical(arg1, arg2) {
       if (i === 2) return posy + totalHeight - opts.rect_height / 2; // bottom
     })
     .text((d) => d)
-    .attr("font-size", opts.values_fontSize)
-    .attr("fill", opts.values_fill)
+    // .attr("font-size", opts.values_fontSize)
+    // .attr("fill", opts.values_fill)
     .attr("dominant-baseline", "middle");
 
   // Add note if any

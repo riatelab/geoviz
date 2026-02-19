@@ -83,9 +83,6 @@ export function choro_vertical(arg1, arg2) {
   const options = {
     breaks: [1, 2, 3, 4, 5],
     colors: ["#fee5d9", "#fcae91", "#fb6a4a", "#cb181d"],
-    text_high: "high",
-    text_intermediate: "intermediate",
-    text_low: "low",
   };
   let opts = manageoptions(options, newcontainer ? arg1 : arg2, svg.fontFamily);
 
@@ -126,30 +123,26 @@ export function choro_vertical(arg1, arg2) {
     values.attr(camelcasetodash(d[0]), d[1]),
   );
 
-  const labels = [
-    { text: opts.text_high, pos: 0 }, // en haut
-    { text: opts.text_intermediate, pos: 0.5 }, // milieu
-    { text: opts.text_low, pos: 1 }, // en bas
-  ];
-
-  // Crée les textes
   values
     .selectAll("text")
-    .data(labels)
+    .data(
+      opts.reverse
+        ? roundarray(opts.breaks, opts.values_round)
+        : roundarray(opts.breaks.slice().reverse(), opts.values_round),
+    )
     .join("text")
     .attr("x", opts.pos[0] + opts.rect_width + opts.values_dx)
     .attr(
       "y",
-      (d) =>
+      (d, i) =>
         opts.pos[1] +
-        d.pos *
-          (opts.rect_height * opts.n_rects +
-            opts.rect_spacing * (opts.n_rects - 1)) +
-        opts.values_fontSize / 2,
+        opts.values_fontSize / 2 +
+        size.height +
+        opts.gap +
+        opts.values_dy +
+        i * (opts.rect_height + opts.rect_spacing),
     )
-    .text((d) => d.text)
-    .attr("text-anchor", "start")
-    .attr("font-size", opts.values_fontSize);
+    .text((d) => locale.format(",")(d));
 
   // Boxes
   let rect = layer.append("g");

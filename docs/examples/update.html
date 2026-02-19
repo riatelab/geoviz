@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Test update</title>
+  </head>
+
+  <body>
+    <div id="controls">
+      <label id="labelsize" for="size">Radius max (50)</label><br />
+      <input id="size" type="range" min="5" max="150" value="50" step="1" />
+    </div>
+
+    <div id="map"></div>
+
+    <script type="module">
+      import * as geoviz from "https://cdn.jsdelivr.net/npm/geoviz@0.9.8/+esm";
+      import { json } from "https://cdn.jsdelivr.net/npm/d3-fetch@3/+esm";
+      const d3 = { json };
+
+      let svg;
+      let data;
+      let slider;
+
+      function bubble(svg, data, field, k) {
+        svg.plot({
+          id: "bubbles",
+          type: "prop",
+          symbol: "circle",
+          data,
+          var: field,
+          fill: "#F13C47",
+          k,
+          leg_title: "Population",
+        });
+      }
+
+      async function drawMap(k) {
+        data = await d3.json("../world.json");
+
+        svg = geoviz.create({
+          projection: "EqualEarth",
+          zoomable: true,
+        });
+
+        svg.plot({ type: "outline" });
+        svg.plot({ data, fill: "#CCC" });
+        bubble(svg, data, "pop", k);
+
+        svg.render({ map: "map" });
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        slider = document.getElementById("size");
+
+        drawMap(slider.value);
+
+        slider.addEventListener("input", () => {
+          document.getElementById(
+            "labelsize"
+          ).innerHTML = `Radius max (${slider.value})`;
+
+          svg.remove("bubbles"); // ✅ clé
+          bubble(svg, data, "pop", slider.value);
+          svg.render();
+        });
+      });
+    </script>
+  </body>
+</html>

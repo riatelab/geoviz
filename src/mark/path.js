@@ -27,6 +27,7 @@ import {
  * @property {string|function} [fill] - fill color. To create choropleth maps or typologies, use the `tool.choro` and `tool.typo` functions
  * @property {string|function} [stroke] - stroke color. To create choropleth maps or typologies, use the `tool.choro` and `tool.typo` functions
  * @property {string|function} [strokeWidth = 1] - stroke-width (default: 1)
+ * @property {number} [pointRadius = 3] - point radius (default: 3). Only for point geometries
  * @property {boolean|function} [tip = false] - a function to display the tip. Use true tu display all fields
  * @property {boolean} [view] = false] - use true and viewof in Observable for this layer to act as Input
  * @property {object} [tipstyle] - tooltip style
@@ -58,6 +59,7 @@ export function path(arg1, arg2) {
     clip: true,
     strokeWidth: 1,
     clipPath: undefined,
+    pointRadius: 3,
   };
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
@@ -117,13 +119,13 @@ export function path(arg1, arg2) {
       layer = svg
         .insert("g", before)
         .attr("id", opts.id)
-        .attr("data-layer", "circle");
+        .attr("data-layer", "path");
     } else if (after && svg.select(after).node()) {
       const ref = svg.select(after).node();
-      layer = svg.append("g").attr("id", opts.id).attr("data-layer", "circle");
+      layer = svg.append("g").attr("id", opts.id).attr("data-layer", "path");
       ref.after(layer.node());
     } else {
-      layer = svg.append("g").attr("id", opts.id).attr("data-layer", "circle");
+      layer = svg.append("g").attr("id", opts.id).attr("data-layer", "path");
     }
   }
   layer.selectAll("*").remove();
@@ -136,16 +138,18 @@ export function path(arg1, arg2) {
         mark: opts.mark,
         id: opts.id,
         coords: opts.coords,
+        pointRadius: opts.pointRadius,
       });
     } else {
       let i = svg.zoomablelayers.indexOf(
-        svg.zoomablelayers.find((d) => d.id == opts.id)
+        svg.zoomablelayers.find((d) => d.id == opts.id),
       );
       //svg.zoomablelayers[i] = opts;
       svg.zoomablelayers[i] = {
         mark: opts.mark,
         id: opts.id,
         coords: opts.coords,
+        pointRadius: opts.pointRadius,
       };
     }
   }
@@ -155,7 +159,7 @@ export function path(arg1, arg2) {
     opts.coords == "svg"
       ? d3.geoIdentity().scale(svg.zoom.k).translate([svg.zoom.x, svg.zoom.y])
       : svg.projection;
-  let path = d3.geoPath(projection);
+  let path = d3.geoPath(projection).pointRadius(opts.pointRadius);
 
   // ClipPath
   if (opts.clipPath) {
@@ -176,13 +180,13 @@ export function path(arg1, arg2) {
         "tip",
         "tipstyle",
         "clipPath",
-      ].includes(d)
+      ].includes(d),
   );
 
   // layer attributes
   let fields = propertiesentries(opts.data || opts.datum);
   const layerattr = notspecificattr.filter(
-    (d) => detectinput(opts[d], fields) == "value"
+    (d) => detectinput(opts[d], fields) == "value",
   );
   layerattr.forEach((d) => {
     layer.attr(camelcasetodash(d), opts[d]);
@@ -239,7 +243,7 @@ export function path(arg1, arg2) {
         opts.tip,
         opts.tipstyle,
         fields,
-        opts.view
+        opts.view,
       );
     }
   }

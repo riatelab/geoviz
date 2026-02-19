@@ -33,7 +33,6 @@ const d3 = Object.assign(
 export function zoomandpan(svg) {
   let noproj = d3.geoIdentity();
   const path = d3.geoPath(svg.projection);
-  const path2 = d3.geoPath(noproj);
 
   // Control Panel
 
@@ -171,7 +170,12 @@ export function zoomandpan(svg) {
         case "tissot":
           svg
             .selectAll(`#${d.id} > path`)
-            .attr("d", d.coords == "svg" ? path2 : path);
+            .attr(
+              "d",
+              d3
+                .geoPath(d.coords == "svg" ? noproj : svg.projection)
+                .pointRadius(d.pointRadius),
+            );
           break;
         case "clippath":
           svg.selectAll(`#${d.id} > path`).attr("d", path);
