@@ -1,7 +1,7 @@
 import bbox from "@turf/bbox";
 import area from "@turf/area";
 import bboxPolygon from "@turf/bbox-polygon";
-import randomPoint from "@turf/random-point";
+import { randomPoint } from "@turf/random";
 import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
 
 /**
