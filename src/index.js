@@ -151,7 +151,7 @@ export { tissot } from "./mark/tissot.js";
 export { rhumbs } from "./mark/rhumbs.js";
 export { earth } from "./mark/earth.js";
 export { empty } from "./mark/empty.js";
-export { hatch } from "./mark/hatch.js";
+export { pattern } from "./mark/pattern.js";
 
 // Plot
 export { plot } from "./plot/plot.js";
