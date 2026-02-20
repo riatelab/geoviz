@@ -206,16 +206,13 @@ export function contour(arg1, arg2) {
 
   const n = dots.length;
   const bandwidth = !opts.fixbandwidth
-    ? opts.bandwidth
+    ? (opts.bandwidth ?? Math.min(svg.width, svg.height) / 50)
     : (opts.bandwidth ?? Math.min(svg.width, svg.height) / 50) *
       (svg.zoom.k ?? 1);
 
-  const thresholds = opts.thresholds
-    ? opts.thresholds
-    : Math.max(5, Math.min(12, Math.round(Math.sqrt(n) / 2)));
-  const cellSize = opts.cellSize
-    ? opts.cellSize
-    : Math.max(2, Math.round(bandwidth / 3));
+  const thresholds =
+    opts.thresholds ?? Math.max(5, Math.min(12, Math.round(Math.sqrt(n) / 2)));
+  const cellSize = opts.cellSize ?? Math.max(2, Math.round(bandwidth / 3));
 
   const contour = d3
     .contourDensity()
