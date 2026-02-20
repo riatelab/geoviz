@@ -35,6 +35,7 @@ import { shadow as addshadow } from "../effect/shadow.js";
 import { radialGradient as addradialGradient } from "../effect/radialgradient.js";
 import { tissot as addtissot } from "../mark/tissot.js";
 import { rhumbs as addrhumbs } from "../mark/rhumbs.js";
+import { hatch as addhatch } from "../mark/hatch.js";
 import { earth as addearth } from "../mark/earth.js";
 import { empty as addempty } from "../mark/empty.js";
 
@@ -236,6 +237,7 @@ export function create({
     { id: "rhumbs", func: addrhumbs },
     { id: "earth", func: addearth },
     { id: "empty", func: addempty },
+    { id: "hatch", func: addhatch },
   ].forEach(
     (d) =>
       (mark[d.id] = function () {

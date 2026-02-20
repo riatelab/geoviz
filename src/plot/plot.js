@@ -18,6 +18,7 @@ import { square } from "../mark/square";
 import { symbol } from "../mark/symbol";
 import { earth } from "../mark/earth";
 import { empty } from "../mark/empty";
+import { hatch } from "../mark/hatch";
 
 // Legends
 import { box } from "../legend/box";
@@ -73,6 +74,7 @@ import { plot_dotdensity } from "./plot_dotdensity";
  * @property {string} footer - Usage: `geoviz.plot({type: "footer", ...})`. See {@link footer}
  * @property {string} scalebar - Usage: `geoviz.plot({type: "scalebar", ...})`. See {@link scalebar}
  * @property {string} north - Usage: `geoviz.plot({type: "north", ...})`. See {@link north}
+ * @property {string} hatch - Usage: `geoviz.plot({type: "hatch", ...})`. See {@link hatch}
  * @property {string} leg_box - Usage: `geoviz.plot({type: "leg_box", ...})` or `{type: "legbox"}`. See [legend.box](#legend/box)
  * @property {string} leg_choro_horizontal - Usage: `geoviz.plot({type: "leg_choro_horizontal", ...})` or `{type: "legchorohorizontal"}`. See [legend.choro_horizontal](#legend/choro_horizontal)
  * @property {string} leg_choro_vertical - Usage: `geoviz.plot({type: "leg_choro_vertical", ...})` or `{type: "legchorovertical"}` or `{type: "leg_choro"}` or `{type: "legchoro"}`. See [legend.choro_vertical](#legend/choro_vertical)
@@ -118,6 +120,9 @@ export function plot(arg1, arg2) {
     case "rhumbs":
     case "rhumb":
       return rhumbs(arg1, arg2);
+      break;
+    case "hatch":
+      return hatch(arg1, arg2);
       break;
     case "tissot":
       return tissot(arg1, arg2);
