@@ -2,6 +2,7 @@ import { stringtod3proj } from "./stringtod3proj";
 import { Polar } from "./polar";
 import { HoaXiaoguang } from "./hoaxiaoguang";
 import { Spilhaus } from "./spilhaus";
+import { Peirce } from "./peirce";
 
 export function getproj(projection) {
   /* DEFAULT - the projection is not defined.
@@ -34,6 +35,9 @@ export function getproj(projection) {
     }
     if (projection.toLowerCase() == "spilhaus") {
       return Spilhaus();
+    }
+    if (projection.toLowerCase() == "peirce") {
+      return Peirce();
     }
 
     return stringtod3proj(projection);
