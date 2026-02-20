@@ -110,6 +110,10 @@ function versorzoom(
 
   const zoom = d3
     .zoom()
+    .filter((event) => {
+      if (event.type === "wheel") event.preventDefault();
+      return true;
+    })
     .scaleExtent(scaleExtent.map((x) => x * scale))
     .on("start", zoomstarted)
     .on("zoom", zoomed);

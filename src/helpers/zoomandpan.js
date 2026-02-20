@@ -76,6 +76,10 @@ export function zoomandpan(svg) {
   svg.call(
     d3
       .zoom()
+      .filter((event) => {
+        if (event.type === "wheel") event.preventDefault();
+        return true;
+      })
       .extent([
         [0, 0],
         [svg.width, svg.height],
