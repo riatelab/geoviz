@@ -1,6 +1,7 @@
 import { circle } from "../mark/circle";
 import { randompoints } from "../tool/randompoints";
 import { text } from "../mark/text";
+import { unique } from "../helpers/utils";
 
 /**
  * @function plot_dotdensity
@@ -34,6 +35,7 @@ export function plot_dotdensity(arg1, arg2) {
 
   const defaults = {
     type: "dotdensity",
+    id: unique(),
     stroke: "none",
     dotval: undefined,
     r: 1,
@@ -48,42 +50,59 @@ export function plot_dotdensity(arg1, arg2) {
     ...(newcontainer ? arg1 : arg2),
   };
 
-  // générer les points
+  // Generate the points
   options.data = randompoints({
     data: options.data,
     var: options.var,
     dotval: options.dotval,
   });
 
-  // On récupère le container SVG réel
+  // Get the actual SVG container
   let svg;
   if (newcontainer) {
-    svg = circle(options); // ici circle crée le SVG
+    svg = circle(options); // new container + points
   } else {
-    svg = arg1; // si container existant
-    circle(svg, options); // on dessine les points
+    svg = arg1; // existing container
+    circle(svg, options); // add the points
   }
 
-  // Ajouter la légende si demandé
+  let ids = `#${options.id}`;
+
+  // --------------------------
+  // Separate handling of the legend
+  // --------------------------
+  // Add the legend if requested
   if (options.legend) {
+    const legId = "leg_" + options.id;
+    ids = [`#${options.id}`, `#${legId}`];
     const pos = options.leg_pos || [10, svg.height - 10];
-    // Cercle représentant un point
-    circle(svg, {
-      pos: pos,
-      r: options.r * 3,
-      fill: options.fill,
-      stroke: options.stroke || "none",
-    });
-    //  Texte du titre de la légende
-    text(svg, {
-      pos: [pos[0] + options.r * 3 + 3, pos[1]],
-      text: options.leg_text || `= ${options.data.dotvalue}`,
-      fontSize: 10,
-      textAnchor: "start",
-      dominantBaseline: "middle",
-      fill: options.fill,
-    });
+
+    if (newcontainer) {
+      text({
+        ...options,
+        id: legId,
+        pos: [pos[0], pos[1]],
+        text: options.leg_text || `One dot = ${options.data.dotvalue}`,
+        fontSize: 10,
+        textAnchor: "start",
+        dominantBaseline: "middle",
+      });
+    } else {
+      text(svg, {
+        id: legId,
+        pos: [pos[0], pos[1]],
+        text: options.leg_text || `One dot = ${options.data.dotvalue}`,
+        fontSize: 10,
+        textAnchor: "start",
+        dominantBaseline: "middle",
+        fill: options.fill,
+      });
+    }
   }
 
-  return svg;
+  if (newcontainer) {
+    return render(svg);
+  } else {
+    return ids;
+  }
 }
