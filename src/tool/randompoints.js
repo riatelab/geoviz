@@ -104,14 +104,6 @@ export function randompoints({ data, var: varName, dotval } = {}) {
   return { type: "FeatureCollection", dotvalue: dotval, features: points };
 }
 
-/**
- * @function dotsInPoly
- * @description Generates `nbdots` random points inside a polygon feature using rejection sampling.
- *
- * @param {GeoJSON Feature<Polygon>} feature
- * @param {number} nbdots
- * @returns {Array<GeoJSON Feature<Point>>} array of point Features
- */
 function dotsInPoly(feature, nbdots) {
   const box = bbox(feature);
   const polyArea = area(feature);
