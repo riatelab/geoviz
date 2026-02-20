@@ -1,0 +1,66 @@
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/geoviz@0.7.9"
+  charset="utf-8"
+></script>
+
+<div>
+  <input type="range" id="size" name="volume" min="10" max="100" value="50" />
+  <label for="size" id="labelsize">Radius max (50)</label>
+</div>
+<div>
+  <input type="checkbox" id="dodge" name="dodge" />
+  <label for="dodge">Dodge circles</label>
+</div>
+
+<script>
+  let geojson = "./world.json";
+
+  d3.json(geojson).then((data) => {
+    // The map
+    let svg = geoviz.create({
+      projection: "polar",
+      width: 700,
+      zoomable: true,
+    });
+    svg.plot({ type: "outline" });
+    svg.plot({ type: "graticule", stroke: "white", strokeWidth: 0.4 });
+    svg.plot({
+      type: "path",
+      datum: data,
+      fill: "white",
+      fillOpacity: 0.3,
+    });
+
+    const slider = document.getElementById("size");
+    const dodge = document.getElementById("dodge");
+    const drawCircles = () => {
+      return svg.plot({
+        id: "bubbles", // <- You need to define an id. Try to remove it....
+        type: "prop",
+        symbol: "circle",
+        data: data,
+        var: "pop",
+        fill: "#F13C47",
+        dodge: dodge.checked,
+        k: +slider.value,
+        leg_title: "Population",
+        tip: true,
+      });
+    };
+    drawCircles();
+
+    slider.addEventListener("input", function () {
+      document.getElementById(
+        "labelsize"
+      ).innerHTML = `Radius max (${slider.value})`;
+      drawCircles();
+    });
+
+    dodge.addEventListener("click", function () {
+      drawCircles();
+    });
+
+    document.body.appendChild(svg.render());
+  });
+</script>
