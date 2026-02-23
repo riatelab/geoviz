@@ -16,6 +16,7 @@ import { geoPath, geoIdentity } from "d3-geo";
 import { select } from "d3-selection";
 import { interpolate } from "d3-interpolate";
 import { transition } from "d3-transition";
+import { simplify } from "geotoolbox";
 
 const d3 = Object.assign(
   {},
@@ -171,6 +172,51 @@ export function zoomandpan(svg) {
           spike(svg, d);
           break;
         case "path":
+          const [zmin, zmax] = d.zoom_levels || [1, 8];
+          const kmin = typeof d.simplify === "number" ? d.simplify : 0.1;
+          const kmax =
+            typeof d.simplify_threshold === "number" ? d.simplify_threshold : 1;
+          const z = Math.max(zmin, Math.min(zmax, t.k));
+
+          let geom = d.original;
+
+          if (d.simplify !== false) {
+            if (kmin === kmax) {
+              if (!d._simplified) {
+                d._simplified = simplify(d.original, { k: kmin });
+              }
+              geom = d._simplified;
+            } else {
+              const tnorm = (z - zmin) / (zmax - zmin);
+              const tol = Math.pow(
+                10,
+                Math.log10(kmin) +
+                  (Math.log10(kmax) - Math.log10(kmin)) * tnorm,
+              );
+
+              if (
+                !d._lastTol ||
+                Math.abs(Math.log(d._lastTol) - Math.log(tol)) > 0.15
+              ) {
+                d._simplified =
+                  tol >= kmax ? d.original : simplify(d.original, { k: tol });
+                d._lastTol = tol;
+              }
+
+              geom = d._simplified || d.original;
+            }
+          }
+
+          svg
+            .selectAll(`#${d.id} > path`)
+            .data(geom.features)
+            .attr(
+              "d",
+              d3
+                .geoPath(d.coords === "svg" ? noproj : svg.projection)
+                .pointRadius(d.pointRadius),
+            );
+          break;
         case "tissot":
           svg
             .selectAll(`#${d.id} > path`)

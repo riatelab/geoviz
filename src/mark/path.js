@@ -13,6 +13,7 @@ import {
   check,
   getsize,
 } from "../helpers/utils";
+import { simplify } from "geotoolbox";
 
 /**
  * @function path
@@ -30,6 +31,8 @@ import {
  * @property {number} [pointRadius = 3] - point radius (default: 3). Only for point geometries
  * @property {boolean|function} [tip = false] - a function to display the tip. Use true tu display all fields
  * @property {boolean} [view] = false] - use true and viewof in Observable for this layer to act as Input
+ * @property {boolean|number} [simplify = false] - Enable simplification. `false` disables it, `true` uses default kmin, or set a numeric tolerance. Try 0.1 for a strong simplification, 0.5 for a light one.
+ * @property {number} [simplify_threshold = 1] - Maximum generalization level at the highest zoom.
  * @property {object} [tipstyle] - tooltip style
  * @property {*} [*] - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
@@ -42,7 +45,7 @@ import {
  */
 
 export function path(arg1, arg2) {
-  // Test if new container
+  // ---New container ?---
   let newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
     !arguments[0]?._groups
@@ -51,7 +54,7 @@ export function path(arg1, arg2) {
   arg1 = newcontainer && arg1 == undefined ? {} : arg1;
   arg2 = arg2 == undefined ? {} : arg2;
 
-  // Arguments
+  // --- Options ---
   const options = {
     mark: "path",
     id: unique(),
@@ -60,115 +63,92 @@ export function path(arg1, arg2) {
     strokeWidth: 1,
     clipPath: undefined,
     pointRadius: 3,
+    simplify: false, // false or number = kmin
+    simplify_threshold: 1, // simplification level (k parmater)
+    zoom_levels: [1, 8],
   };
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
-  // New container
+  // --- CContainer ---
   let svgopts = { domain: opts.data || opts.datum };
   Object.keys(opts)
-    .filter((str) => str.slice(0, 4) == "svg_")
+    .filter((str) => str.slice(0, 4) === "svg_")
     .forEach((d) => {
       Object.assign(svgopts, {
-        [d.slice(0, 4) == "svg_" ? d.slice(4) : d]: opts[d],
+        [d.slice(4)]: opts[d],
       });
       delete opts[d];
     });
   let svg = newcontainer ? create(svgopts) : arg1;
 
-  if (opts.data || opts.datum) {
-    svg.data = true;
-  }
+  if (opts.data || opts.datum) svg.data = true;
 
-  // Default color
+  // --- Colorst ---
   const randomcol = random();
-  if (opts.data) {
-    if (implantation(opts.data) == 2) {
-      opts.fill = opts.fill ? opts.fill : "none";
-      opts.stroke = opts.stroke ? opts.stroke : randomcol;
+  const dataset = opts.data || opts.datum;
+  if (dataset) {
+    if (implantation(dataset) === 2) {
+      opts.fill = opts.fill ?? "none";
+      opts.stroke = opts.stroke ?? randomcol;
     } else {
-      opts.fill = opts.fill ? opts.fill : randomcol;
-      opts.stroke = opts.stroke ? opts.stroke : "white";
+      opts.fill = opts.fill ?? randomcol;
+      opts.stroke = opts.stroke ?? "white";
     }
   }
 
-  if (opts.datum) {
-    if (implantation(opts.datum) == 2) {
-      opts.fill = opts.fill ? opts.fill : "none";
-      opts.stroke = opts.stroke ? opts.stroke : randomcol;
-    } else {
-      opts.fill = opts.fill ? opts.fill : randomcol;
-      opts.stroke = opts.stroke ? opts.stroke : "none";
-    }
-  }
-
-  // init layer
+  // --- Init layer ---
   let layer = svg.select(`#${opts.id}`);
   if (layer.empty()) {
-    let before = opts.before
-      ? opts.before.startsWith("#")
-        ? opts.before
-        : `#${opts.before}`
-      : null;
-    let after = opts.after
-      ? opts.after.startsWith("#")
-        ? opts.after
-        : `#${opts.after}`
-      : null;
-
-    if (before && svg.select(before).node()) {
-      layer = svg
-        .insert("g", before)
-        .attr("id", opts.id)
-        .attr("data-layer", "path");
-    } else if (after && svg.select(after).node()) {
-      const ref = svg.select(after).node();
-      layer = svg.append("g").attr("id", opts.id).attr("data-layer", "path");
-      ref.after(layer.node());
-    } else {
-      layer = svg.append("g").attr("id", opts.id).attr("data-layer", "path");
-    }
+    layer = svg.append("g").attr("id", opts.id).attr("data-layer", "path");
   }
   layer.selectAll("*").remove();
 
-  // zoomable layer
+  // --- Zoomable layer ---
   if (svg.zoomable && !svg.parent) {
-    if (!svg.zoomablelayers.map((d) => d.id).includes(opts.id)) {
-      //svg.zoomablelayers.push(opts);
-      svg.zoomablelayers.push({
-        mark: opts.mark,
-        id: opts.id,
-        coords: opts.coords,
-        pointRadius: opts.pointRadius,
-      });
-    } else {
-      let i = svg.zoomablelayers.indexOf(
-        svg.zoomablelayers.find((d) => d.id == opts.id),
-      );
-      //svg.zoomablelayers[i] = opts;
-      svg.zoomablelayers[i] = {
-        mark: opts.mark,
-        id: opts.id,
-        coords: opts.coords,
-        pointRadius: opts.pointRadius,
-      };
-    }
+    const zoom_levels = Array.isArray(svg.zoomable)
+      ? svg.zoomable
+      : opts.zoom_levels;
+
+    // kmin for initial simplification
+    const kmin = typeof opts.simplify === "number" ? opts.simplify : 0.1;
+
+    // pre-simplification
+    const initialSimplified =
+      opts.simplify !== false ? simplify(dataset, { k: kmin }) : dataset;
+
+    const layerObj = {
+      mark: opts.mark,
+      id: opts.id,
+      coords: opts.coords,
+      zoom_levels,
+      pointRadius: opts.pointRadius,
+      original: dataset, // for dynamic simplification
+      _simplified: initialSimplified,
+      simplify: opts.simplify,
+      simplify_threshold: opts.simplify_threshold,
+      _lastTol: kmin,
+    };
+
+    const existingIndex = svg.zoomablelayers.map((d) => d.id).indexOf(opts.id);
+    if (existingIndex === -1) svg.zoomablelayers.push(layerObj);
+    else svg.zoomablelayers[existingIndex] = layerObj;
   }
 
-  // Projection
+  // --- Projection and geoPath ---
   let projection =
-    opts.coords == "svg"
+    opts.coords === "svg"
       ? d3.geoIdentity().scale(svg.zoom.k).translate([svg.zoom.x, svg.zoom.y])
       : svg.projection;
-  let path = d3.geoPath(projection).pointRadius(opts.pointRadius);
+  let pathFunc = d3.geoPath(projection).pointRadius(opts.pointRadius);
 
-  // ClipPath
+  // --- Clip-path ---
   if (opts.clipPath) {
     layer.attr("clip-path", opts.clipPath);
     opts.clip = false;
   }
 
-  // Specific attributes
-  let entries = Object.entries(opts).map((d) => d[0]);
+  // --- Attributes ---
+  const entries = Object.keys(opts);
   const notspecificattr = entries.filter(
     (d) =>
       ![
@@ -183,75 +163,54 @@ export function path(arg1, arg2) {
       ].includes(d),
   );
 
-  // layer attributes
-  let fields = propertiesentries(opts.data || opts.datum);
+  const fields = propertiesentries(dataset);
   const layerattr = notspecificattr.filter(
-    (d) => detectinput(opts[d], fields) == "value",
+    (d) => detectinput(opts[d], fields) === "value",
   );
-  layerattr.forEach((d) => {
-    layer.attr(camelcasetodash(d), opts[d]);
-  });
+  layerattr.forEach((d) => layer.attr(camelcasetodash(d), opts[d]));
 
-  // features attributes (iterate on)
   const eltattr = notspecificattr.filter((d) => !layerattr.includes(d));
-  eltattr.forEach((d) => {
-    opts[d] = check(opts[d], fields);
-  });
+  eltattr.forEach((d) => (opts[d] = check(opts[d], fields)));
 
-  // Clip-path
-  if (opts.clip == true && opts.coords != "svg" && svg.initproj !== "none") {
+  // --- Clip-path of the sphere if needed ---
+  if (opts.clip && opts.coords !== "svg" && svg.initproj !== "none") {
     const clipid = unique();
-
-    if (svg.zoomable && !svg.parent) {
+    if (svg.zoomable && !svg.parent)
       svg.zoomablelayers.push({ mark: "outline", id: clipid });
-    }
-
     svg
       .append("clipPath")
       .attr("id", clipid)
       .append("path")
-      .attr("d", path({ type: "Sphere" }));
-
+      .attr("d", pathFunc({ type: "Sphere" }));
     layer.attr("clip-path", `url(#${clipid})`);
   }
 
-  // Draw each features with its attributes
-
-  if (opts.datum) {
-    layer.append("path").datum(opts.datum).attr("d", path);
+  // --- initial draw ---
+  let drawData = dataset;
+  if (opts.simplify !== false && dataset) {
+    const kmin = typeof opts.simplify === "number" ? opts.simplify : 0.1;
+    drawData = simplify(dataset, { k: kmin });
   }
-  if (opts.data) {
+
+  if (dataset) {
     layer
       .selectAll("path")
-      .data(opts.data.features.filter((d) => d.geometry !== null))
+      .data(drawData.features.filter((d) => d.geometry !== null))
       .join((d) => {
-        let n = d.append("path").attr("d", path);
-        eltattr.forEach((e) => {
-          n.attr(camelcasetodash(e), opts[e]);
-        });
+        let n = d.append("path").attr("d", pathFunc);
+        eltattr.forEach((e) => n.attr(camelcasetodash(e), opts[e]));
         return n;
       });
 
-    // Tooltip & view
     if (opts.tip || opts.tipstyle || opts.view) {
-      // console.log(opts.data);
-      // console.log(fields);
-      tooltip(
-        layer,
-        opts.data,
-        svg,
-        opts.tip,
-        opts.tipstyle,
-        fields,
-        opts.view,
-      );
+      tooltip(layer, dataset, svg, opts.tip, opts.tipstyle, fields, opts.view);
     }
   }
 
-  // viewbox
+  // --- Viewbox ---
   svg = Object.assign(svg, { viewbox: getsize(layer) });
 
-  // Output
+  // --- Output ---
   if (newcontainer) {
     const size = getsize(layer);
     svg
