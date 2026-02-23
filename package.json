@@ -18,7 +18,7 @@
     "build": "rollup --config",
     "prepare": "npm run build",
     "docs": "jsdoc --configure jsdoc.json --verbose",
-    "deploy-docs": "npm run docs && gh-pages -d docs"
+    "deploy-docs": "jsdoc --configure jsdoc.json --verbose && gh-pages -d docs"
   },
   "repository": {
     "type": "git",

@@ -145,6 +145,7 @@ export { path } from "./mark/path.js";
 export { render } from "./container/render";
 export { exportSVG, exportPNG } from "./container/export";
 export { tile } from "./mark/tile.js";
+export { tile2 } from "./mark/tile2.js"; // TEMPS
 export { halfcircle } from "./mark/halfcircle.js";
 export { symbol } from "./mark/symbol.js";
 export { tissot } from "./mark/tissot.js";
