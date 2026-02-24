@@ -4,6 +4,7 @@ import { create } from "../container/create";
 import { render } from "../container/render";
 import { tooltip } from "../helpers/tooltip";
 import { random } from "../tool/random";
+import { max } from "d3-array";
 import {
   camelcasetodash,
   unique,
@@ -13,7 +14,7 @@ import {
   check,
   getsize,
 } from "../helpers/utils";
-import { simplify } from "geotoolbox";
+import { simpl } from "../helpers/simpl";
 
 /**
  * @function path
@@ -31,8 +32,7 @@ import { simplify } from "geotoolbox";
  * @property {number} [pointRadius = 3] - point radius (default: 3). Only for point geometries
  * @property {boolean|function} [tip = false] - a function to display the tip. Use true tu display all fields
  * @property {boolean} [view] = false] - use true and viewof in Observable for this layer to act as Input
- * @property {boolean|number} [simplify = false] - Enable simplification. `false` disables it, `true` uses default kmin, or set a numeric tolerance. Try 0.1 for a strong simplification, 0.5 for a light one.
- * @property {number} [simplify_threshold = 1] - Maximum generalization level at the highest zoom.
+
  * @property {object} [tipstyle] - tooltip style
  * @property {*} [*] - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
  * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
@@ -44,7 +44,7 @@ import { simplify } from "geotoolbox";
  * geoviz.path({ data: world, fill: "red" }) // no container
  */
 
-export function path(arg1, arg2) {
+export async function path(arg1, arg2) {
   // ---New container ?---
   let newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
@@ -62,14 +62,14 @@ export function path(arg1, arg2) {
     clip: true,
     strokeWidth: 1,
     clipPath: undefined,
-    pointRadius: 3,
-    simplify: false, // false or number = kmin
-    simplify_threshold: 1, // simplification level (k parmater)
+    pointRadius: undefined,
+    simplify: false,
+    makevalid: false,
     zoom_levels: [1, 8],
   };
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
-  // --- CContainer ---
+  // --- Container ---
   let svgopts = { domain: opts.data || opts.datum };
   Object.keys(opts)
     .filter((str) => str.slice(0, 4) === "svg_")
@@ -83,17 +83,49 @@ export function path(arg1, arg2) {
 
   if (opts.data || opts.datum) svg.data = true;
 
-  // --- Colorst ---
+  // --- Preprocess simplify ---
+  const dynamic_simplify =
+    Array.isArray(opts.simplify) && opts.simplify.length === 2;
+
+  const raw = opts.data || opts.datum;
+  let dataset = raw;
+  let base;
+
+  if (dynamic_simplify) {
+    // normaliser kmin et kmax
+    const [kmin, kmax] = [
+      Math.min(...opts.simplify),
+      Math.max(...opts.simplify),
+    ];
+    opts._kmin = kmin;
+    opts._kmax = kmax;
+
+    console.log(opts);
+
+    // simplification initiale = niveau le plus simplifié pour affichage par défaut
+    dataset = await simpl(raw, { k: opts._kmin, tovalid: opts.makevalid });
+    base = await simpl(raw, { k: opts._kmax, tovalid: opts.makevalid });
+  } else if (opts.simplify) {
+    dataset = await simpl(raw, { k: opts.simplify, tovalid: opts.makevalid });
+  } else if (opts.makevalid) {
+    dataset = await simpl(raw, { k: 1, tovalid: true });
+  }
+
+  // --- Colors ---
   const randomcol = random();
-  const dataset = opts.data || opts.datum;
+
   if (dataset) {
-    if (implantation(dataset) === 2) {
+    if (implantation(raw) === 2) {
       opts.fill = opts.fill ?? "none";
       opts.stroke = opts.stroke ?? randomcol;
     } else {
-      opts.fill = opts.fill ?? randomcol;
-      opts.stroke = opts.stroke ?? "white";
+      const col = randomcol;
+      opts.fill = opts.fill ?? col;
+      opts.stroke = opts.stroke ?? (opts.datum ? col : "white");
+      opts.strokeWidth = opts.strokeWidth ?? (opts.datum ? 0 : 1);
     }
+
+    opts.pointRadius = opts.pointRadius ?? (implantation(raw) === 3 ? 0 : 3);
   }
 
   // --- Init layer ---
@@ -109,24 +141,18 @@ export function path(arg1, arg2) {
       ? svg.zoomable
       : opts.zoom_levels;
 
-    // kmin for initial simplification
-    const kmin = typeof opts.simplify === "number" ? opts.simplify : 0.1;
-
-    // pre-simplification
-    const initialSimplified =
-      opts.simplify !== false ? simplify(dataset, { k: kmin }) : dataset;
-
     const layerObj = {
       mark: opts.mark,
       id: opts.id,
       coords: opts.coords,
       zoom_levels,
       pointRadius: opts.pointRadius,
-      original: dataset, // for dynamic simplification
-      _simplified: initialSimplified,
+      original_base: dataset,
+      original_raw: raw,
       simplify: opts.simplify,
-      simplify_threshold: opts.simplify_threshold,
-      _lastTol: kmin,
+      makevalid: opts.makevalid,
+      kmin: opts._kmin,
+      kmax: opts._kmax,
     };
 
     const existingIndex = svg.zoomablelayers.map((d) => d.id).indexOf(opts.id);
@@ -185,17 +211,10 @@ export function path(arg1, arg2) {
     layer.attr("clip-path", `url(#${clipid})`);
   }
 
-  // --- initial draw ---
-  let drawData = dataset;
-  if (opts.simplify !== false && dataset) {
-    const kmin = typeof opts.simplify === "number" ? opts.simplify : 0.1;
-    drawData = simplify(dataset, { k: kmin });
-  }
-
   if (dataset) {
     layer
       .selectAll("path")
-      .data(drawData.features.filter((d) => d.geometry !== null))
+      .data(dataset.features.filter((d) => d.geometry !== null))
       .join((d) => {
         let n = d.append("path").attr("d", pathFunc);
         eltattr.forEach((e) => n.attr(camelcasetodash(e), opts[e]));

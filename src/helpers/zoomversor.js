@@ -107,6 +107,7 @@ function versorzoom(
   } = {},
 ) {
   let v0, q0, r0, a0, tl;
+  console.log(scale);
 
   const zoom = d3
     .zoom()
