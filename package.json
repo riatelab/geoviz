@@ -68,7 +68,7 @@
     "flubber": "^0.4.2",
     "geogrid": "^1.2.2",
     "geojson2h3": "^1.2.0",
-    "geotoolbox": "^3.0.5",
+    "geotoolbox": "^3.0.9",
     "h3-js": "^4.1.0",
     "rollup": "^4.10.0",
     "statsbreaks": "^1.0.6",

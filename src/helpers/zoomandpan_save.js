@@ -16,7 +16,7 @@ import { geoPath, geoIdentity } from "d3-geo";
 import { select } from "d3-selection";
 import { interpolate } from "d3-interpolate";
 import { transition } from "d3-transition";
-import { simplify } from "../tool/simplify.js";
+import { simpl } from "../helpers/simpl";
 
 const d3 = Object.assign(
   {},
@@ -173,23 +173,21 @@ export async function zoomandpan(svg) {
           break;
 
         case "path": {
-          let geom = d.dataset;
+          let geom = d.original_base;
           const [zmin, zmax] = d.zoom_levels || [1, 8];
           if (Array.isArray(d.simplify) && d.simplify.length === 2) {
-            const k = d.k2;
+            const kmin = Math.min(...d.simplify);
+            const kmax = Math.max(...d.simplify);
             const z = Math.max(zmin, Math.min(zmax, t.k));
             const tnorm = (z - zmin) / (zmax - zmin);
-            const tol = k * Math.pow(1 / k, tnorm);
+            const tol = Math.pow(kmax / kmin, tnorm) * kmin;
 
             if (!d._lastTol || Math.abs(Math.log(d._lastTol / tol)) > 0.15) {
-              d._simplified = await simplify(d.base, {
+              d._simplified = await simpl(d.original_raw, {
                 k: tol,
-                rewind: d.rewind,
-                rewindPole: d.rewindPole,
+                tovalid: d.makevalid,
               });
               d._lastTol = tol;
-
-              console.log(tol);
             }
             geom = d._simplified;
           }

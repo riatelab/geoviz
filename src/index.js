@@ -28,6 +28,7 @@ import { random } from "./tool/random.js";
 import { radius } from "./tool/radius.js";
 import { dotstogrid } from "./tool/dotstogrid.js";
 import { symbols } from "./tool/symbols.js";
+import { simplify } from "./tool/simplify.js";
 import { grid } from "./tool/grid.js";
 export let tool = {
   addfonts,
@@ -52,6 +53,7 @@ export let tool = {
   symbols,
   grid,
   randompoints,
+  simplify,
 };
 
 // Legend

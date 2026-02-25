@@ -96,9 +96,9 @@ export function plot_typo(arg1, arg2) {
     opts.order || opts["data"].features.map((d) => d.properties[opts.var]),
     Object.fromEntries(
       Object.entries(opts).filter(([key]) =>
-        ["colors", "missing", "missing_fill"].includes(key)
-      )
-    )
+        ["colors", "missing", "missing_fill"].includes(key),
+      ),
+    ),
   );
 
   if (classif.nodata == 0 && opts.missing !== true) {
@@ -128,12 +128,13 @@ export function plot_typo(arg1, arg2) {
     Object.keys(opts)
       .filter(
         (str) =>
-          str.slice(0, 4) == "leg_" || ["alphabetical", "missing"].includes(str)
+          str.slice(0, 4) == "leg_" ||
+          ["alphabetical", "missing"].includes(str),
       )
       .forEach((d) =>
         Object.assign(legopts, {
           [d.slice(0, 4) == "leg_" ? d.slice(4) : d]: opts[d],
-        })
+        }),
       );
     legopts.id = "leg_" + legopts.id;
 

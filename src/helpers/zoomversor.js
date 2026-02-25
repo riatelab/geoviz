@@ -18,6 +18,7 @@ import * as geoScaleBar from "d3-geo-scale-bar";
 import { select } from "d3-selection";
 import { scaleLinear } from "d3-scale";
 import { max } from "d3-array";
+import { simplify } from "../tool/simplify.js";
 
 const d3 = Object.assign({}, geoScaleBar, {
   zoom,
@@ -30,9 +31,9 @@ const d3 = Object.assign({}, geoScaleBar, {
   max,
 });
 
-export function zoomversor(svg) {
-  function render() {
-    svg.zoomablelayers.forEach((d) => {
+export async function zoomversor(svg) {
+  async function render() {
+    for (const d of svg.zoomablelayers) {
       const path = d3.geoPath(svg.projection);
       switch (d.mark) {
         case "rhumbs":
@@ -53,13 +54,52 @@ export function zoomversor(svg) {
         case "spike":
           spike(svg, d);
           break;
-        case "path":
+        case "path": {
+          let geom = d.dataset;
+
+          if (Array.isArray(d.simplify) && d.simplify.length === 2) {
+            const [zmin, zmax] = [1, 8];
+            const smin = svg.projection._scale * zmin;
+            const smax = svg.projection._scale * zmax;
+            const t = (svg.projection.scale() - smin) / (smax - smin);
+            const zoomLevel = zmin + t * (zmax - zmin);
+            const k = d.k2;
+            const z = Math.max(zmin, Math.min(zmax, zoomLevel));
+            const tnorm = (z - zmin) / (zmax - zmin);
+            const tol = k * Math.pow(1 / k, tnorm);
+
+            if (!d._lastTol || Math.abs(Math.log(d._lastTol / tol)) > 0.15) {
+              d._simplified = await simplify(d.base, {
+                k: tol,
+                rewind: d.rewind,
+                rewindPole: d.rewindPole,
+              });
+              d._lastTol = tol;
+
+              console.log(tol);
+            }
+            geom = d._simplified;
+          }
+
+          svg
+            .selectAll(`#${d.id} > path`)
+            .data(geom.features)
+            .attr(
+              "d",
+              d3
+                .geoPath(d.coords === "svg" ? noproj : svg.projection)
+                .pointRadius(d.pointRadius),
+            );
+
+          break;
+        }
+
         case "tissot":
           svg
             .selectAll(`#${d.id} > path`)
             .attr("d", d3.geoPath(svg.projection).pointRadius(d.pointRadius));
           break;
-          break;
+
         case "clippath":
           svg.selectAll(`#${d.id} > path`).attr("d", path);
           break;
@@ -88,7 +128,7 @@ export function zoomversor(svg) {
           north(svg, d);
           break;
       }
-    });
+    }
   }
   svg
     .call(versorzoom(svg.projection).on("zoom.render end.render", render))
@@ -103,12 +143,12 @@ function versorzoom(
     scale = projection._scale === undefined
       ? (projection._scale = projection.scale())
       : projection._scale,
-    scaleExtent = [0.8, 8],
+    scaleExtent = [1, 8],
   } = {},
 ) {
   let v0, q0, r0, a0, tl;
-  console.log(scale);
 
+  console.log("scale", scale);
   const zoom = d3
     .zoom()
     .filter((event) => {
