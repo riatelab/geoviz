@@ -187,6 +187,7 @@ export async function path(arg1, arg2) {
     const layerObj = {
       mark: opts.mark,
       id: opts.id,
+      dataordatum: opts.datum ? "datum" : "data",
       coords: opts.coords,
       zoom_levels,
       pointRadius: opts.pointRadius,
@@ -270,7 +271,7 @@ export async function path(arg1, arg2) {
   // Draw each features with its attributes
 
   if (opts.datum) {
-    layer.append("path").datum(opts.datum).attr("d", path);
+    layer.append("path").datum(dataset).attr("d", path);
   }
   if (opts.data) {
     layer

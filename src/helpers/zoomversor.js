@@ -79,17 +79,15 @@ export async function zoomversor(svg) {
             }
             geom = d._simplified;
           }
-
-          svg
-            .selectAll(`#${d.id} > path`)
-            .data(geom.features)
-            .attr(
-              "d",
-              d3
-                .geoPath(d.coords === "svg" ? noproj : svg.projection)
-                .pointRadius(d.pointRadius),
-            );
-
+          const gpath = d3
+            .geoPath(d.coords === "svg" ? noproj : svg.projection)
+            .pointRadius(d.pointRadius);
+          const selection = svg.selectAll(`#${d.id} > path`);
+          const bound =
+            d.dataordatum === "datum"
+              ? selection.datum(geom)
+              : selection.data(geom.features);
+          bound.attr("d", gpath);
           break;
         }
 
