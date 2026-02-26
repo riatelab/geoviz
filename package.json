@@ -1,6 +1,6 @@
 {
   "name": "geoviz",
-  "version": "0.9.16",
+  "version": "0.9.17",
   "description": "d3-based JavaScript library for thematic maps",
   "main": "src/index.js",
   "module": "src/index.js",
