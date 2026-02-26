@@ -172,9 +172,45 @@ export async function zoomandpan(svg) {
           spike(svg, d);
           break;
 
+        // case "path": {
+        //   let geom = d.dataset;
+        //   const [zmin, zmax] = d.zoom_levels || [1, 8];
+        //   if (Array.isArray(d.simplify) && d.simplify.length === 2) {
+        //     const k = d.k2;
+        //     const z = Math.max(zmin, Math.min(zmax, t.k));
+        //     const tnorm = (z - zmin) / (zmax - zmin);
+        //     const tol = k * Math.pow(1 / k, tnorm);
+
+        //     if (!d._lastTol || Math.abs(Math.log(d._lastTol / tol)) > 0.15) {
+        //       d._simplified = await cleangeometry(d.base, {
+        //         k: tol,
+        //         rewind: d.rewind,
+        //         rewindPole: d.rewindPole,
+        //         clipOutline: d.clipOutline,
+        //       });
+        //       d._lastTol = tol;
+        //     }
+        //     geom = d._simplified;
+        //   }
+
+        //   svg
+        //     .selectAll(`#${d.id} > path`)
+        //     .data(geom.features)
+        //     .attr(
+        //       "d",
+        //       d3
+        //         .geoPath(d.coords === "svg" ? noproj : svg.projection)
+        //         .pointRadius(d.pointRadius),
+        //     );
+
+        //   break;
+        // }
+
         case "path": {
           let geom = d.dataset;
           const [zmin, zmax] = d.zoom_levels || [1, 8];
+
+          // Dynamic simplification
           if (Array.isArray(d.simplify) && d.simplify.length === 2) {
             const k = d.k2;
             const z = Math.max(zmin, Math.min(zmax, t.k));
@@ -193,16 +229,27 @@ export async function zoomandpan(svg) {
             geom = d._simplified;
           }
 
-          svg
-            .selectAll(`#${d.id} > path`)
-            .data(geom.features)
-            .attr(
-              "d",
-              d3
-                .geoPath(d.coords === "svg" ? noproj : svg.projection)
-                .pointRadius(d.pointRadius),
-            );
+          const proj = d.coords === "svg" ? noproj : svg.projection;
+          const gpath = d3.geoPath(proj).pointRadius(d.pointRadius);
 
+          if (geom.type === "FeatureCollection") {
+            // Multiple features
+            svg
+              .selectAll(`#${d.id} > path`)
+              .data(geom.features)
+              .join("path")
+              .attr("d", gpath);
+          } else if (
+            geom.type === "Feature" ||
+            geom.type === "GeometryCollection"
+          ) {
+            // Single feature or geometry
+            svg
+              .selectAll(`#${d.id} > path`)
+              .data([geom])
+              .join("path")
+              .attr("d", gpath);
+          }
           break;
         }
 
