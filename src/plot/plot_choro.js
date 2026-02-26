@@ -29,7 +29,7 @@ import { implantation, columns, unique } from "../helpers/utils";
  * geoviz.plot({type:"choro", data: world, var: "gdppc"})
  */
 
-export function plot_choro(arg1, arg2) {
+export async function plot_choro(arg1, arg2) {
   let newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
     !arguments[0]?._groups
@@ -124,7 +124,7 @@ export function plot_choro(arg1, arg2) {
     .filter((str) => str.slice(0, 4) != "leg_")
     .forEach((d) => Object.assign(layeropts, { [d]: opts[d] }));
 
-  path(svg, {
+  await path(svg, {
     ...layeropts,
     stroke: (d) =>
       fig == "line" ? classif.colorize(d.properties[opts.var]) : opts.stroke,

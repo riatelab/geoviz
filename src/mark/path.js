@@ -29,7 +29,7 @@ import {
  * @property {string|function} [stroke] - stroke color. To create choropleth maps or typologies, use the `tool.choro` and `tool.typo` functions
  * @property {string|function} [strokeWidth = 1] - stroke-width (default: 1)
  * @property {boolean|function} [tip = false] - a function to display the tip. Use true tu display all fields
- * @property {number|number[]|false} [simplify=false] - true = automatic simplificaton, number = fixed tolerance, [k1,k2] = Dynamic simplification that varies depending on the zoom level. The first number defines the most detailed generalization level (you can set it to 1 to preserve the original basemap). The second number applies a second simplification that will be displayed before zooming.
+ * @property {number|number[]|false} [simplify=false] - true = automatic simplificaton, number = fixed tolerance, [k1,k2] = Dynamic simplification that varies depending on the zoom level. The first number defines the most detailed generalization level (you can set it to 1 to preserve the original basemap). The second number applies a second simplification that will be displayed before zooming. If you use the simplification function, use await.
  * @property {boolean} [rewind=false] - rewind polygon rings to correct winding order
  * @property {boolean} [rewindPole=false] - If yout rawond geometries, you can use this special rewinding for geometries crossing poles or dateline
  * @property {number} [pointRadius=3] - radius used when rendering point geometries
@@ -39,10 +39,10 @@ import {
  * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
  * @example
  * // There are several ways to use this function
- * geoviz.path(svg, { data: world, fill: "red" }) // where svg is the container
- * svg.path({ data: world, fill: "red" }) // where svg is the container
- * svg.plot({ type: "path", data: world, fill: "red" }) // where svg is the container
- * geoviz.path({ data: world, fill: "red" }) // no container
+ * await geoviz.path(svg, { data: world, fill: "red" }) // where svg is the container
+ * await .path({ data: world, fill: "red" }) // where svg is the container
+ * await svg.plot({ type: "path", data: world, fill: "red" }) // where svg is the container
+ * await geoviz.path({ data: world, fill: "red" }) // no container
  */
 
 export async function path(arg1, arg2) {
