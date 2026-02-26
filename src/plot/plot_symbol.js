@@ -21,7 +21,7 @@ import { picto } from "../helpers/picto";
  * @example // Usage
  * geoviz.plot({type:"symbol", data: usa, var: "states"})
  */
-export function plot_symbol(arg1, arg2) {
+export async function plot_symbol(arg1, arg2) {
   let newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
     !arguments[0]?._groups
@@ -64,7 +64,7 @@ export function plot_symbol(arg1, arg2) {
   // BASEMAP
 
   if (implantation(opts.data) == 3 && newcontainer) {
-    svg.path({ datum: opts.data, fill: "#CCC", fillOpacity: 0.5 });
+    await svg.path({ datum: opts.data, fill: "#CCC", fillOpacity: 0.5 });
   }
 
   // LAYER OPTS
@@ -82,7 +82,7 @@ export function plot_symbol(arg1, arg2) {
 
   let fieldtosymbol = getsymb(
     opts.order || opts.data.features.map((d) => d.properties[opts.symbol]),
-    { symbols: opts.symbols, missing: opts.missing, picto }
+    { symbols: opts.symbols, missing: opts.missing, picto },
   );
 
   opts.symbols = opts.symbols
@@ -114,12 +114,12 @@ export function plot_symbol(arg1, arg2) {
             "missing",
             "types",
             "symbols",
-          ].includes(str)
+          ].includes(str),
       )
       .forEach((d) =>
         Object.assign(legopts, {
           [d.slice(0, 4) == "leg_" ? d.slice(4) : d]: opts[d],
-        })
+        }),
       );
 
     legopts.symbol_fill = legopts.symbol_fill ? legopts.symbol_fill : opts.fill;
@@ -157,7 +157,7 @@ export function plot_symbol(arg1, arg2) {
 
 function getsymb(
   data,
-  { symbols = undefined, missing = "missing", picto } = {}
+  { symbols = undefined, missing = "missing", picto } = {},
 ) {
   let arr = data.filter((d) => d !== "" && d != null && d != undefined);
   let types = Array.from(new Set(arr));

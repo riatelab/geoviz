@@ -38,7 +38,7 @@ import { getsize } from "../helpers/getsize.js";
  * geoviz.plot({type:"propchoro", data: world, var1: "pop", var2: "gdppc"})
  */
 
-export function plot_propchoro(arg1, arg2) {
+export async function plot_propchoro(arg1, arg2) {
   let newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
     !arguments[0]?._groups
@@ -98,7 +98,7 @@ export function plot_propchoro(arg1, arg2) {
   // BASEMAP
 
   if (implantation(opts.data) == 3 && newcontainer) {
-    svg.path({ datum: opts.data, fill: "#CCC", fillOpacity: 0.5 });
+    await svg.path({ datum: opts.data, fill: "#CCC", fillOpacity: 0.5 });
   }
 
   if (opts.symbol == "square") {
@@ -130,9 +130,9 @@ export function plot_propchoro(arg1, arg2) {
           "middle",
           "precision",
           "missing_fill",
-        ].includes(key)
-      )
-    )
+        ].includes(key),
+      ),
+    ),
   );
 
   opts.fill = (d) => classif.colorize(d.properties[opts.var2]);
@@ -166,12 +166,12 @@ export function plot_propchoro(arg1, arg2) {
     Object.keys(opts)
       .filter(
         (str) =>
-          str.slice(0, 5) == "leg1_" || ["k", "fixmax", "id"].includes(str)
+          str.slice(0, 5) == "leg1_" || ["k", "fixmax", "id"].includes(str),
       )
       .forEach((d) =>
         Object.assign(legopts, {
           [d.slice(0, 5) == "leg1_" ? d.slice(5) : d]: opts[d],
-        })
+        }),
       );
     legopts.id = "leg_" + legopts.id;
     legopts.data = opts.data.features.map((d) => +d.properties[opts.var1]);
@@ -183,7 +183,6 @@ export function plot_propchoro(arg1, arg2) {
     legopts.spike_straight = legopts.spike_straight
       ? legopts.spike_straight
       : opts.straight;
-
 
     switch (opts.symbol) {
       case "circle":
@@ -216,7 +215,7 @@ export function plot_propchoro(arg1, arg2) {
       .forEach((d) =>
         Object.assign(legopts2, {
           [d.slice(0, 5) == "leg2_" ? d.slice(5) : d]: opts[d],
-        })
+        }),
       );
     let funclegend =
       opts.leg2_type == "vertical" ? choro_vertical : choro_horizontal;

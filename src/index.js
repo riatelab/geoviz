@@ -28,7 +28,7 @@ import { random } from "./tool/random.js";
 import { radius } from "./tool/radius.js";
 import { dotstogrid } from "./tool/dotstogrid.js";
 import { symbols } from "./tool/symbols.js";
-import { simplify } from "./tool/simplify.js";
+import { cleangeometry } from "./tool/cleangeometry.js";
 import { grid } from "./tool/grid.js";
 export let tool = {
   addfonts,
@@ -53,7 +53,7 @@ export let tool = {
   symbols,
   grid,
   randompoints,
-  simplify,
+  cleangeometry,
 };
 
 // Legend
@@ -103,30 +103,6 @@ export let effect = {
   radialGradient,
   clipPath,
 };
-
-// grid
-
-// import { arbitrary } from "./grid/arbitrary.js";
-// import { diamond } from "./grid/diamond.js";
-// import { dot } from "./grid/dot.js";
-// import { h3 } from "./grid/h3.js";
-// import { hexbin } from "./grid/hexbin.js";
-// import { square } from "./grid/square.js";
-// import { triangle } from "./grid/triangle.js";
-// import { count } from "./grid/count.js";
-// import { intersectpolys as intersect } from "./grid/intersect.js";
-// export let grid = {
-//grid,
-// arbitrary,
-// diamond,
-// dot,
-// h3,
-// hexbin,
-// square,
-// triangle,
-//   count,
-//   intersect,
-// };
 
 // main
 export { draw } from "./container/draw";

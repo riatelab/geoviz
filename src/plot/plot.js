@@ -99,7 +99,7 @@ import { plot_dotdensity } from "./plot_dotdensity";
  * return svg.render()
  */
 
-export function plot(arg1, arg2) {
+export async function plot(arg1, arg2) {
   // Options
   let options =
     (arguments.length <= 1 || arguments[1] == undefined) &&
@@ -142,7 +142,7 @@ export function plot(arg1, arg2) {
     case "simple":
     case "layer":
     case undefined:
-      return path(arg1, arg2);
+      return await path(arg1, arg2);
       break;
     case "text":
     case "label":

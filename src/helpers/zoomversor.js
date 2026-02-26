@@ -18,7 +18,7 @@ import * as geoScaleBar from "d3-geo-scale-bar";
 import { select } from "d3-selection";
 import { scaleLinear } from "d3-scale";
 import { max } from "d3-array";
-import { simplify } from "../tool/simplify.js";
+import { cleangeometry } from "../tool/cleangeometry.js";
 
 const d3 = Object.assign({}, geoScaleBar, {
   zoom,
@@ -69,14 +69,13 @@ export async function zoomversor(svg) {
             const tol = k * Math.pow(1 / k, tnorm);
 
             if (!d._lastTol || Math.abs(Math.log(d._lastTol / tol)) > 0.15) {
-              d._simplified = await simplify(d.base, {
+              d._simplified = await cleangeometry(d.base, {
                 k: tol,
                 rewind: d.rewind,
                 rewindPole: d.rewindPole,
+                clipOutline: d.clipOutline,
               });
               d._lastTol = tol;
-
-              console.log(tol);
             }
             geom = d._simplified;
           }

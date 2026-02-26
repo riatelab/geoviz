@@ -20,7 +20,7 @@ const geogrid = { square, polygonstogrid, project };
  * @property {boolean} [legend = true] - boolean to add or not the legend
  * @property {string} [leg_type = "separate"] - legend style ("nested" or "separate")
  * @property {array} [leg_pos = [10, 10]] - position of the legend
- * @property {*} [*] - You can also modify numerous parameters to customize the map. To do this, you can use all the parameters of the [path](#path) and [tool.typo](#tool/typo) functions. For example: `strokeWidth: 0.3`.
+ * @property {*} [*] - You can also modify numerous parameters to customize the map. To do this, you can use all the parameters of the [circle](#circle) and [tool.typo](#tool/typo) functions. For example: `strokeWidth: 0.3`.
  * @property {*} [leg_*] - You can also modify a wide range of parameters to customize the legend. To do this, you can use all the parameters of the [legend.circles_nested](#legend/circles_nested), [legend.circles_half](#legend/circles_half), [legend.circles_nested](#legend/circles_nested) and [legend.spikes](#legend/spikes) functions with the prefix `"leg_"`. For example: `leg_missing_text: "not available"` or `leg_values_fill: "red"`.
  * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
  * @example // Usage
@@ -129,12 +129,12 @@ export function plot_bertin(arg1, arg2) {
     Object.keys(opts)
       .filter(
         (str) =>
-          str.slice(0, 4) == "leg_" || ["k", "fixmax", "id"].includes(str)
+          str.slice(0, 4) == "leg_" || ["k", "fixmax", "id"].includes(str),
       )
       .forEach((d) =>
         Object.assign(legopts, {
           [d.slice(0, 4) == "leg_" ? d.slice(4) : d]: opts[d],
-        })
+        }),
       );
     legopts.id = "leg_" + legopts.id;
     legopts.data = opts.data.features.map((d) => +d.properties[opts.var]);

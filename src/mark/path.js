@@ -4,7 +4,7 @@ import { create } from "../container/create";
 import { render } from "../container/render";
 import { tooltip } from "../helpers/tooltip";
 import { random } from "../tool/random";
-import { simplify } from "../tool/simplify.js";
+import { cleangeometry } from "../tool/cleangeometry.js";
 import {
   camelcasetodash,
   unique,
@@ -32,6 +32,7 @@ import {
  * @property {number|number[]|false} [simplify=false] - true = automatic simplificaton, number = fixed tolerance, [k1,k2] = Dynamic simplification that varies depending on the zoom level. The first number defines the most detailed generalization level (you can set it to 1 to preserve the original basemap). The second number applies a second simplification that will be displayed before zooming. If you use the simplification function, use await.
  * @property {boolean} [rewind=false] - rewind polygon rings to correct winding order
  * @property {boolean} [rewindPole=false] - If yout rawond geometries, you can use this special rewinding for geometries crossing poles or dateline
+ * @param {number|boolean} [clipOutline=0] - clip geometries near the antimeridian and poles (degrees) +/- the value given. If true, the value is set to 0.01 degree.
  * @property {number} [pointRadius=3] - radius used when rendering point geometries
  * @property {boolean} [view] = false] - use true and viewof in Observable for this layer to act as Input
  * @property {object} [tipstyle] - tooltip style
@@ -67,7 +68,7 @@ export async function path(arg1, arg2) {
     simplify: false,
     rewind: false,
     rewindPole: false,
-    zoom_levels: [1, 8], // MODIFIER CA
+    clipOutline: false,
   };
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
@@ -94,28 +95,37 @@ export async function path(arg1, arg2) {
   const raw = opts.data || opts.datum;
   let dataset = raw;
   let base;
+
   if (dynamic_simplify) {
     // normaliser kmin et kmax
     opts.k1 = opts.simplify[0];
     opts.k2 = opts.simplify[1];
-    base = await simplify(raw, {
+
+    base = await cleangeometry(raw, {
       k: opts.k1,
-      makevalid: false,
       rewind: opts.rewind,
       rewindPole: opts.rewindPole,
+      clipOutline: opts.clipOutline,
     });
-    dataset = await simplify(base, {
+    dataset = await cleangeometry(base, {
       k: opts.k2,
-      makevalid: opts.makevalid,
       rewind: opts.rewind,
       rewindPole: opts.rewindPole,
+      clipOutline: opts.clipOutline,
     });
   } else if (opts.simplify) {
-    dataset = await simplify(raw, {
+    dataset = await cleangeometry(raw, {
       k: opts.simplify,
-      makevalid: opts.makevalid,
       rewind: opts.rewind,
       rewindPole: opts.rewindPole,
+      clipOutline: opts.clipOutline,
+    });
+  } else if (!opts.simplify && (opts.clipOutline || opts.rewind)) {
+    dataset = await cleangeometry(raw, {
+      k: 1,
+      rewind: opts.rewind,
+      rewindPole: opts.rewindPole,
+      clipOutline: opts.clipOutline,
     });
   }
 
@@ -172,9 +182,7 @@ export async function path(arg1, arg2) {
 
   // --- Zoomable layer ---
   if (svg.zoomable && !svg.parent) {
-    const zoom_levels = Array.isArray(svg.zoomable)
-      ? svg.zoomable
-      : opts.zoom_levels;
+    const zoom_levels = Array.isArray(svg.zoomable) ? svg.zoomable : [1, 8];
 
     const layerObj = {
       mark: opts.mark,
@@ -188,6 +196,7 @@ export async function path(arg1, arg2) {
       makevalid: opts.makevalid,
       rewind: opts.rewind,
       rewindPole: opts.rewindPole,
+      clipOutline: opts.clipOutline,
       k1: opts.k1,
       k2: opts.k2,
     };

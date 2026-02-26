@@ -34,7 +34,7 @@ const d3 = Object.assign({}, { geoEquirectangular });
 })
  */
 
-export function draw(json) {
+export async function draw(json) {
   let params = json?.params || {};
   // layer types
   let layertypes = json.layers.map((d) => d.type);
@@ -63,9 +63,9 @@ export function draw(json) {
   }
   params.domain = params.domain == "outline" ? undefined : params.domain;
   let svg = create(params);
-  json.layers.forEach((d) => {
-    svg.plot(d);
-  });
+  for (const layer of json.layers) {
+    await svg.plot(layer);
+  }
 
   return svg.render();
 }
