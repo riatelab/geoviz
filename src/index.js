@@ -119,6 +119,7 @@ export { square } from "./mark/square.js";
 export { spike } from "./mark/spike.js";
 export { footer } from "./mark/footer.js";
 export { outline } from "./mark/outline.js";
+export { sketch } from "./mark/sketch.js";
 export { path } from "./mark/path.js";
 export { render } from "./container/render";
 export { exportSVG, exportPNG } from "./container/export";

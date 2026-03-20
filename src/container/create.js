@@ -15,6 +15,7 @@ const d3 = Object.assign(
 );
 
 import { outline as addoutline } from "../mark/outline.js";
+import { sketch as addsketch } from "../mark/sketch.js";
 import { graticule as addgraticule } from "../mark/graticule.js";
 import { text as addtext } from "../mark/text.js";
 import { circle as addcircle } from "../mark/circle.js";
@@ -218,6 +219,7 @@ export function create({
   let mark = {};
   [
     { id: "outline", func: addoutline },
+    { id: "sketch", func: addsketch },
     { id: "path", func: addpath },
     { id: "symbol", func: addsymbol },
     { id: "graticule", func: addgraticule },
