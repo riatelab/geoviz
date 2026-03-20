@@ -109,6 +109,9 @@ export async function zoomversor(svg) {
         case "graticule":
           svg.selectAll(`#${d.id} > path`).attr("d", path);
           break;
+        case "sketch":
+          svg.selectAll(`#${d.id} > path`).attr("d", path);
+          break;
         case "tile":
           tile(svg, d);
           break;

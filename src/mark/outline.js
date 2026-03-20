@@ -99,6 +99,13 @@ export function outline(arg1, arg2) {
 
     // Draw outline
     let path = d3.geoPath(svg.projection);
+
+    layer.append("path").attr("d", path({ type: "Sphere" }));
+
+
+
+
+
     layer.append("path").attr("d", path({ type: "Sphere" }));
     // Output
     if (newcontainer) {

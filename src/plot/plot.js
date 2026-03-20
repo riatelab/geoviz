@@ -4,6 +4,7 @@ import { contour } from "../mark/contour";
 import { rhumbs } from "../mark/rhumbs";
 import { tissot } from "../mark/tissot";
 import { outline } from "../mark/outline";
+import { sketch } from "../mark/sketch";
 import { path } from "../mark/path";
 import { text } from "../mark/text";
 import { circle } from "../mark/circle";
@@ -156,6 +157,9 @@ export async function plot(arg1, arg2) {
       break;
     case "square":
       return square(arg1, arg2);
+      break;
+    case "sketch":
+      return sketch(arg1, arg2);
       break;
     case "halfcircle":
       return halfcircle(arg1, arg2);

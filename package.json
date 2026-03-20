@@ -56,6 +56,7 @@
     "d3-geo-scale-bar": "^1.2.5",
     "d3-interpolate": "^3.0.1",
     "d3-interpolate-path": "^2.3.0",
+    "d3-path": "^3.1.0",
     "d3-scale": "^4.0.2",
     "d3-selection": "^3.0.0",
     "d3-shape": "^3.2.0",
@@ -69,6 +70,7 @@
     "geotoolbox": "^3.0.9",
     "h3-js": "^4.1.0",
     "rollup": "^4.10.0",
+    "roughjs": "^4.6.6",
     "statsbreaks": "^1.0.6",
     "versor": "^0.2.0"
   },

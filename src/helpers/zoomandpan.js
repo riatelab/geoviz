@@ -223,6 +223,11 @@ export async function zoomandpan(svg) {
         case "graticule":
           svg.selectAll(`#${d.id} > path`).attr("d", path);
           break;
+        case "sketch":
+          svg
+            .selectAll(`#${d.id} > path`)
+            .attr("d", d3.geoPath(d.coords == "svg" ? noproj : svg.projection));
+          break;
         case "tile":
           tile(svg, d);
           break;
