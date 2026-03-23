@@ -138,6 +138,8 @@ export async function plot_typo(arg1, arg2) {
       );
     legopts.id = "leg_" + legopts.id;
 
+    console.log(legopts);
+
     let funclegend =
       opts.leg_type == "vertical" ? typo_vertical : typo_horizontal;
     funclegend(svg, {
