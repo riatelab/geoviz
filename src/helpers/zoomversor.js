@@ -1,4 +1,5 @@
 import versor from "versor";
+import { sketch } from "../mark/sketch";
 import { circle } from "../mark/circle";
 import { contour } from "../mark/contour";
 import { rhumbs } from "../mark/rhumbs";
@@ -110,7 +111,7 @@ export async function zoomversor(svg) {
           svg.selectAll(`#${d.id} > path`).attr("d", path);
           break;
         case "sketch":
-          svg.selectAll(`#${d.id} > path`).attr("d", path);
+          sketch(svg, d);
           break;
         case "tile":
           tile(svg, d);

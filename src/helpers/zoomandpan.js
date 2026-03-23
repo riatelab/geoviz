@@ -1,4 +1,5 @@
 import { circle } from "../mark/circle";
+import { sketch } from "../mark/sketch";
 import { contour } from "../mark/contour";
 import { rhumbs } from "../mark/rhumbs";
 import { symbol } from "../mark/symbol";
@@ -224,9 +225,8 @@ export async function zoomandpan(svg) {
           svg.selectAll(`#${d.id} > path`).attr("d", path);
           break;
         case "sketch":
-          svg
-            .selectAll(`#${d.id} > path`)
-            .attr("d", d3.geoPath(d.coords == "svg" ? noproj : svg.projection));
+          d.zoom = { k: t.k, x: t.x, y: t.y };
+          sketch(svg, d);
           break;
         case "tile":
           tile(svg, d);

@@ -70,7 +70,6 @@
     "geotoolbox": "^3.0.9",
     "h3-js": "^4.1.0",
     "rollup": "^4.10.0",
-    "roughjs": "^4.6.6",
     "statsbreaks": "^1.0.6",
     "versor": "^0.2.0"
   },
