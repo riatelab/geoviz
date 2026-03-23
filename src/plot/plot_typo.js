@@ -136,9 +136,8 @@ export async function plot_typo(arg1, arg2) {
           [d.slice(0, 4) == "leg_" ? d.slice(4) : d]: opts[d],
         }),
       );
-    legopts.id = "leg_" + legopts.id;
 
-    console.log(legopts);
+    legopts.id = "leg_" + opts.id;
 
     let funclegend =
       opts.leg_type == "vertical" ? typo_vertical : typo_horizontal;
