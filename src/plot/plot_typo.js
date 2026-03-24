@@ -124,7 +124,7 @@ export async function plot_typo(arg1, arg2) {
   // Legend
 
   if (opts.legend) {
-    let legopts = {};
+    let legopts = { id: "leg_" + opts.id };
     Object.keys(opts)
       .filter(
         (str) =>
