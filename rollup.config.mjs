@@ -7,7 +7,7 @@ import terser from "@rollup/plugin-terser";
 export default {
   input: "src/index.js",
   output: {
-    format: "umd",
+    format: "iife",
     file: "dist/index.min.js",
     name: "geoviz",
   },

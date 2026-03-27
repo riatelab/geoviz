@@ -156,7 +156,7 @@ export function addTitle(layer, opts) {
   if (opts.title) {
     const opts_title = Object.assign(
       subsetobj(opts, { prefix: "title_" }),
-      subsetobj(opts, { prefix: "text_" })
+      subsetobj(opts, { prefix: "text_" }),
     );
     opts_title.text = opts.title;
     opts_title.pos = opts.pos;
@@ -169,7 +169,7 @@ export function addSubtitle(layer, opts) {
     const size = getsize(layer);
     const opts_subtitle = Object.assign(
       subsetobj(opts, { prefix: "subtitle_" }),
-      subsetobj(opts, { prefix: "text_" })
+      subsetobj(opts, { prefix: "text_" }),
     );
     opts_subtitle.text = opts.subtitle;
     opts_subtitle.pos = [
@@ -185,7 +185,7 @@ export function addNote(layer, opts) {
     const size = getsize(layer);
     const opts_note = Object.assign(
       subsetobj(opts, { prefix: "note_" }),
-      subsetobj(opts, { prefix: "text_" })
+      subsetobj(opts, { prefix: "text_" }),
     );
     opts_note.text = opts.note;
     opts_note.dy = opts_note.dy !== undefined ? opts_note.dy : 5;
@@ -210,7 +210,7 @@ export function addFrame(layer, opts) {
       .lower();
 
     Object.entries(opts_frame).forEach((d) =>
-      frame.attr(camelcasetodash(d[0]), d[1])
+      frame.attr(camelcasetodash(d[0]), d[1]),
     );
   }
 }
@@ -226,7 +226,7 @@ export function addText(layer, opts) {
       lineSpacing: 0,
       fontSize: 10,
     },
-    opts
+    opts,
   );
 
   let text = layer.append("g");
@@ -264,7 +264,7 @@ export function addText(layer, opts) {
       .attr("x", pos[0])
       .attr(
         "y",
-        (d, i) => pos[1] + i * (opts.fontSize + opts.lineSpacing) - delta
+        (d, i) => pos[1] + i * (opts.fontSize + opts.lineSpacing) - delta,
       )
       .text((d) => d);
   }
@@ -280,7 +280,7 @@ export function subsetobj(obj, { prefix, exclude = null } = {}) {
     .filter((s) => !s.includes(exclude));
 
   arr.forEach((d) =>
-    Object.assign(output, { [d.replace(prefix, "")]: obj[d] })
+    Object.assign(output, { [d.replace(prefix, "")]: obj[d] }),
   );
   return output;
 }

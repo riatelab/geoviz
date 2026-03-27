@@ -80,6 +80,9 @@ export function typo_vertical(arg1, arg2) {
   };
   let opts = manageoptions(options, newcontainer ? arg1 : arg2, svg.fontFamily);
 
+
+
+  
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
     ? svg
@@ -111,7 +114,7 @@ export function typo_vertical(arg1, arg2) {
     exclude: ["fill", "width", "height", "spacing"],
   });
   Object.entries(opts_rect).forEach((d) =>
-    rect.attr(camelcasetodash(d[0]), d[1])
+    rect.attr(camelcasetodash(d[0]), d[1]),
   );
 
   let posy = opts.pos[1] + size.height + opts.gap + opts.rect_dy;
@@ -127,7 +130,7 @@ export function typo_vertical(arg1, arg2) {
       (d, i) =>
         posy +
         opts.rect_spacing / 2 +
-        i * (opts.rect_height + opts.rect_spacing)
+        i * (opts.rect_height + opts.rect_spacing),
     )
     .attr("width", opts.rect_width)
     .attr("height", opts.rect_height)
@@ -137,11 +140,11 @@ export function typo_vertical(arg1, arg2) {
   let values = layer.append("g");
   const opts_values = Object.assign(
     subsetobj(opts, { prefix: "values_" }),
-    subsetobj(opts, { prefix: "text_" })
+    subsetobj(opts, { prefix: "text_" }),
   );
 
   Object.entries(opts_values).forEach((d) =>
-    values.attr(camelcasetodash(d[0]), d[1])
+    values.attr(camelcasetodash(d[0]), d[1]),
   );
 
   values
@@ -155,7 +158,7 @@ export function typo_vertical(arg1, arg2) {
         posy +
         opts.rect_spacing / 2 +
         i * (opts.rect_height + opts.rect_spacing) +
-        opts.rect_height / 2
+        opts.rect_height / 2,
     )
     .text((d) => d);
 
@@ -175,7 +178,7 @@ export function typo_vertical(arg1, arg2) {
       Math.max(opts.gap, opts.rect_spacing);
     let box = missing.append("rect");
     Object.entries(opts_rect).forEach((d) =>
-      box.attr(camelcasetodash(d[0]), d[1])
+      box.attr(camelcasetodash(d[0]), d[1]),
     );
 
     opts_values.text = opts.missing_text;

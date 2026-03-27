@@ -123,8 +123,10 @@ export async function plot_typo(arg1, arg2) {
 
   // Legend
 
+  console.log(opts.id);
+
   if (opts.legend) {
-    let legopts = { id: "leg_" + opts.id };
+    let legopts = {};
     Object.keys(opts)
       .filter(
         (str) =>
@@ -136,19 +138,17 @@ export async function plot_typo(arg1, arg2) {
           [d.slice(0, 4) == "leg_" ? d.slice(4) : d]: opts[d],
         }),
       );
-
-    legopts.id = "leg_" + opts.id;
-
     let funclegend =
       opts.leg_type == "vertical" ? typo_vertical : typo_horizontal;
     funclegend(svg, {
-      ...legopts,
       missing: opts.missing === false ? false : true,
       missing_fill: opts.missing,
       alphabetical: opts.alphabetical,
       pos: opts.leg_pos,
       types: classif.types,
       colors: classif.colors,
+      ...legopts,
+      id: "leg_" + opts.id,
     });
     ids = [`#${opts.id}`, `#${legopts.id}`];
   }
