@@ -33,7 +33,7 @@ import {
  * @property {boolean} [rewind=false] - rewind polygon rings to correct winding order
  * @property {boolean} [rewindPole=false] - If yout rawond geometries, you can use this special rewinding for geometries crossing poles or dateline
  * @param {number|boolean} [clipOutline=0] - clip geometries near the antimeridian and poles (degrees) +/- the value given. If true, the value is set to 0.01 degree.
- * @property {number} [pointRadius=3] - radius used when rendering point geometries
+ * @property {number} [pointRadius=3] - radius used when rendering point geometries. You can also use the shorthand `r`.
  * @property {boolean} [view] = false] - use true and viewof in Observable for this layer to act as Input
  * @property {object} [tipstyle] - tooltip style
  * @property {*} [*] - *other SVG attributes that can be applied (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
@@ -71,6 +71,11 @@ export async function path(arg1, arg2) {
     clipOutline: false,
   };
   let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
+
+  // Alias: r -> pointRadius
+  if (opts.r !== undefined) {
+    opts.pointRadius = opts.r;
+  }
 
   // New container
   let svgopts = { domain: opts.data || opts.datum };
