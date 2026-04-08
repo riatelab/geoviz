@@ -32,6 +32,10 @@ import { spikes } from "../legend/spikes";
 import { circles } from "../legend/circles";
 import { circles_nested } from "../legend/circles-nested";
 import { mushrooms } from "../legend/mushrooms";
+import { squares as legsquare } from "../legend/squares";
+import { squares_nested as legsquare_nested } from "../legend/squares-nested";
+import { symbol_horizontal } from "../legend/symbol-horizontal";
+import { symbol_vertical } from "../legend/symbol-vertical";
 
 // Effects
 import { blur } from "../effect/blur";
@@ -86,6 +90,11 @@ import { plot_dotdensity } from "./plot_dotdensity";
  * @property {string} leg_circles - Usage: `geoviz.plot({type: "leg_circles", ...})` or `{type: "legcircle"}` or `{type: "legcircle"}` or `{type: "legcircles"}`. See [legend.circles](#legend/circles)
  * @property {string} leg_circle_nested - Usage: `geoviz.plot({type: "leg_circle_nested", ...})` or `{type: "legcirclenested"}` or `{type: "legcirclesnested"}`. See [legend.circles_nested](#legend/circles_nested)
  * @property {string} leg_mushrooms - Usage: `geoviz.plot({type: "leg_mushrooms", ...})` or `{type: "leg_mushroom"}` or `{type: "legmushrooms"}` or `{type: "legmushroom"}`. See [legend.mushrooms](legend/#mushrooms)
+ * @property {string} leg_gradient_vertical - Usage: `geoviz.plot({type: "leg_gradient_vertical", ...})` or `{type: "leggradientvertical"}` or `{type: "leg_gradient"}` or `{type: "leggradient"}`. See [legend.gradient_vertical](#legend/gradient_vertical)
+ * @property {string} leg_square - Usage: `geoviz.plot({type: "leg_square", ...})` or `{type: "legsquare"}` or `{type: "legsquares"}`. See [legend.squares](#legend/squares)
+ * @property {string} leg_square_nested - Usage: `geoviz.plot({type: "leg_square_nested", ...})` or `{type: "legsquarenested"}` or `{type: "legsquaresnested"}`. See [legend.squares_nested](#legend/squares_nested)
+ * @property {string} leg_symbol_vertical - Usage: `geoviz.plot({type: "leg_symbol_vertical", ...})` or `{type: "legsymbolvertical"}` or `{type: "legsymbolsvertical"}`. See [legend.symbol_vertical](#legend/symbol_vertical)
+ * @property {string} leg_symbol_horizontal - Usage: `geoviz.plot({type: "leg_symbol_horizontal", ...})` or `{type: "legsymbolhorizontal"}` or `{type: "legsymbolshorizontal"}`. See [legend.symbol_horizontal](#legend/symbol_horizontal)
  * @property {string} effect_clipPath - Usage: `geoviz.plot({type: "effect_clipPath", ...})` or `{type: "clipPath"}`. See [effect.clipPath](#effect/clipPath)
  * @property {string} effect_blur - Usage: `geoviz.plot({type: "effect_blur", ...})` or `{type: "blur"}`. See [effect.blur](#effect/blur)
  * @property {string} effect_shadow - Usage: `geoviz.plot({type: "effect_shadow", ...})` or `{type: "shadow"}`. See [effect.shadow](#effect/shadow)
@@ -206,9 +215,7 @@ export async function plot(arg1, arg2) {
     case "legchorovertical":
     case "leg_choro":
     case "legchoro":
-      return newcontainer
-        ? choro_vertical(options)
-        : choro_vertical(arg1, arg2);
+      return choro_vertical(arg1, arg2);
       break;
 
     case "leg_typo_horizontal":
@@ -219,15 +226,23 @@ export async function plot(arg1, arg2) {
     case "legtypovertical":
     case "leg_typo":
     case "legtypo":
-      return newcontainer ? typo_vertical(options) : typo_vertical(arg1, arg2);
+      return typo_vertical(arg1, arg2);
       break;
     case "leg_gradient_vertical":
     case "leggradientvertical":
     case "leg_gradient":
     case "leggradient":
-      return newcontainer
-        ? gradient_vertical(options)
-        : gradient_vertical(arg1, arg2);
+      return gradient_vertical(arg1, arg2);
+      break;
+    case "leg_square":
+    case "legsquare":
+    case "legsquares":
+      return legsquare(arg1, arg2);
+      break;
+    case "leg_square_nested":
+    case "legsquarenested":
+    case "legsquaresnested":
+      return legsquare_nested(arg1, arg2);
       break;
     case "leg_spikes":
     case "leg_spike":
@@ -252,6 +267,16 @@ export async function plot(arg1, arg2) {
     case "legmushrooms":
     case "legmushroom":
       return mushrooms(arg1, arg2);
+      break;
+    case "leg_symbol_vertical":
+    case "legsymbolvertical":
+    case "legsymbolsvertical":
+      return symbol_vertical(arg1, arg2);
+      break;
+    case "leg_symbol_horizontal":
+    case "legsymbolhorizontal":
+    case "legsymbolshorizontal":
+      return symbol_horizontal(arg1, arg2);
       break;
     case "blur":
     case "effect_blur":
