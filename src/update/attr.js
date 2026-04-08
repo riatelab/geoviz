@@ -5,14 +5,14 @@ const d3 = { select, selectAll, transition };
 /**
  * Modify one or multiple layers in one or more SVG maps with a D3 transition.
  *
- * @param {Object} options - Options object
- * @param {string|string[]} [options.map] - SVG id or array of SVG ids (optional). If omitted, modifies all matching layers in the document.
- * @param {string|string[]} options.layer - Layer id or array of layer ids to modify.
- * @param {Object} [options.attrs={}] - SVG attributes to modify. Values can be static or functions (d, i, nodes) => value.
- * @param {Object} [options.styles={}] - CSS styles to modify. Values can be static or functions.
- * @param {number} [options.duration=500] - Duration of the transition in milliseconds.
- * @param {number} [options.delay=0] - Delay before the transition starts in milliseconds.
- * @param {Function} [options.onEnd] - Callback function to execute after the transition ends.
+ * @property {Object} options - Options object
+ * @property {string|string[]} [options.map] - SVG id or array of SVG ids (optional). If omitted, modifies all matching layers in the document.
+ * @property {string|string[]} options.layer - Layer id or array of layer ids to modify.
+ * @property {Object} [options.attrs={}] - SVG attributes to modify. Values can be static or functions (d, i, nodes) => value.
+ * @property {Object} [options.styles={}] - CSS styles to modify. Values can be static or functions.
+ * @property {number} [options.duration=500] - Duration of the transition in milliseconds.
+ * @property {number} [options.delay=0] - Delay before the transition starts in milliseconds.
+ * @property {Function} [options.onEnd] - Callback function to execute after the transition ends.
  */
 export function attr({
   map,
@@ -44,7 +44,7 @@ export function attr({
 
       if (layerSel.empty()) {
         console.warn(
-          `Layer "${layerId}" not found${mapId ? ` in map "${mapId}"` : ""}`
+          `Layer "${layerId}" not found${mapId ? ` in map "${mapId}"` : ""}`,
         );
         return;
       }

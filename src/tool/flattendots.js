@@ -7,11 +7,11 @@
  *
  * This function is intended for use in creating smoothed maps, such as isoband or density maps.
  *
- * @param {Object} options - Function options
- * @param {Object} options.data - GeoJSON FeatureCollection (Point features)
- * @param {string} [options.var] - Name of the property to replicate points by (optional)
- * @param {number} [options.nb=100000] - Maximum total number of points after replication
- * @param {function} options.projection - Projection function `[lon, lat] -> [x, y]`
+ * @property {Object} options - Function options
+ * @property {Object} options.data - GeoJSON FeatureCollection (Point features)
+ * @property {string} [options.var] - Name of the property to replicate points by (optional)
+ * @property {number} [options.nb=100000] - Maximum total number of points after replication
+ * @property {function} options.projection - Projection function `[lon, lat] -> [x, y]`
  *
  * @returns {Array<Array<number>>} - Flattened array of projected points `[x, y]`, ready for plotting.
  *                                   Points are repeated according to their value if `variable` is provided.

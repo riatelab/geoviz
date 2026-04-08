@@ -21,8 +21,8 @@ import { implantation } from "../helpers/utils";
  * For all grid types (except "h3"), the function returns a GeoJSON with SVG coordinates in page layout.
  * For type "h3", it returns geographic coordinates (latitude and longitude).
  * @see {@link https://observablehq.com/@neocartocnrs/regular-grids}
- * @param {object} svg - The SVG container or map object
- * @param {object} opts - Options
+ * @property {object} svg - The SVG container or map object
+ * @property {object} opts - Options
  * @property {string} [type="square"] - Grid type ("square", "dot", "diamond", "hexbin"/"hex", "triangle", "arbitrary"/"random", "h3"/"h3geo"/"hexgeo"/"hexbingeo").
  * @property {number} [step=50] - Grid step (except for "h3" type).
  * @property {boolean} [overflow=true] - If true, the grid may exceed the bounding box.

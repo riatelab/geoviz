@@ -14,9 +14,9 @@ const d3 = Object.assign({}, { sum });
  * Each point is returned as a valid GeoJSON Feature with `properties` containing
  * `{ geom_id, data, var, id }`.
  *
- * @param {GeoJSON} data - FeatureCollection of polygons/multipolygons
- * @param {string} var - property name to convert into dots
- * @param {number} [dotval] - number of units per dot, default = total / 5000
+ * @property {GeoJSON} data - FeatureCollection of polygons/multipolygons
+ * @property {string} var - property name to convert into dots
+ * @property {number} [dotval] - number of units per dot, default = total / 5000
  * @returns {GeoJSON} FeatureCollection<Point>
  */
 export function randompoints({ data, var: varName, dotval } = {}) {

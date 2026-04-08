@@ -7,12 +7,12 @@ import {
 
 /**
  * Simplify GeoJSON with optional validity and rewind
- * @param {GeoJSON} data FeatureCollection
- * @param {Object} options
- * @param {number|string|boolean} [options.k] - simplification factor or 'auto'
- * @param {boolean} [options.rewind=false] - apply smartrewind
- * @param {boolean} [options.rewindPole=false] - if you use rewind, you can use this option to force rewind on polar polygons
- * @param {number} [options.clipOutline=0] - clip geometries near the antimeridian and poles (degrees) +/- the value given. If true, the value is set to 0.01 degree.
+ * @property {GeoJSON} data FeatureCollection
+ * @property {Object} options
+ * @property {number|string|boolean} [options.k] - simplification factor or 'auto'
+ * @property {boolean} [options.rewind=false] - apply smartrewind
+ * @property {boolean} [options.rewindPole=false] - if you use rewind, you can use this option to force rewind on polar polygons
+ * @property {number} [options.clipOutline=0] - clip geometries near the antimeridian and poles (degrees) +/- the value given. If true, the value is set to 0.01 degree.
  */
 export async function cleangeometry(
   data,

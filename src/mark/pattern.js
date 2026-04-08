@@ -13,30 +13,30 @@ import { unique } from "../helpers/utils";
  *
  * The function can either create a new SVG container or use an existing one.
  *
- * @param {object|SVGElement} arg1 - If creating a new pattern, this is the options object.
+ * @property {object|SVGElement} arg1 - If creating a new pattern, this is the options object.
  *                                   If using an existing SVG container, this is the SVG element.
- * @param {object} [arg2] - Options object when using an existing SVG container.
+ * @property {object} [arg2] - Options object when using an existing SVG container.
  *
  * Options supported (all optional):
- * @param {string} [mark="pattern"] - Name of the mark/layer.
- * @param {string} [id] - Unique ID for the pattern. Default is generated automatically.
- * @param {number} [spacing=6] - Distance between pattern elements in pixels.
- * @param {number} [angle=0] - Rotation angle of the pattern in degrees.
- * @param {string|null} [fill=null] - Fill color of the pattern elements (default none).
- * @param {string} [stroke="#786d6c"] - Stroke color of pattern elements.
- * @param {number} [strokeWidth=2] - Stroke width of pattern elements.
- * @param {number} [strokeOpacity=0.1] - Stroke opacity of pattern elements.
- * @param {number} [fillOpacity=1] - Fill opacity of pattern elements.
- * @param {string|null} [strokeDasharray=null] - Stroke dash array for lines.
- * @param {string} [strokeLinecap="butt"] - Line cap style: "butt", "round", "square".
- * @param {string} [strokeLinejoin="miter"] - Line join style: "miter", "round", "bevel".
- * @param {number} [strokeMiterlimit=4] - Miter limit for joins.
- * @param {number} [opacity=1] - Overall opacity of pattern elements.
- * @param {string} [visibility="visible"] - SVG visibility property.
- * @param {string|null} [display=null] - SVG display property.
- * @param {string} [pattern="lines"] - Pattern type: "lines", "cross", "dots", "waves", "triangles", "zigzag".
- * @param {object|null} [data=null] - Optional GeoJSON object to clip the pattern.
- * @param {boolean} [clipOutline=false] - If true, pattern is clipped to the Earth outline.
+ * @property {string} [mark="pattern"] - Name of the mark/layer.
+ * @property {string} [id] - Unique ID for the pattern. Default is generated automatically.
+ * @property {number} [spacing=6] - Distance between pattern elements in pixels.
+ * @property {number} [angle=0] - Rotation angle of the pattern in degrees.
+ * @property {string|null} [fill=null] - Fill color of the pattern elements (default none).
+ * @property {string} [stroke="#786d6c"] - Stroke color of pattern elements.
+ * @property {number} [strokeWidth=2] - Stroke width of pattern elements.
+ * @property {number} [strokeOpacity=0.1] - Stroke opacity of pattern elements.
+ * @property {number} [fillOpacity=1] - Fill opacity of pattern elements.
+ * @property {string|null} [strokeDasharray=null] - Stroke dash array for lines.
+ * @property {string} [strokeLinecap="butt"] - Line cap style: "butt", "round", "square".
+ * @property {string} [strokeLinejoin="miter"] - Line join style: "miter", "round", "bevel".
+ * @property {number} [strokeMiterlimit=4] - Miter limit for joins.
+ * @property {number} [opacity=1] - Overall opacity of pattern elements.
+ * @property {string} [visibility="visible"] - SVG visibility property.
+ * @property {string|null} [display=null] - SVG display property.
+ * @property {string} [pattern="lines"] - Pattern type: "lines", "cross", "dots", "waves", "triangles", "zigzag".
+ * @property {object|null} [data=null] - Optional GeoJSON object to clip the pattern.
+ * @property {boolean} [clipOutline=false] - If true, pattern is clipped to the Earth outline.
  *
  * @returns {SVGElement|string} Returns the SVG node if creating a new container,
  *                              or the pattern ID selector (e.g., "#hatch123") if using an existing container.
@@ -234,11 +234,6 @@ export function pattern(arg1, arg2) {
   }
 }
 
-/**
- * @function applyGraphicAttrs
- * @description Applies all relevant SVG graphic attributes to a selection.
- * Defaults: stroke only, fill transparent.
- */
 function applyGraphicAttrs(selection, opts) {
   return selection
     .attr("fill", opts.fill || "none")
@@ -258,10 +253,6 @@ function applyGraphicAttrs(selection, opts) {
     .attr("display", opts.display || null);
 }
 
-/**
- * @function makeClipPath
- * @description Creates a reusable clipPath for geographic clipping.
- */
 function makeClipPath(
   svg,
   { id = unique(), datum = { type: "Sphere" }, permanent = false },

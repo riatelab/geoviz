@@ -10,8 +10,8 @@ import { unique } from "../helpers/utils";
  * to a numeric variable in your dataset. Each point represents a fixed quantity (`dotval`) from the data.
  *
  *
- * @param {Object|SVGElement} arg1 - Either the container SVG element to draw into, or the options object if creating a new container.
- * @param {Object} [arg2] - Options object (used when an existing container is provided as `arg1`).
+ * @property {Object|SVGElement} arg1 - Either the container SVG element to draw into, or the options object if creating a new container.
+ * @property {Object} [arg2] - Options object (used when an existing container is provided as `arg1`).
  *
  * @property {string} [type="dotdensity"] - Type of plot.
  * @property {string} [stroke="none"] - Stroke color for dots.
