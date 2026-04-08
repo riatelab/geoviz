@@ -32,7 +32,7 @@ import {
  * @property {number|number[]|false} [simplify=false] - true = automatic simplificaton, number = fixed tolerance, [k1,k2] = Dynamic simplification that varies depending on the zoom level. The first number defines the most detailed generalization level (you can set it to 1 to preserve the original basemap). The second number applies a second simplification that will be displayed before zooming. If you use the simplification function, use await.
  * @property {boolean} [rewind=false] - rewind polygon rings to correct winding order
  * @property {boolean} [rewindPole=false] - If yout rawond geometries, you can use this special rewinding for geometries crossing poles or dateline
- * @param {number|boolean} [clipOutline=0] - clip geometries near the antimeridian and poles (degrees) +/- the value given. If true, the value is set to 0.01 degree.
+ * @property {number|boolean} [clipOutline=0] - clip geometries near the antimeridian and poles (degrees) +/- the value given. If true, the value is set to 0.01 degree.
  * @property {number} [pointRadius=3] - radius used when rendering point geometries. You can also use the shorthand `r`.
  * @property {boolean} [view] = false] - use true and viewof in Observable for this layer to act as Input
  * @property {object} [tipstyle] - tooltip style
