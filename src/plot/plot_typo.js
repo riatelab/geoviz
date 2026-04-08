@@ -13,7 +13,7 @@ import { implantation, columns, unique } from "../helpers/utils";
  * @see {@link https://observablehq.com/@neocartocnrs/typo}
  * @property {object} data - GeoJSON FeatureCollection. Use data to be able to iterate
  * @property {string} var - a variable name in a geoJSON containig numeric values. You can also use `fill` or `stroke` argument.
- * @property {string|array} [colors] - an array of colors or name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library). For example : "Antique_7", "Bold_7", "Pastel_7", "Prism_7", "Safe_7", "Vivid_7", "Accent_7", "Dark2_7", "Paired_7", "Pastel1_7", "Pastel2_7", "Set1_7", "Set2_7", "Set3_7"
+ * @property {string|array} [colors] - an array of colors or name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library). For example : "Antique", "Bold", "Pastel", "Prism", "Safe", "Vivid", "Accent", "Dark2", "Paired", "Pastel1", "Pastel2", "Set1", "Set2", "Set3"
  * @property {array} [order] - an array of values qualitative values.
  * @property {boolean} [alphabetical = true] - to order the items in the legend in alphabetical order
  * @property {string|boolean} [missing = "white"] - missing data color

@@ -16,7 +16,7 @@ import { implantation, columns, unique } from "../helpers/utils";
  * @property {string} [method = quantile] - classification method ('quantile', 'q6', 'equal', 'jenks', 'msd', 'geometric', 'headtail', 'pretty', 'arithmetic' or 'nestedmeans').
  * @property {number} [nb = 6] - number of classes
  * @property {array} [breaks] - you can define classes manually. In this case, the parameters `nb` and `method` are not taken into account.
- * @property {string|array} [colors] - an array of colors or name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library). For example "ArmyRose_7", "Earth_7", "Fall_7", "Geyser_7", "TealRose_7", "Temps_7", "Tropic_7", "BluGrn_7", "BluYl_7", "BrwnYl_7", "BurgYl_7", "Burg_7", "DarkMint_7", "Emrld_7", "Magenta_7", "Mint_7", "OrYel_7", "Peach_7", "PinkYl_7", "PurpOr_7"...
+ * @property {string|array} [colors] - an array of colors or name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library). For example "ArmyRose", "Earth", "Fall", "Geyser", "TealRose", "Temps", "Tropic", "BluGrn", "BluYl", "BrwnYl", "BurgYl", "Burg", "DarkMint", "Emrld", "Magenta", "Mint", "OrYel", "Peach", "PinkYl", "PurpOr"...
  * @property {boolean} [reverse = false] - reverse the color palette
  * @property {string|boolean} [missing = "white"] - missing data color
  * @property {boolean} [legend = true] - boolean to add or not the legend
