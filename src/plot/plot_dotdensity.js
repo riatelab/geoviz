@@ -4,9 +4,9 @@ import { text } from "../mark/text";
 import { unique } from "../helpers/utils";
 
 /**
- * @function plot_dotdensity
+ * @function plot/dotdensity
  * @description
- * The `plot_dotdensity` function generates a **dot density map** by creating points proportionally
+ * With `plot({type = "dotdensity"})`, you can generate a **dot density map** by creating points proportionally
  * to a numeric variable in your dataset. Each point represents a fixed quantity (`dotval`) from the data.
  *
  *
