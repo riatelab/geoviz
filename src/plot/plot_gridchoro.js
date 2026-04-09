@@ -18,6 +18,7 @@ import { unique } from "../helpers/utils";
  *   - "triangle"
  *   - "arbitrary" / "random"
  *   - "h3" / "h3geo" / "hexgeo" / "hexbingeo"
+ *   - "square_sph" (spherical squares for global maps)
  * @property {number} [step = 15] - Resolution of the grid (in SVG coordinates for planar grids).
  * @property {number} [level = 1] - Level of subdivision for hierarchical grids (e.g., H3).
  * @property {number} [ratio_factor = 1] - Multiplication factor applied to ratio values (if `var` is an array of two variables).

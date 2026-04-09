@@ -33,157 +33,137 @@ const d3 = Object.assign(
 );
 
 export async function zoomandpan(svg) {
-  let noproj = d3.geoIdentity();
+  const noproj = d3.geoIdentity();
   const path = d3.geoPath(svg.projection);
 
-  // Control Panel
-
+  // --- CONTROL PANEL ---
   if (svg.control) {
-    if (svg.selectAll(`#${svg.controlid}`).empty()) {
-      zoompanel(svg);
-    }
+    if (svg.selectAll(`#${svg.controlid}`).empty()) zoompanel(svg);
 
     svg
       .select("#buttonplus")
-      .on("click", reset)
-      .on("click", (e) => {
-        const direction = 1; // -1 : zoom out
-        handleClickZoom(direction);
-      })
-      .on("dblclick", (e) => {
-        e.stopPropagation();
-      });
-
+      .on("click", () => handleClickZoom(1))
+      .on("dblclick", (e) => e.stopPropagation());
     svg
       .select("#buttonminus")
-      .on("click", reset)
-      .on("click", (e) => {
-        const direction = -1; // -1 : zoom out
-        handleClickZoom(direction);
-      })
-      .on("dblclick", (e) => {
-        e.stopPropagation();
-      });
+      .on("click", () => handleClickZoom(-1))
+      .on("dblclick", (e) => e.stopPropagation());
     svg
       .select("#buttonreset")
       .on("click", reset)
-      .on("dblclick", (e) => {
-        e.stopPropagation();
-      });
+      .on("dblclick", (e) => e.stopPropagation());
   } else {
     svg.on("click", reset);
   }
 
-  // ZOOM MOUSE
-  svg.call(
-    d3
-      .zoom()
-      .filter((event) => {
-        if (event.type === "wheel") event.preventDefault();
-        return true;
-      })
-      .extent([
-        [0, 0],
-        [svg.width, svg.height],
-      ])
-      .scaleExtent(Array.isArray(svg.zoomable) ? svg.zoomable : [1, 8])
-      .on("start", () => {
-        svg.select("#geoviztooltip").style("visibility", "hidden");
-      })
-      .on("zoom", zoom),
-  );
+  // --- ZOOM BEHAVIOR ---
+  const zoomBehavior = d3
+    .zoom()
+    .filter((event) => {
+      if (event.type === "wheel") event.preventDefault();
+      return true;
+    })
+    .extent([
+      [0, 0],
+      [svg.width, svg.height],
+    ])
+    .scaleExtent(Array.isArray(svg.zoomable) ? svg.zoomable : [1, 8])
+    .on("start", () =>
+      svg.select("#geoviztooltip").style("visibility", "hidden"),
+    )
+    .on("zoom", zoomHandler);
 
+  svg.call(zoomBehavior);
+
+  // --- HANDLE BUTTON ZOOM ---
   function handleClickZoom(direction) {
     const zoomextent = Array.isArray(svg.zoomable) ? svg.zoomable : [1, 8];
     const factor = 0.2;
     const center = [svg.width / 2, svg.height / 2];
     const transform = d3.zoomTransform(svg.node());
-    if (transform.k <= zoomextent[1] && transform.k >= zoomextent[0]) {
-      const view = { ...transform };
+    const view = { ...transform };
 
-      view.k = transform.k * (1 + factor * direction);
-      view.k = view.k < zoomextent[0] ? zoomextent[0] : view.k;
-      view.k = view.k > zoomextent[1] ? zoomextent[1] : view.k;
+    view.k = transform.k * (1 + factor * direction);
+    view.k = Math.max(zoomextent[0], Math.min(view.k, zoomextent[1]));
 
-      // Compute new x and y values
-      const translate0 = [
-        (center[0] - transform.x) / transform.k,
-        (center[1] - transform.y) / transform.k,
-      ];
-      view.x += center[0] - (translate0[0] * view.k + view.x);
-      view.y += center[1] - (translate0[1] * view.k + view.y);
+    const translate0 = [
+      (center[0] - transform.x) / transform.k,
+      (center[1] - transform.y) / transform.k,
+    ];
+    view.x += center[0] - (translate0[0] * view.k + view.x);
+    view.y += center[1] - (translate0[1] * view.k + view.y);
 
-      transform.k = view.k;
-      transform.x = view.x;
-      transform.y = view.y;
+    // Update projection and noproj
+    svg.projection
+      .scale(view.k * svg.baseScale)
+      .translate([
+        svg.baseTranslate[0] * view.k + view.x,
+        svg.baseTranslate[1] * view.k + view.y,
+      ]);
+    noproj.scale(view.k).translate([view.x, view.y]);
+    svg.zoom = { k: view.k, x: view.x, y: view.y };
 
-      svg.projection
-        .scale(transform.k * svg.baseScale)
-        .translate([
-          svg.baseTranslate[0] * transform.k + transform.x,
-          svg.baseTranslate[1] * transform.k + transform.y,
-        ]);
-
-      noproj.scale(transform.k).translate([transform.x, transform.y]);
-      svg.zoom = { k: transform.k, x: transform.x, y: transform.y };
-
-      render(transform);
-    }
+    render(view);
   }
 
-  // const baseScale = svg.projection.scale();
-  // const baseTranslate = svg.projection.translate();
-
-  // RESET
+  // --- RESET FUNCTION ---
   function reset() {
-    d3.zoomTransform(this).k = 1;
-    d3.zoomTransform(this).x = 0;
-    d3.zoomTransform(this).y = 0;
-    svg.projection.scale(svg.baseScale).translate(svg.baseTranslate);
-    noproj.scale(1).translate([0, 0]);
-    render({ k: 1, x: 0, y: 0 });
+    svg
+      .transition()
+      .duration(250)
+      .call(zoomBehavior.transform, d3.zoomIdentity); // RESET TOUT
   }
 
-  // RENDER
+  // --- ZOOM HANDLER ---
+  function zoomHandler({ transform }) {
+    svg.projection
+      .scale(transform.k * svg.baseScale)
+      .translate([
+        svg.baseTranslate[0] * transform.k + transform.x,
+        svg.baseTranslate[1] * transform.k + transform.y,
+      ]);
+    noproj.scale(transform.k).translate([transform.x, transform.y]);
+    svg.zoom = { k: transform.k, x: transform.x, y: transform.y };
+    render(transform);
+  }
+
+  // --- RENDER FUNCTION ---
   function render(t) {
     svg.zoomablelayers.forEach(async (d) => {
       switch (d.mark) {
         case "circle":
-          d.zoom = { k: t.k, x: t.x, y: t.y };
+          d.zoom = t;
           circle(svg, d);
           break;
         case "rhumbs":
-          d.zoom = { k: t.k, x: t.x, y: t.y };
+          d.zoom = t;
           rhumbs(svg, d);
           break;
         case "symbol":
-          d.zoom = { k: t.k, x: t.x, y: t.y };
+          d.zoom = t;
           symbol(svg, d);
           break;
         case "square":
-          d.zoom = { k: t.k, x: t.x, y: t.y };
+          d.zoom = t;
           square(svg, d);
           break;
         case "halfcircle":
-          d.zoom = { k: t.k, x: t.x, y: t.y };
+          d.zoom = t;
           halfcircle(svg, d);
           break;
         case "spike":
-          d.zoom = { k: t.k, x: t.x, y: t.y };
+          d.zoom = t;
           spike(svg, d);
           break;
 
         case "path": {
           let geom = d.dataset;
           const [zmin, zmax] = d.zoom_levels || [1, 8];
-
-          // --- Dynamic simplification ---
           if (Array.isArray(d.simplify) && d.simplify.length === 2) {
             const k = d.k2;
             const z = Math.max(zmin, Math.min(zmax, t.k));
             const tnorm = (z - zmin) / (zmax - zmin);
             const tol = k * Math.pow(1 / k, tnorm);
-
             if (!d._lastTol || Math.abs(Math.log(d._lastTol / tol)) > 0.15) {
               d._simplified = await cleangeometry(d.base, {
                 k: tol,
@@ -198,24 +178,27 @@ export async function zoomandpan(svg) {
           const gpath = d3
             .geoPath(d.coords === "svg" ? noproj : svg.projection)
             .pointRadius(d.pointRadius);
-          const selection = svg.selectAll(`#${d.id} > path`);
-          const bound =
-            d.dataordatum === "datum"
-              ? selection.datum(geom)
-              : selection.data(geom.features);
-          bound.attr("d", gpath);
+          const sel = svg.selectAll(`#${d.id} > path`);
+          (d.dataordatum === "datum"
+            ? sel.datum(geom)
+            : sel.data(geom.features)
+          ).attr("d", gpath);
           break;
         }
+
         case "tissot":
           svg
             .selectAll(`#${d.id} > path`)
-            .attr("d", d3.geoPath(d.coords == "svg" ? noproj : svg.projection));
+            .attr(
+              "d",
+              d3.geoPath(d.coords === "svg" ? noproj : svg.projection),
+            );
           break;
         case "clippath":
           svg.selectAll(`#${d.id} > path`).attr("d", path);
           break;
         case "text":
-          d.zoom = { k: t.k, x: t.x, y: t.y };
+          d.zoom = t;
           text(svg, d);
           break;
         case "outline":
@@ -225,7 +208,7 @@ export async function zoomandpan(svg) {
           svg.selectAll(`#${d.id} > path`).attr("d", path);
           break;
         case "sketch":
-          d.zoom = { k: t.k, x: t.x, y: t.y };
+          d.zoom = t;
           sketch(svg, d);
           break;
         case "tile":
@@ -245,20 +228,5 @@ export async function zoomandpan(svg) {
           break;
       }
     });
-  }
-
-  function zoom({ transform }) {
-    // Adapt projection
-    svg.projection
-      .scale(transform.k * svg.baseScale)
-      .translate([
-        svg.baseTranslate[0] * transform.k + transform.x,
-        svg.baseTranslate[1] * transform.k + transform.y,
-      ]);
-
-    noproj.scale(transform.k).translate([transform.x, transform.y]);
-    svg.zoom = { k: transform.k, x: transform.x, y: transform.y };
-
-    render(transform);
   }
 }

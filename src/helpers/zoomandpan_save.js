@@ -1,4 +1,5 @@
 import { circle } from "../mark/circle";
+import { sketch } from "../mark/sketch";
 import { contour } from "../mark/contour";
 import { rhumbs } from "../mark/rhumbs";
 import { symbol } from "../mark/symbol";
@@ -16,7 +17,7 @@ import { geoPath, geoIdentity } from "d3-geo";
 import { select } from "d3-selection";
 import { interpolate } from "d3-interpolate";
 import { transition } from "d3-transition";
-import { simpl } from "../helpers/simpl";
+import { cleangeometry } from "../tool/cleangeometry.js";
 
 const d3 = Object.assign(
   {},
@@ -173,38 +174,38 @@ export async function zoomandpan(svg) {
           break;
 
         case "path": {
-          let geom = d.original_base;
+          let geom = d.dataset;
           const [zmin, zmax] = d.zoom_levels || [1, 8];
+
+          // --- Dynamic simplification ---
           if (Array.isArray(d.simplify) && d.simplify.length === 2) {
-            const kmin = Math.min(...d.simplify);
-            const kmax = Math.max(...d.simplify);
+            const k = d.k2;
             const z = Math.max(zmin, Math.min(zmax, t.k));
             const tnorm = (z - zmin) / (zmax - zmin);
-            const tol = Math.pow(kmax / kmin, tnorm) * kmin;
+            const tol = k * Math.pow(1 / k, tnorm);
 
             if (!d._lastTol || Math.abs(Math.log(d._lastTol / tol)) > 0.15) {
-              d._simplified = await simpl(d.original_raw, {
+              d._simplified = await cleangeometry(d.base, {
                 k: tol,
-                tovalid: d.makevalid,
+                rewind: d.rewind,
+                rewindPole: d.rewindPole,
+                clipOutline: d.clipOutline,
               });
               d._lastTol = tol;
             }
             geom = d._simplified;
           }
-
-          svg
-            .selectAll(`#${d.id} > path`)
-            .data(geom.features)
-            .attr(
-              "d",
-              d3
-                .geoPath(d.coords === "svg" ? noproj : svg.projection)
-                .pointRadius(d.pointRadius),
-            );
-
+          const gpath = d3
+            .geoPath(d.coords === "svg" ? noproj : svg.projection)
+            .pointRadius(d.pointRadius);
+          const selection = svg.selectAll(`#${d.id} > path`);
+          const bound =
+            d.dataordatum === "datum"
+              ? selection.datum(geom)
+              : selection.data(geom.features);
+          bound.attr("d", gpath);
           break;
         }
-
         case "tissot":
           svg
             .selectAll(`#${d.id} > path`)
@@ -222,6 +223,10 @@ export async function zoomandpan(svg) {
           break;
         case "graticule":
           svg.selectAll(`#${d.id} > path`).attr("d", path);
+          break;
+        case "sketch":
+          d.zoom = { k: t.k, x: t.x, y: t.y };
+          sketch(svg, d);
           break;
         case "tile":
           tile(svg, d);
