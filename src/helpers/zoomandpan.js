@@ -12,7 +12,7 @@ import { tile } from "../mark/tile";
 import { scalebar } from "../mark/scalebar";
 import { north } from "../mark/north";
 import { zoompanel } from "./zoompanel";
-import { zoom, zoomTransform } from "d3-zoom";
+import { zoom, zoomTransform, zoomIdentity } from "d3-zoom";
 import { geoPath, geoIdentity } from "d3-geo";
 import { select } from "d3-selection";
 import { interpolate } from "d3-interpolate";
@@ -29,34 +29,47 @@ const d3 = Object.assign(
     geoIdentity,
     zoomTransform,
     select,
+    zoomIdentity,
   },
 );
 
 export async function zoomandpan(svg) {
-  const noproj = d3.geoIdentity();
+  let noproj = d3.geoIdentity();
   const path = d3.geoPath(svg.projection);
 
-  // --- CONTROL PANEL ---
+  // --- Control Panel ---
   if (svg.control) {
     if (svg.selectAll(`#${svg.controlid}`).empty()) zoompanel(svg);
 
-    svg
-      .select("#buttonplus")
-      .on("click", () => handleClickZoom(1))
+    const btnPlus = svg.select("#buttonplus");
+    const btnMinus = svg.select("#buttonminus");
+    const btnReset = svg.select("#buttonreset");
+
+    btnPlus
+      .on("click", (e) => {
+        e.stopPropagation();
+        handleClickZoom(1);
+      })
       .on("dblclick", (e) => e.stopPropagation());
-    svg
-      .select("#buttonminus")
-      .on("click", () => handleClickZoom(-1))
+
+    btnMinus
+      .on("click", (e) => {
+        e.stopPropagation();
+        handleClickZoom(-1);
+      })
       .on("dblclick", (e) => e.stopPropagation());
-    svg
-      .select("#buttonreset")
-      .on("click", reset)
+
+    btnReset
+      .on("click", (e) => {
+        e.stopPropagation();
+        reset();
+      })
       .on("dblclick", (e) => e.stopPropagation());
   } else {
     svg.on("click", reset);
   }
 
-  // --- ZOOM BEHAVIOR ---
+  // --- D3 Zoom Behavior ---
   const zoomBehavior = d3
     .zoom()
     .filter((event) => {
@@ -71,65 +84,53 @@ export async function zoomandpan(svg) {
     .on("start", () =>
       svg.select("#geoviztooltip").style("visibility", "hidden"),
     )
-    .on("zoom", zoomHandler);
+    .on("zoom", zoomed);
 
   svg.call(zoomBehavior);
 
-  // --- HANDLE BUTTON ZOOM ---
+  // --- Zoom click buttons ---
   function handleClickZoom(direction) {
     const zoomextent = Array.isArray(svg.zoomable) ? svg.zoomable : [1, 8];
     const factor = 0.2;
     const center = [svg.width / 2, svg.height / 2];
     const transform = d3.zoomTransform(svg.node());
-    const view = { ...transform };
 
-    view.k = transform.k * (1 + factor * direction);
-    view.k = Math.max(zoomextent[0], Math.min(view.k, zoomextent[1]));
+    let newK = transform.k * (1 + factor * direction);
+    newK = Math.max(zoomextent[0], Math.min(zoomextent[1], newK));
 
+    // Compute new x/y to zoom around center
     const translate0 = [
       (center[0] - transform.x) / transform.k,
       (center[1] - transform.y) / transform.k,
     ];
-    view.x += center[0] - (translate0[0] * view.k + view.x);
-    view.y += center[1] - (translate0[1] * view.k + view.y);
 
-    // Update projection and noproj
-    svg.projection
-      .scale(view.k * svg.baseScale)
-      .translate([
-        svg.baseTranslate[0] * view.k + view.x,
-        svg.baseTranslate[1] * view.k + view.y,
-      ]);
-    noproj.scale(view.k).translate([view.x, view.y]);
-    svg.zoom = { k: view.k, x: view.x, y: view.y };
+    const newX = center[0] - translate0[0] * newK;
+    const newY = center[1] - translate0[1] * newK;
 
-    render(view);
+    // Apply new transform
+    svg.call(
+      zoomBehavior.transform,
+      d3.zoomIdentity.translate(newX, newY).scale(newK),
+    );
   }
 
-  // --- RESET FUNCTION ---
+  // --- Reset function ---
   function reset() {
-    svg
-      .transition()
-      .duration(250)
-      .call(zoomBehavior.transform, d3.zoomIdentity); // RESET TOUT
+    // Reset projections
+    svg.projection.scale(svg.baseScale).translate(svg.baseTranslate);
+    noproj.scale(1).translate([0, 0]);
+    svg.zoom = { k: 1, x: 0, y: 0 };
+
+    // Render layers
+    render({ k: 1, x: 0, y: 0 });
+
+    // Reset D3 internal transform
+    svg.call(zoomBehavior.transform, d3.zoomIdentity);
   }
 
-  // --- ZOOM HANDLER ---
-  function zoomHandler({ transform }) {
-    svg.projection
-      .scale(transform.k * svg.baseScale)
-      .translate([
-        svg.baseTranslate[0] * transform.k + transform.x,
-        svg.baseTranslate[1] * transform.k + transform.y,
-      ]);
-    noproj.scale(transform.k).translate([transform.x, transform.y]);
-    svg.zoom = { k: transform.k, x: transform.x, y: transform.y };
-    render(transform);
-  }
-
-  // --- RENDER FUNCTION ---
-  function render(t) {
-    svg.zoomablelayers.forEach(async (d) => {
+  // --- Render function ---
+  async function render(t) {
+    for (const d of svg.zoomablelayers) {
       switch (d.mark) {
         case "circle":
           d.zoom = t;
@@ -155,15 +156,16 @@ export async function zoomandpan(svg) {
           d.zoom = t;
           spike(svg, d);
           break;
-
         case "path": {
           let geom = d.dataset;
           const [zmin, zmax] = d.zoom_levels || [1, 8];
+
           if (Array.isArray(d.simplify) && d.simplify.length === 2) {
             const k = d.k2;
             const z = Math.max(zmin, Math.min(zmax, t.k));
             const tnorm = (z - zmin) / (zmax - zmin);
             const tol = k * Math.pow(1 / k, tnorm);
+
             if (!d._lastTol || Math.abs(Math.log(d._lastTol / tol)) > 0.15) {
               d._simplified = await cleangeometry(d.base, {
                 k: tol,
@@ -175,17 +177,17 @@ export async function zoomandpan(svg) {
             }
             geom = d._simplified;
           }
+
           const gpath = d3
             .geoPath(d.coords === "svg" ? noproj : svg.projection)
             .pointRadius(d.pointRadius);
-          const sel = svg.selectAll(`#${d.id} > path`);
+          const selection = svg.selectAll(`#${d.id} > path`);
           (d.dataordatum === "datum"
-            ? sel.datum(geom)
-            : sel.data(geom.features)
+            ? selection.datum(geom)
+            : selection.data(geom.features)
           ).attr("d", gpath);
           break;
         }
-
         case "tissot":
           svg
             .selectAll(`#${d.id} > path`)
@@ -227,6 +229,21 @@ export async function zoomandpan(svg) {
           north(svg, d);
           break;
       }
-    });
+    }
+  }
+
+  // --- D3 zoom handler ---
+  function zoomed({ transform }) {
+    svg.projection
+      .scale(transform.k * svg.baseScale)
+      .translate([
+        svg.baseTranslate[0] * transform.k + transform.x,
+        svg.baseTranslate[1] * transform.k + transform.y,
+      ]);
+
+    noproj.scale(transform.k).translate([transform.x, transform.y]);
+    svg.zoom = { k: transform.k, x: transform.x, y: transform.y };
+
+    render(transform);
   }
 }
