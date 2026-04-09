@@ -141,7 +141,7 @@ export function circles(arg1, arg2) {
           d[1] +
           cumdiam[i] +
           i * opts.circle_spacing
-        } )`
+        } )`,
     );
 
   let opts_circle = subsetobj(opts, {
@@ -149,7 +149,7 @@ export function circles(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_circle).forEach((d) =>
-    circles.attr(camelcasetodash(d[0]), d[1])
+    circles.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Lines
@@ -169,7 +169,7 @@ export function circles(arg1, arg2) {
         opts.gap -
         d[1] +
         cumdiam[i] +
-        i * opts.circle_spacing
+        i * opts.circle_spacing,
     )
     .attr(
       "y2",
@@ -180,7 +180,7 @@ export function circles(arg1, arg2) {
         opts.gap -
         d[1] +
         cumdiam[i] +
-        i * opts.circle_spacing
+        i * opts.circle_spacing,
     );
 
   let opts_line = subsetobj(opts, {
@@ -188,7 +188,7 @@ export function circles(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_line).forEach((d) =>
-    lines.attr(camelcasetodash(d[0]), d[1])
+    lines.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Values
@@ -208,7 +208,7 @@ export function circles(arg1, arg2) {
         rmax * 2 +
         opts.line_length +
         opts.values_dx +
-        opts.circle_dx
+        opts.circle_dx,
     )
     .attr(
       "y",
@@ -219,7 +219,7 @@ export function circles(arg1, arg2) {
         opts.gap -
         d[1] +
         cumdiam[i] +
-        i * opts.circle_spacing
+        i * opts.circle_spacing,
     )
     .text((d) => locale.format(",")(d[0]));
 
@@ -228,7 +228,7 @@ export function circles(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_values).forEach((d) =>
-    values.attr(camelcasetodash(d[0]), d[1])
+    values.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Note

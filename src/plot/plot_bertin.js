@@ -6,6 +6,7 @@ const geogrid = { square, polygonstogrid, project };
 
 /**
  * @function plot/bertin
+ * @deprecated Use {@link plot/gridprop} instead.
  * @description With the `plot({type = "bertin"})` function, you can quickly draw a map with bertin dots<br/><br/>
  * @see {@link https://observablehq.com/@neocartocnrs/bertin-dots}
  * @property {object} data - GeoJSON FeatureCollection (polygons or multi-polygons).

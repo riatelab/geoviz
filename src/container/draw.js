@@ -55,7 +55,9 @@ export async function draw(json) {
   if (!params?.domain && !json.layers.map((d) => d.type).includes("outline")) {
     params.domain = [];
     json.layers.map((d) => {
-      params.domain.push(d?.data || d?.datum);
+      if (!d.type?.startsWith("leg")) {
+        params.domain.push(d?.data || d?.datum);
+      }
     });
     params.domain = Array.isArray(params.domain)
       ? params.domain.filter((d) => d != undefined)
@@ -66,6 +68,8 @@ export async function draw(json) {
   for (const layer of json.layers) {
     await svg.plot(layer);
   }
+
+  //console.log(params);
 
   return svg.render();
 }

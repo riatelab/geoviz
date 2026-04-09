@@ -52,6 +52,8 @@ import { plot_propchoro } from "./plot_propchoro";
 import { plot_proptypo } from "./plot_proptypo";
 import { plot_symbol } from "./plot_symbol";
 import { plot_bertin } from "./plot_bertin";
+import { plot_gridprop } from "./plot_gridprop";
+import { plot_gridchoro } from "./plot_gridchoro";
 import { plot_dotdensity } from "./plot_dotdensity";
 
 /**
@@ -304,6 +306,12 @@ export async function plot(arg1, arg2) {
       break;
     case "prop":
       return plot_prop(arg1, arg2);
+      break;
+    case "gridprop":
+      return plot_gridprop(arg1, arg2);
+      break;
+    case "gridchoro":
+      return plot_gridchoro(arg1, arg2);
       break;
     case "propchoro":
       return plot_propchoro(arg1, arg2);
