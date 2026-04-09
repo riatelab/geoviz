@@ -2,9 +2,6 @@ import { create } from "../container/create";
 import { render } from "../container/render";
 import { unique } from "../helpers/utils";
 
-
-plot/gridchoro et intégrant tous les paramètres et types de grille pertinents :
-
 /**
  * @function plot/gridprop
  * @description Draw a proportional symbol map based on a grid aggregation.<br/><br/>
