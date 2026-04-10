@@ -29,9 +29,9 @@ import {
  * @property {string} [rect_stroke = "#303030"] - stroke color
  * @property {string} [rect_strokeWidth = 0.1] - stroke width
  * @property {*} rect_foo - *other SVG attributes that can be applied on this rect element (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
- * @property {string} values_textAnchor - text-anchor (default: "middle")
- * @property {number} values_dx - shift in x (default: 0)
- * @property {number} values_dx - shift in y (default: 5)
+ * @property {string} values_textAnchor - text-anchor (default: "start")
+ * @property {number} values_dx - shift in x (default: 5)
+ * @property {number} values_dy - shift in y (default: 0)
  * @property {number} [values_fill = "#363636"] - fill
  * @property {number} [values_fontSize = 10] - fontSize
  * @property {string} [title = "Legend"] - title of the legend
@@ -80,9 +80,6 @@ export function typo_vertical(arg1, arg2) {
   };
   let opts = manageoptions(options, newcontainer ? arg1 : arg2, svg.fontFamily);
 
-
-
-  
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
     ? svg
