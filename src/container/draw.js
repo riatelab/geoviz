@@ -52,13 +52,19 @@ export async function draw(json) {
     params.projection = d3.geoEquirectangular();
   }
   // Domain
-  if (!params?.domain && !json.layers.map((d) => d.type).includes("outline")) {
+  if (
+    !params?.domain &&
+    !json.layers.map((d) => d.type).includes("outline") &&
+    !json.layers.map((d) => d.type).includes("earth")
+  ) {
     params.domain = [];
+
     json.layers.map((d) => {
       if (!d.type?.startsWith("leg")) {
         params.domain.push(d?.data || d?.datum);
       }
     });
+
     params.domain = Array.isArray(params.domain)
       ? params.domain.filter((d) => d != undefined)
       : params.domain;

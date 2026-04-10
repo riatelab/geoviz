@@ -22,7 +22,7 @@ const d3 = Object.assign({}, { formatLocale });
  * @property {number[]} [pos = [0,0]] - legend position
  * @property {number} [gap = 2] - gap between elements
  * @property {number[]} data - input values
- * @property {number} [k = 100] - side of the largest square (or corresponding to the value defined by fixmax )
+ * @property {number} [k = 50] - side of the largest square (or corresponding to the value defined by fixmax )
  * @property {string[]} [fixmax = null] - value matching the square with size k . Setting this value is useful for making maps comparable with each other
  * @property {number} [nb = 4] - number of squares
  * @property {string} [square_fill = "none"] - fill color for the squares

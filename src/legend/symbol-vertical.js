@@ -32,8 +32,8 @@ import {
  * @property {boolen} [symbol_background = false] - circles under the symbol
  * @property {*} symbol_background_foo - *other SVG attributes that can be applied on this circle element (fill, stroke, fillOpacity...)
  * @property {string} values_textAnchor - text-anchor (default: "middle")
- * @property {number} values_dx - shift in x (default: 0)
- * @property {number} values_dx - shift in y (default: 5)
+ * @property {number} values_dx - shift in x (default: 5)
+ * @property {number} values_dx - shift in y (default: 0)
  * @property {number} [values_fill = "#363636"] - fill
  * @property {number} [values_fontSize = 10] - fontSize
  * @property {string} [title = "Legend"] - title of the legend
@@ -127,7 +127,7 @@ export function symbol_vertical(arg1, arg2) {
   });
 
   Object.entries(opts_symbol).forEach((d) =>
-    symb.attr(camelcasetodash(d[0]), d[1])
+    symb.attr(camelcasetodash(d[0]), d[1]),
   );
 
   let posy = opts.pos[1] + size.height + opts.gap + opts.symbol_dy;
@@ -151,7 +151,7 @@ export function symbol_vertical(arg1, arg2) {
             posy +
             opts.symbol_spacing / 2 +
             i * (opts.symbol_size * 2 + opts.symbol_spacing)
-          })`
+          })`,
       );
 
     let m = circles
@@ -167,7 +167,7 @@ export function symbol_vertical(arg1, arg2) {
             posy +
             opts.symbol_spacing / 2 +
             i * (opts.symbol_size * 2 + opts.symbol_spacing)
-          })`
+          })`,
       );
 
     Object.entries(opts_symbol_background)
@@ -193,18 +193,18 @@ export function symbol_vertical(arg1, arg2) {
           i * (opts.symbol_size * 2 + opts.symbol_spacing)
         }) scale(${opts.symbol_scale || opts.symbol_size / factor}) rotate(${
           opts.symbol_rotate
-        }) skewX(${opts.symbol_skewX}) skewY(${opts.symbol_skewY})`
+        }) skewX(${opts.symbol_skewX}) skewY(${opts.symbol_skewY})`,
     );
 
   // values
   let values = layer.append("g");
   const opts_values = Object.assign(
     subsetobj(opts, { prefix: "values_" }),
-    subsetobj(opts, { prefix: "text_" })
+    subsetobj(opts, { prefix: "text_" }),
   );
 
   Object.entries(opts_values).forEach((d) =>
-    values.attr(camelcasetodash(d[0]), d[1])
+    values.attr(camelcasetodash(d[0]), d[1]),
   );
 
   values
@@ -219,7 +219,7 @@ export function symbol_vertical(arg1, arg2) {
         posy +
         opts.symbol_spacing / 2 +
         i * (opts.symbol_size * 2 + opts.symbol_spacing) +
-        opts.values_dy
+        opts.values_dy,
     )
     .text((d) => d);
 

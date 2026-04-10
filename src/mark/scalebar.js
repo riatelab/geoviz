@@ -16,8 +16,8 @@ import { unique, camelcasetodash } from "../helpers/utils";
  * @property {number[]} [translate = null] - an array of two values to move the scalebar without change its size
  * @property {string} [units = "km"] - "ft" (feet), "km" (kilometers), "m" (meters) or "mi" (miles)
  * @property {string} [label] - label to display
- * @property {string} [tickSize = 5] - tick padding
- * @property {string} [tickPadding = 0.2] - tick size
+ * @property {string} [tickSize = 0.2] - tick size
+ * @property {string} [tickPadding = 5] - tick padding
  * @property {number} [distance] - distance represented by the scalebar
  * @property {function} [tickFormat = d => d] - a function to format values
  * @property {number[]} [tickValues] - values to display on the scalebar
@@ -75,7 +75,7 @@ export function scalebar(arg1, arg2) {
   if (svg.initproj == "none" && svg.warning) {
     svg.warning_message.push(`Scalebar mark`);
     svg.warning_message.push(
-      `The scale bar is not relevant without defining a projection function function in the SVG container`
+      `The scale bar is not relevant without defining a projection function function in the SVG container`,
     );
   }
 
@@ -91,7 +91,7 @@ export function scalebar(arg1, arg2) {
       svg.zoomablelayers.push(opts);
     } else {
       let i = svg.zoomablelayers.indexOf(
-        svg.zoomablelayers.find((d) => d.id == opts.id)
+        svg.zoomablelayers.find((d) => d.id == opts.id),
       );
       svg.zoomablelayers[i] = opts;
     }
@@ -142,7 +142,7 @@ export function scalebar(arg1, arg2) {
       "transform",
       `translate(${opts.pos[0] + opts.translate[0]},${
         opts.pos[1] + opts.translate[1]
-      })`
+      })`,
     );
   }
 
