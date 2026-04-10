@@ -23,7 +23,7 @@ const d3 = Object.assign({}, { formatLocale, sum, cumsum });
  * @property {number[]} [pos = [0,0]] - legend position
  * @property {number} [gap = 2] - gap between elements
  * @property {number[]} data - input values
- * @property {number} [k = 100] - side of the largest square (or corresponding to the value defined by fixmax )
+ * @property {number} [k = 50] - side of the largest square (or corresponding to the value defined by fixmax )
  * @property {string[]} [fixmax = null] - value matching the square with size k . Setting this value is useful for making maps comparable with each other
  * @property {number} [nb = 4] - number of squares
  * @property {string} [square_fill = "none"] - fill color for the squares
@@ -143,7 +143,7 @@ export function squares(arg1, arg2) {
           d[1] * 2 +
           cumdiam[i] * 2 +
           i * opts.square_spacing
-        } )`
+        } )`,
     );
 
   let opts_square = subsetobj(opts, {
@@ -151,7 +151,7 @@ export function squares(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_square).forEach((d) =>
-    squares.attr(camelcasetodash(d[0]), d[1])
+    squares.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Lines
@@ -173,7 +173,7 @@ export function squares(arg1, arg2) {
         d[1] * 2 +
         d[1] +
         cumdiam[i] * 2 +
-        i * opts.square_spacing
+        i * opts.square_spacing,
     )
     .attr(
       "y2",
@@ -185,7 +185,7 @@ export function squares(arg1, arg2) {
         d[1] * 2 +
         d[1] +
         cumdiam[i] * 2 +
-        i * opts.square_spacing
+        i * opts.square_spacing,
     );
 
   let opts_line = subsetobj(opts, {
@@ -193,7 +193,7 @@ export function squares(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_line).forEach((d) =>
-    lines.attr(camelcasetodash(d[0]), d[1])
+    lines.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Values
@@ -214,7 +214,7 @@ export function squares(arg1, arg2) {
         rmax * 2 +
         opts.line_length +
         opts.square_dx +
-        opts.values_dx
+        opts.values_dx,
     )
     .attr(
       "y",
@@ -226,7 +226,7 @@ export function squares(arg1, arg2) {
         d[1] * 2 +
         d[1] +
         cumdiam[i] * 2 +
-        i * opts.square_spacing
+        i * opts.square_spacing,
     )
     .text((d) => locale.format(",")(d[0]));
 
@@ -235,7 +235,7 @@ export function squares(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_values).forEach((d) =>
-    values.attr(camelcasetodash(d[0]), d[1])
+    values.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Note
