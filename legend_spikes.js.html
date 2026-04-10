@@ -35,8 +35,8 @@ const d3 = Object.assign({}, { formatLocale, sum, cumsum });
  * @property {string} [spike_stroke = "black"] - stroke color for the spikes
  * @property {*} [spike_*] - *SVG attributes that can be applied on this spike element*
  * @property {string} values_textAnchor - text-anchor (default: "middle")
- * @property {number} values_dx - shift in x (default: 0)
- * @property {number} values_dx - shift in y (default: 5)
+ * @property {number} values_dx - shift in x (default: 5)
+ * @property {number} values_dy - shift in y (default: 0)
  * @property {number} [values_fill = "#363636"] - fill
  * @property {number} [values_fontSize = 10] - fontSize
  * @property {number} [values_factor = 1] - allow to multiply values to display in the legend. e.g 0.001 to convert into thousands
@@ -135,7 +135,7 @@ export function spikes(arg1, arg2) {
       (d) => `m ${0 - opts.spike_width / 2},${0} Q 0,${
         0 - d[1] * opts.spike_straight
       },0 ${0 - d[1]}
-   Q 0, ${0 - d[1] * opts.spike_straight} ${0 + opts.spike_width / 2},0`
+   Q 0, ${0 - d[1] * opts.spike_straight} ${0 + opts.spike_width / 2},0`,
     )
     .attr(
       "transform",
@@ -146,7 +146,7 @@ export function spikes(arg1, arg2) {
           opts.spike_dx +
           +opts.spike_width * i +
           i * opts.spike_spacing
-        },${opts.pos[1] + size.height + opts.spike_dy + hmax + opts.gap})`
+        },${opts.pos[1] + size.height + opts.spike_dy + hmax + opts.gap})`,
     );
 
   let opts_spikes = subsetobj(opts, {
@@ -154,7 +154,7 @@ export function spikes(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_spikes).forEach((d) =>
-    spikes.attr(camelcasetodash(d[0]), d[1])
+    spikes.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Values
@@ -179,13 +179,13 @@ export function spikes(arg1, arg2) {
           opts.spike_width / 2 +
           opts.spike_width * i +
           i * opts.spike_spacing
-        } ${opts.pos[1] + size.height + opts.spike_dy}) rotate(90)`
+        } ${opts.pos[1] + size.height + opts.spike_dy}) rotate(90)`,
     );
   let opts_values = subsetobj(opts, {
     prefix: "values_",
   });
   Object.entries(opts_values).forEach((d) =>
-    values.attr(camelcasetodash(d[0]), d[1])
+    values.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Note
