@@ -35,8 +35,8 @@ const d3 = Object.assign({}, { formatLocale });
  * @property {string} [line_length = 10] - length of the line
  * @property {*} [line_*] - *SVG attributes that can be applied on this line element *
  * @property {string} [values_textAnchor = "start"] - text-anchor
- * @property {number} values_dx - shift in x (default: 0)
- * @property {number} values_dx - shift in y (default: 5)
+ * @property {number} values_dx - shift in x (default: 5)
+ * @property {number} values_dx - shift in y (default: 0)
  * @property {number} [values_fill = "#363636"] - fill
  * @property {number} [values_fontSize = 10] - fontSize
  * @property {number} [values_factor = 1] - allow to multiply values to display in the legend. e.g 0.001 to convert into thousands
@@ -138,7 +138,7 @@ export function squares_nested(arg1, arg2) {
           size.height +
           rmax * 2 -
           d[1] * 2
-        })`
+        })`,
     );
 
   let opts_square = subsetobj(opts, {
@@ -146,7 +146,7 @@ export function squares_nested(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_square).forEach((d) =>
-    squares.attr(camelcasetodash(d[0]), d[1])
+    squares.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Lines
@@ -165,7 +165,7 @@ export function squares_nested(arg1, arg2) {
         opts.gap +
         size.height +
         rmax * 2 -
-        d[1] * 2
+        d[1] * 2,
     )
     .attr(
       "y2",
@@ -175,7 +175,7 @@ export function squares_nested(arg1, arg2) {
         opts.gap +
         size.height +
         rmax * 2 -
-        d[1] * 2
+        d[1] * 2,
     );
 
   let opts_line = subsetobj(opts, {
@@ -183,7 +183,7 @@ export function squares_nested(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_line).forEach((d) =>
-    lines.attr(camelcasetodash(d[0]), d[1])
+    lines.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Values
@@ -204,7 +204,7 @@ export function squares_nested(arg1, arg2) {
         rmax +
         opts.line_length +
         opts.square_dx +
-        opts.values_dx
+        opts.values_dx,
     )
     .attr(
       "y",
@@ -214,7 +214,7 @@ export function squares_nested(arg1, arg2) {
         opts.gap +
         size.height +
         rmax * 2 -
-        d[1] * 2
+        d[1] * 2,
     )
     .text((d) => locale.format(",")(d[0]));
 
@@ -223,7 +223,7 @@ export function squares_nested(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_values).forEach((d) =>
-    values.attr(camelcasetodash(d[0]), d[1])
+    values.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Note
