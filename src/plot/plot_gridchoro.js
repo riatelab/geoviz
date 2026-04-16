@@ -29,7 +29,7 @@ import { unique } from "../helpers/utils";
  * @property {string} [leg_type = "vertical"] - Type of legend.
  * @property {Array.<number>} [leg_pos = [10, 10]] - Position of the legend.
  * @property {*} [svg_*] - Parameters for the SVG container (e.g., `svg_width`, `svg_height`).
- * @property {*} [*] - You can also use all parameters available in the {@link plot/choro} function to customize the rendering. See also the {@link tool/grid}.
+ * @property {*} [*] - You can also use all parameters available in the {@link choro} function to customize the rendering. See also the {@link tool/grid}.
  *
  * @example // Basic usage
  * geoviz.plot({

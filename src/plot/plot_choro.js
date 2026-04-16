@@ -53,7 +53,6 @@ export async function plot_choro(arg1, arg2) {
 
   // leg title
   opts.leg_title = opts.leg_title ? opts.leg_title : opts.var;
-  console.log(opts.leg_title);
   // New container
   let svgopts = { domain: opts.data || opts.datum };
   Object.keys(opts)

@@ -7,7 +7,7 @@ import { interpolateRgbBasis } from "d3-interpolate";
 import { min, range } from "d3-array";
 const d3 = Object.assign(
   {},
-  { scaleThreshold, min, interpolateRgbBasis, range }
+  { scaleThreshold, min, interpolateRgbBasis, range },
 );
 
 range;
@@ -25,7 +25,7 @@ interpolateRgbBasis;
  * @property {number} [options.nb = 6] - number of classes desired
  * @property {number} [options.precision = 2] - number of digits
  * @property {boolean} [options.minmax] - to keep or delete min and max
- * @property {number} [options.k = 1] - number of standard deviations taken into account (msd method only)
+ * @property {number} [options.sd = 1] - number of standard deviations taken into account (msd method only)
  * @property {boolean} [options.middle = undefined] - to have the average as a class center (msd method only)
  * @example
  * geoviz.tool.choro(world.features.map((d) => d.properties.gdppc), {method: "equal", nb: 4})
@@ -39,11 +39,11 @@ export function choro(
     colors = "Algae",
     reverse = false,
     nb = 6,
-    k = 1,
+    sd = 1,
     middle,
     precision = 2,
     missing_fill = "white",
-  } = {}
+  } = {},
 ) {
   let data2 = data.filter((d) => isNumber(d));
   const bks =
@@ -51,7 +51,7 @@ export function choro(
     discr.breaks(data2, {
       method,
       nb,
-      k,
+      k: sd,
       middle,
       precision,
     });
@@ -64,7 +64,7 @@ export function choro(
 
   const colorize = function (d) {
     return d3.scaleThreshold(bks.slice(1, -1), cols).unknown(missing_fill)(
-      parseFloat(d)
+      parseFloat(d),
     );
   };
 

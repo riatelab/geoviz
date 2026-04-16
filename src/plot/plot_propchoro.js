@@ -25,6 +25,8 @@ import { getsize } from "../helpers/getsize.js";
  * @property {array} [breaks] - you can define classes manually. In this case, the parameters `nb` and `method` are not taken into account.
  * @property {string|array} [colors] - an array of colors or name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library)
  * @property {boolean} [reverse = false] - reverse the color
+ * @property {boolean} [middle = false] - Only for the MSD method: is the mean in a central class or not?
+ * @property {number} [sd = 1] - Only for the MSD method: the number of standard deviations taken into account
  * @property {string|boolean} [missing = "white"] - missing data color
  * @property {*} [*] - You can also modify numerous parameters to customize the map. For example: `strokeWidth: 0.3`.
  * @property {boolean} [legend = true] - boolean to add or not the legend
@@ -125,7 +127,7 @@ export async function plot_propchoro(arg1, arg2) {
           "breaks",
           "colors",
           "nb",
-          "k",
+          "sd",
           "reverse",
           "middle",
           "precision",
