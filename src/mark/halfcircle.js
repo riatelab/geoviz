@@ -4,7 +4,7 @@ import { max, descending } from "d3-array";
 import { geoPath, geoIdentity } from "d3-geo";
 const d3 = Object.assign(
   {},
-  { scaleSqrt, max, descending, geoPath, geoIdentity, arc }
+  { scaleSqrt, max, descending, geoPath, geoIdentity, arc },
 );
 import { create } from "../container/create";
 import { render } from "../container/render";
@@ -35,7 +35,7 @@ import {
  * @property {number} [dy = 0] - shift in y
  * @property {number} [angle = 0] - angle of the half circle
  * @property {number|string} [r = 10] - a number or the name of a property containing numerical values
- * @property {number} [innerRadius = 10] - inner radius
+ * @property {number} [innerRadius = 0] - inner radius
  * @property {number} [cornerRadius = 2] - corner radius
  * @property {number} [k = 50] - radius of the largest half-circle (or corresponding to the value defined by `fixmax`)
  * @property {number} [fixmax] - value matching the half-circle with radius `k`. Setting this value is useful for making maps comparable with each other
@@ -130,7 +130,7 @@ export function halfcircle(arg1, arg2) {
       svg.zoomablelayers.push(opts);
     } else {
       let i = svg.zoomablelayers.indexOf(
-        svg.zoomablelayers.find((d) => d.id == opts.id)
+        svg.zoomablelayers.find((d) => d.id == opts.id),
       );
       svg.zoomablelayers[i] = opts;
     }
@@ -159,7 +159,7 @@ export function halfcircle(arg1, arg2) {
         "tip",
         "tipstyle",
         "pos",
-      ].includes(d)
+      ].includes(d),
   );
 
   // Simple half circle
@@ -179,7 +179,7 @@ export function halfcircle(arg1, arg2) {
         "transform",
         `rotate(${opts.angle} ${pos[0] + opts.dx} ${
           pos[1] + opts.dy
-        }) translate(${pos[0] + opts.dx} ${pos[1] + opts.dy})`
+        }) translate(${pos[0] + opts.dx} ${pos[1] + opts.dy})`,
       )
       .attr(
         "d",
@@ -189,7 +189,7 @@ export function halfcircle(arg1, arg2) {
           .innerRadius(opts.innerRadius)
           .startAngle(-Math.PI / 2)
           .endAngle(Math.PI / 2)
-          .cornerRadius(opts.cornerRadius)()
+          .cornerRadius(opts.cornerRadius)(),
       )
       .attr("visibility", isNaN(pos[0]) ? "hidden" : "visible");
   } else {
@@ -211,7 +211,7 @@ export function halfcircle(arg1, arg2) {
     // layer attributes
     let fields = propertiesentries(opts.data);
     const layerattr = notspecificattr.filter(
-      (d) => detectinput(opts[d], fields) == "value"
+      (d) => detectinput(opts[d], fields) == "value",
     );
     layerattr.forEach((d) => {
       layer.attr(camelcasetodash(d), opts[d]);
@@ -266,7 +266,7 @@ export function halfcircle(arg1, arg2) {
                 path.centroid(d.geometry)[1] + opts.dy
               }) translate(${path.centroid(d.geometry)[0] + opts.dx} ${
                 path.centroid(d.geometry)[1] + opts.dy
-              })`
+              })`,
           )
           .attr("d", (d) =>
             d3
@@ -275,10 +275,10 @@ export function halfcircle(arg1, arg2) {
               .innerRadius(opts.innerRadius)
               .startAngle(-Math.PI / 2)
               .endAngle(Math.PI / 2)
-              .cornerRadius(opts.cornerRadius)()
+              .cornerRadius(opts.cornerRadius)(),
           )
           .attr("visibility", (d) =>
-            isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
+            isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible",
           );
 
         eltattr.forEach((e) => {
@@ -296,7 +296,7 @@ export function halfcircle(arg1, arg2) {
         opts.tip,
         opts.tipstyle,
         fields,
-        opts.view
+        opts.view,
       );
     }
   }
@@ -326,7 +326,7 @@ function attr2radius(attr, { columns, geojson, fixmax, k } = {}) {
         {
           fixmax,
           k,
-        }
+        },
       );
       return (d, rr) => radius.r(d.properties[rr]);
     case "value":

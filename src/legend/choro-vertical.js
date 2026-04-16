@@ -32,7 +32,7 @@ const d3 = Object.assign({}, { formatLocale });
  * @property {string} [rect_stroke = "#303030"] - stroke color
  * @property {string} [rect_strokeWidth = 0.1] - stroke width
  * @property {*} [rect_*] - *other SVG attributes that can be applied on this rect element (strokeDasharray, strokeWidth, opacity, strokeLinecap...)*
- * @property {string} [values_textAnchor = "middle"] - text-anchor
+ * @property {string} [values_textAnchor = "start"] - text-anchor
  * @property {number} [values_dx = 5] - shift in x
  * @property {number} [values_dx = 0] - shift in y
  * @property {number} [values_fill = "#363636"] - fill

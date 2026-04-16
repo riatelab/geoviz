@@ -20,6 +20,8 @@ import { implantation, columns, unique } from "../helpers/utils";
  * @property {boolean} [reverse = false] - reverse the color palette
  * @property {string|boolean} [missing = "white"] - missing data color
  * @property {boolean} [legend = true] - boolean to add or not the legend
+ * @property {boolean} [middle = false] - Only for the MSD method: is the mean in a central class or not?
+ * @property {boolean} [k = 1] - Only for the MSD method: the number of standard deviations taken into account
  * @property {string} [leg_type = "vertical"] - legend orientation ("horizontal" or "vertical")
  * @property {array} [leg_pos = [10, 10]] - position of the legend
  * @property {*} [*] - You can also modify numerous parameters to customize the map. To do this, you can use all the parameters of the [path](#path) and [tool.choro](#tool/choro) functions. For example: `strokeWidth: 0.3`.

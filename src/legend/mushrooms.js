@@ -36,7 +36,7 @@ const d3 = Object.assign({}, { formatLocale, arc });
  * @property {string} [top_circle_stroke = "black"] - stroke color for the top half-circles
  * @property {number} [top_circle_cornerRadius = 5] - top circle_cornerRadius
  * @property {*} [top_circle_*] - *SVG attributes that can be applied on this top half-circle element*
- * @property {string} [top_values_textAnchor = "middle"] - top text-anchor
+ * @property {string} [top_values_textAnchor = "start"] - top text-anchor
  * @property {number} [top_values_dx = 5] - shift in x
  * @property {number} [top_values_dy = 0] - shift in y
  * @property {number} [top_values_factor = 1] - allow to multiply values to display in the legend. e.g 0.001 to convert into thousands
@@ -52,7 +52,7 @@ const d3 = Object.assign({}, { formatLocale, arc });
  * @property {string} [bottom_circle_stroke = "black"] - stroke color for the bottom half-circles
  * @property {number} [bottom_circle_cornerRadius = 5] - bottom circle_cornerRadius
  * @property {*} [bottom_circle_*] - *SVG attributes that can be applied on this bottom half-circle element*
- * @property {string} [bottom_values_textAnchor = "middle"] - bottom text-anchor
+ * @property {string} [bottom_values_textAnchor = "start"] - bottom text-anchor
  * @property {number} [bottom_values_dx = 5] - shift in x
  * @property {number} [bottom_values_dy = 0] - shift in y
  * @property {number} [bottom_values_factor = 1] - allow to multiply values to display in the legend. e.g 0.001 to convert into thousands
@@ -178,7 +178,7 @@ export function mushrooms(arg1, arg2) {
         .innerRadius(0)
         .startAngle(-Math.PI / 2)
         .endAngle(Math.PI / 2)
-        .cornerRadius(opts.top_circle_cornerRadius)()
+        .cornerRadius(opts.top_circle_cornerRadius)(),
     )
     .attr(
       "transform",
@@ -190,7 +190,7 @@ export function mushrooms(arg1, arg2) {
           opts.top_values_fontSize / 2 +
           size.height +
           rmaxtop
-        })`
+        })`,
     );
 
   let opts_top_circle = subsetobj(opts, {
@@ -198,7 +198,7 @@ export function mushrooms(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_top_circle).forEach((d) =>
-    top.attr(camelcasetodash(d[0]), d[1])
+    top.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Lines
@@ -210,7 +210,7 @@ export function mushrooms(arg1, arg2) {
     .attr("x1", opts.pos[0] + rmax + opts.top_circle_dx)
     .attr(
       "x2",
-      opts.pos[0] + rmax + rmax + opts.line_length + opts.top_circle_dx
+      opts.pos[0] + rmax + rmax + opts.line_length + opts.top_circle_dx,
     )
     .attr(
       "y1",
@@ -221,7 +221,7 @@ export function mushrooms(arg1, arg2) {
         size.height +
         rmaxtop -
         d[1] +
-        opts.top_values_fontSize / 2
+        opts.top_values_fontSize / 2,
     )
     .attr(
       "y2",
@@ -232,7 +232,7 @@ export function mushrooms(arg1, arg2) {
         size.height +
         rmaxtop -
         d[1] +
-        opts.top_values_fontSize / 2
+        opts.top_values_fontSize / 2,
     );
 
   let opts_line = subsetobj(opts, {
@@ -240,7 +240,7 @@ export function mushrooms(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_line).forEach((d) =>
-    linestop.attr(camelcasetodash(d[0]), d[1])
+    linestop.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Values
@@ -261,7 +261,7 @@ export function mushrooms(arg1, arg2) {
         rmax +
         opts.line_length +
         opts.top_circle_dx +
-        opts.top_values_dx
+        opts.top_values_dx,
     )
     .attr(
       "y",
@@ -272,7 +272,7 @@ export function mushrooms(arg1, arg2) {
         size.height +
         rmaxtop -
         d[1] +
-        opts.top_values_fontSize / 2
+        opts.top_values_fontSize / 2,
     )
     .text((d) => top_locale.format(",")(d[0]));
 
@@ -281,7 +281,7 @@ export function mushrooms(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_top_values).forEach((d) =>
-    top_values.attr(camelcasetodash(d[0]), d[1])
+    top_values.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // top title
@@ -296,7 +296,7 @@ export function mushrooms(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_top_title).forEach((d) =>
-    top_title.attr(camelcasetodash(d[0]), d[1])
+    top_title.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // bottom title
@@ -311,7 +311,7 @@ export function mushrooms(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_bottom_title).forEach((d) =>
-    bottom_title.attr(camelcasetodash(d[0]), d[1])
+    bottom_title.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // -------------------
@@ -333,14 +333,14 @@ export function mushrooms(arg1, arg2) {
         .innerRadius(0)
         .startAngle(0.5 * Math.PI)
         .endAngle(1.5 * Math.PI)
-        .cornerRadius(opts.bottom_circle_cornerRadius)()
+        .cornerRadius(opts.bottom_circle_cornerRadius)(),
     )
     .attr(
       "transform",
       (d) =>
         `translate(${opts.pos[0] + rmax + opts.bottom_circle_dx}, ${
           opts.pos[1] + opts.circle_dy + opts.gap + size.height
-        })`
+        })`,
     );
 
   let opts_bottom_circle = subsetobj(opts, {
@@ -348,7 +348,7 @@ export function mushrooms(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_bottom_circle).forEach((d) =>
-    bottom.attr(camelcasetodash(d[0]), d[1])
+    bottom.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Lines
@@ -360,19 +360,21 @@ export function mushrooms(arg1, arg2) {
     .attr("x1", opts.pos[0] + rmax + opts.bottom_circle_dx)
     .attr(
       "x2",
-      opts.pos[0] + rmax + rmax + opts.line_length + opts.bottom_circle_dx
+      opts.pos[0] + rmax + rmax + opts.line_length + opts.bottom_circle_dx,
     )
     .attr(
       "y1",
-      (d) => opts.pos[1] + opts.bottom_circle_dy + opts.gap + size.height + d[1]
+      (d) =>
+        opts.pos[1] + opts.bottom_circle_dy + opts.gap + size.height + d[1],
     )
     .attr(
       "y2",
-      (d) => opts.pos[1] + opts.bottom_circle_dy + opts.gap + size.height + d[1]
+      (d) =>
+        opts.pos[1] + opts.bottom_circle_dy + opts.gap + size.height + d[1],
     );
 
   Object.entries(opts_line).forEach((d) =>
-    linesbottom.attr(camelcasetodash(d[0]), d[1])
+    linesbottom.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Values
@@ -393,11 +395,12 @@ export function mushrooms(arg1, arg2) {
         rmax +
         opts.line_length +
         opts.bottom_circle_dx +
-        opts.bottom_values_dx
+        opts.bottom_values_dx,
     )
     .attr(
       "y",
-      (d) => opts.pos[1] + opts.bottom_circle_dy + opts.gap + size.height + d[1]
+      (d) =>
+        opts.pos[1] + opts.bottom_circle_dy + opts.gap + size.height + d[1],
     )
     .text((d) => bottom_locale.format(",")(d[0]));
 
@@ -406,7 +409,7 @@ export function mushrooms(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_bottom_values).forEach((d) =>
-    bottom_values.attr(camelcasetodash(d[0]), d[1])
+    bottom_values.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Note
