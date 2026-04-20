@@ -38,7 +38,8 @@ import { rhumbs as addrhumbs } from "../mark/rhumbs.js";
 import { pattern as addpattern } from "../mark/pattern.js";
 import { earth as addearth } from "../mark/earth.js";
 import { empty as addempty } from "../mark/empty.js";
-import { minimap as addminimap } from "../mark/empty.js";
+import { minimap as addminimap } from "../mark/minimap.js";
+import { symbol as addsymbol } from "../mark/symbol.js";
 import { grid as addgrid } from "../tool/grid.js";
 
 import { circles_nested as addcircles_nested } from "../legend/circles-nested";

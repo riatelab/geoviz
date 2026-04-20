@@ -1,5 +1,6 @@
 import versor from "versor";
 import { sketch } from "../mark/sketch";
+import { minimap } from "../mark/minimap";
 import { circle } from "../mark/circle";
 import { contour } from "../mark/contour";
 import { rhumbs } from "../mark/rhumbs";
@@ -112,6 +113,9 @@ export async function zoomversor(svg) {
           break;
         case "sketch":
           sketch(svg, d);
+          break;
+        case "minimap":
+          minimap(svg, d);
           break;
         case "tile":
           tile(svg, d);

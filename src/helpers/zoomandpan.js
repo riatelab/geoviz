@@ -1,4 +1,5 @@
 import { circle } from "../mark/circle";
+import { minimap } from "../mark/minimap";
 import { sketch } from "../mark/sketch";
 import { contour } from "../mark/contour";
 import { rhumbs } from "../mark/rhumbs";
@@ -135,6 +136,10 @@ export async function zoomandpan(svg) {
         case "circle":
           d.zoom = t;
           circle(svg, d);
+          break;
+        case "minimap":
+          d.zoom = t;
+          minimap(svg, d);
           break;
         case "rhumbs":
           d.zoom = t;
