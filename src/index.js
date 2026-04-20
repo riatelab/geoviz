@@ -131,6 +131,7 @@ export { rhumbs } from "./mark/rhumbs.js";
 export { earth } from "./mark/earth.js";
 export { empty } from "./mark/empty.js";
 export { pattern } from "./mark/pattern.js";
+export { minimap } from "./mark/minimap.js";
 
 // Plot
 export { plot } from "./plot/plot.js";

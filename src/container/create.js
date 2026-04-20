@@ -24,7 +24,6 @@ import { square as addsquare } from "../mark/square.js";
 import { halfcircle as addhalfcircle } from "../mark/halfcircle.js";
 import { spike as addspike } from "../mark/spike.js";
 import { path as addpath } from "../mark/path.js";
-import { symbol as addsymbol } from "../mark/symbol.js";
 import { tile } from "../mark/tile.js";
 import { header } from "../mark/header.js";
 import { footer } from "../mark/footer.js";
@@ -39,7 +38,7 @@ import { rhumbs as addrhumbs } from "../mark/rhumbs.js";
 import { pattern as addpattern } from "../mark/pattern.js";
 import { earth as addearth } from "../mark/earth.js";
 import { empty as addempty } from "../mark/empty.js";
-
+import { minimap as addminimap } from "../mark/empty.js";
 import { grid as addgrid } from "../tool/grid.js";
 
 import { circles_nested as addcircles_nested } from "../legend/circles-nested";
@@ -240,6 +239,7 @@ export function create({
     { id: "earth", func: addearth },
     { id: "empty", func: addempty },
     { id: "pattern", func: addpattern },
+    { id: "minimap", func: addminimap },
   ].forEach(
     (d) =>
       (mark[d.id] = function () {
