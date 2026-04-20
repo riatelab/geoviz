@@ -1,18 +1,11 @@
 import { create } from "../container/create";
-import { render } from "../container/render";
 import { camelcasetodash, unique } from "../helpers/utils";
 import { subsetobj } from "../helpers/utils_legend.js";
+import { select } from "d3-selection";
+import { geoPath } from "d3-geo";
+const d3 = Object.assign({}, { select, geoPath });
 
-export async function minimap(arg1, arg2) {
-  // Test if new container
-  let newcontainer =
-    (arguments.length <= 1 || arguments[1] == undefined) &&
-    !arguments[0]?._groups
-      ? true
-      : false;
-  arg1 = newcontainer && arg1 == undefined ? {} : arg1;
-  arg2 = arg2 == undefined ? {} : arg2;
-
+export function minimap(arg1, arg2) {
   // Arguments by default
   const options = {
     id: unique(),
@@ -28,48 +21,33 @@ export async function minimap(arg1, arg2) {
     rect_stroke: "#38896F",
     coords: "svg",
   };
-  let opts = { ...options, ...(newcontainer ? arg1 : arg2) };
 
-  // The container
-  let svgopts = {};
-  Object.keys(opts)
-    .filter((str) => str.slice(0, 4) == "svg_")
-    .forEach((d) => {
-      Object.assign(svgopts, {
-        [d.slice(0, 4) == "svg_" ? d.slice(4) : d]: opts[d],
-      });
-      delete opts[d];
-    });
-  let svg = newcontainer ? create(svgopts) : arg1;
+  let opts = { ...options, ...arg2 };
+  let svg = arg1;
 
-  // init a layer
-  let layer = svg.selectAll(`#${opts.id}`).empty()
-    ? svg.append("g").attr("id", opts.id).attr("data-layer", "rhumbs")
-    : svg.select(`#${opts.id}`);
-  layer.selectAll("*").remove();
+  let rect = getRect(svg, opts.precision);
+  svg.select(`#${opts.id}`).remove();
 
-  // Draw minimap
-
-  const rect = getRect(svg, opts.precision);
   let inset = create({
+    id: opts.id,
     parent: svg,
     projection: opts.projection,
     pos: opts.pos,
     width: opts.width,
   });
-  inset.outline();
 
+  // Add basemap
   const basemapStyles = Object.fromEntries(
     Object.entries(subsetobj(opts, { prefix: "basemap_" })).map(
       ([key, value]) => [camelcasetodash(key), value],
     ),
   );
   inset.path({
+    id: opts.id + "_basemap",
     datum: opts.basemap_data,
     fill: opts.basemap_fill,
     ...basemapStyles,
   });
-  //await inset.earth();
 
   const rectStyles = Object.fromEntries(
     Object.entries(subsetobj(opts, { prefix: "rect_" })).map(([key, value]) => [
@@ -77,7 +55,7 @@ export async function minimap(arg1, arg2) {
       value,
     ]),
   );
-  inset.path({ datum: rect, ...rectStyles });
+  inset.path({ id: opts.id + "_rect", data: rect, ...rectStyles });
 
   // Zoom;
   if (svg.zoomable) {
@@ -92,11 +70,7 @@ export async function minimap(arg1, arg2) {
   }
 
   // Render
-  if (newcontainer) {
-    return render(svg);
-  } else {
-    return `#${opts.id}`;
-  }
+  return `#${opts.id}`;
 }
 
 // Helpers

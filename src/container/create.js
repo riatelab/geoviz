@@ -200,6 +200,7 @@ export function create({
   } else {
     let svg = parent
       .append("g")
+      .attr("id", id)
       .attr("transform", transform || `translate(${pos[0]},${pos[1]})`);
     svg.append("defs").attr("id", "defs");
     svg

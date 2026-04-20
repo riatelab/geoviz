@@ -171,10 +171,8 @@ export async function path(arg1, arg2) {
       : null;
 
     if (before && svg.select(before).node()) {
-      layer = svg
-        .insert("g", before)
-        .attr("id", opts.id)
-        .attr("data-layer", "circle");
+      layer = svg.insert("g", before).attr("id", opts.id);
+      //.attr("data-layer", "circle");
     } else if (after && svg.select(after).node()) {
       const ref = svg.select(after).node();
       layer = svg.append("g").attr("id", opts.id).attr("data-layer", "circle");
