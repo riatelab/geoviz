@@ -209,7 +209,7 @@ Use whichever one you prefer.
 - **[`spike()`](https://riatelab.github.io/geoviz/global.html#spike)** : Spike layer  
 - **[`halfcircle()`](https://riatelab.github.io/geoviz/global.html#halfcircle)** : Half-circle layer  
 - **[`symbol()`](https://riatelab.github.io/geoviz/global.html#symbol)** : Symbol layer 
-
+- **[`contour()`](https://riatelab.github.io/geoviz/global.html#contour)** : Contour layer
 # Effects
 
 **Since the maps created are in SVG format, it is possible to apply filters to them. These functions offer four different options for doing so.**
