@@ -147,142 +147,125 @@ Use whichever one you prefer.
 
 # Create & render
 
-**These functions are essential for initializing a map, visualizing its content, and exporting it. They form the core workflow for creating maps with the geoviz library.**dd
+**These functions are essential for initializing a map, visualizing its content, and exporting it. They form the core workflow for creating maps with the geoviz library.**
 
-- Create a geoviz map container : **`create()`** [![create](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#create)
-- Render the map : **`render()`** [![render](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#render)
-- Returns the map as a png file: **`exportPNG()`** [![exportPNG](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#exportPNG)
-- Returns the map as a sav file: **`exportSVG()`** [![exportSVG](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#exportSVG)
+- **[`create()`](https://riatelab.github.io/geoviz/global.html#create)** : Create a geoviz map container  
+- **[`render()`](https://riatelab.github.io/geoviz/global.html#render)** : Render the map  
+- **[`exportPNG()`](https://riatelab.github.io/geoviz/global.html#exportPNG)** : Returns the map as a PNG file  
+- **[`exportSVG()`](https://riatelab.github.io/geoviz/global.html#exportSVG)** : Returns the map as an SVG file  
 
 # Base Map and Structure
 
 **Functions that define the map’s geographic content, including outlines, tiles, and graticules.**
 
-- Add a geoJSON: **`path()`** [![path](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#path)
-- Earth outline in the projection: **`outline()`** [![outline](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#outline)
-- graticule (latitude and longitude lines): **`graticule()`** [![graticule](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#graticule)
-- rhumb lines (loxodromes) **`rhumbs()`** [![rhumbs](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#crerhumbsate)
-- Tissot indicatrices: **`tissot()`** [![tissot](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#tissot)
-- Natural Earth: **`earth()`** [![earth](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#earth)
-- Mercator tiles: **`tile()`** [![tile](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#tile)
+- **[`path()`](https://riatelab.github.io/geoviz/global.html#path)** : Add a GeoJSON layer  
+- **[`outline()`](https://riatelab.github.io/geoviz/global.html#outline)** : Earth outline in the projection  
+- **[`graticule()`](https://riatelab.github.io/geoviz/global.html#graticule)** : Graticule (latitude and longitude lines)  
+- **[`rhumbs()`](https://riatelab.github.io/geoviz/global.html#rhumbs)** : Rhumb lines (loxodromes)  
+- **[`tissot()`](https://riatelab.github.io/geoviz/global.html#tissot)** : Tissot indicatrices  
+- **[`earth()`](https://riatelab.github.io/geoviz/global.html#earth)** : Natural Earth basemap  
+- **[`tile()`](https://riatelab.github.io/geoviz/global.html#tile)** : Mercator tiles  
 
 # Map Decorations and Annotations
 
 **Functions for styling and annotating the map, such as titles, scale bars, and north arrows.**
 
-- Map title: **`header()`** [![header](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#header)
-- Source of the map: **`footer()`** [![footer](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#footer)
-- North arrow: **`north()`** [![north](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#north)
-- Scale bar: **`scalebar()`** [![scalebar](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#pscalebarath)
-- Texts and labels: **`text()`** [![text](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#text)
-- Location map: **`minimap()`** [![minimap](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#minimap)
-- Empty layer with id: **`empty()`** [![empty](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#empty)
-- Pattern layer: **`pattern()`** [![pattern](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#pattern)
-- Sketch layer: **`sketch()`** [![sketch](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#sketch)
+- **[`header()`](https://riatelab.github.io/geoviz/global.html#header)** : Map title  
+- **[`footer()`](https://riatelab.github.io/geoviz/global.html#footer)** : Map source  
+- **[`north()`](https://riatelab.github.io/geoviz/global.html#north)** : North arrow  
+- **[`scalebar()`](https://riatelab.github.io/geoviz/global.html#scalebar)** : Scale bar  
+- **[`text()`](https://riatelab.github.io/geoviz/global.html#text)** : Texts and labels  
+- **[`minimap()`](https://riatelab.github.io/geoviz/global.html#minimap)** : Location map  
+- **[`empty()`](https://riatelab.github.io/geoviz/global.html#empty)** : Empty layer with id  
+- **[`pattern()`](https://riatelab.github.io/geoviz/global.html#pattern)** : Pattern layer  
+- **[`sketch()`](https://riatelab.github.io/geoviz/global.html#sketch)** : Sketch layer  
 
 # Thematic
 
 **These functions allow the creation of thematic maps based on statistical data, complete with their associated legends.**
 
-- Proportional symbols layer: **`prop()`** [![prop](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#hepropader)
-- Choropleth layer: **`choro()`** [![choro](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#heachoroder)
-- Typology layer: **`typo()`** [![typo](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#typo)
-- Proportional + choropleth combined layer: **`propchoro()`** [![propchoro](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#propchoro)
-- Proportional + typology combined layer: **`proptypo()`** [![proptypo](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#proptypo)
-- Pictogram layer: **`picto()`** [![picto](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#picto)
+- **[`prop()`](https://riatelab.github.io/geoviz/global.html#prop)** : Proportional symbols layer  
+- **[`choro()`](https://riatelab.github.io/geoviz/global.html#choro)** : Choropleth layer  
+- **[`typo()`](https://riatelab.github.io/geoviz/global.html#typo)** : Typology layer  
+- **[`propchoro()`](https://riatelab.github.io/geoviz/global.html#propchoro)** : Combined proportional + choropleth layer  
+- **[`proptypo()`](https://riatelab.github.io/geoviz/global.html#proptypo)** : Combined proportional + typology layer  
+- **[`picto()`](https://riatelab.github.io/geoviz/global.html#picto)** : Pictogram layer  
 
 # Thematic (advanced)
 
 **These functions allow the creation of advanced thematic maps based on statistical data, complete with their associated legends.**
 
-- Grid-based proportional symbols layer: **`gridprop()`** [![gridprop](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#gridprop)
-- Grid-based choropleth layer: **`gridchoro()`** [![gridchoro](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#gridchoro)
-- Smoothed density (isobands) layer: **`smooth()`** [![smooth](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#smooth)
-- Dot density layer: **`dotdensity()`** [![dotdensity](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#dotdensity)
+- **[`gridprop()`](https://riatelab.github.io/geoviz/global.html#gridprop)** : Grid-based proportional symbols layer  
+- **[`gridchoro()`](https://riatelab.github.io/geoviz/global.html#gridchoro)** : Grid-based choropleth layer  
+- **[`smooth()`](https://riatelab.github.io/geoviz/global.html#smooth)** : Smoothed density (isobands) layer  
+- **[`dotdensity()`](https://riatelab.github.io/geoviz/global.html#dotdensity)** : Dot density layer  sity)
 
 # Marks
 
 **Behind the symbolization functions, there are elementary graphical marks. In geoviz, it is possible to use them directly.**
 
-- Circle layer: **`circle()`** [![circle](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#circle)
-- Square layer: **`square()`** [![square](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#square)
-- Spike layer: **`spike()`** [![spike](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#spike)
-- Half-circle layer: halfcircle()`** [![halfcircle](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#halfcircle)
-- Symbol layer: **`symbol()`** [![symbol](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#symbol)
+- **[`circle()`](https://riatelab.github.io/geoviz/global.html#circle)** : Circle layer  
+- **[`square()`](https://riatelab.github.io/geoviz/global.html#square)** : Square layer  
+- **[`spike()`](https://riatelab.github.io/geoviz/global.html#spike)** : Spike layer  
+- **[`halfcircle()`](https://riatelab.github.io/geoviz/global.html#halfcircle)** : Half-circle layer  
+- **[`symbol()`](https://riatelab.github.io/geoviz/global.html#symbol)** : Symbol layer 
 
 # Effects
 
 **Since the maps created are in SVG format, it is possible to apply filters to them. These functions offer four different options for doing so.**
 
-- Shadow effect: **`effect.shadow()`** [![shadow](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#effect/shadow)
-- Blur effect: **`effect.blur()`** [![blur](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#effect/blur)
-- ClipPath layer: **`effect.clipPath()`** [![clipPath](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#effect/clipPath)
-- Radial gradient: **`effect.radialGradient()`** [![radialGradient](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#effect/radialGradient)
+- **[`effect.shadow()`](https://riatelab.github.io/geoviz/global.html#effect/shadow)** : Shadow effect  
+- **[`effect.blur()`](https://riatelab.github.io/geoviz/global.html#effect/blur)** : Blur effect  
+- **[`effect.clipPath()`](https://riatelab.github.io/geoviz/global.html#effect/clipPath)** : ClipPath layer  
+- **[`effect.radialGradient()`](https://riatelab.github.io/geoviz/global.html#effect/radialGradient)** : Radial gradient  
 
 # Legends
 
 **Functions to design map legends.**
 
-- Add a box legend: **`legend.box()`** [![box](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#effect/box)
-- Add a vertical typology legend: **`legend.typo_vertical()`** [![typo_vertical](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#legend/typo_vertical)
-- Add a horizontal typology legend: **`legend.typo_horizontal()`** [![typo_horizontal](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#legend/shadtypo_horizontalow)
-- Add a horizontal choropleth legend: **`legend.choro_horizontal()`** [![choro_horizontal](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#legend/choro_horizontal)
-- Add a vertical choropleth legend: **`legend.choro_vertical()`** [![choro_vertical](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#legend/choro_vertical)
-- Add a vertical gradient legend: **`legend.gradient_vertical()`** [![gradient_vertical](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#legend/gradient_vertical)
-- Add a spike legend: **`legend.spikes()`** [![shadow](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#legend/shadow)
-- Add a proportional circles legend: **`legend.circles()`** [![circles](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#legend/circles)
-- Add a nested proportional circles legend: **`legend.circles_nested()`** [![circles_nested](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#legend/circles_nested)
-- Add a proportional squares legend: **`legend.squares()`** [![squares](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#legend/squares)
-- Add a proportional nested squares legend: **`legend.squares_nested()`** [![squares_nested](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#legend/squares_nested)
-- Add a proportional half-circles (mushrooms) legend: **`legend.mushrooms()`** [![mushrooms](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#legend/mushrooms)
-- Add a vertical symbol legend: **`legend.symbol_vertical()`** [![symbol_vertical](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#legend/symbol_vertical)
-- Add a symbol horizontal legend: **`legend.symbol_horizontal()`** [![symbol_horizontal](img/logo_doc.png)](https://riatelab.github.io/geoviz/global.html#legend/symbol_horizontal)
+- **[`legend.box()`](https://riatelab.github.io/geoviz/global.html#legend/box)** : Add a box legend  
+- **[`legend.typo_vertical()`](https://riatelab.github.io/geoviz/global.html#legend/typo_vertical)** : Vertical typology legend  
+- **[`legend.typo_horizontal()`](https://riatelab.github.io/geoviz/global.html#legend/typo_horizontal)** : Horizontal typology legend  
+- **[`legend.choro_horizontal()`](https://riatelab.github.io/geoviz/global.html#legend/choro_horizontal)** : Horizontal choropleth legend  
+- **[`legend.choro_vertical()`](https://riatelab.github.io/geoviz/global.html#legend/choro_vertical)** : Vertical choropleth legend  
+- **[`legend.gradient_vertical()`](https://riatelab.github.io/geoviz/global.html#legend/gradient_vertical)** : Vertical gradient legend  
+- **[`legend.spikes()`](https://riatelab.github.io/geoviz/global.html#legend/spikes)** : Spike legend  
+- **[`legend.circles()`](https://riatelab.github.io/geoviz/global.html#legend/circles)** : Proportional circles legend  
+- **[`legend.circles_nested()`](https://riatelab.github.io/geoviz/global.html#legend/circles_nested)** : Nested proportional circles legend  
+- **[`legend.squares()`](https://riatelab.github.io/geoviz/global.html#legend/squares)** : Proportional squares legend  
+- **[`legend.squares_nested()`](https://riatelab.github.io/geoviz/global.html#legend/squares_nested)** : Nested proportional squares legend  
+- **[`legend.mushrooms()`](https://riatelab.github.io/geoviz/global.html#legend/mushrooms)** : Proportional half-circles (mushrooms) legend  
+- **[`legend.symbol_vertical()`](https://riatelab.github.io/geoviz/global.html#legend/symbol_vertical)** : Vertical symbol legend  
+- **[`legend.symbol_horizontal()`](https://riatelab.github.io/geoviz/global.html#legend/symbol_horizontal)** : Horizontal symbol legend  
 
 # Tools
 
 **Geoviz also provides many functions that allow you to manipulate data.**
 
-- The **`tool.random()`** function returns a random color among 20 predefined colors.
-- The **`tool.addonts()`** function allows add font to the document from an url.
-- The **`tool.radius()`** function return a function to calculate radius of circles from data
-- **`tool.merge()`** is a function to join a geoJSON and a data file. It returns a GeoJSON FeatureCollection.
-- The **`tool.unproject()`** function allow to unproject geometries. It returns a GeoJSON FeatureCollection with wgs84 coordinates
-- **`tool.featurecollection()`** is a function to create a valid GeoJSON FeatureCollection, from geometries, features or coordinates. It returns a GeoJSON FeatureCollection.
-- The **`tool.centroid()`** function calculate the centroid of all the geometries given in a GeoJSON FeatureCollection. It returns a GeoJSON FeatureCollection (points)
-- The **`tool.dissolve()`** function aims to transform multi part features into single parts feature. It a GeoJSON FeatureCollection (without multi part features)
-- The **`tool.ridge()`** function convert a regular grid (x,y,z) to a GeoJSON FeatureCollection (LineString). The aim is to draw a rideline map.
-- The **`tool.choro()`** function discretizes an array of numbers. It returns an object containing breaks, colors, the color of the missing value and a function.
-- The **`tool.typo()`** function allows you to assign colors to qualitative data. It can be used to create typology maps. It returs an object containing types, colors, the color of the missing value and a function.
-- The **`tool.grid()`** function creates a regular grid as a GeoJSON object. For all grid types (except "h3"), the function returns a GeoJSON with SVG coordinates in page layout. For type "h3", it returns geographic coordinates (latitude and longitude).
-- The **`tool.dodge()`** function use d3.forceSimulation to spread dots or circles of given in a GeoJSON FeatureCollection (points). It returns the coordinates in the page map. It can be used to create a dorling cartogram. The function returns a GeoJSON FeatureCollection (points) with coordinates in the page map.
-- **`tool.dotstogrid()`** is a function to create a regular grid in the SVG plan count the number of dots inside
-- **`tool.geotable()`** is a function to create an array on objects containing properties and geomeytries, froam a GeoJSON FeatureCollection. This makes it easy to sort, extract data, etc. tool.featurecollection(geotable, { geometry: "geometry" }) can be used to rebuild a valid geoJSON. The function returns an array of an array of FeatureCollections.
-- The **`tool.height()`** function return a function to calculate radius of circles from data. It returns an object containing a radius function.
-- **`tool.proj4d3()`** is a function developped by Philippe Rivière to allow tu use proj4js projections with d3. It returns a d3js projection function.
-- The function **`tool.project()`** use geoproject from d3-geo-projection to project a geoJSON. It returns a GeoJSON FeatureCollection with coordinates in the page map.
-- The function **`tool.randompoints()`** renerates random points inside polygons or multipolygons using a dot-density approach. Each point is returned as a valid GeoJSON Feature with properties containing { geom_id, data, var, id }.
-- The function **`tool.replicate()`** can be used to create "dots cartograms". The function returns a GeoJSON FeatureCollection with overlapping features
+- **[`tool.random()`](https://riatelab.github.io/geoviz/global.html#tool/random)** : Returns a random color from a predefined palette (20 colors)  
+- **[`tool.addonts()`](https://riatelab.github.io/geoviz/global.html#tool/addonts)** : Adds fonts to the document from a URL  
+- **[`tool.radius()`](https://riatelab.github.io/geoviz/global.html#tool/radius)** : Returns a function to compute circle radii from data  
+- **[`tool.height()`](https://riatelab.github.io/geoviz/global.html#tool/height)** : Returns a function to compute height scaling (similar to radius scaling)  
+- **[`tool.merge()`](https://riatelab.github.io/geoviz/global.html#tool/merge)** : Joins a GeoJSON with an external dataset (returns a GeoJSON FeatureCollection)  
+- **[`tool.unproject()`](https://riatelab.github.io/geoviz/global.html#tool/unproject)** : Unprojects geometries to WGS84 (returns a GeoJSON FeatureCollection)  
+- **[`tool.project()`](https://riatelab.github.io/geoviz/global.html#tool/project)** : Projects GeoJSON using d3-geo-projection  
+- **[`tool.featurecollection()`](https://riatelab.github.io/geoviz/global.html#tool/featurecollection)** : Builds a valid GeoJSON FeatureCollection from geometries, features, or coordinates  
+- **[`tool.centroid()`](https://riatelab.github.io/geoviz/global.html#tool/centroid)** : Computes centroids of geometries in a FeatureCollection  
+- **[`tool.dissolve()`](https://riatelab.github.io/geoviz/global.html#tool/dissolve)** : Converts multipart geometries into single-part features  
+- **[`tool.ridge()`](https://riatelab.github.io/geoviz/global.html#tool/ridge)** : Converts gridded (x, y, z) data into LineString features for ridgeline maps  
+- **[`tool.choro()`](https://riatelab.github.io/geoviz/global.html#tool/choro)** : Classifies numeric arrays into choropleth breaks and colors  
+- **[`tool.typo()`](https://riatelab.github.io/geoviz/global.html#tool/typo)** : Assigns colors to categorical data for typology maps  
+- **[`tool.grid()`](https://riatelab.github.io/geoviz/global.html#tool/grid)** : Generates a regular grid as a GeoJSON object  
+- **[`tool.dodge()`](https://riatelab.github.io/geoviz/global.html#tool/dodge)** : Uses force simulation to spatially separate points (e.g., Dorling cartograms)  
+- **[`tool.dotstogrid()`](https://riatelab.github.io/geoviz/global.html#tool/dotstogrid)** : Builds a grid and counts points per cell (dot-density preparation)  
+- **[`tool.geotable()`](https://riatelab.github.io/geoviz/global.html#tool/geotable)** : Converts a GeoJSON FeatureCollection into an array of objects  
+- **[`tool.proj4d3()`](https://riatelab.github.io/geoviz/global.html#tool/proj4d3)** : Enables use of proj4 projections with d3 (Philippe Rivière)  
+- **[`tool.randompoints()`](https://riatelab.github.io/geoviz/global.html#tool/randompoints)** : Generates random points inside polygons (dot-density method)  
+- **[`tool.replicate()`](https://riatelab.github.io/geoviz/global.html#tool/replicate)** : Creates dot cartograms with overlapping features  
 
-See also: https://riatelab.github.io/geotoolbox & https://neocarto.github.io/geogrid
+See also: [geotoolbox](https://riatelab.github.io/geotoolbox) & [geogrid](https://neocarto.github.io/geogrid)
 
+---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<hr/>
-
-Geoviz is also available in R language. See: https://riatelab.github.io/geoviz_R
+Geoviz is also available in R language. See: [geoviz for R](https://riatelab.github.io/geoviz_R)
 
