@@ -61,6 +61,8 @@ import { render as addrender } from "../container/render";
 import { exportSVG as addexportSVG } from "../container/export";
 import { exportPNG as addexportPNG } from "../container/export";
 
+import { choro as addchoro } from "../plot/choro.js";
+
 import { plot as addplot } from "../plot/plot.js";
 
 /**
@@ -242,6 +244,7 @@ export function create({
     { id: "empty", func: addempty },
     { id: "pattern", func: addpattern },
     { id: "minimap", func: addminimap },
+    { id: "choro", func: addchoro },
   ].forEach(
     (d) =>
       (mark[d.id] = function () {

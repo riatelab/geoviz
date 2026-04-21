@@ -133,8 +133,13 @@ export { empty } from "./mark/empty.js";
 export { pattern } from "./mark/pattern.js";
 export { minimap } from "./mark/minimap.js";
 
+// Thematic
+export { choro } from "./plot/choro.js";
+
 // Plot
 export { plot } from "./plot/plot.js";
+
+//
 
 // Update
 import { attr } from "./update/attr.js";

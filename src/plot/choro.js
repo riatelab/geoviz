@@ -7,7 +7,7 @@ import { choro_horizontal } from "../legend/choro-horizontal";
 import { implantation, columns, unique } from "../helpers/utils";
 
 /**
- * @function plot/choro
+ * @function choro
  * @description With the `plot({type = "choro"})` function, you can quickly draw a choropleth map.<br/><br/>
  * ![choro](img/thumb_choro.svg)
  * @see {@link https://observablehq.com/@neocartocnrs/choropleth}
@@ -31,7 +31,7 @@ import { implantation, columns, unique } from "../helpers/utils";
  * geoviz.plot({type:"choro", data: world, var: "gdppc"})
  */
 
-export async function plot_choro(arg1, arg2) {
+export async function choro(arg1, arg2) {
   let newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
     !arguments[0]?._groups

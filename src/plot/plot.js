@@ -1,5 +1,6 @@
 // Marks
 import { graticule } from "../mark/graticule";
+import { minimap } from "../mark/minimap";
 import { contour } from "../mark/contour";
 import { rhumbs } from "../mark/rhumbs";
 import { tissot } from "../mark/tissot";
@@ -44,7 +45,7 @@ import { radialGradient } from "../effect/radialgradient";
 import { shadow } from "../effect/shadow";
 
 // Symbology
-import { plot_choro } from "./plot_choro";
+import { choro } from "./choro";
 import { plot_smooth } from "./plot_smooth";
 import { plot_typo } from "./plot_typo";
 import { plot_prop } from "./plot_prop";
@@ -142,6 +143,11 @@ export async function plot(arg1, arg2) {
       break;
     case "graticule":
       return graticule(arg1, arg2);
+      break;
+    case "minimap":
+    case "location":
+    case "locationmap":
+      return minimap(arg1, arg2);
       break;
     case "empty":
       return empty(arg1, arg2);
@@ -300,7 +306,7 @@ export async function plot(arg1, arg2) {
       break;
     case "choro":
     case "choropleth":
-      return plot_choro(arg1, arg2);
+      return choro(arg1, arg2);
       break;
     case "typo":
     case "typology":

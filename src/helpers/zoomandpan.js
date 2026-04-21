@@ -1,5 +1,5 @@
 import { circle } from "../mark/circle";
-import { minimap } from "../mark/minimap";
+import { location } from "./location.js";
 import { sketch } from "../mark/sketch";
 import { contour } from "../mark/contour";
 import { rhumbs } from "../mark/rhumbs";
@@ -138,8 +138,12 @@ export async function zoomandpan(svg) {
           circle(svg, d);
           break;
         case "minimap":
-          d.zoom = t;
-          minimap(svg, d);
+          let locationarea = d3.geoPath(d.projection).pointRadius(d.location_r)(
+            location(svg, d.precision, d.location_type),
+          );
+          svg
+            .selectAll(`#${d.id + "_location"} > path`)
+            .attr("d", locationarea);
           break;
         case "rhumbs":
           d.zoom = t;

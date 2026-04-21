@@ -1,3 +1,4 @@
+
 ![npm](https://img.shields.io/npm/v/geoviz) ![jsdeliver](https://img.shields.io/jsdelivr/npm/hw/geoviz) ![license](https://img.shields.io/badge/license-MIT-success) ![code size](https://img.shields.io/github/languages/code-size/neocarto/geoviz) ![github stars](https://img.shields.io/github/stars/neocarto/geoviz?style=social)
 
 # Geoviz JavaScript library
@@ -10,13 +11,16 @@
 
 <img src="img/thematic.svg" style="height: 30px"/>  <img src="img/vectorial.svg" style="height: 30px"/> <img src="img/interactive.svg" style="height: 30px"/>  <img src="img/interoperable.svg" style="height: 30px"/> <img src="img/zoomable.svg" style="height: 30px"/>
 
-🌏 live demo [`Observable notebook`](https://observablehq.com/@neocartocnrs/geoviz) [`simple map`](examples/simple.html) [`choropleth`](examples/choropleth.html) [`typology`](examples/typo.html) [`bubble`](examples/bubble.html) [`dorling`](examples/dorling.html) [`Mercator tiles`](examples/tiles.html) 
+🌏 live demo [`Observable notebook`](https://observablehq.com/@neocartocnrs/geoviz)
 
 💻 Source code [`github`](https://github.com/riatelab/geoviz)
 
 💡 Suggestions/bugs [`issues`](https://github.com/riatelab/geoviz/issues)
 
-## Installation
+<img src = "img/banner.png" width = 100%></img>
+
+
+# Installation
 
 In the browser
 
@@ -29,6 +33,136 @@ In [Observable](https://observablehq.com/) notebooks
 ~~~js
 geoviz = require("geoviz")
 ~~~
+
+# Examples
+
+To see what can be done with the geoviz library, many examples have been developed on the Observable platform. Click on the image below to access them.
+
+<a href = "https://observablehq.com/@neocartocnrs/geoviz" target = "_BLANK"><img src = "img/observable.png" width = 100%></img></a>
+
+# Syntax
+
+There are several steps involved in creating a map with geoviz.
+
+**1** - First, create the map container using the `create()` function. This is where you define the projection, margins, background color, etc. In short, all the general parameters of the map.
+
+**2** The next step is to progressively add layers. A set of dedicated functions is available for this purpose. For instance, `path` adds a spatial dataframe, `graticule` draws latitude and longitude lines, `header` inserts a title, and `footer` adds a source note.
+
+**3** - Then, the `render()` function displays the map
+
+For example:
+
+~~~js
+let svg = geoviz.create({projection: "Bertin1953", zoomable: true})
+svg.outline()
+svg.graticule()
+svg.path({data: **a geoJSON**})
+svg.header({text : "Hello geoviz"})
+svg.render()
+~~~
+
+Here's an example that works in vanilla JS. Copy this code into an `.html` file and open it in your web browser.
+
+~~~js
+<script src="https://cdn.jsdelivr.net/npm/geoviz@0.7.9" charset="utf-8"></script>
+<script>
+let geojson = "https://raw.githubusercontent.com/riatelab/geoviz/refs/heads/main/examples/world.json";
+fetch(geojson)
+   .then((res) => res.json())
+   .then((data) => {
+     let svg = geoviz.create({projection: "Bertin1953", zoomable: true });
+     svg.outline()
+     svg.graticule()
+     svg.path({data: **a geoJSON**})
+     svg.header({text : "Hello geoviz"})
+     document.body.appendChild(svg.render());
+    });
+</script>
+~~~
+
+There are several ways to build maps with geoviz. Multiple syntaxes are possible. 
+
+- **Classic**
+
+~~~js
+let svg = geoviz.create({projection: "Polar"})
+geoviz.outline(svg, {fill: "#5abbe8"})
+geoviz.graticule(svg, {stroke: "white", step: 30})
+geoviz.path(svg, {data: **a geoJSON**, fill: "#38896F"})
+geoviz.render(svg)
+~~~
+
+- **Light**
+
+~~~js
+let svg = geoviz.create({projection: "Polar"})
+svg.outline({fill: "#5abbe8"})
+svg.graticule({stroke: "white", step: 30})
+svg.path({data: **a geoJSON**, fill: "#38896F"})
+svg.render()
+~~~
+
+- **Plot**
+
+~~~js
+let svg = geoviz.create({projection: "Polar"})
+svg.plot({type: "outline", fill: "#5abbe8"})
+svg.plot({type: "graticule", stroke: "white", step: 30})
+svg.plot({type:"path", data: **a geoJSON**, fill: "#38896F"})
+svg.render()
+~~~
+
+- **Draw**
+
+~~~js
+geoviz.draw({
+  params: { projection: "Polar" },
+  layers: [
+    { type: "outline", fill: "#5abbe8" },
+    { type: "graticule", stroke: "white", step: 30 },
+    { type: "path", data: **a geoJSON**, fill: "#38896F" }
+  ]
+});
+~~~
+
+Use whichever one you prefer.
+
+# Create & render
+
+These functions are essential for initializing a map, visualizing its content, and exporting it. They form the core workflow for creating maps with the geoviz library.
+
+- Create a geoviz map container : **`create()`** [![create](img/logo_doc.png)](global.html#create)
+- Render the map : **`render()`** [![render](img/logo_doc.png)](global.html#render)
+- Returns the map as a png file: **`exportPNG()`** [![exportPNG](img/logo_doc.png)](global.html#exportPNG)
+- Returns the map as a sav file: **`exportSVG()`** [![exportSVG](img/logo_doc.png)](global.html#exportSVG)
+
+# Base Map and Structure
+
+Functions that define the map’s geographic content, including outlines, tiles, and graticules.
+
+- Add a geoJSON: **`path()`** [![path](img/logo_doc.png)](global.html#path)
+- Earth outline in the projection: **`outline()`** [![outline](img/logo_doc.png)](global.html#outline)
+- graticule (latitude and longitude lines): **`graticule()`** [![graticule](img/logo_doc.png)](global.html#graticule)
+- rhumb lines (loxodromes) **`rhumbs()`** [![rhumbs](img/logo_doc.png)](global.html#crerhumbsate)
+- Tissot indicatrices: **`tissot()`** [![tissot](img/logo_doc.png)](global.html#tissot)
+- Natural Earth: **`earth()`** [![earth](img/logo_doc.png)](global.html#earth)
+- Mercator tiles: **`tile()`** [![tile](img/logo_doc.png)](global.html#tile)
+
+# Map Decorations and Annotations
+
+Functions for styling and annotating the map, such as titles, scale bars, and north arrows.
+
+- Map title: **`header()`** [![header](img/logo_doc.png)](global.html#header)
+- Source of the map: **`footer()`** [![footer](img/logo_doc.png)](global.html#footer)
+- North arrow: **`north()`** [![north](img/logo_doc.png)](global.html#north)
+- Scale bar: **`scalebar()`** [![scalebar](img/logo_doc.png)](global.html#pscalebarath)
+- Texts and labels: **`text()`** [![text](img/logo_doc.png)](global.html#text)
+- Location map: **`minimap()`** [![minimap](img/logo_doc.png)](global.html#minimap)
+- Empty layer with id: **`empty()`** [![empty](img/logo_doc.png)](global.html#empty)
+
+# Thematic
+
+These functions allow the creation of thematic maps based on statistical data, complete with their associated legends.
 
 ## Examples
 

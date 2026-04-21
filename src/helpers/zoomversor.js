@@ -1,6 +1,6 @@
 import versor from "versor";
 import { sketch } from "../mark/sketch";
-import { minimap } from "../mark/minimap";
+import { location } from "./location.js";
 import { circle } from "../mark/circle";
 import { contour } from "../mark/contour";
 import { rhumbs } from "../mark/rhumbs";
@@ -115,7 +115,12 @@ export async function zoomversor(svg) {
           sketch(svg, d);
           break;
         case "minimap":
-          minimap(svg, d);
+          let locationarea = d3.geoPath(d.projection).pointRadius(d.location_r)(
+            location(svg, d.precision, d.location_type),
+          );
+          svg
+            .selectAll(`#${d.id + "_location"} > path`)
+            .attr("d", locationarea);
           break;
         case "tile":
           tile(svg, d);
