@@ -11,6 +11,7 @@ const d3 = Object.assign({}, { select, geoPath });
 
 /**
  * Create a minimap inset showing a basemap and a location geometry.
+ * The map’s projection must provide an invert() function.
  *
  * @function minimap
  * @async
