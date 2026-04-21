@@ -2,9 +2,11 @@ import { circle } from "../mark/circle";
 import { randompoints } from "../tool/randompoints";
 import { text } from "../mark/text";
 import { unique } from "../helpers/utils";
+import { render } from "../container/render";
+import { create } from "../container/create";
 
 /**
- * @function plot/dotdensity
+ * @function dotdensity
  * @description
  * With `plot({type = "dotdensity"})`, you can generate a **dot density map** by creating points proportionally
  * to a numeric variable in your dataset. Each point represents a fixed quantity (`dotval`) from the data.
@@ -23,12 +25,12 @@ import { unique } from "../helpers/utils";
  * @property {string} [fill="black"] - Fill color of the dots.
  * @property {Array|Object} [data] - The dataset to visualize.
  * @property {string} [var] - The numeric variable in the dataset to map with dots.
- *
- * @returns {SVGElement} The SVG container with the dot density map rendered.
- *
+ * @example // Usage
+ * geoviz.plot({type:"dotdensity", data: usa, var: "pop"})
+ * geoviz.dotdensity({data: usa, var: "pop"})
  */
 
-export function plot_dotdensity(arg1, arg2) {
+export function dotdensity(arg1, arg2) {
   const newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
     !arguments[0]?._groups;
@@ -58,13 +60,18 @@ export function plot_dotdensity(arg1, arg2) {
   });
 
   // Get the actual SVG container
+  // let svgopts = { domain: opts.data || opts.datum };
+  // let svg = newcontainer ? create(svgopts) : arg1;
+
   let svg;
   if (newcontainer) {
-    svg = circle(options); // new container + points
+    svg = create({
+      domain: options.data,
+    });
   } else {
     svg = arg1; // existing container
-    circle(svg, options); // add the points
   }
+  circle(svg, options); // add the points
 
   let ids = `#${options.id}`;
 

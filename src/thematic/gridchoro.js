@@ -3,7 +3,7 @@ import { render } from "../container/render";
 import { unique } from "../helpers/utils";
 
 /**
- * @function plot/gridchoro
+ * @function gridchoro
  * @description Draw a choropleth map based on a grid aggregation.<br/><br/>
  * The function first generates a grid from the input data (see {@link tool/grid} for detailed grid options),
  * then aggregates values within each cell and displays them as a choropleth layer.
@@ -48,7 +48,7 @@ import { unique } from "../helpers/utils";
  *   ratio_factor: 100
  * });
  */
-export function plot_gridchoro(arg1, arg2) {
+export function gridchoro(arg1, arg2) {
   let newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
     !arguments[0]?._groups

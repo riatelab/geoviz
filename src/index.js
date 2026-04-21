@@ -134,10 +134,20 @@ export { pattern } from "./mark/pattern.js";
 export { minimap } from "./mark/minimap.js";
 
 // Thematic
-export { choro } from "./plot/choro.js";
+export { choro } from "./thematic/choro.js";
+export { typo } from "./thematic/typo.js";
+export { prop } from "./thematic/prop.js";
+export { propchoro } from "./thematic/propchoro.js";
+export { proptypo } from "./thematic/proptypo.js";
+export { picto } from "./thematic/picto.js";
+export { smooth } from "./thematic/smooth.js";
+export { dotdensity } from "./thematic/dotdensity.js";
+export { gridprop } from "./thematic/gridprop.js";
+export { gridchoro } from "./thematic/gridchoro.js";
+export { bertin } from "./thematic/bertin.js";
 
 // Plot
-export { plot } from "./plot/plot.js";
+export { plot } from "./plot.js";
 
 //
 

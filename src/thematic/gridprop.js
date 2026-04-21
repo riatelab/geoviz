@@ -3,7 +3,7 @@ import { render } from "../container/render";
 import { unique } from "../helpers/utils";
 
 /**
- * @function plot/gridprop
+ * @function gridprop
  * @description Draw a proportional symbol map based on a grid aggregation.<br/><br/>
  * The function first generates a grid from the input data (see {@link tool/grid} for detailed grid options),
  * then displays values within each cell as proportional symbols.
@@ -33,7 +33,7 @@ import { unique } from "../helpers/utils";
  * @property {Array.<number>} [leg_pos = [10, 10]] - Position of the legend.
  * @property {string} [leg_title] - Title of the legend (defaults to `var`).
  * @property {*} [svg_*] - Parameters for the SVG container (e.g., `svg_width`, `svg_height`).
- * @property {*} [*] - You can also use all parameters available in the {@link plot/prop} function to customize the rendering. See also {@link tool/grid}.
+ * @property {*} [*] - You can also use all parameters available in the {@link prop} function to customize the rendering. See also {@link tool/grid}.
  *
  * @example // Basic usage
  * geoviz.plot({
@@ -53,7 +53,7 @@ import { unique } from "../helpers/utils";
  *   k: 20
  * });
  */
-export function plot_gridprop(arg1, arg2) {
+export function gridprop(arg1, arg2) {
   let newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
     !arguments[0]?._groups

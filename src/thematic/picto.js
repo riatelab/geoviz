@@ -1,10 +1,10 @@
 import { create } from "../container/create";
 import { render } from "../container/render";
 import { implantation, propertiesentries } from "../helpers/utils";
-import { picto } from "../helpers/picto";
+import { picto as pictolist } from "../helpers/picto";
 
 /**
- * @function plot/symbol
+ * @function picto
  * @description With the `plot({type = "symbol"})` function, you can quickly draw a layer with symbols.<br/><br/>
  * ![choro](img/thumb_symbols.svg)
  * @see {@link https://observablehq.com/@neocartocnrs/symbols}
@@ -19,9 +19,10 @@ import { picto } from "../helpers/picto";
  * @property {*} [leg_*] - You can also modify a wide range of parameters to customize the legend. To do this, you can use all the parameters of the [legend.typo_horizontal](#legend/typo_horizontal) and [legend.typo_vertical](#legend/typo_vertical) functions with the prefix `"leg_"`. For example: `leg_missing_text: "not available"` or `leg_values_fill: "red"`.
  * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
  * @example // Usage
- * geoviz.plot({type:"symbol", data: usa, var: "states"})
+ * geoviz.plot({type:"picto", data: usa, var: "regions"})
+ * geoviz.picto({data: usa, var: "regions"})
  */
-export async function plot_symbol(arg1, arg2) {
+export async function picto(arg1, arg2) {
   let newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
     !arguments[0]?._groups
@@ -82,7 +83,7 @@ export async function plot_symbol(arg1, arg2) {
 
   let fieldtosymbol = getsymb(
     opts.order || opts.data.features.map((d) => d.properties[opts.symbol]),
-    { symbols: opts.symbols, missing: opts.missing, picto },
+    { symbols: opts.symbols, missing: opts.missing, picto: pictolist },
   );
 
   opts.symbols = opts.symbols
@@ -157,11 +158,12 @@ export async function plot_symbol(arg1, arg2) {
 
 function getsymb(
   data,
-  { symbols = undefined, missing = "missing", picto } = {},
+  { symbols = undefined, missing = "missing", picto: pictolist } = {},
 ) {
   let arr = data.filter((d) => d !== "" && d != null && d != undefined);
   let types = Array.from(new Set(arr));
-  const arrsymb = symbols || picto.slice(0, types.length).map((d) => d.name);
+  const arrsymb =
+    symbols || pictolist.slice(0, types.length).map((d) => d.name);
 
   const symbolmap = new Map(types.map((d, i) => [d, arrsymb[i]]));
 

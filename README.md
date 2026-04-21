@@ -12,20 +12,6 @@
 
 🌳 **Thematic** ✒️ **Vectorial** 👆 **Interactive** ♻️ **Interoperable** 🔎 **Zoomable**
 
-## Installation
-
-In the browser
-
-``` html
-<script src="https://cdn.jsdelivr.net/npm/geoviz" charset="utf-8"></script>
-```
-
-In Observable
-
-``` js
-geoviz = require("geoviz")
-```
-
 ## Documentation
 
 -   [API documentation](https://riatelab.github.io/geoviz)

@@ -1,33 +1,38 @@
-import { typo } from "../tool/typo";
+import { choro as toolchoro } from "../tool/choro";
 import { create } from "../container/create";
 import { path } from "../mark/path";
 import { render } from "../container/render";
-import { typo_vertical } from "../legend/typo-vertical";
-import { typo_horizontal } from "../legend/typo-horizontal";
+import { choro_vertical } from "../legend/choro-vertical";
+import { choro_horizontal } from "../legend/choro-horizontal";
 import { implantation, columns, unique } from "../helpers/utils";
 
 /**
- * @function plot/typo
- * @description With the `plot({type = "typo"})` function, you can quickly draw a typlogy from qualitative data.<br/><br/>
- * ![choro](img/thumb_typo.svg)
- * @see {@link https://observablehq.com/@neocartocnrs/typo}
+ * @function choro
+ * @description With the `plot({type = "choro"})` function, you can quickly draw a choropleth map.<br/><br/>
+ * ![choro](img/thumb_choro.svg)
+ * @see {@link https://observablehq.com/@neocartocnrs/choropleth}
  * @property {object} data - GeoJSON FeatureCollection. Use data to be able to iterate
  * @property {string} var - a variable name in a geoJSON containig numeric values. You can also use `fill` or `stroke` argument.
- * @property {string|array} [colors] - an array of colors or name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library). For example : "Antique", "Bold", "Pastel", "Prism", "Safe", "Vivid", "Accent", "Dark2", "Paired", "Pastel1", "Pastel2", "Set1", "Set2", "Set3"
- * @property {array} [order] - an array of values qualitative values.
- * @property {boolean} [alphabetical = true] - to order the items in the legend in alphabetical order
+ * @property {string} [method = quantile] - classification method ('quantile', 'q6', 'equal', 'jenks', 'msd', 'geometric', 'headtail', 'pretty', 'arithmetic' or 'nestedmeans').
+ * @property {number} [nb = 6] - number of classes
+ * @property {array} [breaks] - you can define classes manually. In this case, the parameters `nb` and `method` are not taken into account.
+ * @property {string|array} [colors] - an array of colors or name of a color palette available in [dicopal](https://observablehq.com/@neocartocnrs/dicopal-library). For example "ArmyRose", "Earth", "Fall", "Geyser", "TealRose", "Temps", "Tropic", "BluGrn", "BluYl", "BrwnYl", "BurgYl", "Burg", "DarkMint", "Emrld", "Magenta", "Mint", "OrYel", "Peach", "PinkYl", "PurpOr"...
+ * @property {boolean} [reverse = false] - reverse the color palette
  * @property {string|boolean} [missing = "white"] - missing data color
  * @property {boolean} [legend = true] - boolean to add or not the legend
+ * @property {boolean} [middle = false] - Only for the MSD method: is the mean in a central class or not?
+ * @property {number} [sd = 1] - Only for the MSD method: the number of standard deviations taken into account
  * @property {string} [leg_type = "vertical"] - legend orientation ("horizontal" or "vertical")
  * @property {array} [leg_pos = [10, 10]] - position of the legend
- * @property {*} [*] - You can also modify numerous parameters to customize the map. To do this, you can use all the parameters of the [path](#path) and [tool.typo](#tool/typo) functions. For example: `strokeWidth: 0.3`.
- * @property {*} [leg_*] - You can also modify a wide range of parameters to customize the legend. To do this, you can use all the parameters of the [legend.typo_horizontal](#legend/typo_horizontal) and [legend.typo_vertical](#legend/typo_vertical) functions with the prefix `"leg_"`. For example: `leg_missing_text: "not available"` or `leg_values_fill: "red"`.
+ * @property {*} [*] - You can also modify numerous parameters to customize the map. To do this, you can use all the parameters of the [path](#path) and [tool.choro](#tool/choro) functions. For example: `strokeWidth: 0.3`.
+ * @property {*} [leg_*] - You can also modify a wide range of parameters to customize the legend. To do this, you can use all the parameters of the [legend.choro_horizontal](#legend/choro_horizontal) and [legend.choro_vertical](#legend/choro_vertical) functions with the prefix `"leg_"`. For example: `leg_missing_text: "not available"` or `leg_values_fill: "red"`.
  * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
  * @example // Usage
- * geoviz.plot({type:"typo", data: usa, var: "states"})
+ * geoviz.plot({type:"choro", data: world, var: "gdppc"})
+ * geoviz.choro({data: world, var: "gdppc"})
  */
 
-export async function plot_typo(arg1, arg2) {
+export async function choro(arg1, arg2) {
   let newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
     !arguments[0]?._groups
@@ -44,11 +49,11 @@ export async function plot_typo(arg1, arg2) {
     leg_type: "vertical",
     leg_pos: [10, 10],
   };
+
   opts = { ...opts, ...options };
 
   // leg title
   opts.leg_title = opts.leg_title ? opts.leg_title : opts.var;
-
   // New container
   let svgopts = { domain: opts.data || opts.datum };
   Object.keys(opts)
@@ -92,11 +97,21 @@ export async function plot_typo(arg1, arg2) {
 
   // classif
   opts.missing_fill = opts.missing;
-  let classif = typo(
-    opts.order || opts["data"].features.map((d) => d.properties[opts.var]),
+  let classif = toolchoro(
+    opts["data"].features.map((d) => d.properties[opts.var]),
     Object.fromEntries(
       Object.entries(opts).filter(([key]) =>
-        ["colors", "missing", "missing_fill"].includes(key),
+        [
+          "method",
+          "breaks",
+          "colors",
+          "nb",
+          "sd",
+          "reverse",
+          "middle",
+          "precision",
+          "missing_fill",
+        ].includes(key),
       ),
     ),
   );
@@ -122,33 +137,30 @@ export async function plot_typo(arg1, arg2) {
   let ids = `#${opts.id}`;
 
   // Legend
-
-  console.log(opts.id);
-
   if (opts.legend) {
     let legopts = {};
     Object.keys(opts)
       .filter(
         (str) =>
           str.slice(0, 4) == "leg_" ||
-          ["alphabetical", "missing"].includes(str),
+          ["k", "fixmax", "missing", "id"].includes(str),
       )
       .forEach((d) =>
         Object.assign(legopts, {
           [d.slice(0, 4) == "leg_" ? d.slice(4) : d]: opts[d],
         }),
       );
+    legopts.id = "leg_" + legopts.id;
+
     let funclegend =
-      opts.leg_type == "vertical" ? typo_vertical : typo_horizontal;
+      opts.leg_type == "vertical" ? choro_vertical : choro_horizontal;
     funclegend(svg, {
+      ...legopts,
       missing: opts.missing === false ? false : true,
       missing_fill: opts.missing,
-      alphabetical: opts.alphabetical,
       pos: opts.leg_pos,
-      types: classif.types,
+      breaks: classif.breaks,
       colors: classif.colors,
-      ...legopts,
-      id: "leg_" + opts.id,
     });
     ids = [`#${opts.id}`, `#${legopts.id}`];
   }

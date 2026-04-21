@@ -1,7 +1,7 @@
 import { contour } from "../mark/contour";
 
 /**
- * @function plot/smooth
+ * @function smooth
  * @description
  * `plot({type = "smooth"})` is a convenient wrapper around `contour` to generate and display **smoothed density contours** (isobands) from a set of points.
  *
@@ -38,8 +38,9 @@ import { contour } from "../mark/contour";
  *
  * @example
  * geoviz.plot({type:"smooth", data: cities, var: "pop"})
+ * geoviz.smooth({data: cities, var: "pop"})
  */
-export function plot_smooth(arg1, arg2) {
+export function smooth(arg1, arg2) {
   const newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
     !arguments[0]?._groups;

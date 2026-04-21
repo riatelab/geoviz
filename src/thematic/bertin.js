@@ -5,8 +5,8 @@ import { square, polygonstogrid, project } from "geogrid";
 const geogrid = { square, polygonstogrid, project };
 
 /**
- * @function plot/bertin
- * @deprecated Use {@link plot/gridprop} instead.
+ * @function bertin
+ * @deprecated Use {@link gridprop} instead.
  * @description With the `plot({type = "bertin"})` function, you can quickly draw a map with bertin dots<br/><br/>
  * @see {@link https://observablehq.com/@neocartocnrs/bertin-dots}
  * @property {object} data - GeoJSON FeatureCollection (polygons or multi-polygons).
@@ -27,7 +27,7 @@ const geogrid = { square, polygonstogrid, project };
  * @example // Usage
  * geoviz.plot({type:"bertin", data: world, var: "pop"})
  */
-export function plot_bertin(arg1, arg2) {
+export function bertin(arg1, arg2) {
   let newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
     !arguments[0]?._groups

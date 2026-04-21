@@ -61,9 +61,19 @@ import { render as addrender } from "../container/render";
 import { exportSVG as addexportSVG } from "../container/export";
 import { exportPNG as addexportPNG } from "../container/export";
 
-import { choro as addchoro } from "../plot/choro.js";
+import { choro as addchoro } from "../thematic/choro.js";
+import { typo as addtypo } from "../thematic/typo.js";
+import { prop as addprop } from "../thematic/prop.js";
+import { propchoro as addpropchoro } from "../thematic/propchoro.js";
+import { proptypo as addproptypo } from "../thematic/proptypo.js";
+import { picto as addpicto } from "../thematic/picto.js";
+import { smooth as addsmooth } from "../thematic/smooth.js";
+import { dotdensity as adddotdensity } from "../thematic/dotdensity.js";
+import { gridprop as addgridprop } from "../thematic/gridprop.js";
+import { gridchoro as addgridchoro } from "../thematic/gridchoro.js";
+import { bertin as addbertin } from "../thematic/bertin.js";
 
-import { plot as addplot } from "../plot/plot.js";
+import { plot as addplot } from "../plot.js";
 
 /**
  * @function create
@@ -245,6 +255,16 @@ export function create({
     { id: "pattern", func: addpattern },
     { id: "minimap", func: addminimap },
     { id: "choro", func: addchoro },
+    { id: "typo", func: addtypo },
+    { id: "prop", func: addprop },
+    { id: "propchoro", func: addpropchoro },
+    { id: "proptypo", func: addproptypo },
+    { id: "picto", func: addpicto },
+    { id: "smooth", func: addsmooth },
+    { id: "dotdensity", func: adddotdensity },
+    { id: "gridprop", func: addgridprop },
+    { id: "gridchoro", func: addgridchoro },
+    { id: "bertin", func: addbertin },
   ].forEach(
     (d) =>
       (mark[d.id] = function () {

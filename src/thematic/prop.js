@@ -3,7 +3,7 @@ import { render } from "../container/render";
 import { implantation, unique } from "../helpers/utils";
 
 /**
- * @function plot/prop
+ * @function prop
  * @description With the `plot({type = "prop"})` function, you can quickly draw a map with proportionnal symbols.<br/><br/>
  * @see {@link https://observablehq.com/@neocartocnrs/prop}
  * @property {object} data - GeoJSON FeatureCollection. Use data to be able to iterate
@@ -22,9 +22,10 @@ import { implantation, unique } from "../helpers/utils";
  * @property {*} [svg_*]  - *parameters of the svg container created if the layer is not called inside a container (e.g svg_width)*
  * @example // Usage
  * geoviz.plot({type:"prop", data: world, var: "pop"})
+ * geoviz.prop({data: world, var: "pop"})
  */
 
-export async function plot_prop(arg1, arg2) {
+export async function prop(arg1, arg2) {
   let newcontainer =
     (arguments.length <= 1 || arguments[1] == undefined) &&
     !arguments[0]?._groups
