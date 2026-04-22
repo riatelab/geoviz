@@ -6,7 +6,8 @@ import {
 } from "geotoolbox";
 
 /**
- * Simplify GeoJSON with optional validity and rewind
+ * @function tool/cleangeometry
+ * @description Simplify GeoJSON with optional validity and rewind
  * @property {GeoJSON} data FeatureCollection
  * @property {Object} options
  * @property {number|string|boolean} [options.k] - simplification factor or 'auto'
