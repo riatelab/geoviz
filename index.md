@@ -178,7 +178,7 @@ Use whichever one you prefer.
 
 > *Vanilla JS: [Tiles](https://riatelab.github.io/geoviz/examples/tiles.html)*
 
-# Map Decorations and Annotations
+# Map Decorations
 
 <img src = "img/layout.svg" width = 300></img>
 
