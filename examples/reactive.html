@@ -1,9 +1,3 @@
-<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script
-  src="https://cdn.jsdelivr.net/npm/geoviz@0.7.9"
-  charset="utf-8"
-></script>
-
 <div>
   <input type="range" id="size" name="volume" min="10" max="100" value="50" />
   <label for="size" id="labelsize">Radius max (50)</label>
@@ -13,7 +7,9 @@
   <label for="dodge">Dodge circles</label>
 </div>
 
-<script>
+<script type="module">
+  import * as geoviz from "https://cdn.jsdelivr.net/npm/geoviz/+esm";
+  import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
   let geojson = "./world.json";
 
   d3.json(geojson).then((data) => {
@@ -51,9 +47,8 @@
     drawCircles();
 
     slider.addEventListener("input", function () {
-      document.getElementById(
-        "labelsize"
-      ).innerHTML = `Radius max (${slider.value})`;
+      document.getElementById("labelsize").innerHTML =
+        `Radius max (${slider.value})`;
       drawCircles();
     });
 

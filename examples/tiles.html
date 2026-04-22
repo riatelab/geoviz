@@ -1,9 +1,6 @@
-<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script
-  src="https://cdn.jsdelivr.net/npm/geoviz@0.7.9"
-  charset="utf-8"
-></script>
-<script>
+<script type="module">
+  import * as geoviz from "https://cdn.jsdelivr.net/npm/geoviz/+esm";
+  import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
   let geojson = "./world.json";
   d3.json(geojson).then((data) => {
     let svg = geoviz.create({ projection: "mercator", zoomable: true });
