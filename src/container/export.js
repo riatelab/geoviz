@@ -2,17 +2,11 @@ import { render } from "./render.js";
 
 /**
  * @function exportSVG
- * @description The `exportSVG` function returns the svg document as a file.
- * @see {@link https://observablehq.com/@neocartocnrs/geoviz}
- *
- * @property {SVGSVGElement} svg - SVG container to display. This can be generated using the `create` function.
- * @property {object[]} [order = []] - array determining the order of layers. This option is only useful in Observable notebooks (because of its topological nature).
- * @property {string} [filename = "map.svg"] - name of the downloaded file
- * @example
- * geoviz.exportSVG(svg, {filename: "worldmap.svg"}) // where svg is the container
- * svg.exportSVG({filename: "worldmap.svg"}}) // where svg is the container
  */
-export function exportSVG(svg, { order = [], filename = "map.svg" } = {}) {
+export function exportSVG(
+  svg,
+  { order = [], filename = "map.svg", font = null } = {},
+) {
   const NS = "http://www.w3.org/2000/svg";
   const XLINK = "http://www.w3.org/1999/xlink";
   const INK = "http://www.inkscape.org/namespaces/inkscape";
@@ -30,6 +24,9 @@ export function exportSVG(svg, { order = [], filename = "map.svg" } = {}) {
   clone.setAttribute("xmlns:sodipodi", SODIPODI);
   clone.setAttribute("xmlns:layer", ADOBE);
 
+  // 👉 EMBED FONT
+  if (font) embedFont(clone, font);
+
   clone.querySelectorAll("g[data-layer]").forEach((g) => {
     const layerName = g.getAttribute("data-layer") || "layer";
 
@@ -42,110 +39,134 @@ export function exportSVG(svg, { order = [], filename = "map.svg" } = {}) {
   });
 
   const tooltipLayer = clone.querySelector("g#geoviztooltip");
-  if (tooltipLayer) {
-    tooltipLayer.remove();
-  }
+  if (tooltipLayer) tooltipLayer.remove();
 
-  const serializer = new XMLSerializer();
-  const svgString = serializer.serializeToString(clone);
+  const svgString = new XMLSerializer().serializeToString(clone);
 
-  const blob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
+  const blob = new Blob([svgString], {
+    type: "image/svg+xml;charset=utf-8",
+  });
 
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
+  downloadBlob(blob, filename);
 }
 
 /**
  * @function exportPNG
- * @description The `exportPNG` function returns the map as a png file.
- * @see {@link https://observablehq.com/@neocartocnrs/geoviz}
- *
- * @property {SVGSVGElement} svg - SVG container to display. This can be generated using the `create` function.
- * @property {object[]} [order = []] - array determining the order of layers. This option is only useful in Observable notebooks (because of its topological nature).
- * @property {Number} [scale = 3] - a number to enlarge the generated map and increase its resolution
- * @property {string} [filename = "map.png"] - name of the downloaded file
- * @example
- * geoviz.exportPNG(svg, {filename: "worldmap.png"}) // where svg is the container
- * svg.exportPNG({filename: "worldmap.png"}}) // where svg is the container
  */
-export async function exportPNG(svg, { filename = "map.png", scale = 3 } = {}) {
+export async function exportPNG(
+  svg,
+  { filename = "map.png", scale = 3, font = null } = {},
+) {
   const svgNode = render(svg);
   const clone = svgNode.cloneNode(true);
+
+  // 👉 EMBED FONT
+  if (font) embedFont(clone, font);
 
   let width = parseFloat(clone.getAttribute("width"));
   let height = parseFloat(clone.getAttribute("height"));
 
-  // Si width ou height sont manquants, calcul via BBox
   if (!width || !height) {
     try {
       const bbox = clone.getBBox?.() || { width: 800, height: 600 };
       width = bbox.width;
       height = bbox.height;
-    } catch (err) {
-      console.warn("Impossible de récupérer le BBox du SVG", err);
+    } catch {
       width = 800;
       height = 600;
     }
   }
 
-  // Fixe le `viewBox` si absent pour que le rendu soit cohérent
   if (!clone.hasAttribute("viewBox") && width && height) {
     clone.setAttribute("viewBox", `0 0 ${width} ${height}`);
   }
 
-  // Sérialise le SVG en string
   const svgString = new XMLSerializer().serializeToString(clone);
   const svgBlob = new Blob([svgString], {
     type: "image/svg+xml;charset=utf-8",
   });
+
   const url = URL.createObjectURL(svgBlob);
 
   const img = new Image();
   img.crossOrigin = "anonymous";
 
+  // 👉 important pour les fonts
+  if (document.fonts) {
+    await document.fonts.ready;
+  }
+
   return new Promise((resolve, reject) => {
     img.onload = () => {
-      // Crée un canvas et y dessine l'image SVG
       const canvas = document.createElement("canvas");
       canvas.width = width * scale;
       canvas.height = height * scale;
 
       const ctx = canvas.getContext("2d");
+
       ctx.fillStyle = "white";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-      // Exporte le canvas en blob PNG
       canvas.toBlob((blob) => {
         if (!blob) {
-          reject(new Error("Échec de conversion en PNG"));
+          reject(new Error("PNG conversion failed"));
           return;
         }
 
-        const pngUrl = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = pngUrl;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(pngUrl);
+        downloadBlob(blob, filename);
         URL.revokeObjectURL(url);
         resolve();
       }, "image/png");
     };
 
-    img.onerror = (err) => {
+    img.onerror = () => {
       URL.revokeObjectURL(url);
-      reject(new Error("Erreur chargement image SVG"));
+      reject(new Error("SVG image load error"));
     };
 
     img.src = url;
   });
+}
+
+/* =========================
+   Helpers
+========================= */
+
+function embedFont(svg, { fontName = "CustomFont", base64, format = "woff2" }) {
+  if (!base64) return;
+
+  let defs = svg.querySelector("defs");
+
+  if (!defs) {
+    defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+    svg.insertBefore(defs, svg.firstChild);
+  }
+
+  const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
+
+  style.textContent = `
+    @font-face {
+      font-family: '${fontName}';
+      src: url(data:font/${format};base64,${base64}) format('${format}');
+      font-weight: normal;
+      font-style: normal;
+    }
+  `;
+
+  defs.appendChild(style);
+}
+
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  URL.revokeObjectURL(url);
 }
