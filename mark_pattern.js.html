@@ -14,12 +14,6 @@ import { unique } from "../helpers/utils";
  * clipped to a GeoJSON geometry or the outline of the Earth (sphere).
  *
  * The function can either create a new SVG container or use an existing one.
- *
- * @property {object|SVGElement} arg1 - If creating a new pattern, this is the options object.
- *                                   If using an existing SVG container, this is the SVG element.
- * @property {object} [arg2] - Options object when using an existing SVG container.
- *
- * Options supported (all optional):
  * @property {string} [mark="pattern"] - Name of the mark/layer.
  * @property {string} [id] - Unique ID for the pattern. Default is generated automatically.
  * @property {number} [spacing=6] - Distance between pattern elements in pixels.
@@ -39,9 +33,6 @@ import { unique } from "../helpers/utils";
  * @property {string} [pattern="lines"] - Pattern type: "lines", "cross", "dots", "waves", "triangles", "zigzag".
  * @property {object|null} [data=null] - Optional GeoJSON object to clip the pattern.
  * @property {boolean} [clipOutline=false] - If true, pattern is clipped to the Earth outline.
- *
- * @returns {SVGElement|string} Returns the SVG node if creating a new container,
- *                              or the pattern ID selector (e.g., "#hatch123") if using an existing container.
  */
 export function pattern(arg1, arg2) {
   const newContainer = !arg2 &amp;&amp; !arg1?._groups;
