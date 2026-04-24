@@ -136,7 +136,7 @@ export function text(arg1, arg2) {
       svg.zoomablelayers.push(opts);
     } else {
       let i = svg.zoomablelayers.indexOf(
-        svg.zoomablelayers.find((d) => d.id == opts.id)
+        svg.zoomablelayers.find((d) => d.id == opts.id),
       );
       svg.zoomablelayers[i] = opts;
     }
@@ -147,8 +147,8 @@ export function text(arg1, arg2) {
   const notspecificattr = entries.filter(
     (d) =>
       !["mark", "id", "datum", "data", "coords", "sort", "descending"].includes(
-        d
-      )
+        d,
+      ),
   );
 
   // Simple text
@@ -197,7 +197,7 @@ export function text(arg1, arg2) {
         .attr("x", pos[0])
         .attr(
           "y",
-          (d, i) => pos[1] + i * (opts.fontSize + opts.lineSpacing) - delta
+          (d, i) => pos[1] + i * (opts.fontSize + opts.lineSpacing) - delta,
         )
         .text((d) => d)
         .attr("visibility", isNaN(pos[0]) ? "hidden" : "visible");
@@ -215,7 +215,7 @@ export function text(arg1, arg2) {
     // layer attributes
     let fields = propertiesentries(opts.data);
     const layerattr = notspecificattr.filter(
-      (d) => detectinput(opts[d], fields) == "value"
+      (d) => detectinput(opts[d], fields) == "value",
     );
     layerattr.forEach((d) => {
       layer.attr(camelcasetodash(d), opts[d]);
@@ -249,7 +249,7 @@ export function text(arg1, arg2) {
           .attr("y", (d) => path.centroid(d.geometry)[1])
           .text(opts.text)
           .attr("visibility", (d) =>
-            isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
+            isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible",
           );
 
         eltattr.forEach((e) => {
