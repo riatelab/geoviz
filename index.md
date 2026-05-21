@@ -66,7 +66,7 @@ There are several steps involved in creating a map with geoviz.
 
 **1** - First, create the map container using the `create()` function. This is where you define the projection, margins, background color, etc. In short, all the general parameters of the map.
 
-**2** The next step is to progressively add layers. A set of dedicated functions is available for this purpose. For instance, `path` adds a spatial dataframe, `graticule` draws latitude and longitude lines, `header` inserts a title, and `footer` adds a source note.
+**2** The next step is to progressively add layers. A set of dedicated functions is available for this purpose. For instance, `path` adds a geoJSON, `graticule` draws latitude and longitude lines, `header` inserts a title, and `footer` adds a source note.
 
 **3** - Then, the `render()` function displays the map
 
