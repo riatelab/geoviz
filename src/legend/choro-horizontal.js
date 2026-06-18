@@ -40,6 +40,8 @@ const d3 = Object.assign({}, { formatLocale });
  * @property {number} [values_factor = 1] - allow to multiply values to display in the legend. e.g 0.001 to convert into thousands
  * @property {string} [values_decimal = "."] - separator for decimals
  * @property {string} [values_thousands = " "] -  separator for thousands
+ * @property {boolean} [values_show_min = true] - Display the minimum value label.
+ * @property {boolean} [values_show_max = true] - Display the maximum value label.
  * @property {string} [title = "Legend"] - title of the legend
  * @property {string} [title_fill = "#363636"] - title color
  * @property {string} [title_fontSize = 16] - title font size
@@ -88,6 +90,8 @@ export function choro_horizontal(arg1, arg2) {
     values_dy: 5,
     rect_width: 50,
     rect_height: 14,
+    values_show_min: true,
+    values_show_max: true,
   };
   let opts = manageoptions(options, newcontainer ? arg1 : arg2, svg.fontFamily);
 
@@ -121,11 +125,11 @@ export function choro_horizontal(arg1, arg2) {
   let size = getsize(layer);
   const opts_values = Object.assign(
     subsetobj(opts, { prefix: "values_" }),
-    subsetobj(opts, { prefix: "text_" })
+    subsetobj(opts, { prefix: "text_" }),
   );
 
   Object.entries(opts_values).forEach((d) =>
-    values.attr(camelcasetodash(d[0]), d[1])
+    values.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Boxes
@@ -135,7 +139,7 @@ export function choro_horizontal(arg1, arg2) {
     exclude: ["fill", "width", "height", "spacing"],
   });
   Object.entries(opts_rect).forEach((d) =>
-    rect.attr(camelcasetodash(d[0]), d[1])
+    rect.attr(camelcasetodash(d[0]), d[1]),
   );
 
   let posy = opts.pos[1] + size.height + opts.gap + opts.rect_dy;
@@ -154,21 +158,38 @@ export function choro_horizontal(arg1, arg2) {
 
   // Values
   size = getsize(layer);
+
+  const vals = (
+    !opts.reverse
+      ? roundarray(opts.breaks, opts.values_round)
+      : roundarray(opts.breaks.slice().reverse(), opts.values_round)
+  )
+    .map((d, i, arr) => ({ d, i, n: arr.length }))
+    .filter(({ i, n }) => {
+      if (!opts.reverse) {
+        return (
+          (opts.values_show_min || i > 0) && (opts.values_show_max || i < n - 1)
+        );
+      }
+
+      return (
+        (opts.values_show_max || i > 0) && (opts.values_show_min || i < n - 1)
+      );
+    });
+
   values
     .selectAll("text")
-    .data(
-      !opts.reverse
-        ? roundarray(opts.breaks, opts.values_round)
-        : roundarray(opts.breaks.slice().reverse(), opts.values_round)
-    )
+    .data(vals)
     .join("text")
     .attr(
       "x",
-      (d, i) =>
-        opts.pos[0] + i * (opts.rect_width + opts.rect_spacing) + opts.values_dx
+      ({ i }) =>
+        opts.pos[0] +
+        i * (opts.rect_width + opts.rect_spacing) +
+        opts.values_dx,
     )
     .attr("y", opts.pos[1] + size.height + opts.gap + opts.values_dy)
-    .text((d) => locale.format(",")(d));
+    .text(({ d }) => locale.format(",")(d));
 
   // Missing
   if (opts.missing) {
@@ -180,7 +201,7 @@ export function choro_horizontal(arg1, arg2) {
     opts_rect.y = size.y + size.height + opts.gap + opts_rect.dy + opts.gap;
     let box = missing.append("rect");
     Object.entries(opts_rect).forEach((d) =>
-      box.attr(camelcasetodash(d[0]), d[1])
+      box.attr(camelcasetodash(d[0]), d[1]),
     );
 
     opts_values.text = opts.missing_text;

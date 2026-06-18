@@ -40,6 +40,8 @@ const d3 = Object.assign({}, { formatLocale });
  * @property {number} [values_factor = 1] - allow to multiply values to display in the legend. e.g 0.001 to convert into thousands
  * @property {string} [values_decimal = "."] - separator for decimals
  * @property {string} [values_thousands = " "] -  separator for thousands
+ * @property {boolean} [values_show_min = true] - Display the minimum value label.
+ * @property {boolean} [values_show_max = true] - Display the maximum value label.
  * @property {*} [values_*] - *SVG attributes that can be applied on this text element (fill, fontSize...)*
  * @property {string} [title = "Legend"] - title of the legend
  * @property {string} [title_fill = "#363636"] - title color
@@ -83,6 +85,8 @@ export function choro_vertical(arg1, arg2) {
   const options = {
     breaks: [1, 2, 3, 4, 5],
     colors: ["#fee5d9", "#fcae91", "#fb6a4a", "#cb181d"],
+    values_show_min: true,
+    values_show_max: true,
   };
   let opts = manageoptions(options, newcontainer ? arg1 : arg2, svg.fontFamily);
 
@@ -123,18 +127,32 @@ export function choro_vertical(arg1, arg2) {
     values.attr(camelcasetodash(d[0]), d[1]),
   );
 
+  const vals = (
+    opts.reverse
+      ? roundarray(opts.breaks, opts.values_round)
+      : roundarray(opts.breaks.slice().reverse(), opts.values_round)
+  )
+    .map((d, i, arr) => ({ d, i, n: arr.length }))
+    .filter(({ i, n }) => {
+      if (opts.reverse) {
+        return (
+          (opts.values_show_min || i > 0) && (opts.values_show_max || i < n - 1)
+        );
+      }
+
+      return (
+        (opts.values_show_max || i > 0) && (opts.values_show_min || i < n - 1)
+      );
+    });
+
   values
     .selectAll("text")
-    .data(
-      opts.reverse
-        ? roundarray(opts.breaks, opts.values_round)
-        : roundarray(opts.breaks.slice().reverse(), opts.values_round),
-    )
+    .data(vals)
     .join("text")
     .attr("x", opts.pos[0] + opts.rect_width + opts.values_dx)
     .attr(
       "y",
-      (d, i) =>
+      ({ i }) =>
         opts.pos[1] +
         opts.values_fontSize / 2 +
         size.height +
@@ -142,7 +160,7 @@ export function choro_vertical(arg1, arg2) {
         opts.values_dy +
         i * (opts.rect_height + opts.rect_spacing),
     )
-    .text((d) => locale.format(",")(d));
+    .text(({ d }) => locale.format(",")(d));
 
   // Boxes
   let rect = layer.append("g");
