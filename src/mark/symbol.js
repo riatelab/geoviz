@@ -3,10 +3,10 @@ import { max, descending } from "d3-array";
 import { geoPath, geoIdentity } from "d3-geo";
 const d3 = Object.assign(
   {},
-  { scaleSqrt, max, descending, geoPath, geoIdentity }
+  { scaleSqrt, max, descending, geoPath, geoIdentity },
 );
 import { picto } from "../helpers/picto";
-import { create } from "../container/create";
+import { create } from "../container/create-lite";
 import { render } from "../container/render";
 import { random } from "../tool/random";
 import { radius as computeradius } from "../tool/radius";
@@ -145,7 +145,7 @@ export function symbol(arg1, arg2) {
       svg.zoomablelayers.push(opts);
     } else {
       let i = svg.zoomablelayers.indexOf(
-        svg.zoomablelayers.find((d) => d.id == opts.id)
+        svg.zoomablelayers.find((d) => d.id == opts.id),
       );
       svg.zoomablelayers[i] = opts;
     }
@@ -171,7 +171,7 @@ export function symbol(arg1, arg2) {
         "tip",
         "tipstyle",
         "pos",
-      ].includes(d)
+      ].includes(d),
   );
 
   // Background attributes
@@ -182,7 +182,7 @@ export function symbol(arg1, arg2) {
     .forEach((d) =>
       Object.assign(backgroundopts, {
         [d.slice(0, 11) == "background_" ? d.slice(11) : d]: opts[d],
-      })
+      }),
     );
 
   // Symbol
@@ -233,7 +233,7 @@ export function symbol(arg1, arg2) {
         "transform",
         `translate(${pos}) rotate(${opts.rotate}) scale(${
           opts.scale || opts.r / factor
-        }) skewX(${opts.skewX}) skewY(${opts.skewY})`
+        }) skewX(${opts.skewX}) skewY(${opts.skewY})`,
       )
       .attr("vector-effect", "non-scaling-stroke")
       .attr("visibility", isNaN(pos[0]) ? "hidden" : "visible");
@@ -254,7 +254,7 @@ export function symbol(arg1, arg2) {
     // layer attributes
     let fields = propertiesentries(opts.data);
     const layerattr = notspecificattr.filter(
-      (d) => detectinput(opts[d], fields) == "value"
+      (d) => detectinput(opts[d], fields) == "value",
     );
     layerattr.forEach((d) => {
       layer.attr(camelcasetodash(d), opts[d]);
@@ -282,7 +282,7 @@ export function symbol(arg1, arg2) {
         features: data.features
           .filter((d) => !isNaN(d3.geoPath(projection).centroid(d.geometry)[0]))
           .filter(
-            (d) => !isNaN(d3.geoPath(projection).centroid(d.geometry)[1])
+            (d) => !isNaN(d3.geoPath(projection).centroid(d.geometry)[1]),
           ),
       };
 
@@ -314,7 +314,7 @@ export function symbol(arg1, arg2) {
 
     let fieldtosymbol = getsymb(
       opts.order || opts.data.features.map((d) => d.properties[opts.symbol]),
-      { symbols: opts.symbols, missing: opts.missing, picto }
+      { symbols: opts.symbols, missing: opts.missing, picto },
     );
 
     function attr2symbol(attr, { columns, pictoname, symb } = {}) {
@@ -372,7 +372,7 @@ export function symbol(arg1, arg2) {
             .attr("stroke", "none")
             .attr("transform", (d) => `translate(${path.centroid(d.geometry)})`)
             .attr("visibility", (d) =>
-              isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
+              isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible",
             );
           let m = mysymbol
             .append("circle")
@@ -383,7 +383,7 @@ export function symbol(arg1, arg2) {
             .attr("vector-effect", "non-scaling-stroke")
             .attr("transform", (d) => `translate(${path.centroid(d.geometry)})`)
             .attr("visibility", (d) =>
-              isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
+              isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible",
             );
           Object.entries(backgroundopts)
             .map((d) => d[0])
@@ -403,10 +403,10 @@ export function symbol(arg1, arg2) {
                 opts.rotate
               }) scale(${opts.scale || radius(d, opts.r) / factor}) skewX(${
                 opts.skewX
-              }) skewY(${opts.skewY})`
+              }) skewY(${opts.skewY})`,
           )
           .attr("visibility", (d) =>
-            isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
+            isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible",
           );
 
         eltattr.forEach((e) => {
@@ -423,7 +423,7 @@ export function symbol(arg1, arg2) {
         opts.tip,
         opts.tipstyle,
         fields,
-        opts.view
+        opts.view,
       );
     }
   }
@@ -453,7 +453,7 @@ function attr2radius(attr, { columns, geojson, fixmax, k } = {}) {
         {
           fixmax,
           k,
-        }
+        },
       );
       return (d, rr) => radius.r(d.properties[rr]);
     case "value":
@@ -463,7 +463,7 @@ function attr2radius(attr, { columns, geojson, fixmax, k } = {}) {
 
 function getsymb(
   data,
-  { symbols = undefined, missing = "missing", picto } = {}
+  { symbols = undefined, missing = "missing", picto } = {},
 ) {
   let arr = data.filter((d) => d !== "" && d != null && d != undefined);
   let types = Array.from(new Set(arr));

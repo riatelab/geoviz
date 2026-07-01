@@ -1,4 +1,4 @@
-import { create } from "../container/create";
+import { create } from "../container/create-lite";
 import { render } from "../container/render";
 import { geoCircle, geoPath, geoNaturalEarth1 } from "d3-geo";
 const d3 = Object.assign({}, { geoPath, geoCircle, geoNaturalEarth1 });

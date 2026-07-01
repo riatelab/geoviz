@@ -3,9 +3,9 @@ import { max, descending } from "d3-array";
 import { geoPath, geoIdentity } from "d3-geo";
 const d3 = Object.assign(
   {},
-  { scaleSqrt, max, descending, geoPath, geoIdentity }
+  { scaleSqrt, max, descending, geoPath, geoIdentity },
 );
-import { create } from "../container/create";
+import { create } from "../container/create-lite";
 import { render } from "../container/render";
 import { height as computeheight } from "../tool/height";
 import { centroid } from "../tool/centroid";
@@ -126,7 +126,7 @@ export function spike(arg1, arg2) {
       svg.zoomablelayers.push(opts);
     } else {
       let i = svg.zoomablelayers.indexOf(
-        svg.zoomablelayers.find((d) => d.id == opts.id)
+        svg.zoomablelayers.find((d) => d.id == opts.id),
       );
       svg.zoomablelayers[i] = opts;
     }
@@ -150,7 +150,7 @@ export function spike(arg1, arg2) {
         "tip",
         "tipstyle",
         "pos",
-      ].includes(d)
+      ].includes(d),
   );
 
   // Projection
@@ -172,8 +172,8 @@ export function spike(arg1, arg2) {
           pos[1] - opts.height * opts.straight
         },${pos[0]} ${pos[1] - opts.height}
      Q ${pos[0]}, ${pos[1] - opts.height * opts.straight} ${
-          pos[0] + opts.width / 2
-        },${pos[1]}`
+       pos[0] + opts.width / 2
+     },${pos[1]}`,
       )
       .attr("visibility", isNaN(pos[0]) ? "hidden" : "visible");
   } else {
@@ -195,7 +195,7 @@ export function spike(arg1, arg2) {
     // layer attributes
     let fields = propertiesentries(opts.data);
     const layerattr = notspecificattr.filter(
-      (d) => detectinput(opts[d], fields) == "value"
+      (d) => detectinput(opts[d], fields) == "value",
     );
     layerattr.forEach((d) => {
       layer.attr(camelcasetodash(d), opts[d]);
@@ -224,10 +224,10 @@ export function spike(arg1, arg2) {
             path.centroid(d.geometry)[1] - opts.height
           }
          Q ${path.centroid(d.geometry)[0]}, ${
-            path.centroid(d.geometry)[1] - opts.height * opts.straight
-          } ${path.centroid(d.geometry)[0] + opts.width / 2},${
-            path.centroid(d.geometry)[1]
-          }`;
+           path.centroid(d.geometry)[1] - opts.height * opts.straight
+         } ${path.centroid(d.geometry)[0] + opts.width / 2},${
+           path.centroid(d.geometry)[1]
+         }`;
         break;
       case "field":
         const yscale = computeheight(
@@ -235,7 +235,7 @@ export function spike(arg1, arg2) {
           {
             fixmax: opts.fixmax,
             k: opts.k,
-          }
+          },
         ).h;
 
         drawspike = (d) =>
@@ -248,11 +248,11 @@ export function spike(arg1, arg2) {
             path.centroid(d.geometry)[1] - yscale(d.properties[opts.height])
           }
          Q ${path.centroid(d.geometry)[0]}, ${
-            path.centroid(d.geometry)[1] -
-            yscale(d.properties[opts.height]) * opts.straight
-          } ${path.centroid(d.geometry)[0] + opts.width / 2},${
-            path.centroid(d.geometry)[1]
-          }`;
+           path.centroid(d.geometry)[1] -
+           yscale(d.properties[opts.height]) * opts.straight
+         } ${path.centroid(d.geometry)[0] + opts.width / 2},${
+           path.centroid(d.geometry)[1]
+         }`;
 
         break;
     }
@@ -278,7 +278,7 @@ export function spike(arg1, arg2) {
           .append("path")
           .attr("d", drawspike)
           .attr("visibility", (d) =>
-            isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
+            isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible",
           );
 
         eltattr.forEach((e) => {
@@ -296,7 +296,7 @@ export function spike(arg1, arg2) {
         opts.tip,
         opts.tipstyle,
         fields,
-        opts.view
+        opts.view,
       );
     }
   }

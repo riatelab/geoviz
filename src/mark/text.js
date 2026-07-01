@@ -1,6 +1,6 @@
 import { geoPath, geoIdentity, geoCentroid } from "d3-geo";
 const d3 = Object.assign({}, { geoPath, geoIdentity, geoCentroid });
-import { create } from "../container/create";
+import { create } from "../container/create-lite";
 import { render } from "../container/render";
 import { centroid } from "../tool/centroid";
 

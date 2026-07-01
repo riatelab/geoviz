@@ -22,7 +22,7 @@
  * geoviz.legend.gradient_vertical(svg, { pos: [10,20], colors, text_high:"Strong", text_low:"Weak" });
  * geoviz.legend.gradient_vertical({ pos: [10,20], colors, text_high:"High", text_low:"Low" }); // no container
  */
-import { create } from "../container/create";
+import { create } from "../container/create-lite.js";
 import { render } from "../container/render";
 import { camelcasetodash } from "../helpers/camelcase";
 import { getsize } from "../helpers/getsize";

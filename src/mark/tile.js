@@ -1,6 +1,6 @@
 import { tile as d3tile } from "d3-tile";
 import { geoMercator } from "d3-geo";
-import { create } from "../container/create";
+import { create } from "../container/create-lite";
 import { render } from "../container/render";
 import { unique } from "../helpers/utils";
 

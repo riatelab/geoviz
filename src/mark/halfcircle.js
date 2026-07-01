@@ -6,7 +6,7 @@ const d3 = Object.assign(
   {},
   { scaleSqrt, max, descending, geoPath, geoIdentity, arc },
 );
-import { create } from "../container/create";
+import { create } from "../container/create-lite";
 import { render } from "../container/render";
 import { random } from "../tool/random";
 import { radius as computeradius } from "../tool/radius";

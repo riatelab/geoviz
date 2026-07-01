@@ -81,6 +81,7 @@
   },
   "devDependencies": {
     "@jood/jsdoc-theme": "^0.1.14",
+    "@rollup/plugin-alias": "^6.0.0",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-node-resolve": "^15.2.3",

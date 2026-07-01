@@ -2,7 +2,7 @@ import { select } from "d3-selection";
 
 const d3 = Object.assign({}, { select });
 
-import { create } from "../container/create";
+import { create } from "../container/create-lite";
 import { render } from "../container/render";
 import { unique, getsize } from "../helpers/utils";
 

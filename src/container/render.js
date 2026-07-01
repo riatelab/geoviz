@@ -31,13 +31,13 @@ export function render(svg, { map, order = [] } = {}) {
   // Warning
   if (svg.data && svg.initproj == "none" && !svg.domain && svg.warning) {
     svg.warning_message.push(
-      `You must specify a projection and/or the domain in the SVG container`
+      `You must specify a projection and/or the domain in the SVG container`,
     );
   }
 
   if (svg.zoomable == "versor" && svg.initproj == "none" && svg.warning) {
     svg.warning_message.push(
-      `You must specify a projection tu use versor zooming`
+      `You must specify a projection tu use versor zooming`,
     );
   }
 

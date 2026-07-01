@@ -1,6 +1,6 @@
 import { geoPath, geoIdentity } from "d3-geo";
 const d3 = Object.assign({}, { geoPath, geoIdentity });
-import { create } from "../container/create";
+import { create } from "../container/create-lite.js";
 import { render } from "../container/render";
 import { tooltip } from "../helpers/tooltip";
 import { random } from "../tool/random";

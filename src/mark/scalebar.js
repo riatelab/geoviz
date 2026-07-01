@@ -1,7 +1,7 @@
 import * as geoScaleBar from "d3-geo-scale-bar";
 import { geoNaturalEarth1 } from "d3-geo";
 const d3 = Object.assign({ geoNaturalEarth1 }, geoScaleBar);
-import { create } from "../container/create";
+import { create } from "../container/create-lite";
 import { render } from "../container/render";
 import { unique, camelcasetodash } from "../helpers/utils";
 

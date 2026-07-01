@@ -15,7 +15,7 @@ const d3 = Object.assign(
 );
 
 import { outline as addoutline } from "../mark/outline.js";
-import { sketch as addsketch } from "../mark/sketch.js";
+// import { sketch as addsketch } from "../mark/sketch.js";
 import { graticule as addgraticule } from "../mark/graticule.js";
 import { text as addtext } from "../mark/text.js";
 import { circle as addcircle } from "../mark/circle.js";
@@ -40,7 +40,7 @@ import { earth as addearth } from "../mark/earth.js";
 import { empty as addempty } from "../mark/empty.js";
 import { minimap as addminimap } from "../mark/minimap.js";
 import { symbol as addsymbol } from "../mark/symbol.js";
-import { grid as addgrid } from "../tool/grid.js";
+// import { grid as addgrid } from "../tool/grid.js";
 
 import { circles_nested as addcircles_nested } from "../legend/circles-nested.js";
 import { circles as addcircles } from "../legend/circles.js";
@@ -58,8 +58,8 @@ import { symbol_vertical as addsymbol_vertical } from "../legend/symbol-vertical
 import { symbol_horizontal as addsymbol_horizontal } from "../legend/symbol-horizontal.js";
 import { box as addbox } from "../legend/box.js";
 import { render as addrender } from "./render.js";
-import { exportSVG as addexportSVG } from "./export.js";
-import { exportPNG as addexportPNG } from "./export.js";
+import { exportSVG as addexportSVG } from "../container/export";
+import { exportPNG as addexportPNG } from "../container/export";
 
 import { choro as addchoro } from "../thematic/choro.js";
 import { typo as addtypo } from "../thematic/typo.js";
@@ -67,13 +67,13 @@ import { prop as addprop } from "../thematic/prop.js";
 import { propchoro as addpropchoro } from "../thematic/propchoro.js";
 import { proptypo as addproptypo } from "../thematic/proptypo.js";
 import { picto as addpicto } from "../thematic/picto.js";
-import { smooth as addsmooth } from "../thematic/smooth.js";
-import { dotdensity as adddotdensity } from "../thematic/dotdensity.js";
-import { gridprop as addgridprop } from "../thematic/gridprop.js";
-import { gridchoro as addgridchoro } from "../thematic/gridchoro.js";
-import { bertin as addbertin } from "../thematic/bertin.js";
+// import { smooth as addsmooth } from "../thematic/smooth.js";
+// import { dotdensity as adddotdensity } from "../thematic/dotdensity.js";
+// import { gridprop as addgridprop } from "../thematic/gridprop.js";
+// import { gridchoro as addgridchoro } from "../thematic/gridchoro.js";
+// import { bertin as addbertin } from "../thematic/bertin.js";
 
-import { plot as addplot } from "../plot.js";
+// import { plot as addplot } from "../plot.js";
 
 /**
  * @function create
@@ -232,7 +232,7 @@ export function create({
   let mark = {};
   [
     { id: "outline", func: addoutline },
-    { id: "sketch", func: addsketch },
+    // { id: "sketch", func: addsketch },
     { id: "path", func: addpath },
     { id: "symbol", func: addsymbol },
     { id: "graticule", func: addgraticule },
@@ -260,11 +260,11 @@ export function create({
     { id: "propchoro", func: addpropchoro },
     { id: "proptypo", func: addproptypo },
     { id: "picto", func: addpicto },
-    { id: "smooth", func: addsmooth },
-    { id: "dotdensity", func: adddotdensity },
-    { id: "gridprop", func: addgridprop },
-    { id: "gridchoro", func: addgridchoro },
-    { id: "bertin", func: addbertin },
+    // { id: "smooth", func: addsmooth },
+    // { id: "dotdensity", func: adddotdensity },
+    // { id: "gridprop", func: addgridprop },
+    // { id: "gridchoro", func: addgridchoro },
+    // { id: "bertin", func: addbertin },
   ].forEach(
     (d) =>
       (mark[d.id] = function () {
@@ -273,12 +273,12 @@ export function create({
   );
 
   let tool = {};
-  [{ id: "grid", func: addgrid }].forEach(
-    (d) =>
-      (tool[d.id] = function () {
-        return d.func(output, arguments[0]);
-      }),
-  );
+  // [{ id: "grid", func: addgrid }].forEach(
+  //   (d) =>
+  //     (tool[d.id] = function () {
+  //       return d.func(output, arguments[0]);
+  //     }),
+  // );
 
   let legend = {};
   [

@@ -1,4 +1,4 @@
-import { create } from "../container/create";
+import { create } from "../container/create-lite";
 import { render } from "../container/render";
 import { camelcasetodash, getsize, unique } from "../helpers/utils";
 
@@ -136,7 +136,7 @@ export function header(arg1, arg2) {
         i * (lineheight + opts.lineSpacing) -
         totalheight +
         lineheight / 2 +
-        opts.margin
+        opts.margin,
     )
     .attr("dy", opts.dy)
     .text((d) => d);

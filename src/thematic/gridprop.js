@@ -1,4 +1,4 @@
-import { create } from "../container/create";
+import { create } from "../container/create-lite";
 import { render } from "../container/render";
 import { unique } from "../helpers/utils";
 

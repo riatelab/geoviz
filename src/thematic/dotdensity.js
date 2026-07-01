@@ -3,7 +3,7 @@ import { randompoints } from "../tool/randompoints";
 import { text } from "../mark/text";
 import { unique } from "../helpers/utils";
 import { render } from "../container/render";
-import { create } from "../container/create";
+import { create } from "../container/create-lite";
 
 /**
  * @function dotdensity

@@ -1,4 +1,4 @@
-import { create } from "../container/create";
+import { create } from "../container/create-lite.js";
 import { render } from "../container/render";
 import { camelcasetodash } from "../helpers/camelcase";
 import { roundarray } from "../helpers/rounding";

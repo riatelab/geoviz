@@ -1,4 +1,4 @@
-import { create } from "../container/create";
+import { create } from "../container/create-lite.js";
 import { render } from "../container/render";
 import { camelcasetodash } from "../helpers/camelcase";
 import { datatoradius } from "../helpers/datatoradius";
@@ -134,7 +134,7 @@ export function circles_nested(arg1, arg2) {
           size.height +
           rmax * 2 -
           d[1]
-        })`
+        })`,
     );
 
   let opts_circle = subsetobj(opts, {
@@ -142,7 +142,7 @@ export function circles_nested(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_circle).forEach((d) =>
-    circles.attr(camelcasetodash(d[0]), d[1])
+    circles.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Lines
@@ -161,7 +161,7 @@ export function circles_nested(arg1, arg2) {
         opts.gap +
         size.height +
         rmax * 2 -
-        d[1] * 2
+        d[1] * 2,
     )
     .attr(
       "y2",
@@ -171,7 +171,7 @@ export function circles_nested(arg1, arg2) {
         opts.gap +
         size.height +
         rmax * 2 -
-        d[1] * 2
+        d[1] * 2,
     );
 
   let opts_line = subsetobj(opts, {
@@ -179,7 +179,7 @@ export function circles_nested(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_line).forEach((d) =>
-    lines.attr(camelcasetodash(d[0]), d[1])
+    lines.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Values
@@ -200,7 +200,7 @@ export function circles_nested(arg1, arg2) {
         rmax +
         opts.line_length +
         opts.circle_dx +
-        opts.values_dx
+        opts.values_dx,
     )
     .attr(
       "y",
@@ -210,7 +210,7 @@ export function circles_nested(arg1, arg2) {
         opts.gap +
         size.height +
         rmax * 2 -
-        d[1] * 2
+        d[1] * 2,
     )
     .text((d) => locale.format(",")(d[0]));
 
@@ -219,7 +219,7 @@ export function circles_nested(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_values).forEach((d) =>
-    values.attr(camelcasetodash(d[0]), d[1])
+    values.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Note

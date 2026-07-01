@@ -5,9 +5,9 @@ import { max, descending } from "d3-array";
 import { geoPath, geoIdentity } from "d3-geo";
 const d3 = Object.assign(
   {},
-  { scaleSqrt, max, descending, geoPath, geoIdentity, arc }
+  { scaleSqrt, max, descending, geoPath, geoIdentity, arc },
 );
-import { create } from "../container/create";
+import { create } from "../container/create-lite";
 import { render } from "../container/render";
 import { random } from "../tool/random";
 import { centroid } from "../tool/centroid";
@@ -126,7 +126,7 @@ export function square(arg1, arg2) {
       svg.zoomablelayers.push(opts);
     } else {
       let i = svg.zoomablelayers.indexOf(
-        svg.zoomablelayers.find((d) => d.id == opts.id)
+        svg.zoomablelayers.find((d) => d.id == opts.id),
       );
       svg.zoomablelayers[i] = opts;
     }
@@ -153,7 +153,7 @@ export function square(arg1, arg2) {
         "tip",
         "tipstyle",
         "pos",
-      ].includes(d)
+      ].includes(d),
   );
 
   // Simple square
@@ -170,7 +170,7 @@ export function square(arg1, arg2) {
       .attr(
         "transform",
         `rotate(${opts.angle} ${pos[0] + opts.dx} ${pos[1] + opts.dy})
-          translate(${opts.dx} ${opts.dy})`
+          translate(${opts.dx} ${opts.dy})`,
       )
       //.attr("transform", `translate(${opts.dx} ${opts.dy})`)
       .attr("x", pos[0] - opts.side / 2)
@@ -197,7 +197,7 @@ export function square(arg1, arg2) {
     // layer attributes
     let fields = propertiesentries(opts.data);
     const layerattr = notspecificattr.filter(
-      (d) => detectinput(opts[d], fields) == "value"
+      (d) => detectinput(opts[d], fields) == "value",
     );
     layerattr.forEach((d) => {
       layer.attr(camelcasetodash(d), opts[d]);
@@ -251,20 +251,22 @@ export function square(arg1, arg2) {
               `rotate(${opts.angle} ${path.centroid(d.geometry)[0] + opts.dx} ${
                 path.centroid(d.geometry)[1] + opts.dy
               })
-              translate(${opts.dx} ${opts.dy})`
+              translate(${opts.dx} ${opts.dy})`,
           )
           .attr(
             "x",
-            (d) => path.centroid(d.geometry)[0] + opts.dx - radius(d, opts.side)
+            (d) =>
+              path.centroid(d.geometry)[0] + opts.dx - radius(d, opts.side),
           )
           .attr(
             "y",
-            (d) => path.centroid(d.geometry)[1] + opts.dy - radius(d, opts.side)
+            (d) =>
+              path.centroid(d.geometry)[1] + opts.dy - radius(d, opts.side),
           )
           .attr("width", (d) => radius(d, opts.side) * 2)
           .attr("height", (d) => radius(d, opts.side) * 2)
           .attr("visibility", (d) =>
-            isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
+            isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible",
           );
 
         eltattr.forEach((e) => {
@@ -282,7 +284,7 @@ export function square(arg1, arg2) {
         opts.tip,
         opts.tipstyle,
         fields,
-        opts.view
+        opts.view,
       );
     }
   }
@@ -312,7 +314,7 @@ function attr2radius(attr, { columns, geojson, fixmax, k } = {}) {
         {
           fixmax,
           k,
-        }
+        },
       );
       return (d, rr) => radius.r(Math.abs(d.properties[rr]));
     case "value":

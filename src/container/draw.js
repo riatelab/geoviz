@@ -1,4 +1,4 @@
-import { create } from "./create";
+import { create } from "./create-lite";
 import { geoEquirectangular } from "d3-geo";
 const d3 = Object.assign({}, { geoEquirectangular });
 

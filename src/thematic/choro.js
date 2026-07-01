@@ -1,5 +1,5 @@
 import { choro as toolchoro } from "../tool/choro";
-import { create } from "../container/create";
+import { create } from "../container/create-lite";
 import { path } from "../mark/path";
 import { render } from "../container/render";
 import { choro_vertical } from "../legend/choro-vertical";

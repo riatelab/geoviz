@@ -5,7 +5,7 @@ const d3 = Object.assign(
   {},
   { geoPath, geoIdentity, geoNaturalEarth1, path, line, curveBasisClosed },
 );
-import { create } from "../container/create";
+import { create } from "../container/create-lite";
 import { render } from "../container/render";
 import { camelcasetodash, unique } from "../helpers/utils";
 import { simplify as simpl, aggregate } from "geotoolbox";

@@ -1,4 +1,4 @@
-import { create } from "../container/create";
+import { create } from "../container/create-lite";
 import { render } from "../container/render";
 import { camelcasetodash, unique, northangle } from "../helpers/utils";
 import { geoNaturalEarth1 } from "d3-geo";
@@ -64,7 +64,7 @@ export function north(arg1, arg2) {
   if (svg.initproj == "none" && svg.warning) {
     svg.warning_message.push(`North mark`);
     svg.warning_message.push(
-      `The North arrow is not relevant without defining a projection function in the SVG container`
+      `The North arrow is not relevant without defining a projection function in the SVG container`,
     );
   }
 
@@ -80,7 +80,7 @@ export function north(arg1, arg2) {
       svg.zoomablelayers.push(opts);
     } else {
       let i = svg.zoomablelayers.indexOf(
-        svg.zoomablelayers.find((d) => d.id == opts.id)
+        svg.zoomablelayers.find((d) => d.id == opts.id),
       );
       svg.zoomablelayers[i] = opts;
     }
@@ -97,7 +97,7 @@ export function north(arg1, arg2) {
   // Manage options
   let entries = Object.entries(opts).map((d) => d[0]);
   const layerattr = entries.filter(
-    (d) => !["mark", "id", "pos", "rotate", "scale"].includes(d)
+    (d) => !["mark", "id", "pos", "rotate", "scale"].includes(d),
   );
 
   // layer attributes
@@ -111,7 +111,7 @@ export function north(arg1, arg2) {
     .attr("d", symbol)
     .attr(
       "transform",
-      `translate(${opts.pos[0]},${opts.pos[1]}) rotate(${angle}) scale(${opts.scale})`
+      `translate(${opts.pos[0]},${opts.pos[1]}) rotate(${angle}) scale(${opts.scale})`,
     );
 
   // Output

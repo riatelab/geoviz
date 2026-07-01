@@ -1,4 +1,4 @@
-import { create } from "../container/create";
+import { create } from "../container/create-lite";
 import { render } from "../container/render";
 import { camelcasetodash, unique } from "../helpers/utils";
 import { geoGraticule, geoPath, geoNaturalEarth1 } from "d3-geo";
@@ -70,7 +70,7 @@ export function graticule(arg1, arg2) {
   if (svg.initproj == "none" && svg.warning) {
     svg.warning_message.push(`Graticule mark`);
     svg.warning_message.push(
-      `You must define a projection function in the SVG container`
+      `You must define a projection function in the SVG container`,
     );
   }
 
@@ -90,7 +90,7 @@ export function graticule(arg1, arg2) {
         });
       } else {
         let i = svg.zoomablelayers.indexOf(
-          svg.zoomablelayers.find((d) => d.id == opts.id)
+          svg.zoomablelayers.find((d) => d.id == opts.id),
         );
         svg.zoomablelayers[i] = {
           mark: opts.mark,
@@ -102,7 +102,7 @@ export function graticule(arg1, arg2) {
     // Manage options
     let entries = Object.entries(opts).map((d) => d[0]);
     const layerattr = entries.filter(
-      (d) => !["mark", "id", "step"].includes(d)
+      (d) => !["mark", "id", "step"].includes(d),
     );
 
     // layer attributes
@@ -117,7 +117,7 @@ export function graticule(arg1, arg2) {
       .datum(
         d3
           .geoGraticule()
-          .step(Array.isArray(opts.step) ? opts.step : [opts.step, opts.step])
+          .step(Array.isArray(opts.step) ? opts.step : [opts.step, opts.step]),
       )
       .attr("d", path);
 

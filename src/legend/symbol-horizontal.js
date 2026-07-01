@@ -1,4 +1,4 @@
-import { create } from "../container/create";
+import { create } from "../container/create-lite.js";
 import { render } from "../container/render";
 import { camelcasetodash } from "../helpers/camelcase";
 import { getsize } from "../helpers/getsize";
@@ -132,7 +132,7 @@ export function symbol_horizontal(arg1, arg2) {
   });
 
   Object.entries(opts_symbol).forEach((d) =>
-    symb.attr(camelcasetodash(d[0]), d[1])
+    symb.attr(camelcasetodash(d[0]), d[1]),
   );
 
   let posy = opts.pos[1] + size.height + opts.gap + opts.symbol_dy;
@@ -155,7 +155,7 @@ export function symbol_horizontal(arg1, arg2) {
             opts.symbol_size +
             posx +
             i * (opts.symbol_size * 2 + opts.symbol_spacing)
-          },${opts.symbol_size + posy})`
+          },${opts.symbol_size + posy})`,
       );
 
     let m = circles
@@ -170,7 +170,7 @@ export function symbol_horizontal(arg1, arg2) {
             opts.symbol_size +
             posx +
             i * (opts.symbol_size * 2 + opts.symbol_spacing)
-          },${opts.symbol_size + posy})`
+          },${opts.symbol_size + posy})`,
       );
 
     Object.entries(opts_symbol_background)
@@ -197,18 +197,18 @@ export function symbol_horizontal(arg1, arg2) {
           opts.symbol_scale || opts.symbol_size / factor
         }) rotate(${opts.symbol_rotate}) skewX(${opts.symbol_skewX}) skewY(${
           opts.symbol_skewY
-        })`
+        })`,
     );
 
   values;
   let values = layer.append("g");
   const opts_values = Object.assign(
     subsetobj(opts, { prefix: "values_" }),
-    subsetobj(opts, { prefix: "text_" })
+    subsetobj(opts, { prefix: "text_" }),
   );
 
   Object.entries(opts_values).forEach((d) =>
-    values.attr(camelcasetodash(d[0]), d[1])
+    values.attr(camelcasetodash(d[0]), d[1]),
   );
 
   values
@@ -221,7 +221,7 @@ export function symbol_horizontal(arg1, arg2) {
         opts.symbol_size +
         posx +
         opts.values_dx +
-        i * (opts.symbol_size * 2 + opts.symbol_spacing)
+        i * (opts.symbol_size * 2 + opts.symbol_spacing),
     )
     .attr("y", opts.symbol_size * 2 + posy + opts.values_dy)
     .text((d) => d);

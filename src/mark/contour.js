@@ -19,7 +19,7 @@ const d3 = Object.assign(
   },
 );
 
-import { create } from "../container/create.js";
+import { create } from "../container/create-lite.js";
 import { shadow } from "../effect/shadow.js";
 import { render } from "../container/render.js";
 import { flattendots } from "../tool/flattendots.js";

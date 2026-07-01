@@ -1,6 +1,6 @@
 import { geoPath, geoNaturalEarth1 } from "d3-geo";
 const d3 = Object.assign({}, { geoPath, geoNaturalEarth1 });
-import { create } from "../container/create";
+import { create } from "../container/create-lite";
 import { render } from "../container/render";
 import { camelcasetodash, unique } from "../helpers/utils";
 
@@ -59,7 +59,7 @@ export function outline(arg1, arg2) {
   if (svg.initproj == "none" && svg.warning) {
     svg.warning_message.push(`Outline mark`);
     svg.warning_message.push(
-      `You must define a projection function in the SVG container`
+      `You must define a projection function in the SVG container`,
     );
   }
 
@@ -79,7 +79,7 @@ export function outline(arg1, arg2) {
         });
       } else {
         let i = svg.zoomablelayers.indexOf(
-          svg.zoomablelayers.find((d) => d.id == opts.id)
+          svg.zoomablelayers.find((d) => d.id == opts.id),
         );
         svg.zoomablelayers[i] = {
           mark: opts.mark,
@@ -101,10 +101,6 @@ export function outline(arg1, arg2) {
     let path = d3.geoPath(svg.projection);
 
     layer.append("path").attr("d", path({ type: "Sphere" }));
-
-
-
-
 
     layer.append("path").attr("d", path({ type: "Sphere" }));
     // Output

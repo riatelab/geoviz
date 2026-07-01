@@ -1,6 +1,6 @@
 import { select } from "d3-selection";
 import { geoPath } from "d3-geo";
-import { create } from "../container/create";
+import { create } from "../container/create-lite";
 import { unique } from "../helpers/utils";
 
 /**

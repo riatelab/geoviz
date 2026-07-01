@@ -1,4 +1,4 @@
-import { create } from "../container/create";
+import { create } from "../container/create-lite.js";
 import { camelcasetodash, unique } from "../helpers/utils";
 import { subsetobj } from "../helpers/utils_legend.js";
 import { location } from "../helpers/location.js";

@@ -1,4 +1,4 @@
-import { create } from "../container/create.js";
+import { create } from "../container/create-lite.js";
 import { render } from "../container/render.js";
 import { choro } from "../tool/choro.js";
 import { choro_vertical } from "../legend/choro-vertical.js";

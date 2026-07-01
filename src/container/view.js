@@ -1,4 +1,4 @@
-import { create } from "./create";
+import { create } from "./create-lite";
 import { tile } from "../mark/tile";
 import { implantation, detectinput } from "../helpers/utils";
 import { featurecollection } from "../tool/featurecollection";
@@ -32,7 +32,7 @@ export function view(
     tip = false,
     zoomable = true,
     margin = 10,
-  } = {}
+  } = {},
 ) {
   if (!arr) {
     return tile();

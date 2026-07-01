@@ -1,4 +1,4 @@
-import { create } from "../container/create";
+import { create } from "../container/create-lite.js";
 import { render } from "../container/render";
 import { camelcasetodash } from "../helpers/camelcase";
 import { getsize } from "../helpers/getsize";
@@ -101,7 +101,7 @@ export function box(arg1, arg2) {
       : size.y + size.height + opts.gap + opts_rect.dy;
   let box = layer.append("rect");
   Object.entries(opts_rect).forEach((d) =>
-    box.attr(camelcasetodash(d[0]), d[1])
+    box.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Label
@@ -109,7 +109,7 @@ export function box(arg1, arg2) {
   size = getsize(layer);
   const opts_label = Object.assign(
     subsetobj(opts, { prefix: "label_" }),
-    subsetobj(opts, { prefix: "text_" })
+    subsetobj(opts, { prefix: "text_" }),
   );
   opts_label.text = opts.label;
   opts_label.pos = [

@@ -1,4 +1,4 @@
-import { create } from "../container/create";
+import { create } from "../container/create-lite";
 import { render } from "../container/render";
 import { camelcasetodash, getsize, unique } from "../helpers/utils";
 
@@ -136,7 +136,7 @@ export function footer(arg1, arg2) {
         svg.height +
         opts.margin +
         i * (lineheight + opts.lineSpacing) +
-        lineheight / 2
+        lineheight / 2,
     )
     .attr("dy", opts.dy)
     .text((d) => d);

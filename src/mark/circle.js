@@ -16,9 +16,9 @@ const d3 = Object.assign(
     select,
     selectAll,
     transition,
-  }
+  },
 );
-import { create } from "../container/create";
+import { create } from "../container/create-lite";
 import { render } from "../container/render";
 import { random } from "../tool/random";
 import { radius as computeradius } from "../tool/radius";
@@ -167,7 +167,7 @@ export function circle(arg1, arg2) {
         "after",
         "transition",
         "duration",
-      ].includes(key)
+      ].includes(key),
   );
 
   // Choose projection
@@ -177,7 +177,7 @@ export function circle(arg1, arg2) {
   // --- Simple single circle ---
   if (!opts.data) {
     notSpecificAttr.forEach((key) =>
-      layer.attr(camelcasetodash(key), opts[key])
+      layer.attr(camelcasetodash(key), opts[key]),
     );
     const pos = path.centroid({ type: "Point", coordinates: opts.pos });
     layer
@@ -190,7 +190,7 @@ export function circle(arg1, arg2) {
     // Prepare fields
     const fields = propertiesentries(opts.data);
     const layerAttr = notSpecificAttr.filter(
-      (key) => detectinput(opts[key], fields) === "value"
+      (key) => detectinput(opts[key], fields) === "value",
     );
     layerAttr.forEach((key) => layer.attr(camelcasetodash(key), opts[key]));
     const eltAttr = notSpecificAttr.filter((key) => !layerAttr.includes(key));
@@ -211,7 +211,7 @@ export function circle(arg1, arg2) {
         features: data.features.filter(
           (d) =>
             !isNaN(path.centroid(d.geometry)[0]) &&
-            !isNaN(path.centroid(d.geometry)[1])
+            !isNaN(path.centroid(d.geometry)[1]),
         ),
       };
       data = dodge(filtered, {
@@ -239,13 +239,13 @@ export function circle(arg1, arg2) {
 
     // Filter & sort features
     data = data.features.filter(
-      (d) => d.geometry && d.geometry.coordinates !== undefined
+      (d) => d.geometry && d.geometry.coordinates !== undefined,
     );
     if (detectinput(opts.r, columns) === "field") {
       data = data.filter(
         (d) =>
           d.properties?.hasOwnProperty(opts.r) &&
-          d.properties[opts.r] !== undefined
+          d.properties[opts.r] !== undefined,
       );
     }
     data = order(data, opts.sort || opts.r, {
@@ -294,10 +294,10 @@ export function circle(arg1, arg2) {
         .attr("opacity", 1)
         .attr("visibility", "visible")
         .style("fill", (d) =>
-          typeof opts.fill === "function" ? opts.fill(d.d) : opts.fill
+          typeof opts.fill === "function" ? opts.fill(d.d) : opts.fill,
         )
         .style("stroke", (d) =>
-          typeof opts.stroke === "function" ? opts.stroke(d.d) : opts.stroke
+          typeof opts.stroke === "function" ? opts.stroke(d.d) : opts.stroke,
         );
 
       // ENTER
@@ -310,10 +310,10 @@ export function circle(arg1, arg2) {
         .attr("opacity", 0)
         .attr("visibility", "visible")
         .style("fill", (d) =>
-          typeof opts.fill === "function" ? opts.fill(d.d) : opts.fill
+          typeof opts.fill === "function" ? opts.fill(d.d) : opts.fill,
         )
         .style("stroke", (d) =>
-          typeof opts.stroke === "function" ? opts.stroke(d.d) : opts.stroke
+          typeof opts.stroke === "function" ? opts.stroke(d.d) : opts.stroke,
         )
         .transition()
         .duration(opts.duration)
@@ -336,7 +336,7 @@ export function circle(arg1, arg2) {
             .attr("cy", (d) => path.centroid(d.geometry)[1])
             .attr("r", (d) => radius(d, opts.r))
             .attr("visibility", (d) =>
-              isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible"
+              isNaN(path.centroid(d.geometry)[0]) ? "hidden" : "visible",
             );
 
           eltAttr.forEach((e) => n.attr(camelcasetodash(e), opts[e]));
@@ -353,7 +353,7 @@ export function circle(arg1, arg2) {
         opts.tip,
         opts.tipstyle,
         fields,
-        opts.view
+        opts.view,
       );
     }
   }
@@ -379,7 +379,7 @@ function attr2radius(attr, { columns, geojson, fixmax, k } = {}) {
     case "field":
       const radius = computeradius(
         geojson.features.map((d) => d.properties?.[attr]),
-        { fixmax, k }
+        { fixmax, k },
       );
       return (d, rr) => radius.r(Math.abs(d.properties?.[rr]));
     case "value":

@@ -1,4 +1,4 @@
-import { create } from "../container/create.js";
+import { create } from "../container/create-lite.js";
 import { render } from "../container/render.js";
 import { camelcasetodash } from "../helpers/camelcase.js";
 import { datatoradius } from "../helpers/datatoradius.js";
@@ -95,7 +95,11 @@ export function circles_half(arg1, arg2) {
 
   // init layer
   let layer = svg.selectAll(`#${opts.id}`).empty()
-    ? svg.append("g").attr("id", opts.id).attr("class", "geovizlegend").attr("data-layer", "legend")
+    ? svg
+        .append("g")
+        .attr("id", opts.id)
+        .attr("class", "geovizlegend")
+        .attr("data-layer", "legend")
     : svg.select(`#${opts.id}`);
   layer.selectAll("*").remove();
 
@@ -129,7 +133,7 @@ export function circles_half(arg1, arg2) {
         .innerRadius(0)
         .startAngle(-Math.PI / 2)
         .endAngle(Math.PI / 2)
-        .cornerRadius(opts.circle_cornerRadius)()
+        .cornerRadius(opts.circle_cornerRadius)(),
     )
     .attr(
       "transform",
@@ -141,7 +145,7 @@ export function circles_half(arg1, arg2) {
           size.height +
           rmax +
           opts.values_fontSize / 2
-        })`
+        })`,
     );
 
   let opts_circle = subsetobj(opts, {
@@ -149,7 +153,7 @@ export function circles_half(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_circle).forEach((d) =>
-    circles.attr(camelcasetodash(d[0]), d[1])
+    circles.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Lines
@@ -169,7 +173,7 @@ export function circles_half(arg1, arg2) {
         size.height +
         rmax -
         d[1] +
-        opts.values_fontSize / 2
+        opts.values_fontSize / 2,
     )
     .attr(
       "y2",
@@ -180,7 +184,7 @@ export function circles_half(arg1, arg2) {
         size.height +
         rmax -
         d[1] +
-        opts.values_fontSize / 2
+        opts.values_fontSize / 2,
     );
 
   let opts_line = subsetobj(opts, {
@@ -188,7 +192,7 @@ export function circles_half(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_line).forEach((d) =>
-    lines.attr(camelcasetodash(d[0]), d[1])
+    lines.attr(camelcasetodash(d[0]), d[1]),
   );
 
   let locale = d3.formatLocale({
@@ -208,7 +212,7 @@ export function circles_half(arg1, arg2) {
         rmax +
         opts.line_length +
         opts.circle_dx +
-        opts.values_dx
+        opts.values_dx,
     )
     .attr(
       "y",
@@ -219,7 +223,7 @@ export function circles_half(arg1, arg2) {
         size.height +
         rmax -
         d[1] +
-        opts.values_fontSize / 2
+        opts.values_fontSize / 2,
     )
     .text((d) => locale.format(",")(d[0]));
 
@@ -228,7 +232,7 @@ export function circles_half(arg1, arg2) {
     exclude: ["dx", "dy"],
   });
   Object.entries(opts_values).forEach((d) =>
-    values.attr(camelcasetodash(d[0]), d[1])
+    values.attr(camelcasetodash(d[0]), d[1]),
   );
 
   // Note

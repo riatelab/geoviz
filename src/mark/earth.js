@@ -1,4 +1,4 @@
-import { create } from "../container/create";
+import { create } from "../container/create-lite";
 import { render } from "../container/render";
 import { unique } from "../helpers/utils";
 import { geoPath } from "d3-geo";
@@ -107,7 +107,6 @@ export async function earth(arg1, arg2) {
 
   for (let ty = 0; ty < tilesY; ty++) {
     for (let tx = 0; tx < tilesX; tx++) {
-
       const tileWidth = Math.min(TILE_SIZE, scaledWidth - tx * TILE_SIZE);
       const tileHeight = Math.min(TILE_SIZE, scaledHeight - ty * TILE_SIZE);
 
@@ -122,7 +121,7 @@ export async function earth(arg1, arg2) {
 
       const reproject = geoRasterReproject()
         .projection(svg.projection)
-        .size([canvasWidth, canvasHeight]) 
+        .size([canvasWidth, canvasHeight])
         .tileViewport([tx * TILE_SIZE, ty * TILE_SIZE, tileWidth, tileHeight])
         .resolution(TILE_RES)
         .context(tileCtx);
@@ -194,7 +193,7 @@ function geoRasterReproject() {
 
     const target = context.createImageData(
       width * resolution,
-      height * resolution
+      height * resolution,
     );
     const targetData = target.data;
 
@@ -291,7 +290,7 @@ export function earthReproject(svg, opts) {
       console.log(
         `Tile [${tx},${ty}]: x=${tx * TILE_SIZE}, y=${
           ty * TILE_SIZE
-        }, width=${tileWidth}, height=${tileHeight}`
+        }, width=${tileWidth}, height=${tileHeight}`,
       );
 
       const tileCanvas = document.createElement("canvas");
