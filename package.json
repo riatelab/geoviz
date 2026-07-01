@@ -65,7 +65,7 @@
     "d3-zoom": "^3.0.0",
     "dicopal": "^0.8.1",
     "flubber": "^0.4.2",
-    "geogrid": "^1.2.4",
+    "geogrid": "^1.2.5",
     "geojson2h3": "1.2.0",
     "geotoolbox": "^3.0.9",
     "h3-js": "^4.1.0",
