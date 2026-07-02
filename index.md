@@ -70,7 +70,7 @@ npm install geoviz
 
 ~~~js
 import * as geoviz from "geoviz";
-// or, for the lite version:
+// Or, for the lite version:
 import * as geoviz from "geoviz/lite";
 ~~~
 
@@ -78,13 +78,18 @@ In [Observable](https://observablehq.com/) notebooks
 
 ~~~js
 geoviz = require("geoviz")
+// Or, for the lite version:
+geoviz = require("geoviz@1.0.5/dist/index-lite.min.js")
 ~~~
 
-Or, for the lite version:
+In *NEW* [Observable](https://new.observablehq.com/) notebooks
 
 ~~~js
-geoviz = require("geoviz/lite")
+let geoviz = import("npm:geoviz")
+// Or, for the lite version:
+let geoviz = import("npm:geoviz/lite")
 ~~~
+
 
 # Examples
 
