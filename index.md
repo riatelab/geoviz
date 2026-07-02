@@ -19,7 +19,7 @@
 <img src = "img/banner.png" width = 100%></img>
 
 
-# Full version vs. lite version
+# Installation
 
 `geoviz` is available in two forms: the **full version** and a **lite version**.
 
@@ -31,8 +31,6 @@ The only differences between the two versions are:
 - advanced cartographic representation functions and grids, which are rarely used, have been removed from the lite version
 
 Everything else works exactly the same. If you don't rely on these specific features, we recommend using the lite version.
-
-# Installation
 
 In the browser (CDN, global variable)
 
