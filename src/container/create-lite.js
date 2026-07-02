@@ -15,7 +15,7 @@ const d3 = Object.assign(
 );
 
 import { outline as addoutline } from "../mark/outline.js";
-// import { sketch as addsketch } from "../mark/sketch.js";
+import { sketch as addsketch } from "../mark/sketch.js";
 import { graticule as addgraticule } from "../mark/graticule.js";
 import { text as addtext } from "../mark/text.js";
 import { circle as addcircle } from "../mark/circle.js";
@@ -73,7 +73,7 @@ import { picto as addpicto } from "../thematic/picto.js";
 // import { gridchoro as addgridchoro } from "../thematic/gridchoro.js";
 // import { bertin as addbertin } from "../thematic/bertin.js";
 
-// import { plot as addplot } from "../plot.js";
+import { plot as addplot } from "../plot-lite.js";
 
 /**
  * @function create
@@ -232,7 +232,7 @@ export function create({
   let mark = {};
   [
     { id: "outline", func: addoutline },
-    // { id: "sketch", func: addsketch },
+    { id: "sketch", func: addsketch },
     { id: "path", func: addpath },
     { id: "symbol", func: addsymbol },
     { id: "graticule", func: addgraticule },
@@ -247,7 +247,7 @@ export function create({
     { id: "footer", func: footer },
     { id: "scalebar", func: addscalebar },
     { id: "north", func: addnorth },
-    //{ id: "plot", func: addplot },
+    { id: "plot", func: addplot },
     { id: "tissot", func: addtissot },
     { id: "rhumbs", func: addrhumbs },
     { id: "earth", func: addearth },

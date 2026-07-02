@@ -18,7 +18,8 @@
   },
   "files": [
     "src",
-    "dist"
+    "dist",
+    "lite.js"
   ],
   "scripts": {
     "build": "rollup --config",

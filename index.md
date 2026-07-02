@@ -18,13 +18,33 @@
 
 <img src = "img/banner.png" width = 100%></img>
 
+
+# Full version vs. lite version
+
+`geoviz` is available in two forms: the **full version** and a **lite version**.
+
+The lite version was created for environmental reasons: it produces a significantly smaller bundle, which means less data transferred and less energy consumed every time the library is loaded.
+
+The only differences between the two versions are:
+
+- geometry simplification and cleaning functions (`cleangeometry`, `simplify`, etc.) are not included in the lite version
+- advanced cartographic representation functions and grids, which are rarely used, have been removed from the lite version
+
+Everything else works exactly the same. If you don't rely on these specific features, we recommend using the lite version.
+
 # Installation
 
 In the browser (CDN, global variable)
 
-```html
+~~~html
 <script src="https://cdn.jsdelivr.net/npm/geoviz" charset="utf-8"></script>
-```
+~~~
+
+Or, for the lite version:
+
+~~~html
+<script src="https://cdn.jsdelivr.net/npm/geoviz/dist/index-lite.min.js" charset="utf-8"></script>
+~~~
 
 In the browser (ES modules)
 
@@ -34,16 +54,36 @@ import * as geoviz from "https://cdn.jsdelivr.net/npm/geoviz/+esm";
 </script>
 ~~~
 
+Or, for the lite version:
+
+~~~js
+<script type="module">
+import * as geoviz from "https://cdn.jsdelivr.net/npm/geoviz/lite/+esm";
+</script>
+~~~
+
 With a bundler (Vite, Webpack, etc.)
 
 ~~~js
 npm install geoviz
 ~~~
 
+~~~js
+import * as geoviz from "geoviz";
+// or, for the lite version:
+import * as geoviz from "geoviz/lite";
+~~~
+
 In [Observable](https://observablehq.com/) notebooks
 
 ~~~js
 geoviz = require("geoviz")
+~~~
+
+Or, for the lite version:
+
+~~~js
+geoviz = require("geoviz/lite")
 ~~~
 
 # Examples

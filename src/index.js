@@ -1,5 +1,5 @@
 // Container utils
-import { create } from "./container/create-lite.js";
+import { create } from "./container/create.js";
 import { render } from "./container/render";
 export let container = {
   create,
@@ -148,7 +148,7 @@ export { gridchoro } from "./thematic/gridchoro.js";
 export { bertin } from "./thematic/bertin.js";
 
 // Plot
-// export { plot } from "./plot.js";
+export { plot } from "./plot.js";
 
 //
 

@@ -10,15 +10,53 @@ export { render } from "./container/render.js";
 export { create } from "./container/create-lite.js";
 
 // Tool
+import { centroid } from "./tool/centroid.js";
+import { randompoints } from "./tool/randompoints.js";
+import { flattendots } from "./tool/flattendots.js";
+import { ridge } from "./tool/ridge.js";
+import { dissolve } from "./tool/dissolve.js";
+import { project } from "./tool/project.js";
+import { unproject } from "./tool/unproject.js";
+import { dodge } from "./tool/dodge.js";
+import { replicate } from "./tool/replicate.js";
 import { rewind } from "./tool/rewind.js";
 import { featurecollection } from "./tool/featurecollection.js";
 import { merge } from "./tool/merge.js";
+import { geotable } from "./tool/geotable.js";
+import { proj4d3 } from "./tool/proj4d3.js";
 import { addfonts } from "./tool/addfonts.js";
+import { choro } from "./tool/choro.js";
+import { typo } from "./tool/typo.js";
+import { random } from "./tool/random.js";
+import { radius } from "./tool/radius.js";
+// import { dotstogrid } from "./tool/dotstogrid.js";
+import { symbols } from "./tool/symbols.js";
+// import { cleangeometry } from "./tool/cleangeometry.js";
+// import { grid } from "./tool/grid.js";
 export let tool = {
   addfonts,
   rewind,
   featurecollection,
   merge,
+  geotable,
+  proj4d3,
+  dissolve,
+  centroid,
+  project,
+  unproject,
+  dodge,
+  flattendots,
+  replicate,
+  ridge,
+  choro,
+  typo,
+  random,
+  radius,
+  // dotstogrid,
+  symbols,
+  // grid,
+  randompoints,
+  // cleangeometry,
 };
 
 // Legend
@@ -110,7 +148,7 @@ export { picto } from "./thematic/picto.js";
 // export { bertin } from "./thematic/bertin.js";
 
 // Plot
-// export { plot } from "./plot.js";
+export { plot } from "./plot-lite.js";
 
 // Update
 import { attr } from "./update/attr.js";
