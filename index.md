@@ -395,4 +395,4 @@ The maps are zoomable (two zoom modes are available). Custom tooltips can be dis
 
 - **[`geotoolbox`](https://riatelab.github.io/geotoolbox)** : This library provides several useful GIS operations for thematic cartography. Under the hood, `geotoolbox` is largely based on `geos-wasm` GIS operators (a big thanks to Christoph Pahmeyer 🙏), but also on `d3.geo` and `topojson`. 
 - **[`geogrid`](https://neocarto.github.io/geogrid)** : This library that allows you to create regular grids with various patterns on a flat plane or on the globe. In addition, it provides geoprocessing functions to transfer GeoJSON data (points, lines, or polygons) onto these grids.
-- **[`geoviz (R version)`](https://riatelab.github.io/geoviz_R)** : Geoviz is also available in R language
+- **[`geoviz (R version)`](https://riatelab.github.io/geovizr)** : Geoviz is also available in R language
