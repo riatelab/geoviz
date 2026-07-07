@@ -258,7 +258,7 @@ export function create({
     { id: "footer", func: footer },
     { id: "scalebar", func: addscalebar },
     { id: "north", func: addnorth },
-    //{ id: "plot", func: addplot },
+    { id: "plot", func: addplot },
     { id: "tissot", func: addtissot },
     { id: "rhumbs", func: addrhumbs },
     { id: "earth", func: addearth },
