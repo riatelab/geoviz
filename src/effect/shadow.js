@@ -27,24 +27,50 @@ export function shadow(
     dy = 4,
     fill = "black",
     fillOpacity = 0.5,
-    opacity = undefined,
   } = {}
 ) {
   let defs = svg.select("#defs");
 
   defs.select(`#${id}`).remove();
 
-  defs
-    .append("defs")
+  const filter = defs
     .append("filter")
     .attr("id", id)
-    .append("feDropShadow")
+    .attr("x", "-50%")
+    .attr("y", "-50%")
+    .attr("width", "200%")
+    .attr("height", "200%");
+
+  filter
+    .append("feGaussianBlur")
+    .attr("in", "SourceAlpha")
+    .attr("stdDeviation", stdDeviation)
+    .attr("result", "blur");
+
+  filter
+    .append("feOffset")
+    .attr("in", "blur")
     .attr("dx", dx)
     .attr("dy", dy)
-    .attr("stdDeviation", stdDeviation)
+    .attr("result", "offsetBlur");
+
+  filter
+    .append("feFlood")
     .attr("flood-color", fill)
-    .attr("flood-opacity", opacity || fillOpacity)
-    .append("feGaussianBlur");
+    .attr("flood-opacity", fillOpacity)
+    .attr("result", "color");
+
+  filter
+    .append("feComposite")
+    .attr("in", "color")
+    .attr("in2", "offsetBlur")
+    .attr("operator", "in")
+    .attr("result", "shadow");
+
+  const merge = filter.append("feMerge");
+
+  merge.append("feMergeNode").attr("in", "shadow");
+  merge.append("feMergeNode").attr("in", "SourceGraphic");
 
   return `url(#${id})`;
 }

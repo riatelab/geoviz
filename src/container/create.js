@@ -193,8 +193,19 @@ export function create({
       .create2("svg")
       .attr("id", id)
       .attr("viewBox", [0, 0, width, height])
-      .style("background-color", background)
       .attr("transform", transform);
+
+    if (background !== "none" && background !== undefined) {
+      svg
+        .append("g")
+        .attr("id", "background")
+        .append("rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", width)
+        .attr("height", height)
+        .attr("fill", background);
+    }
 
     if (responsive) {
       svg
