@@ -1,9 +1,11 @@
 // Container utils
 import { create } from "./container/create.js";
 import { render } from "./container/render";
+import { render_html } from "./container/render-html";
 export let container = {
   create,
   render,
+  render_html,
 };
 
 export { render } from "./container/render";
